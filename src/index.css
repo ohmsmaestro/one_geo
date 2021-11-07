@@ -1,0 +1,120 @@
+html,
+body {
+  /* height: 100%; */
+  font-family: "Gilroy" !important;
+  padding: 0 !important;
+  margin: 0 !important;
+  overflow-x: hidden;
+}
+
+* {
+  box-sizing: border-box;
+  outline: none !important;
+}
+
+.modal-fullScreen {
+  width: 90vw;
+  height: 90vh;
+  max-height: calc(80vh - 2.5rem);
+  max-width: calc(75vw - 2.5rem) !important;
+}
+
+@font-face {
+  font-family: "Avenir";
+  src: local("Avenir"),
+    url(./assets/fonts/Avenir/AvenirLTStd-Black.otf) format("opentype");
+}
+
+@font-face {
+  font-family: "Montserrat";
+  src: local("Montserrat"),
+    url(./assets/fonts/Montserrat/Montserrat-Bold.ttf) format("truetype");
+  font-weight: bold;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: "Montserrat";
+  src: local("Montserrat"),
+    url(./assets/fonts/Montserrat/Montserrat-Regular.ttf) format("truetype");
+  font-weight: normal;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: "NunitoSans";
+  src: local("NunitoSans"),
+    url(./assets/fonts/NunitoSans/NunitoSans-Regular.ttf) format("truetype");
+}
+
+@font-face {
+  font-family: "CircularStd";
+  src: local("CircularStd"),
+    url(./assets/fonts/CircularStd/CircularStd-Bold.otf) format("opentype");
+  font-weight: bold;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: "CircularStd";
+  src: local("CircularStd"),
+    url(./assets/fonts/CircularStd/CircularStd-Medium.otf) format("opentype");
+  font-weight: normal;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: "Gilroy";
+  src: local("Gilroy"),
+    url("./assets/fonts/Gilroy/Gilroy-Bold.ttf") format("truetype");
+  font-weight: bold;
+  font-style: bold;
+}
+
+@font-face {
+  font-family: "Gilroy";
+  src: local("Gilroy"),
+    url("./assets/fonts/Gilroy/Gilroy-Light.ttf") format("truetype");
+  font-weight: normal;
+  font-style: normal;
+}
+
+html,
+body,
+#viewDiv {
+  padding: 0;
+  margin: 0;
+  height: 100%;
+  width: 100%;
+}
+
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+/* Track */
+::-webkit-scrollbar-track {
+  border-radius: 100vh;
+}
+
+/* Handle */
+::-webkit-scrollbar-thumb {
+  background: #cbd5e0;
+  background: #a0aec0;
+
+  border-radius: 100vh;
+  border: 1px solid #edf2f7;
+}
+
+/* Handle on hover */
+::-webkit-scrollbar-thumb:hover {
+  background: #a0aec0;
+}
+
+@media print {
+  .no-print,
+  .no-print * {
+    display: none !important;
+  }
+}
