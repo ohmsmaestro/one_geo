@@ -5,7 +5,7 @@ import { getUsers, getRoles } from "../services/users";
 const initialState = {
   usersList: [],
   usersTotal: 0,
-  createUserModal: true,
+  createUserModal: false,
 
   rolesList: [],
   rolesTotal: 0,

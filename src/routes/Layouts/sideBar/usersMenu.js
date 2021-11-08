@@ -10,7 +10,12 @@ const usersMenu = [
       },
       {
         icon: "icon-forward-outline",
-        label: "Entries",
+        label: "Applications",
+        pathname: "/application",
+      },
+      {
+        icon: "icon-forward-outline",
+        label: "Proprietor Entries",
         pathname: "/entries",
       },
       {
@@ -33,16 +38,16 @@ const usersMenu = [
         label: "Archived Documents",
         pathname: "/archived",
       },
-      {
-        icon: "icon-sliders-1",
-        label: "Instrument Properties",
-        pathname: "/instrument",
-      },
-      {
-        icon: "icon-code",
-        label: "Related Instruments",
-        pathname: "/related-instrument",
-      },
+      // {
+      //   icon: "icon-sliders-1",
+      //   label: "Instrument Properties",
+      //   pathname: "/instrument",
+      // },
+      // {
+      //   icon: "icon-code",
+      //   label: "Related Instruments",
+      //   pathname: "/related-instrument",
+      // },
       {
         icon: "icon-briefcase",
         label: "Deeds Parties",

@@ -62,7 +62,7 @@ export const TDP = (props) => {
             // src={`${PARCEL_VIEW}`}
             width="100%"
             height="375px"
-            style={{ width: "100%" }}
+            style={{ width: "500px", margin: "auto" }}
           ></iframe>
         </Grid>
 
