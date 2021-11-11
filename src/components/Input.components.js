@@ -475,7 +475,7 @@ export class Checkbox extends React.Component {
           type="checkbox"
           defaultChecked={this.props.defaultChecked}
           checked={this.props.checked}
-          onClick={() => this.props.onClick()}
+          onClick={this.props.onClick ? () => this.props.onClick() : () => {}}
         />
         <Label className="title" fontSize={this.props.fontSize}>
           {this.props.label} {this.props.children}

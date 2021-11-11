@@ -24,6 +24,8 @@ import Archived from "./routes/Archived/index";
 import Applications from "./routes/Applications/index";
 import ApplicationReview from "./routes/Applications/Review/index";
 import UsersManagement from "./routes/UserManagement/index";
+import RoleManagement from "./routes/RoleManagement/index";
+import CreateRole from "./routes/RoleManagement/CreateRole/index";
 
 const { ConnectedRouter } = routerRedux;
 
@@ -152,6 +154,22 @@ export function RouterConfig({ history, app }) {
             }}
           />
 
+          <Route
+            path="/role-management"
+            exact
+            render={(props) => {
+              registerModel(app, require("./models/users").default);
+              return <RoleManagement {...props} />;
+            }}
+          />
+          <Route
+            path="/role-management/role"
+            exact
+            render={(props) => {
+              registerModel(app, require("./models/users").default);
+              return <CreateRole {...props} />;
+            }}
+          />
           {/* #########   E N D :    G U A R D E D      U R L S   #########*/}
           <Route
             render={(props) => {

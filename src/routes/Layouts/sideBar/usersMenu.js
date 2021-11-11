@@ -18,11 +18,7 @@ const usersMenu = [
         label: "Proprietor Entries",
         pathname: "/entries",
       },
-      {
-        icon: "icon-monitor",
-        label: "Roles & Privileges",
-        pathname: "/roles",
-      },
+
       {
         icon: "icon-home",
         label: "Condo/Timeshare",
@@ -57,6 +53,11 @@ const usersMenu = [
         icon: "icon-users",
         label: "Users Management",
         pathname: "/users",
+      },
+      {
+        icon: "icon-monitor",
+        label: "Roles & Privileges",
+        pathname: "/role-management",
       },
     ],
   },

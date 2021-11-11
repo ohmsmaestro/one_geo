@@ -29,7 +29,6 @@ export const Step2 = (props) => {
         ...regForm,
       };
       !skip && (data["base64"] = file.base64);
-      console.log(data);
       registerAccount(data);
     } else {
       Alert.error("Upload is required");
