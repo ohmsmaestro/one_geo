@@ -4,6 +4,7 @@ export const storageRefeshToken = `${storagePrefix}refresh_token`;
 export const storageProfile = `${storagePrefix}profile`;
 
 export const storageParcelsModel = `${storagePrefix}parcels_model`;
+export const storageUsersModel = `${storagePrefix}parcels_model`;
 
 export const countryList = [
   {

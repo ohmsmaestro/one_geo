@@ -9,6 +9,8 @@ import {
   getAllPermissions,
 } from "../services/users";
 
+import { storageUsersModel } from "../utils/constant";
+
 const initialState = {
   usersList: [],
   usersTotal: 0,
@@ -31,6 +33,18 @@ export default {
   subscriptions: {
     setup({ dispatch, history }) {
       // eslint-disable-line
+      try {
+        let parcels_model = localStorage.getItem(storageUsersModel);
+        if (parcels_model) {
+          let data = JSON.parse(parcels_model);
+          dispatch({
+            type: "save",
+            payload: data,
+          });
+        }
+      } catch (err) {
+        console.log(err);
+      }
     },
   },
 
@@ -71,10 +85,11 @@ export default {
         Alert.error(message);
       }
     },
-    *editCreateRole({ payload }, { call, put }) {
+    *putEditRole({ payload }, { call, put }) {
       const { raw, message, success } = yield call(putRole, payload);
       if (success) {
         Alert.success("Role was successfully edited");
+        yield put(routerRedux.push({ pathname: "/role-management" }));
       } else {
         Alert.error(message);
       }
@@ -98,7 +113,19 @@ export default {
 
   reducers: {
     save(state, action) {
-      return { ...state, ...action.payload };
+      const newPayload = {
+        ...state,
+        ...action.payload,
+      };
+
+      try {
+        let data = JSON.stringify(newPayload);
+        localStorage.setItem(storageUsersModel, data);
+      } catch (err) {
+        console.log(err);
+      }
+
+      return newPayload;
     },
   },
 };

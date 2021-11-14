@@ -31,11 +31,15 @@ export const CreateRole = (props) => {
     isLoadingEdit,
   } = props;
 
-  // dispatch props
-  const { getAllPermissions, redirect, postCreateRole } = props;
+  const role_name = roleEditMode ? roleData.name : "";
+  const selected_permission = roleEditMode ? roleData.privileges : [];
 
-  const [roleName, setRoleName] = useState("");
-  const [selectedPermissions, setSelectedPermission] = useState([]);
+  // dispatch props
+  const { getAllPermissions, redirect, postCreateRole, putEditRole } = props;
+
+  const [roleName, setRoleName] = useState(role_name);
+  const [selectedPermissions, setSelectedPermission] =
+    useState(selected_permission);
 
   useEffect(() => {
     getAllPermissions();
@@ -76,7 +80,20 @@ export const CreateRole = (props) => {
     }
   };
 
-  console.log(selectedPermissions);
+  const onEditAction = () => {
+    if (roleName && roleEditMode) {
+      const data = {
+        id: roleData.id,
+        name: roleName,
+        privileges: [...selectedPermissions],
+      };
+      putEditRole(data);
+    } else {
+      Alert.error("Role name is required");
+    }
+  };
+
+  console.log({ roleData });
   return (
     <>
       <Boxed pad="20px">
@@ -105,7 +122,11 @@ export const CreateRole = (props) => {
                   </Button>
 
                   {roleEditMode ? (
-                    <Button progress={isLoadingEdit} disabled={isLoadingEdit}>
+                    <Button
+                      progress={isLoadingEdit}
+                      disabled={isLoadingEdit}
+                      onClick={() => onEditAction()}
+                    >
                       Edit Role
                     </Button>
                   ) : (
@@ -128,6 +149,19 @@ export const CreateRole = (props) => {
               <Boxed>
                 {permissionList &&
                   permissionList.map((item, index) => {
+                    let existIndex = selectedPermissions.findIndex(
+                      (permission) => permission.pageId === item.name
+                    );
+                    let group = {};
+                    if (existIndex > -1) {
+                      group = {
+                        c: selectedPermissions[existIndex]?.c,
+                        r: selectedPermissions[existIndex]?.r,
+                        u: selectedPermissions[existIndex]?.u,
+                        d: selectedPermissions[existIndex]?.d,
+                      };
+                    }
+                    console.log({ group });
                     return (
                       <Boxed
                         key={index}
@@ -147,24 +181,28 @@ export const CreateRole = (props) => {
                           <Boxed pad="10px 5px">
                             <Checkbox
                               label="View"
+                              checked={group["r"]}
                               onClick={() => handleSelect(item.id, "r")}
                             />
                           </Boxed>
                           <Boxed pad="10px 5px">
                             <Checkbox
                               label="Create"
+                              checked={group["c"]}
                               onClick={() => handleSelect(item.id, "c")}
                             />
                           </Boxed>
                           <Boxed pad="10px 5px">
                             <Checkbox
                               label="Edit"
+                              checked={group["u"]}
                               onClick={() => handleSelect(item.id, "u")}
                             />
                           </Boxed>
                           <Boxed pad="10px 5px">
                             <Checkbox
                               label="Delete"
+                              checked={group["d"]}
                               onClick={() => handleSelect(item.id, "d")}
                             />
                           </Boxed>

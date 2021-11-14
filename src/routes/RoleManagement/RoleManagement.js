@@ -151,7 +151,7 @@ export const RoleManagement = (props) => {
                               })}
                           </Grid>
                           <Boxed pad="10px 0 ">
-                            <PaginationComponent
+                            {/* <PaginationComponent
                               total={rolesTotal}
                               onChange={(page) =>
                                 handlePagination(page, fetchActionURL)
@@ -166,7 +166,7 @@ export const RoleManagement = (props) => {
                               showTotal={(total, range) => {
                                 return `${range[0]} - ${range[1]} of ${rolesTotal} items`;
                               }}
-                            />
+                            /> */}
                           </Boxed>
                         </>
                       ) : (

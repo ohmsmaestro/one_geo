@@ -33,6 +33,9 @@ export const mapDispatchToProps = (dispatch, ownProps) => {
     postCreateRole(data) {
       dispatch({ type: "users/postCreateRole", payload: data });
     },
+    putEditRole(data) {
+      dispatch({ type: "users/putEditRole", payload: data });
+    },
   };
 };
 

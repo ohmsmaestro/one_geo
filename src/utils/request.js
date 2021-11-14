@@ -74,7 +74,6 @@ export default function request(options) {
         msg = err.message || "Network Error";
       }
 
-      console.log("data", response?.data);
       return {
         success: false,
         statusCode,
