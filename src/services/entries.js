@@ -25,3 +25,21 @@ export async function getApplicationDetail(data) {
     method: "GET",
   });
 }
+
+export async function getRectifications(data) {
+  const url = `${endpoint}/rectification/paginated?`;
+  return await request({
+    url,
+    method: "GET",
+    data,
+  });
+}
+
+export async function getEncumbrances(data) {
+  const url = `${endpoint}/encumbrance`;
+  return await request({
+    url,
+    method: "GET",
+    data,
+  });
+}

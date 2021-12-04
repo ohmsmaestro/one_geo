@@ -9,3 +9,21 @@ export async function getParcels(data) {
     data,
   });
 }
+
+export async function postAppraisal(data) {
+  const url = `${endpoint}/appraisal`;
+  return await request({
+    url,
+    method: "POST",
+    data,
+  });
+}
+
+export async function postEncumbrance(data) {
+  const url = `${endpoint}/encumbrance`;
+  return await request({
+    url,
+    method: "POST",
+    data,
+  });
+}

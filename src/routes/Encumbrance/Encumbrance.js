@@ -10,6 +10,7 @@ import { Input } from "../../components/Input.components";
 import { Text } from "../../components/Text.components";
 import { Button } from "../../components/Button.components";
 import { Loader } from "../../components/Loader.components";
+import { Badge } from "../../components/Badge.components";
 import { EmptyState } from "../../components/EmptyState.components";
 import {
   TableComponent,
@@ -21,21 +22,27 @@ import { calcViewMode, formatDate } from "../../utils/utils";
 import { pageOptions } from "../../utils/constant";
 import { Theme } from "../../utils/theme";
 
-import CreateModal from "./CreateModal/index";
+import TerminateModal from "./TerminateModal/index";
 
-export const UserManagement = (props) => {
+export const Encumbrance = (props) => {
   // state props
-  const { isLoading, usersList, usersTotal, fetchActionURL } = props;
+  const {
+    isLoading,
+    encumbranceList,
+    encumbranceTotal,
+    fetchActionURL,
+    terminateModal,
+  } = props;
 
   // dispatch props
-  const { getAllUsers, openCreateModal } = props;
+  const { getAllEncumbrance, openTerminateModal } = props;
 
   useEffect(() => {
     let data = {
       page: 1,
       size: 10,
     };
-    getAllUsers(data);
+    getAllEncumbrance(data);
   }, []);
 
   let viewMode = calcViewMode();
@@ -49,8 +56,10 @@ export const UserManagement = (props) => {
             <Icon className="icon-more-vertical" />
           </Dropdown.Toggle>
           <Dropdown.Menu>
-            <Dropdown.Item>View Profile</Dropdown.Item>
-            <Dropdown.Item>Edit Profile</Dropdown.Item>
+            <Dropdown.Item>View Details</Dropdown.Item>
+            <Dropdown.Item onClick={() => openTerminateModal(record)}>
+              Terminate Entry
+            </Dropdown.Item>
           </Dropdown.Menu>
         </Dropdown>
       </StyledDrpDown>
@@ -59,54 +68,73 @@ export const UserManagement = (props) => {
 
   const columns = [
     {
-      title: "Full Name",
-      dataIndex: "fullname",
-      key: "fullname",
-      render: (text, record) =>
-        `${record?.firstname} ${record?.middlename} ${record?.lastname}`,
+      title: "Number",
+      dataIndex: "encumbrance_number",
+      key: "encumbrance_number",
     },
     {
-      title: "Email",
-      dataIndex: "email",
-      key: "email",
+      title: "Description",
+      dataIndex: "description",
+      key: "description",
     },
     {
-      title: "Phone No.",
-      dataIndex: "phone",
-      key: "phone",
+      title: "Parcel Number",
+      dataIndex: "parcelNumber",
+      key: "parcelNumber",
     },
-    // {
-    //   title: "Department",
-    //   dataIndex: "department",
-    //   align: "center",
-    //   key: "department",
-    // },
     {
-      title: "Role",
-      dataIndex: "rolename",
-      key: "rolename",
+      title: "Entered By",
+      dataIndex: "createdBy",
+      key: "createdBy",
     },
-    // {
-    //   title: "Created Date",
-    //   dataIndex: "created_at",
-    //   key: "created_at",
-    //   render: (text) => text && formatDate(text),
-    // },
+    {
+      title: "Created At",
+      dataIndex: "createdAt",
+      key: "createdAt",
+      render: (text) => text && formatDate(text),
+    },
+    {
+      title: "Status",
+      dataIndex: "close",
+      key: "close",
+      render: (text) =>
+        text ? (
+          <Badge color={Theme.PrimaryGreen}>Closed</Badge>
+        ) : (
+          <Badge color={Theme.PrimaryRed}>Open</Badge>
+        ),
+    },
     {
       title: "",
       dataIndex: "action",
       key: "action",
       align: "right",
-      render: (text, record) => <DropDownMenu record={record} />,
+      render: (text, record) => {
+        return (
+          <StyledDrpDown>
+            <Dropdown>
+              <Dropdown.Toggle variant id="dropdown-basic">
+                <Icon className="icon-more-vertical" />
+              </Dropdown.Toggle>
+              <Dropdown.Menu>
+                <Dropdown.Item>View Details</Dropdown.Item>
+                {record.status !== "CLOSED" && (
+                  <Dropdown.Item onClick={() => openTerminateModal(record)}>
+                    Terminate Entry
+                  </Dropdown.Item>
+                )}
+              </Dropdown.Menu>
+            </Dropdown>
+          </StyledDrpDown>
+        );
+      },
     },
   ];
-
-  console.log({ usersList });
 
   return (
     <>
       <Boxed pad="20px">
-        <PageTitle>Users Management</PageTitle>
+        <PageTitle>Encumbrance Entry</PageTitle>
         <Boxed
           pad="20px 10px"
           background={Theme.TertiaryDark}
@@ -119,7 +147,6 @@ export const UserManagement = (props) => {
               handlePagination,
               currentPage,
               pageSize,
-              search,
             }) => {
               return (
                 <>
@@ -131,17 +158,11 @@ export const UserManagement = (props) => {
                     <Boxed pad="5px 0">
                       <Input
                         type="search"
-                        placeholder="Search by name, email & phone"
-                        onChange={(value) => search(value, fetchActionURL)}
+                        placeholder="Search by entry number"
                       />
                     </Boxed>
                     <Boxed />
                     <Boxed />
-                    <Boxed pad="5px 0" align="right">
-                      <Button onClick={() => openCreateModal()}>
-                        Add User
-                      </Button>
-                    </Boxed>
                   </Grid>
                   {isLoading ? (
                     <Boxed display="flex" pad="20px">
@@ -150,12 +171,15 @@ export const UserManagement = (props) => {
                   ) : (
                     <>
                       {" "}
-                      {usersTotal > 0 ? (
+                      {encumbranceTotal > 0 ? (
                         <>
-                          <TableComponent columns={columns} data={usersList} />
+                          <TableComponent
+                            columns={columns}
+                            data={encumbranceList}
+                          />
                           <Boxed pad="10px 0 ">
                             <PaginationComponent
-                              total={usersTotal}
+                              total={encumbranceTotal}
                               onChange={(page) =>
                                 handlePagination(page, fetchActionURL)
                               }
@@ -167,7 +191,7 @@ export const UserManagement = (props) => {
                               pageSize={pageSize}
                               itemsDisplayed
                               showTotal={(total, range) => {
-                                return `${range[0]} - ${range[1]} of ${usersTotal} items`;
+                                return `${range[0]} - ${range[1]} of ${encumbranceTotal} items`;
                               }}
                             />
                           </Boxed>
@@ -183,7 +207,8 @@ export const UserManagement = (props) => {
           />
         </Boxed>
       </Boxed>
-      <CreateModal />
+
+      {terminateModal && <TerminateModal />}
     </>
   );
 };

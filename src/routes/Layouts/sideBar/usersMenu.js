@@ -18,7 +18,11 @@ const usersMenu = [
         label: "Proprietor Entries",
         pathname: "/entries",
       },
-
+      {
+        icon: "icon-forward-outline",
+        label: "Encumbrance Entries",
+        pathname: "/encumbrance",
+      },
       {
         icon: "icon-home",
         label: "Condo/Timeshare",

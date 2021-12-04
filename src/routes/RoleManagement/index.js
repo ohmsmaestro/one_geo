@@ -35,9 +35,20 @@ export const mapDispatchToProps = (dispatch, ownProps) => {
       redirect("/role-management/role");
     },
     openEditRole(data) {
+      let list = [];
+
+      data?.permissions?.forEach((item) => {
+        item.privileges.forEach((permission) => {
+          list.push({ id: permission.id, pageId: item.pageId });
+        });
+      });
+
       dispatch({
         type: "users/save",
-        payload: { roleData: data, roleEditMode: true },
+        payload: {
+          roleData: { ...data, allPrivileges: list },
+          roleEditMode: true,
+        },
       });
       redirect("/role-management/role");
     },

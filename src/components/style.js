@@ -1,5 +1,9 @@
+import React from "react";
 import styled, { css } from "styled-components";
 // import registrationBG from '../assets/img/dark_background_web.png';
+import PDF_ICON from "../assets/img/file-pdf.png";
+import DOC_ICON from "../assets/img/file-doc.png";
+import JPG_ICON from "../assets/img/file-jpg.png";
 
 import { Theme } from "../utils/theme";
 
@@ -257,3 +261,25 @@ export const StyledTabs = styled.div`
     }
   }
 `;
+
+export const FileIcon = ({ type, size }) => {
+  let ICON = "";
+  switch (type) {
+    case "pdf":
+      ICON = PDF_ICON;
+      break;
+
+    case "doc":
+      ICON = DOC_ICON;
+      break;
+
+    case "jpg":
+      ICON = JPG_ICON;
+      break;
+
+    default:
+      break;
+  }
+
+  return <img src={ICON} alt={`doc-type-icon`} height={size ? size : "110px"} />;
+};

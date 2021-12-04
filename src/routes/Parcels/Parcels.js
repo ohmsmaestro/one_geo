@@ -18,12 +18,13 @@ import {
 } from "../../components/Table.components";
 import { PageTitle, Icon, StyledDrpDown } from "../../components/style";
 
-import { calcViewMode, formatDate, formatCurrency } from "../../utils/utils";
+import { calcViewMode, formatCurrency } from "../../utils/utils";
 import { pageOptions } from "../../utils/constant";
 import { Theme } from "../../utils/theme";
 
 import RentModal from "./Rent/index";
 import AppraisalModal from "./Appraisal/index";
+import EncumbranceModal from "./EncumbranceModal/index";
 
 export const Parcels = (props) => {
   // state props
@@ -33,6 +34,7 @@ export const Parcels = (props) => {
     rentModal,
     appraisalModal,
     fetchActionURL,
+    encumbranceModal,
   } = props;
 
   // dispatch props
@@ -43,6 +45,7 @@ export const Parcels = (props) => {
     appraisalParcel,
     redirect,
     viewTDP,
+    openEncumbranceModal,
   } = props;
 
   useEffect(() => {
@@ -62,6 +65,11 @@ export const Parcels = (props) => {
           </Dropdown.Toggle>
           <Dropdown.Menu>
             <Dropdown.Item
+              onClick={() => redirect(`/parcels/detail/${record.ParcelNumber}`)}
+            >
+              View Detail
+            </Dropdown.Item>
+            <Dropdown.Item
               onClick={() =>
                 redirect(`/parcels/view`, `?parcel=${record.ParcelNumber}`)
               }
@@ -77,7 +85,9 @@ export const Parcels = (props) => {
             <Dropdown.Item onClick={() => rentParcel(record)}>
               Rent Parcel
             </Dropdown.Item>
-            <Dropdown.Item>Related Instruments</Dropdown.Item>
+            <Dropdown.Item onClick={() => openEncumbranceModal(record)}>
+              Create Encumbrance
+            </Dropdown.Item>
             <Dropdown.Item>Work Queries</Dropdown.Item>
           </Dropdown.Menu>
         </Dropdown>
@@ -214,6 +224,7 @@ export const Parcels = (props) => {
 
       {rentModal && <RentModal />}
       {appraisalModal && <AppraisalModal />}
+      {encumbranceModal && <EncumbranceModal />}
     </>
   );
 };

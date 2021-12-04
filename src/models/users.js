@@ -3,6 +3,7 @@ import { Alert } from "../components/Alert.components";
 
 import {
   getUsers,
+  postUser,
   getRoles,
   postRole,
   putRole,
@@ -62,6 +63,24 @@ export default {
         Alert.error(message);
       }
     },
+
+    *postCreateUser({ payload }, { call, put, select }) {
+      const { raw, message, success } = yield call(postUser, payload);
+      if (success) {
+        const data = raw?.data ? raw.data : {};
+        const oldList = yield select(({ users }) => users.usersList);
+        const newList = [data, ...oldList];
+
+        yield put({
+          type: "save",
+          payload: { createUserModal: false, usersList: newList },
+        });
+        Alert.success("User account is successfully created");
+      } else {
+        Alert.error(message);
+      }
+    },
+
     *getAllRoles({ payload }, { call, put }) {
       const { raw, success, message } = yield call(getRoles, payload);
       if (success) {
@@ -75,7 +94,6 @@ export default {
         Alert.error(message);
       }
     },
-
     *postCreateRole({ payload }, { call, put }) {
       const { raw, message, success } = yield call(postRole, payload);
       if (success) {

@@ -17,9 +17,12 @@ import ResetPassword from "./routes/ResetPassword/index";
 
 // Gaurded Routes Imports
 import Parcels from "./routes/Parcels/index";
+import ParcelDetail from "./routes/Parcels/ParcelDetail/index";
 import ParcelsView from "./routes/Parcels/View/index";
 import ParcelsTDP from "./routes/Parcels/TDP/index";
 import Entries from "./routes/Entries/index";
+import Rectification from "./routes/Rectification/index";
+import Encumbrance from "./routes/Encumbrance/index";
 import Archived from "./routes/Archived/index";
 import Applications from "./routes/Applications/index";
 import ApplicationReview from "./routes/Applications/Review/index";
@@ -99,6 +102,13 @@ export function RouterConfig({ history, app }) {
             }}
           />
           <Route
+            path="/parcels/detail/:id"
+            exact
+            render={(props) => {
+              return <ParcelDetail {...props} />;
+            }}
+          />
+          <Route
             path="/parcels/view"
             exact
             render={(props) => {
@@ -118,6 +128,20 @@ export function RouterConfig({ history, app }) {
             exact
             render={(props) => {
               return <Entries {...props} />;
+            }}
+          />
+          <Route
+            path="/rectification"
+            exact
+            render={(props) => {
+              return <Rectification {...props} />;
+            }}
+          />
+          <Route
+            path="/encumbrance"
+            exact
+            render={(props) => {
+              return <Encumbrance {...props} />;
             }}
           />
 

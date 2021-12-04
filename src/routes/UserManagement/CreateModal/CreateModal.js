@@ -17,11 +17,11 @@ import { PageTitle } from "../../../components/style";
 
 export const CreateModal = (props) => {
   // State props
-  const { createUserModal, isLoading } = props;
+  const { createUserModal, rolesList, isLoading } = props;
 
   // Dispatch props
   const { form, createUser, closeModal, getAllRoles } = props;
-  const { getFieldProps, getFieldError, validateFields } = form;
+  const { getFieldProps, getFieldError, validateFields, getFieldValue } = form;
 
   let viewMode = calcViewMode();
 
@@ -33,12 +33,54 @@ export const CreateModal = (props) => {
     validateFields((error, value) => {
       if (!error) {
         const data = {
-          name: value.name.trim(),
+          firstname: value.firstname.trim(),
+          middlename: value.middlename.trim(),
+          lastname: value.lastname.trim(),
+          email: value.email.trim(),
+          phone: value.phone.trim(),
+          role_id: value.role.id,
+          password: value.password,
+          enabled: true,
         };
+        console.log({ data });
         createUser(data);
       }
     });
   };
+
+  const checkConfirmPassword = (value1, rule, value, callback, source) => {
+    if (value !== value1) {
+      callback("Passwords must match");
+    } else {
+      callback();
+    }
+  };
+
+  const checkPassword = (value1, rule, value, callback, source) => {
+    if (value) {
+      let length = value.length;
+      let checkLength = length > 7;
+
+      if (checkLength) {
+        let numberTest = /\d/.test(value);
+        let format = /[ !@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?]/;
+        let specialCharaterTest = value.match(format);
+        if (numberTest || specialCharaterTest) {
+          callback();
+        } else {
+          callback("Password must contain either a digit or special charater.");
+        }
+      } else {
+        callback("Password must be atleast 8 characters");
+      }
+    } else {
+      callback();
+    }
+  };
+
+  const modiRoleList =
+    rolesList && rolesList.map((item) => ({ ...item, label: item.name }));
+
   let errors;
 
   return (
@@ -66,6 +108,7 @@ export const CreateModal = (props) => {
           desktop="repeat(2, 1fr)"
           tablet="repeat(2, 1fr)"
           mobile="repeat(1,1fr)"
+          pad="0 0 30px 0"
         >
           <Boxed pad="10px 0">
             <Input
@@ -149,22 +192,58 @@ export const CreateModal = (props) => {
             <AsyncSelect
               label="Role"
               placeholder="Select Role..."
-              options={[
-                {
-                  label: "Admin",
-                  value: 2,
-                },
-                {
-                  label: "Super Admin",
-                  value: 3,
-                },
-              ]}
+              options={[...modiRoleList]}
               error={
                 (errors = getFieldError("role")) ? "Role is required" : null
               }
               {...getFieldProps("role", {
                 initialValue: "",
                 rules: [{ required: true }],
+              })}
+            />
+          </Boxed>
+
+          <Boxed pad="10px 0">
+            <Input
+              type="password"
+              placeholder="New Password..."
+              error={
+                getFieldError("password") ? getFieldError("password") : null
+              }
+              {...getFieldProps("password", {
+                rules: [
+                  { required: true },
+                  {
+                    validator: checkPassword.bind(
+                      this,
+                      getFieldValue("password")
+                    ),
+                  },
+                ],
+                initialValue: "",
+              })}
+            />
+          </Boxed>
+          <Boxed pad="10px 0">
+            <Input
+              type="password"
+              placeholder="Confirm Password..."
+              error={
+                getFieldError("confirmPassword")
+                  ? "Confirm password must match password"
+                  : null
+              }
+              {...getFieldProps("confirmPassword", {
+                rules: [
+                  { required: true },
+                  {
+                    validator: checkConfirmPassword.bind(
+                      this,
+                      getFieldValue("password")
+                    ),
+                  },
+                ],
+                initialValue: "",
               })}
             />
           </Boxed>

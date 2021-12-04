@@ -32,7 +32,7 @@ export const CreateRole = (props) => {
   } = props;
 
   const role_name = roleEditMode ? roleData.name : "";
-  const selected_permission = roleEditMode ? roleData.privileges : [];
+  const selected_permission = roleEditMode ? roleData.allPrivileges : [];
 
   // dispatch props
   const { getAllPermissions, redirect, postCreateRole, putEditRole } = props;
@@ -47,23 +47,18 @@ export const CreateRole = (props) => {
 
   let viewMode = calcViewMode();
 
-  const handleSelect = (page_id, type) => {
-    const newList = [...selectedPermissions];
-    let pageExist = newList.findIndex((item) => item.pageId === page_id);
+  const handleSelect = (page_id, permission_id) => {
+    let newList = [...selectedPermissions];
+    let exist = newList.findIndex(
+      (item) => item.pageId === page_id && item.id === permission_id
+    );
 
     // Check if permission group exist
-    if (pageExist > -1) {
-      let permission = newList[pageExist];
-      // check if permission is active in the group
-      if (permission[type]) {
-        permission[type] = false;
-      } else {
-        permission[type] = true;
-      }
+    if (exist > -1) {
+      newList.splice(exist, 1);
       setSelectedPermission(newList);
     } else {
-      let data = { pageId: page_id, c: false, r: false, u: false, d: false };
-      data[type] = true;
+      let data = { pageId: page_id, id: permission_id };
       setSelectedPermission((prev) => [...prev, data]);
     }
   };
@@ -94,6 +89,7 @@ export const CreateRole = (props) => {
   };
 
   console.log({ roleData });
+  console.log({ selectedPermissions });
   return (
     <>
       <Boxed pad="20px">
@@ -149,19 +145,7 @@ export const CreateRole = (props) => {
               <Boxed>
                 {permissionList &&
                   permissionList.map((item, index) => {
-                    let existIndex = selectedPermissions.findIndex(
-                      (permission) => permission.pageId === item.name
-                    );
-                    let group = {};
-                    if (existIndex > -1) {
-                      group = {
-                        c: selectedPermissions[existIndex]?.c,
-                        r: selectedPermissions[existIndex]?.r,
-                        u: selectedPermissions[existIndex]?.u,
-                        d: selectedPermissions[existIndex]?.d,
-                      };
-                    }
-                    console.log({ group });
+                    console.log({ item });
                     return (
                       <Boxed
                         key={index}
@@ -178,34 +162,26 @@ export const CreateRole = (props) => {
                           tablet="repeat(4, 1fr)"
                           mobile="repeat(2, 1fr)"
                         >
-                          <Boxed pad="10px 5px">
-                            <Checkbox
-                              label="View"
-                              checked={group["r"]}
-                              onClick={() => handleSelect(item.id, "r")}
-                            />
-                          </Boxed>
-                          <Boxed pad="10px 5px">
-                            <Checkbox
-                              label="Create"
-                              checked={group["c"]}
-                              onClick={() => handleSelect(item.id, "c")}
-                            />
-                          </Boxed>
-                          <Boxed pad="10px 5px">
-                            <Checkbox
-                              label="Edit"
-                              checked={group["u"]}
-                              onClick={() => handleSelect(item.id, "u")}
-                            />
-                          </Boxed>
-                          <Boxed pad="10px 5px">
-                            <Checkbox
-                              label="Delete"
-                              checked={group["d"]}
-                              onClick={() => handleSelect(item.id, "d")}
-                            />
-                          </Boxed>
+                          {item?.privileges?.length
+                            ? item.privileges.map((elem, elem_index) => {
+                                const isActive =
+                                  selectedPermissions &&
+                                  selectedPermissions.findIndex(
+                                    (item) => item.id === elem.id
+                                  ) > -1;
+                                return (
+                                  <Boxed pad="10px 5px" key={elem_index}>
+                                    <Checkbox
+                                      label={elem.description}
+                                      checked={isActive}
+                                      onClick={() =>
+                                        handleSelect(item.id, elem.id)
+                                      }
+                                    />
+                                  </Boxed>
+                                );
+                              })
+                            : null}
                         </Grid>
                       </Boxed>
                     );

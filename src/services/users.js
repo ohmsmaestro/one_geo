@@ -10,6 +10,11 @@ export async function getUsers(data) {
   });
 }
 
+export async function postUser(data) {
+  const url = `${endpoint}/users`;
+  return await request({ url, method: "POST", data });
+}
+
 export async function getRoles(data) {
   const url = `${endpoint}/roles/role_privileges`;
   return await request({

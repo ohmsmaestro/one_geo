@@ -4,6 +4,8 @@ import {
   getEntries,
   getApplications,
   getApplicationDetail,
+  getRectifications,
+  getEncumbrances,
 } from "../services/entries";
 
 export default {
@@ -12,9 +14,18 @@ export default {
   state: {
     entriesList: [],
     entriesTotal: 0,
+    entryData: {},
+
     applicationsList: [],
     applicationsTotal: 0,
     applicationDetail: {},
+
+    rectificationList: [],
+    rectificationTotal: 0,
+
+    encumbranceList: [],
+    encumbranceTotal: 0,
+    terminateModal: false,
   },
 
   subscriptions: {
@@ -59,6 +70,34 @@ export default {
         yield put({
           type: "save",
           payload: { applicationDetail: raw },
+        });
+      } else {
+        Alert.error(message);
+      }
+    },
+
+    *getAllRectification({ payload }, { call, put }) {
+      const { raw, success, message } = yield call(getRectifications, payload);
+      if (success) {
+        const list = raw?.data?.items;
+        const total = raw?.data?.pagination?.total_record;
+        yield put({
+          type: "save",
+          payload: { rectificationList: list, rectificationTotal: total },
+        });
+      } else {
+        Alert.error(message);
+      }
+    },
+
+    *getAllEncumbrance({ payload }, { call, put }) {
+      const { raw, success, message } = yield call(getEncumbrances, payload);
+      if (success) {
+        const list = raw?.data?.encumbrances;
+        const total = raw?.data?.pagination?.total_record;
+        yield put({
+          type: "save",
+          payload: { encumbranceList: list, encumbranceTotal: total },
         });
       } else {
         Alert.error(message);

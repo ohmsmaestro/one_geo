@@ -21,21 +21,20 @@ import { calcViewMode, formatDate } from "../../utils/utils";
 import { pageOptions } from "../../utils/constant";
 import { Theme } from "../../utils/theme";
 
-import CreateModal from "./CreateModal/index";
-
-export const UserManagement = (props) => {
+export const Rectification = (props) => {
   // state props
-  const { isLoading, usersList, usersTotal, fetchActionURL } = props;
+  const { isLoading, rectificationList, rectificationTotal, fetchActionURL } =
+    props;
 
   // dispatch props
-  const { getAllUsers, openCreateModal } = props;
+  const { getAllRectification } = props;
 
   useEffect(() => {
     let data = {
       page: 1,
       size: 10,
     };
-    getAllUsers(data);
+    getAllRectification(data);
   }, []);
 
   let viewMode = calcViewMode();
@@ -49,8 +48,11 @@ export const UserManagement = (props) => {
             <Icon className="icon-more-vertical" />
           </Dropdown.Toggle>
           <Dropdown.Menu>
-            <Dropdown.Item>View Profile</Dropdown.Item>
-            <Dropdown.Item>Edit Profile</Dropdown.Item>
+            <Dropdown.Item>View Details</Dropdown.Item>
+            <Dropdown.Item>Terminate Entry</Dropdown.Item>
+            <Dropdown.Item>Edit Entry</Dropdown.Item>
+            <Dropdown.Item>View Encumbrance</Dropdown.Item>
+            <Dropdown.Item>Rectification</Dropdown.Item>
           </Dropdown.Menu>
         </Dropdown>
       </StyledDrpDown>
@@ -59,38 +61,65 @@ export const UserManagement = (props) => {
 
   const columns = [
     {
-      title: "Full Name",
-      dataIndex: "fullname",
-      key: "fullname",
-      render: (text, record) =>
-        `${record?.firstname} ${record?.middlename} ${record?.lastname}`,
+      title: "Entry Number",
+      dataIndex: "entry_number",
+      key: "entry_number",
     },
     {
-      title: "Email",
-      dataIndex: "email",
-      key: "email",
+      title: "Parcel No.",
+      dataIndex: "parcel_number",
+      key: "parcel_number",
     },
     {
-      title: "Phone No.",
-      dataIndex: "phone",
-      key: "phone",
+      title: "Proprietor",
+      dataIndex: "proprietor",
+      key: "proprietor",
+    },
+
+    {
+      title: "Entry. Date",
+      dataIndex: "created_at",
+      key: "created_at",
+      render: (text) => text && formatDate(text),
     },
     // {
-    //   title: "Department",
-    //   dataIndex: "department",
+    //   title: "Encumbrance status",
+    //   dataIndex: "encumbrace_status",
+    //   key: "encumbrace_status",
     //   align: "center",
-    //   key: "department",
-    // },
-    {
-      title: "Role",
-      dataIndex: "rolename",
-      key: "rolename",
-    },
-    // {
-    //   title: "Created Date",
-    //   dataIndex: "created_at",
-    //   key: "created_at",
-    //   render: (text) => text && formatDate(text),
+    //   render: (text, record) => {
+    //     switch (text) {
+    //       case "SUCCESSFUL":
+    //         return (
+    //           <Text color={Theme.PrimaryGreen} fontWeight="600" align="center">
+    //             {" "}
+    //             <Icon
+    //               className="icon-ok-circled-1"
+    //               color={Theme.PrimaryGreen}
+    //               margin="0 5px 0 0"
+    //               fontSize="16px"
+    //             />{" "}
+    //             YES
+    //           </Text>
+    //         );
+    //       case "PENDING":
+    //         return (
+    //           <Text color={Theme.PrimaryGreen} fontWeight="600" align="center">
+    //             {" "}
+    //             <Icon
+    //               className="icon-ok-circled-1"
+    //               color={Theme.PrimaryGreen}
+    //               margin="0 5px 0 0"
+    //               fontSize="16px"
+    //             />{" "}
+    //             PENDING
+    //           </Text>
+    //         );
+
+    //       default:
+    //         return "-- / --";
+    //     }
+    //   },
     // },
     {
       title: "",
@@ -101,12 +130,10 @@ export const UserManagement = (props) => {
     },
   ];
 
-  console.log({ usersList });
-
   return (
     <>
       <Boxed pad="20px">
-        <PageTitle>Users Management</PageTitle>
+        <PageTitle>Rectification Entry</PageTitle>
         <Boxed
           pad="20px 10px"
           background={Theme.TertiaryDark}
@@ -119,7 +146,6 @@ export const UserManagement = (props) => {
               handlePagination,
               currentPage,
               pageSize,
-              search,
             }) => {
               return (
                 <>
@@ -131,17 +157,11 @@ export const UserManagement = (props) => {
                     <Boxed pad="5px 0">
                       <Input
                         type="search"
-                        placeholder="Search by name, email & phone"
-                        onChange={(value) => search(value, fetchActionURL)}
+                        placeholder="Search by entry number"
                       />
                     </Boxed>
                     <Boxed />
                     <Boxed />
-                    <Boxed pad="5px 0" align="right">
-                      <Button onClick={() => openCreateModal()}>
-                        Add User
-                      </Button>
-                    </Boxed>
                   </Grid>
                   {isLoading ? (
                     <Boxed display="flex" pad="20px">
@@ -150,12 +170,15 @@ export const UserManagement = (props) => {
                   ) : (
                     <>
                       {" "}
-                      {usersTotal > 0 ? (
+                      {rectificationTotal > 0 ? (
                         <>
-                          <TableComponent columns={columns} data={usersList} />
+                          <TableComponent
+                            columns={columns}
+                            data={rectificationList}
+                          />
                           <Boxed pad="10px 0 ">
                             <PaginationComponent
-                              total={usersTotal}
+                              total={rectificationTotal}
                               onChange={(page) =>
                                 handlePagination(page, fetchActionURL)
                               }
@@ -167,7 +190,7 @@ export const UserManagement = (props) => {
                               pageSize={pageSize}
                               itemsDisplayed
                               showTotal={(total, range) => {
-                                return `${range[0]} - ${range[1]} of ${usersTotal} items`;
+                                return `${range[0]} - ${range[1]} of ${rectificationTotal} items`;
                               }}
                             />
                           </Boxed>
@@ -183,7 +206,6 @@ export const UserManagement = (props) => {
           />
         </Boxed>
       </Boxed>
-      <CreateModal />
     </>
   );
 };

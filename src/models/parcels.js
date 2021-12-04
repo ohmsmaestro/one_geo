@@ -1,6 +1,10 @@
 import { Alert } from "../components/Alert.components";
 
-import { getParcels } from "../services/parcels";
+import {
+  getParcels,
+  postEncumbrance,
+  postAppraisal,
+} from "../services/parcels";
 
 import { storageParcelsModel } from "../utils/constant";
 
@@ -14,6 +18,7 @@ export default {
     createParcel: false,
     rentModal: false,
     appraisalModal: false,
+    encumbranceModal: false,
   },
 
   subscriptions: {
@@ -49,6 +54,20 @@ export default {
       }
     },
 
+    *getSingleParcel({ payload }, { call, put }) {
+      const { raw, success, message } = yield call(getParcels, payload);
+      if (success) {
+        const list = raw?.data?.parcels;
+        list[0] &&
+          (yield put({
+            type: "save",
+            payload: { parcelData: list[0] },
+          }));
+      } else {
+        Alert.error(message);
+      }
+    },
+
     *createRent({ payload }, { call, put }) {
       const { raw, success, message } = yield call(getParcels, payload);
       if (success) {
@@ -63,13 +82,25 @@ export default {
     },
 
     *createAppraisal({ payload }, { call, put }) {
-      const { raw, success, message } = yield call(getParcels, payload);
+      const { raw, success, message } = yield call(postAppraisal, payload);
       if (success) {
         Alert.success("Successfully appraised a parcel");
         yield put({
           type: "save",
           payload: { appraisalModal: false, parcelData: {} },
         });
+      } else {
+        Alert.error(message);
+      }
+    },
+    *createEncumbrance({ payload }, { call, put }) {
+      const { raw, success, message } = yield call(postEncumbrance, payload);
+      if (success) {
+        yield put({
+          type: "save",
+          payload: { encumbranceModal: false, parcelData: {} },
+        });
+        Alert.success("Successfully created an encumbrance.");
       } else {
         Alert.error(message);
       }
