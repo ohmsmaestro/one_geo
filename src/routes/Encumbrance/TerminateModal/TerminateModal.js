@@ -10,7 +10,12 @@ import { Alert } from "../../../components/Alert.components";
 import { ModalComponent } from "../../../components/Modal.components";
 import { FileIcon, Icon } from "../../../components/style";
 
-import { calcViewMode, formatCurrency, getBase64 } from "../../../utils/utils";
+import {
+  calcViewMode,
+  formatCurrency,
+  getBase64,
+  formatDate,
+} from "../../../utils/utils";
 import { Theme } from "../../../utils/theme";
 import { PageTitle } from "../../../components/style";
 
@@ -56,20 +61,20 @@ export const TerminateModal = (props) => {
   };
 
   const onSubmit = () => {
-    if (file.base64) { 
+    if (file.base64) {
       validateFields((error, value) => {
         if (!error) {
           const data = {
-            terminate_text: value.terminate_text.trim(),
+            id: entryData.id,
+            description: value.terminate_text.trim(),
             file: file.base64,
-            type: file.type,
-            parcelNumber : entryData.parcelNumber
+            fileFormat: "pdf",
           };
           terminateEncumbrance(data);
         }
       });
-    } else  { 
-      Alert.info("Instrument file is required")
+    } else {
+      Alert.info("Instrument file is required");
     }
   };
   let errors;
@@ -102,19 +107,17 @@ export const TerminateModal = (props) => {
           borderRadius={Theme.SecondaryRadius}
         >
           <Text fontSize={Theme.SecondaryFontSize}>
-            Parcel Number: <b>{ entryData.parcel_number }</b>
+            Parcel Number: <b>{entryData.parcelNumber}</b>
           </Text>
           <Text fontSize={Theme.SecondaryFontSize}>
-            Encumbrance Number: <b>{ entryData.encumbrance_number }</b>
+            Encumbrance Text: <b>{entryData.description}</b>
           </Text>
           <Text fontSize={Theme.SecondaryFontSize}>
-            Encumbrance Text: <b>{ entryData.encumbrance_text }</b>
+            Entered By: <b>{entryData.createdBy}</b>
           </Text>
           <Text fontSize={Theme.SecondaryFontSize}>
-            Entered By: <b>{ entryData.entered_by }</b>
-          </Text>
-          <Text fontSize={Theme.SecondaryFontSize}>
-            Entry Date: <b>{ entryData.created_at }</b>
+            Entry Date:{" "}
+            <b>{entryData.createdAt && formatDate(entryData.createdAt)}</b>
           </Text>
         </Boxed>
         <Boxed pad="10px 0">
@@ -139,10 +142,19 @@ export const TerminateModal = (props) => {
           </Text>
           {file.base64 ? (
             <Boxed display="flex" pad="10px">
-              <FileIcon type="pdf" size='60px' />
+              <FileIcon type="pdf" size="60px" />
               <Boxed pad="0 10px">
-              <Text> {file.name}</Text>
-              <Text fontSize={Theme.SecondaryFontSize}> {file.size && formatCurrency((Math.floor(file.size / 1024)) || 0) } KB</Text>
+                <Text> {file.name}</Text>
+                <Text fontSize={Theme.SecondaryFontSize}>
+                  {" "}
+                  {file.size &&
+                    formatCurrency(Math.floor(file.size / 1024) || 0)}{" "}
+                  KB
+                </Text>
+
+                <Button margin="5px 0" clear xs onClick={() => setFile({})}>
+                  <i className="icon-close" /> Remove
+                </Button>
               </Boxed>
             </Boxed>
           ) : (

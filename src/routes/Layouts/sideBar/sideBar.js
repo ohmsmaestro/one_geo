@@ -1,8 +1,10 @@
 import React from "react";
 
 import styled, { css } from "styled-components";
-import { darken, lighten, desaturate, transparentize } from "polished";
+import { lighten } from "polished";
 import { Boxed } from "../../../components/Boxed.components";
+import { Text } from "../../../components/Text.components";
+import { Icon } from "../../../components/style";
 import { Theme } from "../../../utils/theme";
 
 import LOGO from "../../../assets/img/logo-sm-white.png";
@@ -108,47 +110,57 @@ const SideList = styled.div`
 
   .side-menu-footer {
     width: 100%;
-    background: ${(props) => props.theme.PrimaryDark};
+    background: ${(props) => lighten(0.05, props.theme.PrimaryColor)};
     position: absolute;
     bottom: 0;
     left: 0;
-    padding: 20px;
+    padding: 20px 8px;
     box-sizing: border-box;
+    display: flex;
+
+    .avatar {
+      width: 40px;
+      height: 40px;
+      overflow: hidden;
+      border-radius: 50%;
+      ${(props) =>
+        props.collaspe &&
+        css`
+          display: none;
+        `}
+
+      img {
+        max-width: 100%;
+      }
+    }
+
+    .user-info {
+      padding: 0 5px;
+      color: #ffffff;
+      opacity: 1;
+      transition: opacity 0.2s ease-in;
+      ${(props) =>
+        props.collaspe &&
+        css`
+          display: none;
+        `}
+    }
+
+    .user-logout {
+      margin: auto;
+
+      i {
+        margin: auto;
+        cursor: pointer;
+      }
+    }
   }
 
-  .side-menu-footer .avatar {
-    width: 40px;
-    height: 40px;
-    overflow: hidden;
-    border-radius: 50%;
-    display: inline-block;
-  }
-  .side-menu-footer .avatar img {
-    max-width: 100%;
-  }
-
-  .side-menu-footer .user-info {
-    display: inline-block;
-    margin: 0 10px;
-    color: ${Theme.PrimaryDark};
-    position: absolute;
-    opacity: 1;
-    transition: opacity 0.2s ease-in;
-  }
-
-  .side-menu.inactive .side-menu-footer .user-info {
+  .side-menu-footer .side-menu.inactive .side-menu-footer .user-info {
     opacity: 1;
     width: 0;
     height: 0;
     overflow: hidden;
-  }
-
-  .side-menu-footer .user-info h5 {
-    font-size: 15px;
-  }
-
-  .side-menu-footer .user-info p {
-    font-size: 14px;
   }
 `;
 
@@ -166,7 +178,7 @@ export const SideBar = (props) => {
   } = props;
 
   // dispatch props received
-  const { redirect, toggleSidebar, setPageTitle } = props;
+  const { redirect, toggleSidebar, setPageTitle, logOut } = props;
 
   const onItemClick = (pathname, pageTitle) => {
     viewMode !== "desktop" && toggleSidebar(true);
@@ -216,15 +228,26 @@ export const SideBar = (props) => {
           );
         })}
 
-      {/* <div className="side-menu-footer">
+      <div className="side-menu-footer">
         <div className="avatar">
           <img src={maleImage} alt="user" />
         </div>
         <div className="user-info">
-          <h5>{profile?.username}</h5>
-          <p>{profile?.email}</p>
+          <Text
+            color="#fff"
+            fontWeight="bold"
+            fontSize={Theme.SecondaryFontSize}
+          >
+            {profile?.username}
+          </Text>
+          <Text color="#fff" fontSize={Theme.SecondaryFontSize}>
+            {profile?.email}
+          </Text>
         </div>
-      </div> */}
+        <div className="user-logout">
+          <Icon color="#fff" className="icon-power" onClick={() => logOut()} />
+        </div>
+      </div>
     </SideList>
   );
 };

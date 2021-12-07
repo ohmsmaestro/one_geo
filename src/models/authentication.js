@@ -87,10 +87,10 @@ export default {
       }
     },
     *logOut({ payload }, { call, put }) {
-      const { refresh_token } = payload;
-      call(postLogOut, { refresh_token });
+      // const { refresh_token } = payload;
+      // call(postLogOut, { refresh_token });
       localStorage.clear();
-      yield put(routerRedux.push("/login"));
+      yield put(routerRedux.push("/"));
     },
   },
 

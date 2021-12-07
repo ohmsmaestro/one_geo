@@ -8,6 +8,7 @@ import usersMenu from "./usersMenu";
 const mapStateToProps = (state, ownProps) => {
   const { app, authentication } = state;
   const { openMediaMenu, menuMode } = app;
+  console.log({ authentication });
   const { profile } = authentication;
   const { collaspe } = ownProps;
 
@@ -45,6 +46,11 @@ const mapDispatchToProps = (dispatch, ownProps) => {
       dispatch({
         type: "app/save",
         payload: { pageTitle },
+      });
+    },
+    logOut() {
+      dispatch({
+        type: "authentication/logOut",
       });
     },
   };

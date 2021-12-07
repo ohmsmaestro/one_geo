@@ -193,7 +193,7 @@ export const formatCurrency = (number) => {
 };
 
 export const formatDate = (date) =>
-  moment(date, "DD-MM-YYYY").format("DD MMM YYYY");
+  moment(date, "YYYY-MM-DD").format("DD MMM YYYY");
 
 export const truncateText = (text, limit, limitExtension) => {
   let extension = limitExtension ? limitExtension : "...";

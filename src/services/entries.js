@@ -43,3 +43,12 @@ export async function getEncumbrances(data) {
     data,
   });
 }
+
+export async function postTerminateEncumbrance(data) {
+  const url = `${endpoint}/encumbrance`;
+  return await request({
+    url,
+    method: "PUT",
+    data,
+  });
+}
