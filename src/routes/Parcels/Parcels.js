@@ -25,6 +25,7 @@ import { Theme } from "../../utils/theme";
 import RentModal from "./Rent/index";
 import AppraisalModal from "./Appraisal/index";
 import EncumbranceModal from "./EncumbranceModal/index";
+import Rectification from "./RectificationModal/index";
 
 export const Parcels = (props) => {
   // state props
@@ -35,6 +36,7 @@ export const Parcels = (props) => {
     appraisalModal,
     fetchActionURL,
     encumbranceModal,
+    rectificationModal,
   } = props;
 
   // dispatch props
@@ -46,6 +48,7 @@ export const Parcels = (props) => {
     redirect,
     viewTDP,
     openEncumbranceModal,
+    openRectificationModal,
   } = props;
 
   useEffect(() => {
@@ -86,7 +89,10 @@ export const Parcels = (props) => {
               Rent Parcel
             </Dropdown.Item>
             <Dropdown.Item onClick={() => openEncumbranceModal(record)}>
-              Create Encumbrance
+              Add Encumbrance
+            </Dropdown.Item>
+            <Dropdown.Item onClick={() => openRectificationModal(record)}>
+              Add Rectification
             </Dropdown.Item>
             <Dropdown.Item>Work Queries</Dropdown.Item>
           </Dropdown.Menu>
@@ -225,6 +231,7 @@ export const Parcels = (props) => {
       {rentModal && <RentModal />}
       {appraisalModal && <AppraisalModal />}
       {encumbranceModal && <EncumbranceModal />}
+      {rectificationModal && <Rectification />}
     </>
   );
 };

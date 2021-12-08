@@ -3,6 +3,7 @@ import { Alert } from "../components/Alert.components";
 import {
   getParcels,
   postEncumbrance,
+  postRectification,
   postAppraisal,
 } from "../services/parcels";
 
@@ -19,6 +20,7 @@ export default {
     rentModal: false,
     appraisalModal: false,
     encumbranceModal: false,
+    rectificationModal: false,
   },
 
   subscriptions: {
@@ -101,6 +103,18 @@ export default {
           payload: { encumbranceModal: false, parcelData: {} },
         });
         Alert.success("Successfully created an encumbrance.");
+      } else {
+        Alert.error(message);
+      }
+    },
+    *createRectification({ payload }, { call, put }) {
+      const { raw, success, message } = yield call(postRectification, payload);
+      if (success) {
+        yield put({
+          type: "save",
+          payload: { rectificationModal: false, parcelData: {} },
+        });
+        Alert.success("Successfully created a rectification.");
       } else {
         Alert.error(message);
       }

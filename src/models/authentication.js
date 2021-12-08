@@ -32,8 +32,10 @@ export default {
       //Persist token details logic
       try {
         let profile = localStorage.getItem(storageProfile);
+
         if (profile) {
           let profileData = JSON.parse(profile);
+
           dispatch({
             type: "save",
             payload: { profile: profileData },

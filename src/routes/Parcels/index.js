@@ -13,6 +13,7 @@ export const mapStateToProps = (state, ownProps) => {
     rentModal,
     appraisalModal,
     encumbranceModal,
+    rectificationModal,
   } = parcels;
   const isLoading = loading.effects[fetchActionURL];
   return {
@@ -23,6 +24,7 @@ export const mapStateToProps = (state, ownProps) => {
     appraisalModal,
     fetchActionURL,
     encumbranceModal,
+    rectificationModal,
   };
 };
 
@@ -55,6 +57,15 @@ export const mapDispatchToProps = (dispatch, ownProps) => {
       dispatch({
         type: "parcels/save",
         payload: { encumbranceModal: true, parcelData: data },
+      });
+    },
+    openRectificationModal(data) {
+      dispatch({
+        type: "parcels/save",
+        payload: {
+          rectificationModal: true,
+          parcelData: data,
+        },
       });
     },
   };
