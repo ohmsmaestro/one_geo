@@ -29,7 +29,7 @@ export async function postEncumbrance(data) {
 }
 
 export async function postRectification(data) {
-  const url = `${endpoint}/rectification`;
+  const url = `${endpoint}/rectifications`;
   return await request({
     url,
     method: "POST",

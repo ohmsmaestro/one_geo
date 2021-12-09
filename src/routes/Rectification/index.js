@@ -52,13 +52,15 @@ const fetchActionURL = "entries/getAllRectification";
 
 export const mapStateToProps = (state, ownProps) => {
   const { loading, entries } = state;
-  const { rectificationList, rectificationTotal } = entries;
+  const { rectificationList, rectificationTotal, rectificationDetailModal } =
+    entries;
   const isLoading = loading.effects[fetchActionURL];
   return {
     isLoading,
-    rectificationList: sampleData,
-    rectificationTotal: 5,
+    rectificationList,
+    rectificationTotal,
     fetchActionURL,
+    rectificationDetailModal,
   };
 };
 
@@ -69,6 +71,12 @@ export const mapDispatchToProps = (dispatch, ownProps) => {
     },
     getAllRectification(data) {
       dispatch({ type: fetchActionURL, payload: data });
+    },
+    openDetailModal(data) {
+      dispatch({
+        type: "entries/save",
+        payload: { rectificationDetailModal: true, entryData: data },
+      });
     },
   };
 };

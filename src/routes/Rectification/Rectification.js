@@ -21,13 +21,20 @@ import { calcViewMode, formatDate } from "../../utils/utils";
 import { pageOptions } from "../../utils/constant";
 import { Theme } from "../../utils/theme";
 
+import DetailModal from "./DetailModal/index";
+
 export const Rectification = (props) => {
   // state props
-  const { isLoading, rectificationList, rectificationTotal, fetchActionURL } =
-    props;
+  const {
+    isLoading,
+    rectificationList,
+    rectificationTotal,
+    fetchActionURL,
+    rectificationDetailModal,
+  } = props;
 
   // dispatch props
-  const { getAllRectification } = props;
+  const { getAllRectification, openDetailModal } = props;
 
   useEffect(() => {
     let data = {
@@ -48,11 +55,9 @@ export const Rectification = (props) => {
             <Icon className="icon-more-vertical" />
           </Dropdown.Toggle>
           <Dropdown.Menu>
-            <Dropdown.Item>View Details</Dropdown.Item>
-            <Dropdown.Item>Terminate Entry</Dropdown.Item>
-            <Dropdown.Item>Edit Entry</Dropdown.Item>
-            <Dropdown.Item>View Encumbrance</Dropdown.Item>
-            <Dropdown.Item>Rectification</Dropdown.Item>
+            <Dropdown.Item onClick={() => openDetailModal(record)}>
+              View Details
+            </Dropdown.Item>
           </Dropdown.Menu>
         </Dropdown>
       </StyledDrpDown>
@@ -61,66 +66,31 @@ export const Rectification = (props) => {
 
   const columns = [
     {
-      title: "Entry Number",
-      dataIndex: "entry_number",
-      key: "entry_number",
+      title: "Entry Type",
+      dataIndex: "entity",
+      key: "entity",
     },
     {
-      title: "Parcel No.",
-      dataIndex: "parcel_number",
-      key: "parcel_number",
+      title: "Entry Ref.",
+      dataIndex: "entityId",
+      key: "entityId",
     },
     {
-      title: "Proprietor",
-      dataIndex: "proprietor",
-      key: "proprietor",
+      title: "Description",
+      dataIndex: "description",
+      key: "description",
     },
-
     {
-      title: "Entry. Date",
-      dataIndex: "created_at",
-      key: "created_at",
+      title: "Entered By",
+      dataIndex: "createdBy",
+      key: "createdBy",
+    },
+    {
+      title: "Entry Date",
+      dataIndex: "createdAt",
+      key: "createdAt",
       render: (text) => text && formatDate(text),
     },
-    // {
-    //   title: "Encumbrance status",
-    //   dataIndex: "encumbrace_status",
-    //   key: "encumbrace_status",
-    //   align: "center",
-    //   render: (text, record) => {
-    //     switch (text) {
-    //       case "SUCCESSFUL":
-    //         return (
-    //           <Text color={Theme.PrimaryGreen} fontWeight="600" align="center">
-    //             {" "}
-    //             <Icon
-    //               className="icon-ok-circled-1"
-    //               color={Theme.PrimaryGreen}
-    //               margin="0 5px 0 0"
-    //               fontSize="16px"
-    //             />{" "}
-    //             YES
-    //           </Text>
-    //         );
-    //       case "PENDING":
-    //         return (
-    //           <Text color={Theme.PrimaryGreen} fontWeight="600" align="center">
-    //             {" "}
-    //             <Icon
-    //               className="icon-ok-circled-1"
-    //               color={Theme.PrimaryGreen}
-    //               margin="0 5px 0 0"
-    //               fontSize="16px"
-    //             />{" "}
-    //             PENDING
-    //           </Text>
-    //         );
-
-    //       default:
-    //         return "-- / --";
-    //     }
-    //   },
-    // },
     {
       title: "",
       dataIndex: "action",
@@ -206,6 +176,8 @@ export const Rectification = (props) => {
           />
         </Boxed>
       </Boxed>
+
+      {rectificationDetailModal && <DetailModal />}
     </>
   );
 };

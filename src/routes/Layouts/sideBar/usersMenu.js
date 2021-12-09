@@ -15,8 +15,13 @@ const usersMenu = [
       },
       {
         icon: "icon-forward-outline",
-        label: "Proprietor Entries",
+        label: "Owners",
         pathname: "/entries",
+      },
+      {
+        icon: "icon-forward-outline",
+        label: "Rectification Entries",
+        pathname: "/rectification",
       },
       {
         icon: "icon-forward-outline",

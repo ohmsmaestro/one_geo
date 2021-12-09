@@ -5,6 +5,8 @@ import {
   getApplications,
   getApplicationDetail,
   getRectifications,
+  getRectificationDetail,
+  getRectificationFile,
   getEncumbrances,
   postTerminateEncumbrance,
 } from "../services/entries";
@@ -16,10 +18,10 @@ const payload_create_rectification = {
   fileFormat: "pdf",
   description: "something is here .....",
   fields: [
-    { fieldName: "firstName", value: "my new name" },
-    { fieldName: "lastName", value: "my new last name" },
-    { fieldName: "regNumber", value: "my new reg number" },
-    { fieldName: "firstName", value: "my new name" },
+    { fieldName: "LAND_USE", value: "my new name" },
+    { fieldName: "CATEGORY", value: "my new last name" },
+    { fieldName: "REG_NUMBER", value: "my new reg number" },
+    { fieldName: "LAND_TYPE", value: "my new name" },
   ],
 };
 
@@ -30,14 +32,110 @@ const payload_get_rectification = [
     entityId: "PARCEL_NUMBER",
     fileName: "1.pdf",
     createdBy: "personal",
-    createdAt: "2020-08-24",
+    createdAt: "2020-08-24 14:32:20",
     description: "something is here .....",
 
     fields: [
-      { fieldName: "firstName", value: "my new name" },
-      { fieldName: "lastName", value: "my new last name" },
-      { fieldName: "regNumber", value: "my new reg number" },
-      { fieldName: "firstName", value: "my new name" },
+      { fieldName: "LAND_USE", newValue: "PUBLIC", oldValue: "PRIVATE" },
+      { fieldName: "CATEGORY", newValue: "B", oldValue: "C" },
+      { fieldName: "REG_NUMBER", newValue: "2345678", oldValue: "342233" },
+      { fieldName: "LAND_TYPE", newValue: "EDUCATIONAL", oldValue: "HEALTH" },
+    ],
+  },
+  {
+    id: 1,
+    entity: "PARCEL",
+    entityId: "PARCEL_NUMBER",
+    fileName: "1.pdf",
+    createdBy: "personal",
+    createdAt: "2020-08-24 14:32:20",
+    description: "something is here .....",
+
+    fields: [
+      { fieldName: "LAND_USE", newValue: "PUBLIC", oldValue: "PRIVATE" },
+      { fieldName: "CATEGORY", newValue: "B", oldValue: "C" },
+      { fieldName: "REG_NUMBER", newValue: "2345678", oldValue: "342233" },
+      { fieldName: "LAND_TYPE", newValue: "EDUCATIONAL", oldValue: "HEALTH" },
+    ],
+  },
+  {
+    id: 1,
+    entity: "PARCEL",
+    entityId: "PARCEL_NUMBER",
+    fileName: "1.pdf",
+    createdBy: "personal",
+    createdAt: "2020-08-24 14:32:20",
+    description: "something is here .....",
+
+    fields: [
+      { fieldName: "LAND_USE", newValue: "PUBLIC", oldValue: "PRIVATE" },
+      { fieldName: "CATEGORY", newValue: "B", oldValue: "C" },
+      { fieldName: "REG_NUMBER", newValue: "2345678", oldValue: "342233" },
+      { fieldName: "LAND_TYPE", newValue: "EDUCATIONAL", oldValue: "HEALTH" },
+    ],
+  },
+  {
+    id: 1,
+    entity: "PARCEL",
+    entityId: "PARCEL_NUMBER",
+    fileName: "1.pdf",
+    createdBy: "personal",
+    createdAt: "2020-08-24 14:32:20",
+    description: "something is here .....",
+
+    fields: [
+      { fieldName: "LAND_USE", newValue: "PUBLIC", oldValue: "PRIVATE" },
+      { fieldName: "CATEGORY", newValue: "B", oldValue: "C" },
+      { fieldName: "REG_NUMBER", newValue: "2345678", oldValue: "342233" },
+      { fieldName: "LAND_TYPE", newValue: "EDUCATIONAL", oldValue: "HEALTH" },
+    ],
+  },
+  {
+    id: 1,
+    entity: "PARCEL",
+    entityId: "PARCEL_NUMBER",
+    fileName: "1.pdf",
+    createdBy: "personal",
+    createdAt: "2020-08-24 14:32:20",
+    description: "something is here .....",
+
+    fields: [
+      { fieldName: "LAND_USE", newValue: "PUBLIC", oldValue: "PRIVATE" },
+      { fieldName: "CATEGORY", newValue: "B", oldValue: "C" },
+      { fieldName: "REG_NUMBER", newValue: "2345678", oldValue: "342233" },
+      { fieldName: "LAND_TYPE", newValue: "EDUCATIONAL", oldValue: "HEALTH" },
+    ],
+  },
+  {
+    id: 1,
+    entity: "PARCEL",
+    entityId: "PARCEL_NUMBER",
+    fileName: "1.pdf",
+    createdBy: "personal",
+    createdAt: "2020-08-24 14:32:20",
+    description: "something is here .....",
+
+    fields: [
+      { fieldName: "LAND_USE", newValue: "PUBLIC", oldValue: "PRIVATE" },
+      { fieldName: "CATEGORY", newValue: "B", oldValue: "C" },
+      { fieldName: "REG_NUMBER", newValue: "2345678", oldValue: "342233" },
+      { fieldName: "LAND_TYPE", newValue: "EDUCATIONAL", oldValue: "HEALTH" },
+    ],
+  },
+  {
+    id: 1,
+    entity: "PARCEL",
+    entityId: "PARCEL_NUMBER",
+    fileName: "1.pdf",
+    createdBy: "personal",
+    createdAt: "2020-08-24 14:32:20",
+    description: "something is here .....",
+
+    fields: [
+      { fieldName: "LAND_USE", newValue: "PUBLIC", oldValue: "PRIVATE" },
+      { fieldName: "CATEGORY", newValue: "B", oldValue: "C" },
+      { fieldName: "REG_NUMBER", newValue: "2345678", oldValue: "342233" },
+      { fieldName: "LAND_TYPE", newValue: "EDUCATIONAL", oldValue: "HEALTH" },
     ],
   },
 ];
@@ -62,8 +160,9 @@ export default {
     applicationsTotal: 0,
     applicationDetail: {},
 
-    rectificationList: [],
-    rectificationTotal: 0,
+    rectificationList: payload_get_rectification,
+    rectificationTotal: 5,
+    rectificationDetailModal: false, // Toggle detail modal on rectification
 
     encumbranceList: [],
     encumbranceTotal: 0,
@@ -121,11 +220,50 @@ export default {
     *getAllRectification({ payload }, { call, put }) {
       const { raw, success, message } = yield call(getRectifications, payload);
       if (success) {
-        const list = raw?.data?.items;
+        const list = raw?.data?.rectifications;
         const total = raw?.data?.pagination?.totalRecord;
         yield put({
           type: "save",
           payload: { rectificationList: list, rectificationTotal: total },
+        });
+      } else {
+        Alert.error(message);
+      }
+    },
+    *getRectificationDetail({ payload }, { call, put, select }) {
+      const { raw, success, message } = yield call(
+        getRectificationDetail,
+        payload.id
+      );
+      if (success) {
+        const detail = raw?.data?.detail;
+        const newPayload = { ...payload, fields: detail };
+
+        yield put({
+          type: "save",
+          payload: { entryData: newPayload },
+        });
+
+        yield put({
+          type: "entries/getRectificationFile",
+          payload: newPayload,
+        });
+      } else {
+        Alert.error(message);
+      }
+    },
+
+    *getRectificationFile({ payload }, { call, put, select }) {
+      const { raw, success, message } = yield call(
+        getRectificationFile,
+        payload.fileName
+      );
+      if (success) {
+        console.log({ raw });
+        const data = raw?.data ? raw?.data : {};
+        yield put({
+          type: "save",
+          payload: { entryData: { ...payload, ...data } },
         });
       } else {
         Alert.error(message);

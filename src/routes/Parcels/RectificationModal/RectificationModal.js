@@ -99,7 +99,7 @@ export const RectificationModal = (props) => {
 
           const payload = {
             entity: "PARCEL",
-            entityId: parcelData.parcelNumber,
+            entityId: parcelData.FID,
             file: file.base64,
             fileFormat: "pdf",
             description: values.description.trim(),

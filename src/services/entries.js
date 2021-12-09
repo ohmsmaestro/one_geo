@@ -27,11 +27,27 @@ export async function getApplicationDetail(data) {
 }
 
 export async function getRectifications(data) {
-  const url = `${endpoint}/rectification/paginated?`;
+  const url = `${endpoint}/rectifications`;
   return await request({
     url,
     method: "GET",
     data,
+  });
+}
+
+export async function getRectificationDetail(id) {
+  const url = `${endpoint}/rectifications/${id}`;
+  return await request({
+    url,
+    method: "GET",
+  });
+}
+
+export async function getRectificationFile(fileName) {
+  const url = `${endpoint}/rectifications/file/${fileName}`;
+  return await request({
+    url,
+    method: "GET",
   });
 }
 
