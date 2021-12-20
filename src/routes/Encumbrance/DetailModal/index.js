@@ -5,11 +5,11 @@ import { routerRedux } from "dva/router";
 
 export const mapStateToProps = (state, ownProps) => {
   const { loading, entries } = state;
-  const isLoading = loading.effects["entries/getRectificationDetail"];
-  const isloadingFile = loading.effects["entries/getRectificationFile"];
-  const { rectificationDetailModal, entryData } = entries;
+  const isLoading = loading.effects["entries/getEncumbranceDetail"];
+  const isloadingFile = loading.effects["entries/getEncumbranceFile"];
+  const { encumbranceDetailModal, entryData } = entries;
   return {
-    rectificationDetailModal,
+    encumbranceDetailModal,
     entryData,
     isLoading,
     isloadingFile,
@@ -21,13 +21,13 @@ export const mapDispatchToProps = (dispatch, ownProps) => {
     redirect(pathname) {
       dispatch(routerRedux.push({ pathname: `${pathname}` }));
     },
-    getRectificationDetail(data) {
-      dispatch({ type: "entries/getRectificationDetail", payload: data });
+    getEncumbranceDetail(data) {
+      dispatch({ type: "entries/getEncumbranceDetail", payload: data });
     },
     closeModal() {
       dispatch({
         type: "entries/save",
-        payload: { rectificationDetailModal: false, entryData: {} },
+        payload: { encumbranceDetailModal: false, entryData: {} },
       });
     },
   };

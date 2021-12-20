@@ -9,144 +9,8 @@ import {
   getRectificationFile,
   getEncumbrances,
   postTerminateEncumbrance,
+  getEncumbranceDetail,
 } from "../services/entries";
-
-const payload_create_rectification = {
-  entity: "PARCEL",
-  entityId: "PARCEL_NUMBER",
-  file: "file_base64",
-  fileFormat: "pdf",
-  description: "something is here .....",
-  fields: [
-    { fieldName: "LAND_USE", value: "my new name" },
-    { fieldName: "CATEGORY", value: "my new last name" },
-    { fieldName: "REG_NUMBER", value: "my new reg number" },
-    { fieldName: "LAND_TYPE", value: "my new name" },
-  ],
-};
-
-const payload_get_rectification = [
-  {
-    id: 1,
-    entity: "PARCEL",
-    entityId: "PARCEL_NUMBER",
-    fileName: "1.pdf",
-    createdBy: "personal",
-    createdAt: "2020-08-24 14:32:20",
-    description: "something is here .....",
-
-    fields: [
-      { fieldName: "LAND_USE", newValue: "PUBLIC", oldValue: "PRIVATE" },
-      { fieldName: "CATEGORY", newValue: "B", oldValue: "C" },
-      { fieldName: "REG_NUMBER", newValue: "2345678", oldValue: "342233" },
-      { fieldName: "LAND_TYPE", newValue: "EDUCATIONAL", oldValue: "HEALTH" },
-    ],
-  },
-  {
-    id: 1,
-    entity: "PARCEL",
-    entityId: "PARCEL_NUMBER",
-    fileName: "1.pdf",
-    createdBy: "personal",
-    createdAt: "2020-08-24 14:32:20",
-    description: "something is here .....",
-
-    fields: [
-      { fieldName: "LAND_USE", newValue: "PUBLIC", oldValue: "PRIVATE" },
-      { fieldName: "CATEGORY", newValue: "B", oldValue: "C" },
-      { fieldName: "REG_NUMBER", newValue: "2345678", oldValue: "342233" },
-      { fieldName: "LAND_TYPE", newValue: "EDUCATIONAL", oldValue: "HEALTH" },
-    ],
-  },
-  {
-    id: 1,
-    entity: "PARCEL",
-    entityId: "PARCEL_NUMBER",
-    fileName: "1.pdf",
-    createdBy: "personal",
-    createdAt: "2020-08-24 14:32:20",
-    description: "something is here .....",
-
-    fields: [
-      { fieldName: "LAND_USE", newValue: "PUBLIC", oldValue: "PRIVATE" },
-      { fieldName: "CATEGORY", newValue: "B", oldValue: "C" },
-      { fieldName: "REG_NUMBER", newValue: "2345678", oldValue: "342233" },
-      { fieldName: "LAND_TYPE", newValue: "EDUCATIONAL", oldValue: "HEALTH" },
-    ],
-  },
-  {
-    id: 1,
-    entity: "PARCEL",
-    entityId: "PARCEL_NUMBER",
-    fileName: "1.pdf",
-    createdBy: "personal",
-    createdAt: "2020-08-24 14:32:20",
-    description: "something is here .....",
-
-    fields: [
-      { fieldName: "LAND_USE", newValue: "PUBLIC", oldValue: "PRIVATE" },
-      { fieldName: "CATEGORY", newValue: "B", oldValue: "C" },
-      { fieldName: "REG_NUMBER", newValue: "2345678", oldValue: "342233" },
-      { fieldName: "LAND_TYPE", newValue: "EDUCATIONAL", oldValue: "HEALTH" },
-    ],
-  },
-  {
-    id: 1,
-    entity: "PARCEL",
-    entityId: "PARCEL_NUMBER",
-    fileName: "1.pdf",
-    createdBy: "personal",
-    createdAt: "2020-08-24 14:32:20",
-    description: "something is here .....",
-
-    fields: [
-      { fieldName: "LAND_USE", newValue: "PUBLIC", oldValue: "PRIVATE" },
-      { fieldName: "CATEGORY", newValue: "B", oldValue: "C" },
-      { fieldName: "REG_NUMBER", newValue: "2345678", oldValue: "342233" },
-      { fieldName: "LAND_TYPE", newValue: "EDUCATIONAL", oldValue: "HEALTH" },
-    ],
-  },
-  {
-    id: 1,
-    entity: "PARCEL",
-    entityId: "PARCEL_NUMBER",
-    fileName: "1.pdf",
-    createdBy: "personal",
-    createdAt: "2020-08-24 14:32:20",
-    description: "something is here .....",
-
-    fields: [
-      { fieldName: "LAND_USE", newValue: "PUBLIC", oldValue: "PRIVATE" },
-      { fieldName: "CATEGORY", newValue: "B", oldValue: "C" },
-      { fieldName: "REG_NUMBER", newValue: "2345678", oldValue: "342233" },
-      { fieldName: "LAND_TYPE", newValue: "EDUCATIONAL", oldValue: "HEALTH" },
-    ],
-  },
-  {
-    id: 1,
-    entity: "PARCEL",
-    entityId: "PARCEL_NUMBER",
-    fileName: "1.pdf",
-    createdBy: "personal",
-    createdAt: "2020-08-24 14:32:20",
-    description: "something is here .....",
-
-    fields: [
-      { fieldName: "LAND_USE", newValue: "PUBLIC", oldValue: "PRIVATE" },
-      { fieldName: "CATEGORY", newValue: "B", oldValue: "C" },
-      { fieldName: "REG_NUMBER", newValue: "2345678", oldValue: "342233" },
-      { fieldName: "LAND_TYPE", newValue: "EDUCATIONAL", oldValue: "HEALTH" },
-    ],
-  },
-];
-
-const paylaod_get_more_detail = [
-  {
-    fieldName: "firstName",
-    newValue: "new_value_is_here",
-    oldValue: "old_value_is_here",
-  },
-];
 
 export default {
   namespace: "entries",
@@ -160,12 +24,13 @@ export default {
     applicationsTotal: 0,
     applicationDetail: {},
 
-    rectificationList: payload_get_rectification,
-    rectificationTotal: 5,
+    rectificationList: [],
+    rectificationTotal: 0,
     rectificationDetailModal: false, // Toggle detail modal on rectification
 
     encumbranceList: [],
     encumbranceTotal: 0,
+    encumbranceDetailModal: false, // Toggle detail modal on encumbrance
     terminateModal: false,
   },
 
@@ -231,6 +96,18 @@ export default {
       }
     },
     *getRectificationDetail({ payload }, { call, put, select }) {
+      const sample_data = {
+        close: true,
+        closedBy: "Jante Adebowale",
+        createdAt: "2021-12-04 05:10:26",
+        createdBy: "samuel ejdnfjqwe",
+        dateClosed: "2021-12-09",
+        description: "Jante is closing this encumbrance",
+        fileFormat: "pdf",
+        fileName: "02.pdf",
+        id: 2,
+        parcelNumber: "45",
+      };
       const { raw, success, message } = yield call(
         getRectificationDetail,
         payload.id
@@ -318,6 +195,17 @@ export default {
           fileName: "04.pdf",
           id: 4,
         };
+      } else {
+        Alert.error(message);
+      }
+    },
+    *getEncumbranceDetail({ payload }, { call, put }) {
+      const { success, raw, message } = yield call(
+        getEncumbranceDetail,
+        payload.id
+      );
+      if (success) {
+        console.log(raw);
       } else {
         Alert.error(message);
       }

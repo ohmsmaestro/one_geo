@@ -2,8 +2,13 @@ import { connect } from "dva";
 import { createForm } from "rc-form";
 import { Parcels } from "./Parcels";
 import { routerRedux } from "dva/router";
+import { storagePrivilege } from "../../utils/constant";
 
 const fetchActionURL = "parcels/getAllParcels";
+
+const accessList = localStorage.getItem(storagePrivilege)
+  ? JSON.parse(localStorage.getItem(storagePrivilege))
+  : {};
 
 export const mapStateToProps = (state, ownProps) => {
   const { loading, parcels } = state;
@@ -25,6 +30,7 @@ export const mapStateToProps = (state, ownProps) => {
     fetchActionURL,
     encumbranceModal,
     rectificationModal,
+    accessList,
   };
 };
 
@@ -39,7 +45,7 @@ export const mapDispatchToProps = (dispatch, ownProps) => {
     },
     viewTDP(data) {
       dispatch({ type: "parcels/save", payload: { parcelData: data } });
-      redirect(`/parcels/tdp`, `?tdp=${data.ParcelNumber}`);
+      redirect(`/parcels/tdp`, `?tdp=${data.FID}`);
     },
     rentParcel(data) {
       dispatch({

@@ -103,10 +103,6 @@ export const PDFReader = (props) => {
       <StyledReader>
         <PDFViewer {...props} />
       </StyledReader>
-      {/* <Viewer fileUrl="/path/to/document.pdf" /> */}
-      {/* <Worker workerUrl="https://unpkg.com/pdfjs-dist@2.6.347/build/pdf.worker.min.js">
-        <Viewer fileUrl={url} />
-      </Worker> */}
     </>
   );
 };

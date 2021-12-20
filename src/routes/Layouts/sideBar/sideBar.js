@@ -166,16 +166,8 @@ const SideList = styled.div`
 
 export const SideBar = (props) => {
   // state props received
-  const {
-    dataList,
-    pathname,
-    openMediaMenu,
-    collaspe,
-    float,
-    viewMode,
-    profile,
-    menuMode,
-  } = props;
+  const { dataList, pathname, collaspe, float, viewMode, profile, accessList } =
+    props;
 
   // dispatch props received
   const { redirect, toggleSidebar, setPageTitle, logOut } = props;
@@ -208,20 +200,37 @@ export const SideBar = (props) => {
               <h3 className="sideList-title">{item.title}</h3>
               <ul>
                 {item.list.map((subItem, subIndex) => {
-                  return (
-                    <li
-                      key={subIndex}
-                      className={pathname === subItem.pathname ? "active" : ""}
-                      onClick={
-                        pathname === subItem.pathname
-                          ? null
-                          : () => onItemClick(subItem.pathname, subItem.label)
+                  let access = false;
+                  if (subItem?.role?.length) {
+                    subItem?.role?.forEach((singleRole) => {
+                      if (accessList[singleRole]) {
+                        access = true;
                       }
-                    >
-                      <i className={`icon ${subItem.icon}`} />{" "}
-                      <span className="sideList-label">{subItem.label}</span>
-                    </li>
-                  );
+                    });
+                  } else {
+                    access = true;
+                  }
+
+                  if (access) {
+                    return (
+                      <li
+                        key={subIndex}
+                        className={
+                          pathname === subItem.pathname ? "active" : ""
+                        }
+                        onClick={
+                          pathname === subItem.pathname
+                            ? null
+                            : () => onItemClick(subItem.pathname, subItem.label)
+                        }
+                      >
+                        <i className={`icon ${subItem.icon}`} />{" "}
+                        <span className="sideList-label">{subItem.label}</span>
+                      </li>
+                    );
+                  } else {
+                    return <></>;
+                  }
                 })}
               </ul>
             </div>

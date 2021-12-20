@@ -11,8 +11,8 @@ import { Alert } from "../components/Alert.components";
 
 import {
   storageToken,
-  storageRefeshToken,
   storageProfile,
+  storagePrivilege,
 } from "../utils/constant";
 
 const initialState = {
@@ -52,9 +52,19 @@ export default {
       const { raw, success, message } = yield call(postLogin, payload);
       if (success) {
         const data = raw?.data;
+        let privilegeList = {};
+        data?.privileges?.forEach((priv) => {
+          priv?.permissions?.forEach((access) => {
+            privilegeList[access.id] = access.description;
+          });
+        });
         const token = data ? data.jwtToken : "";
-        localStorage.setItem(storageToken, token);
-        localStorage.setItem(storageProfile, JSON.stringify(data));
+        yield localStorage.setItem(storageToken, token);
+        yield localStorage.setItem(storageProfile, JSON.stringify(data));
+        yield localStorage.setItem(
+          storagePrivilege,
+          JSON.stringify(privilegeList)
+        );
         yield put(routerRedux.push({ pathname: "/parcels" }));
       } else {
         Alert.error(message);

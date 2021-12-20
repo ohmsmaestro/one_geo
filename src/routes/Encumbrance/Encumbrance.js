@@ -23,6 +23,7 @@ import { pageOptions } from "../../utils/constant";
 import { Theme } from "../../utils/theme";
 
 import TerminateModal from "./TerminateModal/index";
+import DetailModal from "./DetailModal/index";
 
 export const Encumbrance = (props) => {
   // state props
@@ -32,10 +33,11 @@ export const Encumbrance = (props) => {
     encumbranceTotal,
     fetchActionURL,
     terminateModal,
+    encumbranceDetailModal,
   } = props;
 
   // dispatch props
-  const { getAllEncumbrance, openTerminateModal } = props;
+  const { getAllEncumbrance, openTerminateModal, openDetailModal } = props;
 
   useEffect(() => {
     let data = {
@@ -46,25 +48,6 @@ export const Encumbrance = (props) => {
   }, []);
 
   let viewMode = calcViewMode();
-
-  const DropDownMenu = (props) => {
-    const { record } = props;
-    return (
-      <StyledDrpDown>
-        <Dropdown>
-          <Dropdown.Toggle variant id="dropdown-basic">
-            <Icon className="icon-more-vertical" />
-          </Dropdown.Toggle>
-          <Dropdown.Menu>
-            <Dropdown.Item>View Details</Dropdown.Item>
-            <Dropdown.Item onClick={() => openTerminateModal(record)}>
-              Terminate Entry
-            </Dropdown.Item>
-          </Dropdown.Menu>
-        </Dropdown>
-      </StyledDrpDown>
-    );
-  };
 
   const columns = [
     {
@@ -112,8 +95,10 @@ export const Encumbrance = (props) => {
                 <Icon className="icon-more-vertical" />
               </Dropdown.Toggle>
               <Dropdown.Menu>
-                <Dropdown.Item>View Details</Dropdown.Item>
-                {record.status !== "CLOSED" && (
+                <Dropdown.Item onClick={() => openDetailModal(record)}>
+                  View Details
+                </Dropdown.Item>
+                {!record.close && (
                   <Dropdown.Item onClick={() => openTerminateModal(record)}>
                     Terminate Entry
                   </Dropdown.Item>
@@ -204,6 +189,7 @@ export const Encumbrance = (props) => {
       </Boxed>
 
       {terminateModal && <TerminateModal />}
+      {encumbranceDetailModal && <DetailModal />}
     </>
   );
 };

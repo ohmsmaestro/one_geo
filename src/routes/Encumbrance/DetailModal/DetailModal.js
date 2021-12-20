@@ -13,25 +13,26 @@ import { PageTitle } from "../../../components/style";
 
 export const DetailModal = (props) => {
   // State props
-  const { rectificationDetailModal, isLoading, entryData, isloadingFile } =
-    props;
+  const { encumbranceDetailModal, isLoading, entryData, isloadingFile } = props;
 
   // Dispatch props
-  const { getRectificationDetail, closeModal } = props;
+  const { getEncumbranceDetail, closeModal } = props;
 
   useEffect(() => {
-    getRectificationDetail(entryData);
+    getEncumbranceDetail(entryData);
   }, []);
 
   let viewMode = calcViewMode();
+
+  console.log({ entryData });
 
   return (
     <>
       <ModalComponent
         size="xl"
-        show={rectificationDetailModal}
+        show={encumbranceDetailModal}
         onHide={closeModal}
-        title={<PageTitle margin="5px 0">Rectification Detail</PageTitle>}
+        title={<PageTitle margin="5px 0">Encumbrance Detail</PageTitle>}
         footer={
           <>
             <Button clear onClick={closeModal}>

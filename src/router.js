@@ -29,6 +29,7 @@ import ApplicationReview from "./routes/Applications/Review/index";
 import UsersManagement from "./routes/UserManagement/index";
 import RoleManagement from "./routes/RoleManagement/index";
 import CreateRole from "./routes/RoleManagement/CreateRole/index";
+import Survey from "./routes/Survey";
 
 const { ConnectedRouter } = routerRedux;
 
@@ -122,7 +123,6 @@ export function RouterConfig({ history, app }) {
               return <ParcelsTDP {...props} />;
             }}
           />
-
           <Route
             path="/entries"
             exact
@@ -144,7 +144,6 @@ export function RouterConfig({ history, app }) {
               return <Encumbrance {...props} />;
             }}
           />
-
           <Route
             path="/application"
             exact
@@ -152,7 +151,6 @@ export function RouterConfig({ history, app }) {
               return <Applications {...props} />;
             }}
           />
-
           <Route
             path="/application/:id"
             exact
@@ -160,7 +158,6 @@ export function RouterConfig({ history, app }) {
               return <ApplicationReview {...props} />;
             }}
           />
-
           <Route
             path="/archived"
             exact
@@ -168,7 +165,6 @@ export function RouterConfig({ history, app }) {
               return <Archived {...props} />;
             }}
           />
-
           <Route
             path="/users"
             exact
@@ -177,7 +173,6 @@ export function RouterConfig({ history, app }) {
               return <UsersManagement {...props} />;
             }}
           />
-
           <Route
             path="/role-management"
             exact
@@ -192,6 +187,13 @@ export function RouterConfig({ history, app }) {
             render={(props) => {
               registerModel(app, require("./models/users").default);
               return <CreateRole {...props} />;
+            }}
+          />{" "}
+          <Route
+            path="/survey"
+            exact
+            render={(props) => {
+              return <Survey {...props} />;
             }}
           />
           {/* #########   E N D :    G U A R D E D      U R L S   #########*/}

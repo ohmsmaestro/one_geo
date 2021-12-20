@@ -7,7 +7,12 @@ const fetchActionURL = "entries/getAllEncumbrance";
 
 export const mapStateToProps = (state, ownProps) => {
   const { loading, entries } = state;
-  const { encumbranceList, encumbranceTotal, terminateModal } = entries;
+  const {
+    encumbranceList,
+    encumbranceTotal,
+    terminateModal,
+    encumbranceDetailModal,
+  } = entries;
   const isLoading = loading.effects[fetchActionURL];
   return {
     isLoading,
@@ -15,6 +20,7 @@ export const mapStateToProps = (state, ownProps) => {
     encumbranceTotal,
     fetchActionURL,
     terminateModal,
+    encumbranceDetailModal,
   };
 };
 
@@ -30,6 +36,12 @@ export const mapDispatchToProps = (dispatch, ownProps) => {
       dispatch({
         type: "entries/save",
         payload: { entryData: data, terminateModal: true },
+      });
+    },
+    openDetailModal(data) {
+      dispatch({
+        type: "entries/save",
+        payload: { encumbranceDetailModal: true, entryData: data },
       });
     },
   };

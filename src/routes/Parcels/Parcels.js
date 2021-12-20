@@ -37,6 +37,7 @@ export const Parcels = (props) => {
     fetchActionURL,
     encumbranceModal,
     rectificationModal,
+    accessList,
   } = props;
 
   // dispatch props
@@ -52,8 +53,12 @@ export const Parcels = (props) => {
   } = props;
 
   useEffect(() => {
-    let data = {};
-    getAllParcels(data);
+    if (accessList["VIEW_PARCEL"]) {
+      let data = {};
+      getAllParcels(data);
+    } else {
+      redirect("/dashboard");
+    }
   }, []);
 
   let viewMode = calcViewMode();
@@ -72,29 +77,43 @@ export const Parcels = (props) => {
             >
               View Detail
             </Dropdown.Item>
-            <Dropdown.Item
-              onClick={() =>
-                redirect(`/parcels/view`, `?parcel=${record.ParcelNumber}`)
-              }
-            >
-              View Parcel
-            </Dropdown.Item>
-            <Dropdown.Item onClick={() => viewTDP(record)}>
-              View TDP
-            </Dropdown.Item>
-            <Dropdown.Item onClick={() => appraisalParcel(record)}>
-              Appraise Parcel
-            </Dropdown.Item>
-            <Dropdown.Item onClick={() => rentParcel(record)}>
-              Rent Parcel
-            </Dropdown.Item>
-            <Dropdown.Item onClick={() => openEncumbranceModal(record)}>
-              Add Encumbrance
-            </Dropdown.Item>
-            <Dropdown.Item onClick={() => openRectificationModal(record)}>
-              Add Rectification
-            </Dropdown.Item>
-            <Dropdown.Item>Work Queries</Dropdown.Item>
+            {accessList["VIEW_PARCEL_MAP"] && (
+              <Dropdown.Item
+                onClick={() =>
+                  redirect(`/parcels/view`, `?parcel=${record.FID}`)
+                }
+              >
+                View Parcel
+              </Dropdown.Item>
+            )}
+            {accessList["VIEW_PARCEL_TDP"] && (
+              <Dropdown.Item onClick={() => viewTDP(record)}>
+                View TDP
+              </Dropdown.Item>
+            )}
+            {accessList["CREATE_PARCEL_APPRAISAL"] && (
+              <Dropdown.Item onClick={() => appraisalParcel(record)}>
+                Appraise Parcel
+              </Dropdown.Item>
+            )}
+            {accessList["CREATE_PARCEL_RENT"] && (
+              <Dropdown.Item onClick={() => rentParcel(record)}>
+                Rent Parcel
+              </Dropdown.Item>
+            )}
+            {accessList["CREATE_ENCUMBRANCE"] && (
+              <Dropdown.Item onClick={() => openEncumbranceModal(record)}>
+                Add Encumbrance
+              </Dropdown.Item>
+            )}
+            {accessList["CREATE_RECTIFICATION"] && (
+              <Dropdown.Item onClick={() => openRectificationModal(record)}>
+                Add Rectification
+              </Dropdown.Item>
+            )}
+            {accessList["CREATE_WORK_QUERIES"] && (
+              <Dropdown.Item>Work Queries</Dropdown.Item>
+            )}
           </Dropdown.Menu>
         </Dropdown>
       </StyledDrpDown>

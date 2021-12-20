@@ -60,6 +60,22 @@ export async function getEncumbrances(data) {
   });
 }
 
+export async function getEncumbranceDetail(id) {
+  const url = `${endpoint}/encumbrance/${id}`;
+  return await request({
+    url,
+    method: "GET",
+  });
+}
+
+export async function getEncumbranceFile(fileName) {
+  const url = `${endpoint}/encumbrance/file/${fileName}`;
+  return await request({
+    url,
+    method: "GET",
+  });
+}
+
 export async function postTerminateEncumbrance(data) {
   const url = `${endpoint}/encumbrance`;
   return await request({

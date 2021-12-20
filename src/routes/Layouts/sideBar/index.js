@@ -2,22 +2,23 @@ import { connect } from "dva";
 import { SideBar } from "./sideBar";
 import { routerRedux } from "dva/router";
 
-import adminMenu from "./adminMenu";
 import usersMenu from "./usersMenu";
+
+import { storagePrivilege } from "../../../utils/constant";
 
 const mapStateToProps = (state, ownProps) => {
   const { app, authentication } = state;
   const { openMediaMenu, menuMode } = app;
-  console.log({ authentication });
+
   const { profile } = authentication;
   const { collaspe } = ownProps;
 
   let dataList = usersMenu;
   const isAdmin = profile?.roles?.includes("ADMIN");
 
-  // if (isAdmin) {
-  //   dataList = adminMenu;
-  // }
+  const accessList = localStorage.getItem(storagePrivilege)
+    ? JSON.parse(localStorage.getItem(storagePrivilege))
+    : {};
 
   return {
     profile,
@@ -26,6 +27,7 @@ const mapStateToProps = (state, ownProps) => {
     dataList,
     pathname: state.routing.location.pathname,
     menuMode,
+    accessList,
   };
 };
 

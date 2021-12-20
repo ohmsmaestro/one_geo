@@ -1,5 +1,6 @@
 export const storagePrefix = "gis_app_";
 export const storageToken = `${storagePrefix}token`;
+export const storagePrivilege = `${storagePrefix}privilege`;
 export const storageRefeshToken = `${storagePrefix}refresh_token`;
 export const storageProfile = `${storagePrefix}profile`;
 
