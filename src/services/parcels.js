@@ -10,8 +10,17 @@ export async function getParcels(data) {
   });
 }
 
+export async function getAppraisalType(data) {
+  const url = `${endpoint}/appraisals/types`;
+  return await request({
+    url,
+    method: "GET",
+    data,
+  });
+}
+
 export async function postAppraisal(data) {
-  const url = `${endpoint}/appraisal`;
+  const url = `${endpoint}/appraisals`;
   return await request({
     url,
     method: "POST",

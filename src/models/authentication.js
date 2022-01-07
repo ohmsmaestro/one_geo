@@ -15,6 +15,8 @@ import {
   storagePrivilege,
 } from "../utils/constant";
 
+import { asyncLocalStorage } from "../utils/utils";
+
 const initialState = {
   profile: {},
   regForm: {},
@@ -59,12 +61,14 @@ export default {
           });
         });
         const token = data ? data.jwtToken : "";
-        yield localStorage.setItem(storageToken, token);
-        yield localStorage.setItem(storageProfile, JSON.stringify(data));
-        yield localStorage.setItem(
+        yield asyncLocalStorage.setItem(storageToken, token);
+        yield asyncLocalStorage.setItem(storageProfile, JSON.stringify(data));
+        yield asyncLocalStorage.setItem(
           storagePrivilege,
           JSON.stringify(privilegeList)
         );
+
+        yield put({ type: "save", payload: { profile: data } });
         yield put(routerRedux.push({ pathname: "/parcels" }));
       } else {
         Alert.error(message);
@@ -74,6 +78,8 @@ export default {
       const { raw, success, message } = yield call(postSignup, payload);
       if (success) {
         console.log(raw);
+        Alert.success("Sign up successfully, please log in");
+        yield put(routerRedux.push({ pathname: "/" }));
       } else {
         Alert.error(message);
       }

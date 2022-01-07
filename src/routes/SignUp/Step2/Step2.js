@@ -28,7 +28,12 @@ export const Step2 = (props) => {
       let data = {
         ...regForm,
       };
-      !skip && (data["base64"] = file.base64);
+      data["stateOfOrigin"] = regForm.stateOfOrigin.stateId;
+      data["lgaOfOrigin"] = regForm.lgaOfOrigin.lgaId;
+      data["stateOfResidence"] = regForm.stateOfOrigin.stateId;
+      data["lgaOfResidence"] = regForm.lgaOfOrigin.lgaId;
+
+      !skip && (data["photo"] = file.base64);
       registerAccount(data);
     } else {
       Alert.error("Upload is required");

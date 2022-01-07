@@ -4,10 +4,16 @@ import { Step1 } from "./Step1";
 import { routerRedux } from "dva/router";
 
 export const mapStateToProps = (state, ownProps) => {
-  const { loading, authentication } = state;
+  const { loading, authentication, auxillary } = state;
   const { regForm } = authentication;
+  const { stateList } = auxillary;
+  const modiStateList = stateList.map((item) => ({
+    label: item.name,
+    ...item,
+  }));
   return {
     regForm,
+    modiStateList,
   };
 };
 
@@ -15,6 +21,9 @@ export const mapDispatchToProps = (dispatch, ownProps) => {
   return {
     redirect(pathname) {
       dispatch(routerRedux.push({ pathname: `${pathname}` }));
+    },
+    fetchStates(data) {
+      dispatch({ type: "auxillary/getAllStates" });
     },
     nextStep(data) {
       dispatch({

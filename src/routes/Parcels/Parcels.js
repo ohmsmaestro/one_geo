@@ -77,7 +77,7 @@ export const Parcels = (props) => {
             >
               View Detail
             </Dropdown.Item>
-            {accessList["VIEW_PARCEL_MAP"] && (
+            {accessList["VIEW_PARCEL"] && (
               <Dropdown.Item
                 onClick={() =>
                   redirect(`/parcels/view`, `?parcel=${record.FID}`)
@@ -86,32 +86,32 @@ export const Parcels = (props) => {
                 View Parcel
               </Dropdown.Item>
             )}
-            {accessList["VIEW_PARCEL_TDP"] && (
+            {accessList["VIEW_PARCEL"] && (
               <Dropdown.Item onClick={() => viewTDP(record)}>
                 View TDP
               </Dropdown.Item>
             )}
-            {accessList["CREATE_PARCEL_APPRAISAL"] && (
+            {accessList["VIEW_PARCEL"] && (
               <Dropdown.Item onClick={() => appraisalParcel(record)}>
                 Appraise Parcel
               </Dropdown.Item>
             )}
-            {accessList["CREATE_PARCEL_RENT"] && (
+            {accessList["VIEW_PARCEL"] && (
               <Dropdown.Item onClick={() => rentParcel(record)}>
                 Rent Parcel
               </Dropdown.Item>
             )}
-            {accessList["CREATE_ENCUMBRANCE"] && (
+            {accessList["VIEW_PARCEL"] && (
               <Dropdown.Item onClick={() => openEncumbranceModal(record)}>
                 Add Encumbrance
               </Dropdown.Item>
             )}
-            {accessList["CREATE_RECTIFICATION"] && (
+            {accessList["VIEW_PARCEL"] && (
               <Dropdown.Item onClick={() => openRectificationModal(record)}>
                 Add Rectification
               </Dropdown.Item>
             )}
-            {accessList["CREATE_WORK_QUERIES"] && (
+            {accessList["VIEW_PARCEL"] && (
               <Dropdown.Item>Work Queries</Dropdown.Item>
             )}
           </Dropdown.Menu>
@@ -148,10 +148,11 @@ export const Parcels = (props) => {
       key: "LAND_USE",
     },
     {
-      title: "Calculated Area",
+      title: "Cal. Area",
       dataIndex: "CALCULATED",
       key: "CALCULATED",
-      render: (text) => text && formatCurrency(text),
+      align: "right",
+      render: (text) => text && `${formatCurrency(text)} sqt meter`,
     },
     {
       title: "Date Created",

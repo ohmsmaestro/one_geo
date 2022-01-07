@@ -3,17 +3,25 @@ import { createForm } from "rc-form";
 import { RoleManagement } from "./RoleManagement";
 import { routerRedux } from "dva/router";
 
+import { storagePrivilege } from "../../utils/constant";
+
 const fetchActionURL = "users/getAllRoles";
 
 export const mapStateToProps = (state, ownProps) => {
   const { loading, users } = state;
   const { rolesList, rolesTotal } = users;
   const isLoading = loading.effects[fetchActionURL];
+
+  const accessList = localStorage.getItem(storagePrivilege)
+    ? JSON.parse(localStorage.getItem(storagePrivilege))
+    : {};
+
   return {
     isLoading,
     rolesList,
     rolesTotal,
     fetchActionURL,
+    accessList,
   };
 };
 

@@ -25,17 +25,22 @@ import CreateModal from "./CreateModal/index";
 
 export const UserManagement = (props) => {
   // state props
-  const { isLoading, usersList, usersTotal, fetchActionURL } = props;
+  const { isLoading, usersList, usersTotal, fetchActionURL, accessList } =
+    props;
 
   // dispatch props
-  const { getAllUsers, openCreateModal } = props;
+  const { getAllUsers, openCreateModal, redirect } = props;
 
   useEffect(() => {
-    let data = {
-      page: 1,
-      size: 10,
-    };
-    getAllUsers(data);
+    if (accessList["VIEW_USER"]) {
+      let data = {
+        page: 1,
+        size: 10,
+      };
+      getAllUsers(data);
+    } else {
+      redirect("/dashboard");
+    }
   }, []);
 
   let viewMode = calcViewMode();
@@ -50,7 +55,9 @@ export const UserManagement = (props) => {
           </Dropdown.Toggle>
           <Dropdown.Menu>
             <Dropdown.Item>View Profile</Dropdown.Item>
-            <Dropdown.Item>Edit Profile</Dropdown.Item>
+            {accessList["EDIT_USER"] && (
+              <Dropdown.Item>Edit Profile</Dropdown.Item>
+            )}
           </Dropdown.Menu>
         </Dropdown>
       </StyledDrpDown>
@@ -101,8 +108,6 @@ export const UserManagement = (props) => {
     },
   ];
 
-  console.log({ usersList });
-
   return (
     <>
       <Boxed pad="20px">
@@ -137,11 +142,13 @@ export const UserManagement = (props) => {
                     </Boxed>
                     <Boxed />
                     <Boxed />
-                    <Boxed pad="5px 0" align="right">
-                      <Button onClick={() => openCreateModal()}>
-                        Add User
-                      </Button>
-                    </Boxed>
+                    {accessList["CREATE_USER"] && (
+                      <Boxed pad="5px 0" align="right">
+                        <Button onClick={() => openCreateModal()}>
+                          Add User
+                        </Button>
+                      </Boxed>
+                    )}
                   </Grid>
                   {isLoading ? (
                     <Boxed display="flex" pad="20px">

@@ -21,11 +21,10 @@ export default {
     *getAllStates({ payload }, { call, put }) {
       const { raw, success, message } = yield call(getStates, payload);
       if (success) {
-        const list = raw?.data?.items;
-        const total = raw?.data?.pagination?.total_record;
+        const list = raw?.data?.states;
         yield put({
           type: "save",
-          payload: { stateList: list, stateTotal: total },
+          payload: { stateList: list },
         });
       } else {
         Alert.error(message);

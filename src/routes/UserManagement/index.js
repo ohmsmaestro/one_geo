@@ -3,128 +3,7 @@ import { createForm } from "rc-form";
 import { UserManagement } from "./UserManagement";
 import { routerRedux } from "dva/router";
 
-const sampleData = [
-  {
-    lastname: "Omenesa",
-    firstname: "Muhammed",
-    middlename: "Ozigi",
-    password: "123456",
-    phone: "08065383352",
-    email: "omenes2016@gmail.com",
-    department: "ict",
-    role_name: "admin",
-    role_id: 1,
-    photo: "",
-  },
-  {
-    lastname: "Omenesa",
-    firstname: "Muhammed",
-    middlename: "Ozigi",
-    password: "123456",
-    phone: "08065383352",
-    email: "omenes2016@gmail.com",
-    department: "ict",
-    role_name: "admin",
-    role_id: 1,
-    photo: "",
-  },
-  {
-    lastname: "Omenesa",
-    firstname: "Muhammed",
-    middlename: "Ozigi",
-    password: "123456",
-    phone: "08065383352",
-    email: "omenes2016@gmail.com",
-    department: "ict",
-    role_name: "admin",
-    role_id: 1,
-    photo: "",
-  },
-  {
-    lastname: "Omenesa",
-    firstname: "Muhammed",
-    middlename: "Ozigi",
-    password: "123456",
-    phone: "08065383352",
-    email: "omenes2016@gmail.com",
-    department: "ict",
-    role_name: "admin",
-    role_id: 1,
-    photo: "",
-  },
-  {
-    lastname: "Omenesa",
-    firstname: "Muhammed",
-    middlename: "Ozigi",
-    password: "123456",
-    phone: "08065383352",
-    email: "omenes2016@gmail.com",
-    department: "ict",
-    role_name: "admin",
-    role_id: 1,
-    photo: "",
-  },
-  {
-    lastname: "Omenesa",
-    firstname: "Muhammed",
-    middlename: "Ozigi",
-    password: "123456",
-    phone: "08065383352",
-    email: "omenes2016@gmail.com",
-    department: "ict",
-    role_name: "admin",
-    role_id: 1,
-    photo: "",
-  },
-  {
-    lastname: "Omenesa",
-    firstname: "Muhammed",
-    middlename: "Ozigi",
-    password: "123456",
-    phone: "08065383352",
-    email: "omenes2016@gmail.com",
-    department: "ict",
-    role_name: "admin",
-    role_id: 1,
-    photo: "",
-  },
-  {
-    lastname: "Omenesa",
-    firstname: "Muhammed",
-    middlename: "Ozigi",
-    password: "123456",
-    phone: "08065383352",
-    email: "omenes2016@gmail.com",
-    department: "ict",
-    role_name: "admin",
-    role_id: 1,
-    photo: "",
-  },
-  {
-    lastname: "Omenesa",
-    firstname: "Muhammed",
-    middlename: "Ozigi",
-    password: "123456",
-    phone: "08065383352",
-    email: "omenes2016@gmail.com",
-    department: "ict",
-    role_name: "admin",
-    role_id: 1,
-    photo: "",
-  },
-  {
-    lastname: "Omenesa",
-    firstname: "Muhammed",
-    middlename: "Ozigi",
-    password: "123456",
-    phone: "08065383352",
-    email: "omenes2016@gmail.com",
-    department: "ict",
-    role_name: "admin",
-    role_id: 1,
-    photo: "",
-  },
-];
+import { storagePrivilege } from "../../utils/constant";
 
 const fetchActionURL = "users/getAllUsers";
 
@@ -132,11 +11,17 @@ export const mapStateToProps = (state, ownProps) => {
   const { loading, users } = state;
   const { usersList, usersTotal } = users;
   const isLoading = loading.effects[fetchActionURL];
+
+  const accessList = localStorage.getItem(storagePrivilege)
+    ? JSON.parse(localStorage.getItem(storagePrivilege))
+    : {};
+
   return {
     isLoading,
     usersList,
     usersTotal,
     fetchActionURL,
+    accessList,
   };
 };
 

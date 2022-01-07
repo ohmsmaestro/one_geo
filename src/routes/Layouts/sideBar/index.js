@@ -14,7 +14,8 @@ const mapStateToProps = (state, ownProps) => {
   const { collaspe } = ownProps;
 
   let dataList = usersMenu;
-  const isAdmin = profile?.roles?.includes("ADMIN");
+
+  const isProprietor = profile?.isProprietor;
 
   const accessList = localStorage.getItem(storagePrivilege)
     ? JSON.parse(localStorage.getItem(storagePrivilege))
@@ -28,6 +29,7 @@ const mapStateToProps = (state, ownProps) => {
     pathname: state.routing.location.pathname,
     menuMode,
     accessList,
+    isProprietor,
   };
 };
 

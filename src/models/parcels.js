@@ -5,6 +5,7 @@ import {
   postEncumbrance,
   postRectification,
   postAppraisal,
+  getAppraisalType,
 } from "../services/parcels";
 
 import { storageParcelsModel } from "../utils/constant";
@@ -19,6 +20,7 @@ export default {
     createParcel: false,
     rentModal: false,
     appraisalModal: false,
+    appraisalTypes: [],
     encumbranceModal: false,
     rectificationModal: false,
   },
@@ -77,6 +79,19 @@ export default {
         yield put({
           type: "save",
           payload: { rentModal: false, parcelData: {} },
+        });
+      } else {
+        Alert.error(message);
+      }
+    },
+
+    *fetchAppraisalType({ payload }, { call, put }) {
+      const { raw, success, message } = yield call(getAppraisalType, payload);
+      if (success) {
+        const list = raw?.data?.appraisalTypes;
+        yield put({
+          type: "save",
+          payload: { appraisalTypes: list },
         });
       } else {
         Alert.error(message);

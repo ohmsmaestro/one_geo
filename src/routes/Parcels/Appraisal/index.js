@@ -6,10 +6,13 @@ import { routerRedux } from "dva/router";
 export const mapStateToProps = (state, ownProps) => {
   const { loading, parcels } = state;
   const isLoading = loading.effects["parcels/createAppraisal"];
-  const { appraisalModal } = parcels;
+  const { appraisalModal, appraisalTypes, parcelData } = parcels;
+
   return {
     appraisalModal,
     isLoading,
+    appraisalTypes,
+    parcelData,
   };
 };
 
@@ -20,6 +23,10 @@ export const mapDispatchToProps = (dispatch, ownProps) => {
     },
     createAppraisal(data) {
       dispatch({ type: "parcels/createAppraisal", payload: data });
+    },
+
+    fetchAppraisalType(data) {
+      dispatch({ type: "parcels/fetchAppraisalType", payload: data });
     },
     closeModal() {
       dispatch({

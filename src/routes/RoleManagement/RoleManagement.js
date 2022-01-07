@@ -11,29 +11,29 @@ import { Text } from "../../components/Text.components";
 import { Button } from "../../components/Button.components";
 import { Loader } from "../../components/Loader.components";
 import { EmptyState } from "../../components/EmptyState.components";
-import {
-  TableComponent,
-  PaginationComponent,
-} from "../../components/Table.components";
 import { PageTitle, Icon, StyledDrpDown } from "../../components/style";
 
-import { calcViewMode, formatDate } from "../../utils/utils";
-import { pageOptions } from "../../utils/constant";
+import { calcViewMode } from "../../utils/utils";
 import { Theme } from "../../utils/theme";
 
 export const RoleManagement = (props) => {
   // state props
-  const { isLoading, rolesList, rolesTotal, fetchActionURL } = props;
+  const { isLoading, rolesList, rolesTotal, fetchActionURL, accessList } =
+    props;
 
   // dispatch props
   const { getAllRoles, redirect, openCreateRole, openEditRole } = props;
 
   useEffect(() => {
-    let data = {
-      page: 1,
-      size: 10,
-    };
-    getAllRoles(data);
+    if (accessList["VIEW_ROLE"] || true) {
+      let data = {
+        page: 1,
+        size: 10,
+      };
+      getAllRoles(data);
+    } else {
+      redirect("/dashboard");
+    }
   }, []);
 
   let viewMode = calcViewMode();
