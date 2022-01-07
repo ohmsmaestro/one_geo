@@ -102,13 +102,13 @@ export const EncumbranceModal = (props) => {
           borderRadius={Theme.SecondaryRadius}
         >
           <Text fontSize={Theme.SecondaryFontSize}>
-            Parcel Number : <b>{parcelData.ParcelNumber}</b>
+            Plot Number : <b>{parcelData.ParcelNumber}</b>
           </Text>
           <Text fontSize={Theme.SecondaryFontSize}>
             Reg. Number : <b>{parcelData.REG_NUMBER}</b>
           </Text>
           <Text fontSize={Theme.SecondaryFontSize}>
-            Parcel Size :
+            Plot Size :
             <b>
               {parcelData.CALCULATED &&
                 formatCurrency(parcelData.CALCULATED || 0)}{" "}

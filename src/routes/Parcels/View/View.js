@@ -2,16 +2,10 @@ import React from "react";
 
 import PARCEL_VIEW from "../../../LIMSGIS/map.htm";
 
+import { MAP_URL } from "../../../utils/config";
+
 export const View = (props) => {
   const { search } = props;
-  const mapURL = `https://limsone.com.ng/map.html${search ? search : ""}`;
-  console.log({ mapURL });
-  return (
-    <iframe
-      src={mapURL}
-      // src={`${PARCEL_VIEW}`}
-      width="100%"
-      height="100%"
-    ></iframe>
-  );
+  const mapURL = `${MAP_URL}/map.html${search ? search : ""}`;
+  return <iframe src={mapURL} width="100%" height="100%"></iframe>;
 };

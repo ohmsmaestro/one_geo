@@ -110,7 +110,7 @@ export const Appraisal = (props) => {
         show={appraisalModal}
         size={"md"}
         onHide={closeModal}
-        title={<PageTitle margin="5px 0">Parcel Appraisal</PageTitle>}
+        title={<PageTitle margin="5px 0">Plot Appraisal</PageTitle>}
         footer={
           <>
             <Button pale onClick={closeModal}>
@@ -121,7 +121,7 @@ export const Appraisal = (props) => {
               disabled={isLoading}
               onClick={onSubmit}
             >
-              Appraise Parcel
+              Appraise Plot
             </Button>
           </>
         }

@@ -11,13 +11,16 @@ import { Theme } from "../../../utils/theme";
 
 import ARROW_ICON from "../../../assets/img/north-arrow.png";
 
+import { MAP_URL } from "../../../utils/config";
+
 export const TDP = (props) => {
   // state props received
   const { search, parcelData } = props;
 
   // dispatch props received
   const { redirect } = props;
-  console.log(parcelData);
+
+  const mapURL = `${MAP_URL}/map.html${search ? search : ""}`;
 
   return (
     <Boxed pad="10px 20px">
@@ -58,8 +61,7 @@ export const TDP = (props) => {
             <img src={ARROW_ICON} width="38px" alt="north-arrow" />
           </Boxed>
           <iframe
-            src={`https://limsone.com.ng/map.html${search ? search : ""}`}
-            // src={`${PARCEL_VIEW}`}
+            src={mapURL}
             width="100%"
             height="375px"
             style={{ width: "500px", margin: "auto" }}

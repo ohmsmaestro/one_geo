@@ -122,7 +122,7 @@ export const Parcels = (props) => {
 
   const columns = [
     {
-      title: "Parcel Number",
+      title: "Plot Number",
       dataIndex: "ParcelNumber",
       key: "ParcelNumber",
     },
@@ -173,7 +173,7 @@ export const Parcels = (props) => {
   return (
     <>
       <Boxed pad="20px">
-        <PageTitle>Parcels</PageTitle>
+        <PageTitle>Plot</PageTitle>
         <Boxed
           pad="20px 10px"
           background={Theme.TertiaryDark}

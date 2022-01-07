@@ -10,7 +10,7 @@ const usersMenu = [
       },
       {
         icon: "icon-briefcase-1",
-        label: "Parcels",
+        label: "Plot",
         pathname: "/parcels",
         role: ["VIEW_PARCEL"],
       },
