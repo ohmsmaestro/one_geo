@@ -53,7 +53,7 @@ export const Applications = (props) => {
             >
               Review
             </Dropdown.Item>
-            <Dropdown.Item>Allocate Parcel</Dropdown.Item>
+            <Dropdown.Item>Allocate Plot</Dropdown.Item>
           </Dropdown.Menu>
         </Dropdown>
       </StyledDrpDown>
@@ -178,7 +178,7 @@ export const Applications = (props) => {
   return (
     <>
       <Boxed pad="20px">
-        <PageTitle>Application Request</PageTitle>
+        <PageTitle>Plot Application Request</PageTitle>
         <Boxed
           pad="20px 10px"
           background={Theme.TertiaryDark}
@@ -207,6 +207,11 @@ export const Applications = (props) => {
                     </Boxed>
                     <Boxed />
                     <Boxed />
+                    <Boxed pad="5px 0" align="right">
+                      <Button onClick={() => redirect("application/create")}>
+                        Create Application
+                      </Button>
+                    </Boxed>
                   </Grid>
                   {isLoading ? (
                     <Boxed display="flex" pad="20px">

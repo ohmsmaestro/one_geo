@@ -10,3 +10,12 @@ export async function getStates(data) {
     data,
   });
 }
+
+export async function getRequirements(data) {
+  const url = `${endpoint}/signup/requirements`;
+  return await request({
+    url,
+    method: "GET",
+    data,
+  });
+}

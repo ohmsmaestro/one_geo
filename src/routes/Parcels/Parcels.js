@@ -83,7 +83,7 @@ export const Parcels = (props) => {
                   redirect(`/parcels/view`, `?parcel=${record.FID}`)
                 }
               >
-                View Parcel
+                View Plot
               </Dropdown.Item>
             )}
             {accessList["VIEW_PARCEL"] && (
@@ -103,12 +103,12 @@ export const Parcels = (props) => {
             )}
             {accessList["VIEW_PARCEL"] && (
               <Dropdown.Item onClick={() => openEncumbranceModal(record)}>
-                Add Encumbrance
+                Create Encumbrance
               </Dropdown.Item>
             )}
             {accessList["VIEW_PARCEL"] && (
               <Dropdown.Item onClick={() => openRectificationModal(record)}>
-                Add Rectification
+                Create Rectification
               </Dropdown.Item>
             )}
             {accessList["VIEW_PARCEL"] && (

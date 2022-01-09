@@ -25,6 +25,7 @@ import Rectification from "./routes/Rectification/index";
 import Encumbrance from "./routes/Encumbrance/index";
 import Archived from "./routes/Archived/index";
 import Applications from "./routes/Applications/index";
+import CreateApplication from "./routes/Applications/CreateApplication/index";
 import ApplicationReview from "./routes/Applications/Review/index";
 import UsersManagement from "./routes/UserManagement/index";
 import RoleManagement from "./routes/RoleManagement/index";
@@ -149,6 +150,13 @@ export function RouterConfig({ history, app }) {
             exact
             render={(props) => {
               return <Applications {...props} />;
+            }}
+          />
+          <Route
+            path="/application/create"
+            exact
+            render={(props) => {
+              return <CreateApplication {...props} />;
             }}
           />
           <Route

@@ -143,7 +143,7 @@ export const RectificationModal = (props) => {
           borderRadius={Theme.SecondaryRadius}
         >
           <Text fontSize={Theme.SecondaryFontSize}>
-            Parcel Number : <b>{parcelData.ParcelNumber}</b>
+            Plot Number : <b>{parcelData.ParcelNumber}</b>
           </Text>
         </Boxed>
         <Grid

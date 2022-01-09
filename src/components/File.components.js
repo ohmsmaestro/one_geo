@@ -29,7 +29,7 @@ export const FileComponent = (props) => {
   return (
     <>
       <Boxed pad="0 0 10px 0" align="center">
-        <img src={ICON} alt={`${name}`} height="110px" />
+        <img src={ICON} alt={`${name}`} height="80px" />
       </Boxed>
       <Text padding="10px 0" align="center">
         {name}

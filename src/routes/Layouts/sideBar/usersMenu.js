@@ -2,12 +2,12 @@ const usersMenu = [
   {
     title: " ",
     list: [
-      {
-        icon: "icon-gauge",
-        label: "Dashboard",
-        pathname: "/dashboard",
-        role: ["VIEW_PARCEL"],
-      },
+      // {
+      //   icon: "icon-gauge",
+      //   label: "Dashboard",
+      //   pathname: "/dashboard",
+      //   role: ["VIEW_PARCEL"],
+      // },
       {
         icon: "icon-briefcase-1",
         label: "Plot",
@@ -16,13 +16,13 @@ const usersMenu = [
       },
       {
         icon: "icon-forward-outline",
-        label: "Applications",
+        label: "Plot Applications",
         pathname: "/application",
         role: ["VIEW_PARCEL"],
       },
       {
         icon: "icon-forward-outline",
-        label: "Owners",
+        label: "Proprietor Entries",
         pathname: "/entries",
         role: ["VIEW_PARCEL"],
       },
@@ -46,7 +46,7 @@ const usersMenu = [
       },
       {
         icon: "icon-home",
-        label: "Survey",
+        label: "Survey/GIS",
         pathname: "/survey",
         role: ["VIEW_PARCEL"],
       },

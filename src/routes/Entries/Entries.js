@@ -48,10 +48,7 @@ export const Entries = (props) => {
           </Dropdown.Toggle>
           <Dropdown.Menu>
             <Dropdown.Item>View Details</Dropdown.Item>
-            <Dropdown.Item>Terminate Entry</Dropdown.Item>
-            <Dropdown.Item>Edit Entry</Dropdown.Item>
-            <Dropdown.Item>View Encumbrance</Dropdown.Item>
-            <Dropdown.Item>Rectification</Dropdown.Item>
+            <Dropdown.Item>Terminate Ownership</Dropdown.Item>
           </Dropdown.Menu>
         </Dropdown>
       </StyledDrpDown>
@@ -65,7 +62,7 @@ export const Entries = (props) => {
       key: "entry_number",
     },
     {
-      title: "Parcel No.",
+      title: "Plot No.",
       dataIndex: "parcel_number",
       key: "parcel_number",
     },

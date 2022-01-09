@@ -1,12 +1,13 @@
 import { Alert } from "../components/Alert.components";
 
-import { getStates } from "../services/auxillary";
+import { getStates, getRequirements } from "../services/auxillary";
 
 export default {
   namespace: "auxillary",
 
   state: {
     stateList: [],
+    requirementList: [],
     stateTotal: 0,
     createLawModal: false,
   },
@@ -25,6 +26,18 @@ export default {
         yield put({
           type: "save",
           payload: { stateList: list },
+        });
+      } else {
+        Alert.error(message);
+      }
+    },
+    *getAllRequirements({ payload }, { call, put }) {
+      const { raw, success, message } = yield call(getRequirements, payload);
+      if (success) {
+        const list = raw?.data?.requirements;
+        yield put({
+          type: "save",
+          payload: { requirementList: list },
         });
       } else {
         Alert.error(message);

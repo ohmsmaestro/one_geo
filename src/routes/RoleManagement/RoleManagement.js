@@ -57,31 +57,6 @@ export const RoleManagement = (props) => {
     );
   };
 
-  const columns = [
-    {
-      title: "role name",
-      dataIndex: "role_name",
-      key: "role_name",
-    },
-    {
-      title: "Parcel No.",
-      dataIndex: "parcel_number",
-      key: "parcel_number",
-    },
-    {
-      title: "No. of Users",
-      dataIndex: "users_count",
-      key: "users_count",
-    },
-    {
-      title: "",
-      dataIndex: "action",
-      key: "action",
-      align: "right",
-      render: (text, record) => <DropDownMenu record={record} />,
-    },
-  ];
-
   return (
     <>
       <Boxed pad="20px">
