@@ -83,7 +83,7 @@ export const Review = (props) => {
                 <>
                   <Button
                     color={Theme.PrimaryRed}
-                    onClick={() => openDecisionModal("DECLINED")}
+                    onClick={() => openDecisionModal("REJECTED")}
                   >
                     Decline
                   </Button>

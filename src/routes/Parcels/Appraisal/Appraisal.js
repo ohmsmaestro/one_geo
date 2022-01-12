@@ -19,7 +19,13 @@ export const Appraisal = (props) => {
 
   // Dispatch props
   const { form, createAppraisal, closeModal, fetchAppraisalType } = props;
-  const { getFieldProps, getFieldError, validateFields, setFieldsValue } = form;
+  const {
+    getFieldProps,
+    getFieldError,
+    validateFields,
+    setFieldsValue,
+    getFieldValue,
+  } = form;
 
   const [file, setFile] = useState({});
   const [firstDivisionList, setFirstDivisionList] = useState([]);
@@ -66,10 +72,23 @@ export const Appraisal = (props) => {
         console.log({ parcelData });
         console.log(value);
         let data = {
+          type1: value.type1.id,
+          type1SubDivision: value.type1SubDivision.id,
+          type1Value: value.type1SubDivision.value,
+          type2: "",
+          type2SubDivision: "",
+          type2Value: "",
+          leaseTerm: value.leaseTerm,
           fileFormat: "pdf",
           file: file.base64,
+          parcels: [
+            {
+              parcelNumber: parcelData.ParcelNumber,
+              parcelSize: parcelData.Shape__Area,
+            },
+          ],
         };
-        // createAppraisal(data);
+        createAppraisal(data);
       }
     });
   };
@@ -80,28 +99,14 @@ export const Appraisal = (props) => {
   });
 
   const handleFirstType = (item) => {
-    console.log({ item });
     setFieldsValue({
       type1SubDivision: null,
-      type2: null,
-      type2SubDivision: null,
     });
     const list = item.subTypes.map((element) => ({
       label: element.description,
       ...element,
     }));
     setFirstDivisionList(list);
-  };
-
-  const handleSecondType = (item) => {
-    console.log({ item });
-
-    const list = item.subTypes.map((element) => ({
-      label: element.description,
-      ...element,
-    }));
-    setFieldsValue({ type2SubDivision: null });
-    setSecondDivisionList(list);
   };
 
   return (
@@ -133,7 +138,7 @@ export const Appraisal = (props) => {
         >
           <Boxed pad="10px 0">
             <AsyncSelect
-              label="Appraisal Type 1"
+              label="Appraisal Type"
               placeholder="Select Type..."
               options={modiAppraisalType}
               error={
@@ -160,79 +165,33 @@ export const Appraisal = (props) => {
                   : null
               }
               {...getFieldProps("type1SubDivision", {
-                initialValue: "",
-                rules: [{ required: true }],
-              })}
-            />
-          </Boxed>
-
-          <Boxed>
-            <Input
-              label="Lease Term"
-              type="number"
-              placeholder="Select lease term..."
-              error={
-                (errors = getFieldError("type1"))
-                  ? "Appraisal Type is required"
-                  : null
-              }
-              {...getFieldProps("type1", {
-                initialValue: "",
-                rules: [{ required: true }],
-                onChange: (value) => handleFirstType(value),
-              })}
-            />
-          </Boxed>
-          {/* <Boxed pad="10px 0">
-            <AsyncSelect
-              label=" Sub Division"
-              placeholder="Select sub division..."
-              options={firstDivisionList}
-              error={
-                (errors = getFieldError("type1SubDivision"))
-                  ? "Sub Division is required"
-                  : null
-              }
-              {...getFieldProps("type1SubDivision", {
-                initialValue: "",
-                rules: [{ required: true }],
-              })}
-            />
-          </Boxed>
-          <Boxed pad="10px 0">
-            <AsyncSelect
-              label="Appraisal Type 2"
-              placeholder="Select Type..."
-              options={modiAppraisalType}
-              error={
-                (errors = getFieldError("type2"))
-                  ? "Appraisal Type is required"
-                  : null
-              }
-              {...getFieldProps("type2", {
-                initialValue: "",
-                rules: [{ required: true }],
-                onChange: (value) => handleSecondType(value),
-              })}
-            />
-          </Boxed> */}
-          <Boxed pad="10px 0">
-            <AsyncSelect
-              label=" Sub Division"
-              placeholder="Select sub division..."
-              options={secondDivisionList}
-              error={
-                (errors = getFieldError("type2SubDivision"))
-                  ? "Sub Division is required"
-                  : null
-              }
-              {...getFieldProps("type2SubDivision", {
                 initialValue: "",
                 rules: [{ required: true }],
               })}
             />
           </Boxed>
         </Grid>
+        <Boxed pad="10px 0">
+          <Input
+            label="Lease Term (Years)"
+            type="number"
+            min={0}
+            placeholder="Select lease term..."
+            error={
+              (errors = getFieldError("leaseTerm"))
+                ? "Lease Term is required"
+                : null
+            }
+            {...getFieldProps("leaseTerm", {
+              initialValue: "",
+              rules: [{ required: true }],
+            })}
+          />
+        </Boxed>
+        <Text padding="10px 0">
+          Selected the aprraisal value :{" "}
+          <b>{getFieldValue("type1SubDivision")?.value}</b>
+        </Text>
         <Boxed pad="10px 0">
           <Text fontSize={Theme.SecondaryFontSize} fontWeight="bold">
             Upload Instrument
