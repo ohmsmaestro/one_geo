@@ -1,7 +1,5 @@
 import React from "react";
 
-import PARCEL_VIEW from "../../../LIMSGIS/map.htm";
-
 import { MAP_URL } from "../../../utils/config";
 
 export const View = (props) => {

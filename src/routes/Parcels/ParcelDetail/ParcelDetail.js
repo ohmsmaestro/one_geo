@@ -6,7 +6,6 @@ import { Boxed } from "../../../components/Boxed.components";
 import { Text } from "../../../components/Text.components";
 import { Button } from "../../../components/Button.components";
 
-import PARCEL_VIEW from "../../../LIMSGIS/map.htm";
 import { Theme } from "../../../utils/theme";
 import { formatCurrency } from "../../../utils/utils";
 
