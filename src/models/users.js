@@ -54,7 +54,7 @@ export default {
       const { raw, success, message } = yield call(getUsers, payload);
       if (success) {
         const list = raw?.data?.users;
-        const total = raw?.data?.pagination?.total_record;
+        const total = raw?.data?.pagination?.totalRecord;
         yield put({
           type: "save",
           payload: { usersList: list, usersTotal: 9 },
@@ -85,7 +85,7 @@ export default {
       const { raw, success, message } = yield call(getRoles, payload);
       if (success) {
         const list = raw?.data?.roles;
-        const total = raw?.data?.pagination?.total_record;
+        const total = raw?.data?.pagination?.totalRecord;
         yield put({
           type: "save",
           payload: { rolesList: list, rolesTotal: 2 },
