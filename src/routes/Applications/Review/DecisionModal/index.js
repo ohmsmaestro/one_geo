@@ -1,18 +1,16 @@
 import { connect } from "dva";
 import { createForm } from "rc-form";
-import { DetailModal } from "./DetailModal";
+import { DecisionModal } from "./DecisionModal";
 import { routerRedux } from "dva/router";
 
 export const mapStateToProps = (state, ownProps) => {
   const { loading, entries } = state;
   const isLoading = loading.effects["entries/getEncumbranceDetail"];
-  const isloadingFile = loading.effects["entries/getEncumbranceFile"];
-  const { encumbranceDetailModal, entryData } = entries;
+  const { applicationDetail, decisionModal } = entries;
   return {
-    encumbranceDetailModal,
-    entryData,
+    applicationDetail,
     isLoading,
-    isloadingFile,
+    decisionModal,
   };
 };
 
@@ -21,13 +19,10 @@ export const mapDispatchToProps = (dispatch, ownProps) => {
     redirect(pathname) {
       dispatch(routerRedux.push({ pathname: `${pathname}` }));
     },
-    getEncumbranceFile(data) {
-      dispatch({ type: "entries/getEncumbranceFile", payload: data });
-    },
     closeModal() {
       dispatch({
         type: "entries/save",
-        payload: { encumbranceDetailModal: false, entryData: {} },
+        payload: { decisionModal: false },
       });
     },
   };
@@ -36,4 +31,4 @@ export const mapDispatchToProps = (dispatch, ownProps) => {
 export default connect(
   mapStateToProps,
   mapDispatchToProps
-)(createForm()(DetailModal));
+)(createForm()(DecisionModal));

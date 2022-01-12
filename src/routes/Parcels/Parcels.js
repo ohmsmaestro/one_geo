@@ -93,12 +93,12 @@ export const Parcels = (props) => {
             )}
             {accessList["VIEW_PARCEL"] && (
               <Dropdown.Item onClick={() => appraisalParcel(record)}>
-                Appraise Parcel
+                Appraise Plot
               </Dropdown.Item>
             )}
             {accessList["VIEW_PARCEL"] && (
               <Dropdown.Item onClick={() => rentParcel(record)}>
-                Rent Parcel
+                Rent Plot
               </Dropdown.Item>
             )}
             {accessList["VIEW_PARCEL"] && (

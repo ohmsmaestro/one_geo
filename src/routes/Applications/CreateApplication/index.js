@@ -4,7 +4,7 @@ import { routerRedux } from "dva/router";
 import { createForm } from "rc-form";
 
 export const mapStateToProps = (state, ownProps) => {
-  const { loading, auxillary } = state;
+  const { loading, auxillary, entries } = state;
   const { stateList, requirementList } = auxillary;
 
   const modiStateList = stateList.map((item) => ({
@@ -16,7 +16,7 @@ export const mapStateToProps = (state, ownProps) => {
     ...item,
   }));
 
-  const isLoading = loading.effects["parcels/postApplication"];
+  const isLoading = loading.effects["entries/postApplication"];
   const isLoadingStates = loading.effects["auxillary/getAllStates"];
   const isLoadingRequirements = loading.effects["auxillary/getAllStates"];
 
@@ -44,7 +44,7 @@ export const mapDispatchToProps = (dispatch, ownProps) => {
     },
 
     postApplication(data) {
-      dispatch({ type: "parcels/postApplication", payload: data });
+      dispatch({ type: "entries/postApplication", payload: data });
     },
   };
 };

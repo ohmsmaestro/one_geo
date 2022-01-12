@@ -11,15 +11,23 @@ export async function getEntries(data) {
 }
 
 export async function getApplications(data) {
-  const url = `${endpoint}/applications/paginated?`;
+  const url = `${endpoint}/applications`;
   return await request({
     url,
     method: "GET",
     data,
   });
 }
+export async function postApplication(data) {
+  const url = `${endpoint}/signup/internal`;
+  return await request({
+    url,
+    method: "POST",
+    data,
+  });
+}
 export async function getApplicationDetail(data) {
-  const url = `${endpoint}/applications/${data.id}`;
+  const url = `${endpoint}/applications/documents/${data.id}`;
   return await request({
     url,
     method: "GET",

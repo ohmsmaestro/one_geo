@@ -67,7 +67,7 @@ export const Entries = (props) => {
       key: "parcel_number",
     },
     {
-      title: "Proprietor",
+      title: "Owner",
       dataIndex: "proprietor",
       key: "proprietor",
     },
@@ -129,7 +129,7 @@ export const Entries = (props) => {
   return (
     <>
       <Boxed pad="20px">
-        <PageTitle>Proprietor Entry</PageTitle>
+        <PageTitle>Owners Entry</PageTitle>
         <Boxed
           pad="20px 10px"
           background={Theme.TertiaryDark}

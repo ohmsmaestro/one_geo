@@ -1,13 +1,16 @@
+import { routerRedux } from "dva/router";
 import { Alert } from "../components/Alert.components";
 
 import {
   getEntries,
   getApplications,
+  postApplication,
   getApplicationDetail,
   getRectifications,
   getRectificationDetail,
   getRectificationFile,
   getEncumbrances,
+  getEncumbranceFile,
   postTerminateEncumbrance,
   getEncumbranceDetail,
 } from "../services/entries";
@@ -54,11 +57,21 @@ export default {
         Alert.error(message);
       }
     },
+
+    *postApplication({ payload }, { call, put }) {
+      const { success, raw, message } = yield call(postApplication, payload);
+      if (success) {
+        Alert.success("Application has been created successfully.");
+        yield put(routerRedux.push({ pathname: "/application" }));
+      } else {
+        Alert.error(message);
+      }
+    },
     *getAllApplications({ payload }, { call, put }) {
       const { raw, success, message } = yield call(getApplications, payload);
       if (success) {
-        const list = raw?.data?.items;
-        const total = raw?.data?.pagination?.total_record;
+        const list = raw?.data?.applications;
+        const total = raw?.data?.pagination?.totalRecord;
         yield put({
           type: "save",
           payload: { applicationsList: list, applicationsTotal: total },
@@ -68,17 +81,36 @@ export default {
       }
     },
     *getApplicationDetail({ payload }, { call, put }) {
-      const { raw, success, message } = yield call(
-        getApplicationDetail,
-        payload
-      );
-      if (success) {
+      // Fetch application details
+      const detail_response = yield call(getApplications, {
+        page: 1,
+        size: 1,
+        search: payload.id,
+      });
+
+      if (detail_response.success) {
+        const details = detail_response.raw?.data?.applications[0];
+        console.log(details);
+        // fetch applciation requirement list uploaded
+        const { raw, success, message } = yield call(
+          getApplicationDetail,
+          payload
+        );
+        const data = raw?.data ? raw?.data : {};
+        if (success) {
+          yield put({
+            type: "save",
+            payload: { applicationDetail: { ...payload, ...data, ...details } },
+          });
+        } else {
+          Alert.error(message);
+        }
+      } else {
+        Alert.error(detail_response.message);
         yield put({
           type: "save",
-          payload: { applicationDetail: raw },
+          payload: { applicationDetail: {} },
         });
-      } else {
-        Alert.error(message);
       }
     },
 
@@ -96,18 +128,6 @@ export default {
       }
     },
     *getRectificationDetail({ payload }, { call, put, select }) {
-      const sample_data = {
-        close: true,
-        closedBy: "Jante Adebowale",
-        createdAt: "2021-12-04 05:10:26",
-        createdBy: "samuel ejdnfjqwe",
-        dateClosed: "2021-12-09",
-        description: "Jante is closing this encumbrance",
-        fileFormat: "pdf",
-        fileName: "02.pdf",
-        id: 2,
-        parcelNumber: "45",
-      };
       const { raw, success, message } = yield call(
         getRectificationDetail,
         payload.id
@@ -206,6 +226,23 @@ export default {
       );
       if (success) {
         console.log(raw);
+      } else {
+        Alert.error(message);
+      }
+    },
+
+    *getEncumbranceFile({ payload }, { call, put, select }) {
+      const { raw, success, message } = yield call(
+        getEncumbranceFile,
+        payload.fileName
+      );
+      if (success) {
+        console.log({ raw });
+        const data = raw?.data ? raw?.data : {};
+        yield put({
+          type: "save",
+          payload: { entryData: { ...payload, ...data } },
+        });
       } else {
         Alert.error(message);
       }

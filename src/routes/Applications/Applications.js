@@ -53,7 +53,9 @@ export const Applications = (props) => {
             >
               Review
             </Dropdown.Item>
-            <Dropdown.Item>Allocate Plot</Dropdown.Item>
+            {record.status === "APPROVED" && (
+              <Dropdown.Item>Allocate Plot</Dropdown.Item>
+            )}
           </Dropdown.Menu>
         </Dropdown>
       </StyledDrpDown>
@@ -63,13 +65,18 @@ export const Applications = (props) => {
   const columns = [
     {
       title: "App. Number",
-      dataIndex: "application_number",
-      key: "application_number",
+      dataIndex: "id",
+      key: "id",
     },
     {
       title: "Full Name",
-      dataIndex: "full_name",
-      key: "full_name",
+      dataIndex: "lastname",
+      key: "lastname",
+      render: (text, record) =>
+        text &&
+        `${record.firstname ? record.firstname : ""}  ${
+          record.middlename ? record.middlename : ""
+        } ${text}`,
     },
     {
       title: "Email",
@@ -78,8 +85,8 @@ export const Applications = (props) => {
     },
     {
       title: "Submit Date",
-      dataIndex: "created_at",
-      key: "created_at",
+      dataIndex: "createdAt",
+      key: "createdAt",
       render: (text) => text && formatDate(text),
     },
     {
@@ -107,7 +114,7 @@ export const Applications = (props) => {
                 ALLOCATED
               </Text>
             );
-          case "PENDING_REVIEW":
+          case "PENDING":
             return (
               <Text
                 color={Theme.PrimaryYellow}
@@ -125,7 +132,7 @@ export const Applications = (props) => {
               </Text>
             );
 
-          case "PENDING_ALLOCATION":
+          case "APPROVED":
             return (
               <Text
                 color={Theme.PrimaryBlue}

@@ -56,7 +56,7 @@ export const Encumbrance = (props) => {
       key: "description",
     },
     {
-      title: "Parcel Number",
+      title: "Plot Number",
       dataIndex: "parcelNumber",
       key: "parcelNumber",
     },
@@ -138,7 +138,7 @@ export const Encumbrance = (props) => {
                     <Boxed pad="5px 0">
                       <Input
                         type="search"
-                        placeholder="Search by parcel number"
+                        placeholder="Search by plot number"
                       />
                     </Boxed>
                     <Boxed />

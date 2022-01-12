@@ -22,7 +22,7 @@ const usersMenu = [
       },
       {
         icon: "icon-forward-outline",
-        label: "Proprietor Entries",
+        label: "Owners Entries",
         pathname: "/entries",
         role: ["VIEW_PARCEL"],
       },

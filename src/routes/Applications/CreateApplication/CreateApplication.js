@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from "react";
+import moment from "moment";
 import Upload from "rc-upload";
 
 import {
@@ -30,7 +31,8 @@ export const CreateApplication = (props) => {
   } = props;
 
   // dispatch props received
-  const { form, redirect, fetchStates, getAllRequirements } = props;
+  const { form, redirect, fetchStates, getAllRequirements, postApplication } =
+    props;
   const {
     getFieldProps,
     getFieldError,
@@ -86,28 +88,13 @@ export const CreateApplication = (props) => {
     validateFields((error, value) => {
       if (!error) {
         let errorExist = false;
-        let data = {
-          firstname: value.firstname.trim(),
-          middlename: value.middlename ? value.middlename.trim() : "",
-          lastname: value.lastname.trim(),
-          phone: value.phone.trim(),
-          email: value.email.trim(),
-          gender: value.gender,
-          dob: value.dob,
-          stateOfOrigin: value.stateOfOrigin.stateId,
-          lgaOfOrigin: value.lgaOfOrigin.lgaId,
-          stateOfResidence: value.stateOfResidence.stateId,
-          lgaOfResidence: value.lgaOfResidence.lgaId,
-          residentialAddress: value.residentialAddress,
-          nin: value.nin,
-        };
 
         let requireList = [];
         modiRequirementList.forEach((item) => {
           if (requirementFiles[item.id]) {
             requireList.push({
               requirementId: item.id,
-              fileFormate: "pdf",
+              fileFormat: "pdf",
               file: requirementFiles[item.id]?.base64,
             });
           } else {
@@ -117,8 +104,24 @@ export const CreateApplication = (props) => {
         if (errorExist) {
           Alert.error("All requirement files are compulsory.");
         } else {
-          data["files"] = requireList;
-          console.log(data);
+          let data = {
+            firstname: value.firstname.trim(),
+            middlename: value.middlename ? value.middlename.trim() : "",
+            lastname: value.lastname.trim(),
+            phone: value.phone.trim(),
+            email: value.email.trim(),
+            gender: value.gender,
+            dob: moment(value.dob).format("YYYY-MM-DD"),
+            stateOfOrigin: value.stateOfOrigin.stateId,
+            lgaOfOrigin: value.lgaOfOrigin.lgaId,
+            stateOfResidence: value.stateOfResidence.stateId,
+            lgaOfResidence: value.lgaOfResidence.lgaId,
+            residentialAddress: value.residentialAddress,
+            nin: value.nin,
+            photo: "",
+            files: requireList,
+          };
+          postApplication(data);
         }
       }
     });
@@ -155,7 +158,6 @@ export const CreateApplication = (props) => {
     setLgaResidenceList(list ? list : []);
   };
 
-  console.log({ requirementFiles });
   return (
     <Boxed pad="20px">
       <PageTitle>
@@ -463,6 +465,7 @@ export const CreateApplication = (props) => {
       <Boxed pad="25px 0 0 0" display="flex">
         <Button
           disabled={isLoadingRequirements || isLoading}
+          progress={isLoading}
           onClick={onSubmit}
           margin=" 0 0 0 auto"
         >

@@ -35,9 +35,9 @@ export default {
     setup({ dispatch, history }) {
       // eslint-disable-line
       try {
-        let parcels_model = localStorage.getItem(storageUsersModel);
-        if (parcels_model) {
-          let data = JSON.parse(parcels_model);
+        let users_model = localStorage.getItem(storageUsersModel);
+        if (users_model) {
+          let data = JSON.parse(users_model);
           dispatch({
             type: "save",
             payload: data,

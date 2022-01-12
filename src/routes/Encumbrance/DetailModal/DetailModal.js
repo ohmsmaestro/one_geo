@@ -16,10 +16,10 @@ export const DetailModal = (props) => {
   const { encumbranceDetailModal, isLoading, entryData, isloadingFile } = props;
 
   // Dispatch props
-  const { getEncumbranceDetail, closeModal } = props;
+  const { getEncumbranceFile, closeModal } = props;
 
   useEffect(() => {
-    getEncumbranceDetail(entryData);
+    getEncumbranceFile(entryData);
   }, []);
 
   let viewMode = calcViewMode();
@@ -48,7 +48,7 @@ export const DetailModal = (props) => {
           borderRadius={Theme.SecondaryRadius}
         >
           <Text fontSize={Theme.SecondaryFontSize}>
-            Entry Type : <b>{entryData.entity}</b>
+            Plot Number : <b>{entryData.parcelNumber}</b>
           </Text>
           <Text fontSize={Theme.SecondaryFontSize}>
             Description : <b>{entryData.description}</b>
@@ -61,66 +61,24 @@ export const DetailModal = (props) => {
             <b>{entryData.createdAt && formatDate(entryData.createdAt)}</b>
           </Text>
         </Boxed>
-
-        {isLoading ? (
+        {isloadingFile ? (
           <Boxed pad="20px" display="flex">
             <Loader margin="auto" />
           </Boxed>
         ) : (
           <>
-            {entryData.fields &&
-              entryData.fields.map((item) => {
-                return (
-                  <Boxed margin="10px 0">
-                    <Boxed
-                      pad="5px 8px"
-                      background={`${Theme.SecondaryDark}60`}
-                      borderRadius={`${Theme.SecondaryRadius} ${Theme.SecondaryRadius} 0 0`}
-                    >
-                      <Text>
-                        <b>{item.fieldName}</b>
-                      </Text>
-                    </Boxed>
-                    <Boxed pad="5px 8px" background={`${Theme.PrimaryGreen}20`}>
-                      <Text color={Theme.PrimaryGreen}>
-                        New: <b>{item.newValue}</b>
-                      </Text>
-                    </Boxed>
-                    <Boxed
-                      pad="5px 8px"
-                      background={`${Theme.PrimaryRed}30`}
-                      borderRadius={`0 0 ${Theme.SecondaryRadius} ${Theme.SecondaryRadius}`}
-                    >
-                      <Text color={Theme.PrimaryRed}>
-                        Old: <b>{item.oldValue}</b>
-                      </Text>
-                    </Boxed>
-                  </Boxed>
-                );
-              })}
-
-            {isloadingFile ? (
-              <Boxed pad="20px" display="flex">
-                <Loader margin="auto" />
-              </Boxed>
-            ) : (
-              <>
-                {entryData.file && entryData.fileFormat === "pdf" && (
+            {entryData.file && entryData.fileFormat === "pdf" && (
+              <Boxed pad="10px 0">
+                <Text fontWeight="bold">Instrument</Text>
+                {
                   <Boxed>
-                    <Text fontWeight="bold">Instrument</Text>
-                    {
-                      <Boxed>
-                        <PDFReader document={{ base64: entryData.file }} />
-                      </Boxed>
-                    }
+                    <PDFReader document={{ base64: entryData.file }} />
                   </Boxed>
-                )}
-              </>
+                }
+              </Boxed>
             )}
           </>
         )}
-
-        {}
       </ModalComponent>
     </>
   );

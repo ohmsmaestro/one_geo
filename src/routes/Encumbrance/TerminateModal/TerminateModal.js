@@ -107,7 +107,7 @@ export const TerminateModal = (props) => {
           borderRadius={Theme.SecondaryRadius}
         >
           <Text fontSize={Theme.SecondaryFontSize}>
-            Parcel Number: <b>{entryData.parcelNumber}</b>
+            Plot Number: <b>{entryData.parcelNumber}</b>
           </Text>
           <Text fontSize={Theme.SecondaryFontSize}>
             Encumbrance Text: <b>{entryData.description}</b>
