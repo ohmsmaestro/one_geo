@@ -285,6 +285,7 @@ export const CreateApplication = (props) => {
             label="Date of Birth"
             type="date"
             placeholder="Your Date of birth..."
+            max={moment().subtract(18, "years").format("YYYY-MM-DD")}
             error={
               (errors = getFieldError("dob"))
                 ? "Date of birth is required"

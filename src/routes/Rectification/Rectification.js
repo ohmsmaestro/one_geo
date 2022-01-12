@@ -69,6 +69,12 @@ export const Rectification = (props) => {
       title: "Entry Type",
       dataIndex: "entity",
       key: "entity",
+      render: (text) => {
+        if (text === "PARCEL") {
+          return "PLOT";
+        }
+        return text;
+      },
     },
     {
       title: "Entry Ref.",

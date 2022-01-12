@@ -15,7 +15,7 @@ export const DecisionModal = (props) => {
   const { decisionModal, isLoading, applicationDetail } = props;
 
   // Dispatch props
-  const { closeModal, form } = props;
+  const { closeModal, form, approveApplication } = props;
   const { getFieldProps, getFieldError, validateFields } = form;
 
   let viewMode = calcViewMode();
@@ -28,11 +28,13 @@ export const DecisionModal = (props) => {
           applicationId: applicationDetail.id,
           comment: value.comment,
         };
-        console.log(data);
+        approveApplication(data);
       }
     });
   };
   let errors;
+
+  console.log(decisionModal);
 
   return (
     <>
@@ -41,7 +43,7 @@ export const DecisionModal = (props) => {
         onHide={closeModal}
         title={
           <PageTitle margin="5px 0">
-            {decisionModal === "DECLINED" ? "Decline" : "Approve"} Modal
+            {decisionModal === "REJECTED" ? "Decline" : "Approve"} Modal
           </PageTitle>
         }
         footer={
@@ -50,24 +52,21 @@ export const DecisionModal = (props) => {
               Close
             </Button>
             <Button
+              progress={isLoading}
+              disabled={isLoading}
               color={
-                decisionModal === "DECLINED"
+                decisionModal === "REJECTED"
                   ? Theme.PrimaryRed
                   : Theme.PrimaryGreen
               }
               onClick={() => onSubmit(decisionModal)}
             >
-              {decisionModal === "DECLINED" ? "Decline" : "Approve"} Application
+              {decisionModal === "REJECTED" ? "Decline" : "Approve"} Application
             </Button>
           </>
         }
       >
-        <Boxed
-          pad="10px"
-          border={`1px solid ${Theme.PrimaryBlue}`}
-          background={`${Theme.PrimaryBlue}30`}
-          borderRadius={Theme.SecondaryRadius}
-        >
+        <Boxed pad="10px">
           <Input
             label="Comment"
             type="text"

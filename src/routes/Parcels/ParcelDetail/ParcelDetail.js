@@ -8,6 +8,7 @@ import { Button } from "../../../components/Button.components";
 
 import PARCEL_VIEW from "../../../LIMSGIS/map.htm";
 import { Theme } from "../../../utils/theme";
+import { formatCurrency } from "../../../utils/utils";
 
 import ARROW_ICON from "../../../assets/img/north-arrow.png";
 import { PageTitle } from "../../../components/style";
@@ -39,13 +40,13 @@ export const ParcelDetail = (props) => {
           Back
         </Button>
       </Boxed>
-      <PageTitle>Parcel Detail</PageTitle>
+      <PageTitle>Plot Detail</PageTitle>
       <Boxed pad="8px 0">
         <Text
           fontSize={Theme.SecondaryFontSize}
           color={Theme.SecondaryTextColor}
         >
-          Parcel Number
+          Plot Number
         </Text>
         <Text>{parcelData.ParcelNumber}</Text>
       </Boxed>
@@ -107,9 +108,15 @@ export const ParcelDetail = (props) => {
             fontSize={Theme.SecondaryFontSize}
             color={Theme.SecondaryTextColor}
           >
-            Calculated Area
+            Area
           </Text>
-          <Text>{parcelData.CALCULATED} sqr meter</Text>
+          <Text>
+            {parcelData.Shape__Area &&
+              formatCurrency(
+                Math.round(parcelData.Shape__Area * 100) / 100
+              )}{" "}
+            sqr meter
+          </Text>
         </Boxed>
 
         <Boxed pad="8px 0">

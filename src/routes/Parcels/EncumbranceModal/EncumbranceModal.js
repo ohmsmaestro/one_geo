@@ -110,8 +110,10 @@ export const EncumbranceModal = (props) => {
           <Text fontSize={Theme.SecondaryFontSize}>
             Plot Size :
             <b>
-              {parcelData.CALCULATED &&
-                formatCurrency(parcelData.CALCULATED || 0)}{" "}
+              {parcelData.Shape__Area &&
+                formatCurrency(
+                  Math.round(parcelData.Shape__Area * 100) / 100
+                )}{" "}
               square meter
             </b>
           </Text>

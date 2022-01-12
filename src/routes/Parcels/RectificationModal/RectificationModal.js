@@ -92,7 +92,7 @@ export const RectificationModal = (props) => {
               field_list.push({
                 fieldName: item,
                 newValue: values[item],
-                oldValue: parcelData[item],
+                oldValue: parcelData[item] ? parcelData[item] : "",
               });
             }
           });

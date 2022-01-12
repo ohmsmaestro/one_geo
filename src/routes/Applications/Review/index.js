@@ -69,7 +69,7 @@ export const mapDispatchToProps = (dispatch, ownProps) => {
       dispatch({ type: fetchActionURL, payload: data });
     },
     openDecisionModal(data) {
-      dispatch({ type: "entries/save", payload: { decisionModal: true } });
+      dispatch({ type: "entries/save", payload: { decisionModal: data } });
     },
   };
 };

@@ -6,6 +6,7 @@ import {
   getApplications,
   postApplication,
   getApplicationDetail,
+  putApplication,
   getRectifications,
   getRectificationDetail,
   getRectificationFile,
@@ -26,6 +27,7 @@ export default {
     applicationsList: [],
     applicationsTotal: 0,
     applicationDetail: {},
+    decisionModal: false,
 
     rectificationList: [],
     rectificationTotal: 0,
@@ -111,6 +113,25 @@ export default {
           type: "save",
           payload: { applicationDetail: {} },
         });
+      }
+    },
+    *approveApplication({ payload }, { call, put, select }) {
+      const { success, raw, message } = yield call(putApplication, payload);
+      if (success) {
+        let applicationDetail = yield select(
+          ({ entries }) => entries.applicationDetail
+        );
+        applicationDetail["status"] = payload.status;
+        payload.status === "APPROVED" && (applicationDetail["approved"] = true);
+        yield put({
+          type: "save",
+          payload: {
+            decisionModal: false,
+            applicationDetail: applicationDetail,
+          },
+        });
+      } else {
+        Alert.error(message);
       }
     },
 

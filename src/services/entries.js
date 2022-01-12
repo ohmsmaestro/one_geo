@@ -34,6 +34,15 @@ export async function getApplicationDetail(data) {
   });
 }
 
+export async function putApplication(data) {
+  const url = `${endpoint}/applications`;
+  return await request({
+    url,
+    method: "PUT",
+    data,
+  });
+}
+
 export async function getRectifications(data) {
   const url = `${endpoint}/rectifications`;
   return await request({

@@ -5,7 +5,7 @@ import { routerRedux } from "dva/router";
 
 export const mapStateToProps = (state, ownProps) => {
   const { loading, entries } = state;
-  const isLoading = loading.effects["entries/getEncumbranceDetail"];
+  const isLoading = loading.effects["entries/approveApplication"];
   const { applicationDetail, decisionModal } = entries;
   return {
     applicationDetail,
@@ -24,6 +24,9 @@ export const mapDispatchToProps = (dispatch, ownProps) => {
         type: "entries/save",
         payload: { decisionModal: false },
       });
+    },
+    approveApplication(data) {
+      dispatch({ type: "entries/approveApplication", payload: data });
     },
   };
 };

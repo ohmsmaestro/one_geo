@@ -96,7 +96,7 @@ export const Parcels = (props) => {
                 Appraise Plot
               </Dropdown.Item>
             )}
-            {accessList["VIEW_PARCEL"] && (
+            {accessList["VIEW_PARCEL_RENT"] && (
               <Dropdown.Item onClick={() => rentParcel(record)}>
                 Rent Plot
               </Dropdown.Item>
@@ -111,7 +111,7 @@ export const Parcels = (props) => {
                 Create Rectification
               </Dropdown.Item>
             )}
-            {accessList["VIEW_PARCEL"] && (
+            {accessList["VIEW_PARCEL_WORK_QUERIES"] && (
               <Dropdown.Item>Work Queries</Dropdown.Item>
             )}
           </Dropdown.Menu>
@@ -148,11 +148,12 @@ export const Parcels = (props) => {
       key: "LAND_USE",
     },
     {
-      title: "Cal. Area",
-      dataIndex: "CALCULATED",
-      key: "CALCULATED",
+      title: "Area",
+      dataIndex: "Shape__Area",
+      key: "Shape__Area",
       align: "right",
-      render: (text) => text && `${formatCurrency(text)} sqt meter`,
+      render: (text) =>
+        text && `${formatCurrency(Math.round(text * 100) / 100)} sqt meter`,
     },
     {
       title: "Date Created",
@@ -186,6 +187,7 @@ export const Parcels = (props) => {
               handlePagination,
               currentPage,
               pageSize,
+              search,
             }) => {
               return (
                 <>
@@ -197,7 +199,8 @@ export const Parcels = (props) => {
                     <Boxed pad="5px 0">
                       <Input
                         type="search"
-                        placeholder="Search by parcel number"
+                        placeholder="Search by plot number"
+                        onChange={(value) => search(value, fetchActionURL)}
                       />
                     </Boxed>
                     <Boxed />

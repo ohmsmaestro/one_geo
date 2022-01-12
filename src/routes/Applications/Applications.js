@@ -198,6 +198,7 @@ export const Applications = (props) => {
               handlePagination,
               currentPage,
               pageSize,
+              search,
             }) => {
               return (
                 <>
@@ -210,6 +211,7 @@ export const Applications = (props) => {
                       <Input
                         type="search"
                         placeholder="Search by Applicant Name"
+                        onChange={(value) => search(value, fetchActionURL)}
                       />
                     </Boxed>
                     <Boxed />
