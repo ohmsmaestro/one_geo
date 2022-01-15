@@ -83,6 +83,7 @@ export const Appraisal = (props) => {
           file: file.base64,
           parcels: [
             {
+              FID: parcelData.FID,
               parcelNumber: parcelData.ParcelNumber,
               parcelSize: parcelData.Shape__Area,
             },
