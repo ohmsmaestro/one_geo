@@ -64,7 +64,7 @@ export const Button = styled.button`
     ${(props) =>
     props.margin &&
     css`
-      margin: ${(props) => props.margin};
+      margin: ${(props) => props.margin} !important;
     `}
     ${(props) =>
     props.width &&

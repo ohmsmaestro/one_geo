@@ -5,6 +5,8 @@ import {
   postEncumbrance,
   postRectification,
   postAppraisal,
+  getAppraisals,
+  putAppraisal,
   getAppraisalType,
 } from "../services/parcels";
 
@@ -23,6 +25,11 @@ export default {
     appraisalTypes: [],
     encumbranceModal: false,
     rectificationModal: false,
+
+    appraisalList: [],
+    appraisalTotal: 0,
+    appraisalReview: false,
+    appraisalDetail: {},
   },
 
   subscriptions: {
@@ -130,6 +137,44 @@ export default {
           payload: { rectificationModal: false, parcelData: {} },
         });
         Alert.success("Successfully created a rectification.");
+      } else {
+        Alert.error(message);
+      }
+    },
+
+    *getAllAppraisal({ payload }, { call, put }) {
+      const { raw, success, message } = yield call(getAppraisals, payload);
+      if (success) {
+        const list = raw?.data?.appraisals;
+        const total = raw?.data?.pagination?.totalRecord;
+        yield put({
+          type: "save",
+          payload: { appraisalList: list, appraisalTotal: total },
+        });
+      } else {
+        Alert.error(message);
+      }
+    },
+    *approveAppraisal({ payload }, { call, put, select }) {
+      const { raw, success, message } = yield call(putAppraisal, payload);
+      if (success) {
+        Alert.success("Appraisal review completed");
+        const list = yield select(({ parcels }) => parcels.appraisalList);
+        const existIndex = list.findIndex(
+          (item) => item.id === payload?.parcels[0]?.id
+        );
+        if (existIndex > -1) {
+          list[existIndex].status = payload.status;
+        }
+
+        yield put({
+          type: "save",
+          payload: {
+            appraisalReview: false,
+            appraisalDetail: {},
+            appraisalList: list,
+          },
+        });
       } else {
         Alert.error(message);
       }

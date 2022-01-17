@@ -24,6 +24,7 @@ import Entries from "./routes/Entries/index";
 import Rectification from "./routes/Rectification/index";
 import Encumbrance from "./routes/Encumbrance/index";
 import Archived from "./routes/Archived/index";
+import Appraisal from "./routes/Apprasial/index";
 import Applications from "./routes/Applications/index";
 import CreateApplication from "./routes/Applications/CreateApplication/index";
 import ApplicationReview from "./routes/Applications/Review/index";
@@ -123,6 +124,11 @@ export function RouterConfig({ history, app }) {
             render={(props) => {
               return <ParcelsTDP {...props} />;
             }}
+          />
+          <Route
+            path="/appraisal"
+            exact
+            render={(props) => <Appraisal {...props} />}
           />
           <Route
             path="/entries"

@@ -34,8 +34,6 @@ export const DecisionModal = (props) => {
   };
   let errors;
 
-  console.log(decisionModal);
-
   return (
     <>
       <ModalComponent

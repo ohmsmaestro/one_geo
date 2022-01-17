@@ -22,6 +22,12 @@ const usersMenu = [
       },
       {
         icon: "icon-forward-outline",
+        label: "Plot Appraisals",
+        pathname: "/appraisal",
+        role: ["VIEW_PARCEL"],
+      },
+      {
+        icon: "icon-forward-outline",
         label: "Owners Entries",
         pathname: "/entries",
         role: ["VIEW_PARCEL"],
