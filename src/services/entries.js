@@ -33,12 +33,19 @@ export async function getApplicationDetail(data) {
     method: "GET",
   });
 }
-
 export async function putApplication(data) {
   const url = `${endpoint}/applications`;
   return await request({
     url,
     method: "PUT",
+    data,
+  });
+}
+export async function postAllocateParcel(data) {
+  const url = `${endpoint}/allocations`;
+  return await request({
+    url,
+    method: "POST",
     data,
   });
 }
@@ -51,7 +58,6 @@ export async function getRectifications(data) {
     data,
   });
 }
-
 export async function getRectificationDetail(id) {
   const url = `${endpoint}/rectifications/${id}`;
   return await request({
@@ -59,7 +65,6 @@ export async function getRectificationDetail(id) {
     method: "GET",
   });
 }
-
 export async function getRectificationFile(fileName) {
   const url = `${endpoint}/rectifications/file/${fileName}`;
   return await request({
@@ -76,7 +81,6 @@ export async function getEncumbrances(data) {
     data,
   });
 }
-
 export async function getEncumbranceDetail(id) {
   const url = `${endpoint}/encumbrance/${id}`;
   return await request({
@@ -84,7 +88,6 @@ export async function getEncumbranceDetail(id) {
     method: "GET",
   });
 }
-
 export async function getEncumbranceFile(fileName) {
   const url = `${endpoint}/encumbrance/file/${fileName}`;
   return await request({
@@ -92,8 +95,7 @@ export async function getEncumbranceFile(fileName) {
     method: "GET",
   });
 }
-
-export async function postTerminateEncumbrance(data) {
+export async function putTerminateEncumbrance(data) {
   const url = `${endpoint}/encumbrance`;
   return await request({
     url,

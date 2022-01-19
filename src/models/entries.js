@@ -12,8 +12,9 @@ import {
   getRectificationFile,
   getEncumbrances,
   getEncumbranceFile,
-  postTerminateEncumbrance,
+  putTerminateEncumbrance,
   getEncumbranceDetail,
+  postAllocateParcel,
 } from "../services/entries";
 
 export default {
@@ -28,6 +29,7 @@ export default {
     applicationsTotal: 0,
     applicationDetail: {},
     decisionModal: false,
+    allocateModal: false,
 
     rectificationList: [],
     rectificationTotal: 0,
@@ -134,6 +136,20 @@ export default {
         Alert.error(message);
       }
     },
+    *allocateParcel({ payload }, { call, put, select }) {
+      const { success, raw, message } = yield call(postAllocateParcel, payload);
+      if (success) {
+        Alert.success("Application is successfully allocated.");
+        yield put({
+          type: "save",
+          payload: {
+            allocateModal: false,
+          },
+        });
+      } else {
+        Alert.error(message);
+      }
+    },
 
     *getAllRectification({ payload }, { call, put }) {
       const { raw, success, message } = yield call(getRectifications, payload);
@@ -203,7 +219,7 @@ export default {
     },
     *terminateEncumbrance({ payload }, { call, put, select }) {
       const { success, message, raw } = yield call(
-        postTerminateEncumbrance,
+        putTerminateEncumbrance,
         payload
       );
 

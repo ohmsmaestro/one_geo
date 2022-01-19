@@ -9,3 +9,11 @@ export async function getArchived(data) {
     data,
   });
 }
+
+export async function getParcelArchieved(data) {
+  const url = `${endpoint}/parcels/documents/${data.ParcelNumber}`;
+  return await request({
+    url,
+    method: "GET",
+  });
+}

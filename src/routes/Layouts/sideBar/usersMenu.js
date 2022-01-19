@@ -66,7 +66,7 @@ const usersMenu = [
         icon: "icon-folder",
         label: "Archived Documents",
         pathname: "/archived",
-        role: ["VIEW_DOCUMENTS"],
+        role: ["VIEW_PARCEL"],
       },
       {
         icon: "icon-briefcase",

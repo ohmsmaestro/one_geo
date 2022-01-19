@@ -1,6 +1,6 @@
 import { Alert } from "../components/Alert.components";
 
-import { getArchived } from "../services/archived";
+import { getArchived, getParcelArchieved } from "../services/archived";
 
 const insitialState = {
   archivedList: [],
@@ -21,6 +21,20 @@ export default {
   effects: {
     *getAllArchived({ payload }, { call, put }) {
       const { raw, success, message } = yield call(getArchived, payload);
+      if (success) {
+        const list = raw?.data?.items;
+        const total = raw?.data?.pagination?.total_record;
+        yield put({
+          type: "save",
+          payload: { archivedList: list, archivedTotal: total },
+        });
+      } else {
+        Alert.error(message);
+      }
+    },
+
+    *getParcelArchieved({ payload }, { call, put }) {
+      const { raw, success, message } = yield call(getParcelArchieved, payload);
       if (success) {
         const list = raw?.data?.items;
         const total = raw?.data?.pagination?.total_record;

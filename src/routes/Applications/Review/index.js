@@ -49,7 +49,7 @@ const fetchActionURL = "entries/getApplicationDetail";
 export const mapStateToProps = (state, ownProps) => {
   const { match } = ownProps;
   const { loading, entries } = state;
-  const { applicationDetail, decisionModal } = entries;
+  const { applicationDetail, decisionModal, allocateModal } = entries;
   const isLoading = loading.effects[fetchActionURL];
   const { params } = match;
   return {
@@ -57,6 +57,7 @@ export const mapStateToProps = (state, ownProps) => {
     applicationDetail,
     params,
     decisionModal,
+    allocateModal,
   };
 };
 
@@ -70,6 +71,9 @@ export const mapDispatchToProps = (dispatch, ownProps) => {
     },
     openDecisionModal(data) {
       dispatch({ type: "entries/save", payload: { decisionModal: data } });
+    },
+    openAllocateModal() {
+      dispatch({ type: "entries/save", payload: { allocateModal: true } });
     },
   };
 };

@@ -4,14 +4,19 @@ import { routerRedux } from "dva/router";
 // import qs from "query-string";
 
 export const mapStateToProps = (state, ownProps) => {
-  console.log({ ownProps });
-  const { parcels } = state;
+  const { parcels, archived, loading } = state;
   const { parcelData } = parcels;
+  const { archivedList } = archived;
   const params = ownProps?.match?.params;
-  console.log({ params });
+
+  const isLoading = loading.effects["parcels/getSingleParcel"];
+  const isloadingDocuments = loading.effects["archived/getParcelArchieved"];
   return {
     parcelData,
     params,
+    archivedList,
+    isLoading,
+    isloadingDocuments,
   };
 };
 

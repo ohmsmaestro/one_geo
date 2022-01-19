@@ -69,13 +69,17 @@ export default {
       const { raw, success, message } = yield call(getParcels, payload);
       if (success) {
         const list = raw?.data?.parcels;
-        list[0] &&
-          (yield put({
+        let item = list[0];
+        if (item) {
+          yield put({
             type: "save",
-            payload: { parcelData: list[0] },
-          }));
+            payload: { parcelData: item },
+          });
+
+          yield put({ type: "archived/getParcelArchieved", payload: item });
+        }
       } else {
-        Alert.error(message);
+        // Alert.error(message);
       }
     },
 

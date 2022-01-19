@@ -19,16 +19,23 @@ import { Theme } from "../../../utils/theme";
 import MALE_IMG from "../../../assets/img/male.png";
 
 import DecisionModal from "./DecisionModal";
+import AllocateModal from "./AllocateModal";
 
 export const Review = (props) => {
   // state props
-  const { isLoading, applicationDetail, params, decisionModal } = props;
+  const { isLoading, applicationDetail, params, decisionModal, allocateModal } =
+    props;
   const documents = applicationDetail.documents
     ? applicationDetail.documents
     : [];
 
   // dispatch props
-  const { redirect, getApplicationDetail, openDecisionModal } = props;
+  const {
+    redirect,
+    getApplicationDetail,
+    openDecisionModal,
+    openAllocateModal,
+  } = props;
 
   useEffect(() => {
     let data = {
@@ -38,25 +45,6 @@ export const Review = (props) => {
   }, []);
 
   let viewMode = calcViewMode();
-
-  const DropDownMenu = (props) => {
-    const { record } = props;
-    return (
-      <StyledDrpDown>
-        <Dropdown>
-          <Dropdown.Toggle variant id="dropdown-basic">
-            <Icon className="icon-more-vertical" />
-          </Dropdown.Toggle>
-          <Dropdown.Menu>
-            <Dropdown.Item>Review</Dropdown.Item>
-            <Dropdown.Item>Allocate Parcel</Dropdown.Item>
-          </Dropdown.Menu>
-        </Dropdown>
-      </StyledDrpDown>
-    );
-  };
-
-  console.log({ applicationDetail });
 
   return (
     <>
@@ -94,7 +82,12 @@ export const Review = (props) => {
               )}
 
               {applicationDetail.status === "APPROVED" && (
-                <Button color={Theme.PrimaryBlue}>Allocate Parcel</Button>
+                <Button
+                  color={Theme.PrimaryBlue}
+                  onClick={() => openAllocateModal()}
+                >
+                  Allocate Parcel
+                </Button>
               )}
             </Boxed>
 
@@ -331,6 +324,7 @@ export const Review = (props) => {
         )}
       </Boxed>
       {decisionModal && <DecisionModal />}
+      {allocateModal && <AllocateModal />}
     </>
   );
 };
