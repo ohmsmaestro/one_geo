@@ -38,7 +38,13 @@ export const AllocateModal = (props) => {
   const handleSearch = () => {
     let value = search ? search.trim() : "";
     if (value) {
-      searchParcels({ page: 1, size: 20, search: value });
+      searchParcels({
+        page: 1,
+        size: 10,
+        search: value,
+        allocated: 0,
+        appraised: 0,
+      });
     }
   };
 

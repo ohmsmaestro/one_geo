@@ -18,15 +18,13 @@ export const ParcelDetail = (props) => {
     props;
 
   // dispatch props received
-  const { redirect, getSingleParcel } = props;
+  const { redirect, getSingleParcel, openFile } = props;
 
   useEffect(() => {
     if (params.id) {
       getSingleParcel({ page: 1, size: 5, search: params.id });
     }
   }, []);
-
-  console.log({ archivedList });
 
   return (
     <Boxed pad="10px 20px">
@@ -183,19 +181,31 @@ export const ParcelDetail = (props) => {
             </Boxed>
           ) : (
             <Boxed pad="10px 0">
-              {archivedList?.map((item, index) => {
-                return (
-                  <Boxed pad="10px" key={index} cursor="pointer">
-                    <Boxed pad="0 0 10px 0" align="center">
-                      <FileComponent size="50px" type="pdf" />
+              <Grid
+                desktop="repeat(4, 1fr)"
+                tablet="repeat(3,1fr)"
+                mobile="repeat(2, 1fr)"
+              >
+                {archivedList?.map((item, index) => {
+                  return (
+                    <Boxed pad="10px" key={index}>
+                      <Boxed pad="0 0 10px 0" align="center" cursor="pointer">
+                        <FileComponent
+                          size="50px"
+                          type="pdf"
+                          onClick={() =>
+                            openFile({
+                              fileName: item,
+                              ParcelNumber: parcelData.ParcelNumber,
+                            })
+                          }
+                          name={item}
+                        />
+                      </Boxed>
                     </Boxed>
-                    <Text padding="10px 0">{item.name}</Text>
-                    {/* <Button block pale color={Theme.PrimaryBlue}>
-                      View
-                    </Button> */}
-                  </Boxed>
-                );
-              })}
+                  );
+                })}
+              </Grid>
             </Boxed>
           )}
         </>

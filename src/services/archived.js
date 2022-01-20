@@ -17,3 +17,11 @@ export async function getParcelArchieved(data) {
     method: "GET",
   });
 }
+
+export async function getParcelArchievedFile(data) {
+  const url = `${endpoint}/parcels/documents/${data.ParcelNumber}/${data.fileName}`;
+  return await request({
+    url,
+    method: "GET",
+  });
+}

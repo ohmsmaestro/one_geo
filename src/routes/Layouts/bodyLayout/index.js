@@ -4,10 +4,11 @@ import { routerRedux } from "dva/router";
 
 export const mapStateToProps = (state, ownProps) => {
   const { app } = state;
-  const { collaspe, float } = app;
+  const { collaspe, float, openFileViewer } = app;
   return {
     collaspe,
     float,
+    openFileViewer,
   };
 };
 

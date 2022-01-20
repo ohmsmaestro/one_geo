@@ -1,6 +1,10 @@
 import { Alert } from "../components/Alert.components";
 
-import { getArchived, getParcelArchieved } from "../services/archived";
+import {
+  getArchived,
+  getParcelArchieved,
+  getParcelArchievedFile,
+} from "../services/archived";
 
 const insitialState = {
   archivedList: [],
@@ -36,11 +40,27 @@ export default {
     *getParcelArchieved({ payload }, { call, put }) {
       const { raw, success, message } = yield call(getParcelArchieved, payload);
       if (success) {
-        const list = raw?.data?.items;
-        const total = raw?.data?.pagination?.total_record;
+        const list = raw?.data?.files;
+        const total = raw?.data?.pagination?.totalRecord;
         yield put({
           type: "save",
           payload: { archivedList: list, archivedTotal: total },
+        });
+      } else {
+        Alert.error(message);
+      }
+    },
+
+    *readArchivedFile({ payload }, { call, put }) {
+      const { raw, success, message } = yield call(
+        getParcelArchievedFile,
+        payload
+      );
+      if (success) {
+        let data = { name: payload.fileName, ...raw?.data };
+        yield put({
+          type: "app/save",
+          payload: { file: data, openFileViewer: true },
         });
       } else {
         Alert.error(message);

@@ -6,6 +6,8 @@ import SideBar from "../sideBar/index";
 import { calcViewMode } from "../../../utils/utils";
 // import { Theme } from "../../../utils/theme";
 
+import FileViewer from "./FileViewer";
+
 const MainBody = styled.div`
   display: flex;
   flex-direction: wrap;
@@ -67,7 +69,7 @@ const MainBody = styled.div`
 
 export const BodyLayout = (props) => {
   // state props received
-  const { collaspe, float } = props;
+  const { collaspe, float, openFileViewer } = props;
   // diaptch props received
   const { setCollaspe, setFloat } = props;
 
@@ -104,6 +106,7 @@ export const BodyLayout = (props) => {
         <div className="dark-wrapper" onClick={() => toggleSidebar(true)} />
       ) : null}
       <div className="main-content">{props.children}</div>
+      {openFileViewer && <FileViewer />}
     </MainBody>
   );
 };

@@ -3,6 +3,8 @@ let initialState = {
   float: false,
   pageTitle: "",
   nightMode: false,
+  openFileViewer: false,
+  file: {},
 };
 
 export default {
