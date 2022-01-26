@@ -97,89 +97,89 @@ export function RouterConfig({ history, app }) {
           />
           {/* #########   E N D :    O P E N      U R L S   #########*/}
           {/* #########   S T A R T :   G U A R D E D      U R L S   #########*/}
-          <Route
+          <PrivateRoute
             path="/parcels"
             exact
             render={(props) => {
               return <Parcels {...props} />;
             }}
           />
-          <Route
+          <PrivateRoute
             path="/parcels/detail/:id"
             exact
             render={(props) => {
               return <ParcelDetail {...props} />;
             }}
           />
-          <Route
+          <PrivateRoute
             path="/parcels/view"
             exact
             render={(props) => {
               return <ParcelsView {...props} />;
             }}
           />
-          <Route
+          <PrivateRoute
             path="/parcels/tdp"
             exact
             render={(props) => {
               return <ParcelsTDP {...props} />;
             }}
           />
-          <Route
+          <PrivateRoute
             path="/appraisal"
             exact
             render={(props) => <Appraisal {...props} />}
           />
-          <Route
+          <PrivateRoute
             path="/entries"
             exact
             render={(props) => {
               return <Entries {...props} />;
             }}
           />
-          <Route
+          <PrivateRoute
             path="/rectification"
             exact
             render={(props) => {
               return <Rectification {...props} />;
             }}
           />
-          <Route
+          <PrivateRoute
             path="/encumbrance"
             exact
             render={(props) => {
               return <Encumbrance {...props} />;
             }}
           />
-          <Route
+          <PrivateRoute
             path="/application"
             exact
             render={(props) => {
               return <Applications {...props} />;
             }}
           />
-          <Route
+          <PrivateRoute
             path="/application/create"
             exact
             render={(props) => {
               return <CreateApplication {...props} />;
             }}
           />
-          <Route
+          <PrivateRoute
             path="/application/:id"
             exact
             render={(props) => {
               return <ApplicationReview {...props} />;
             }}
           />
-          <Route
+          <PrivateRoute
             path="/archived"
             exact
             render={(props) => {
               return <Archived {...props} />;
             }}
           />
-          <Route
+          <PrivateRoute
             path="/users"
             exact
             render={(props) => {
@@ -187,7 +187,7 @@ export function RouterConfig({ history, app }) {
               return <UsersManagement {...props} />;
             }}
           />
-          <Route
+          <PrivateRoute
             path="/role-management"
             exact
             render={(props) => {
@@ -195,7 +195,7 @@ export function RouterConfig({ history, app }) {
               return <RoleManagement {...props} />;
             }}
           />
-          <Route
+          <PrivateRoute
             path="/role-management/role"
             exact
             render={(props) => {
@@ -203,7 +203,7 @@ export function RouterConfig({ history, app }) {
               return <CreateRole {...props} />;
             }}
           />{" "}
-          <Route
+          <PrivateRoute
             path="/survey"
             exact
             render={(props) => {
