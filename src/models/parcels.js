@@ -2,6 +2,7 @@ import { Alert } from "../components/Alert.components";
 
 import {
   getParcels,
+  getMyParcels,
   postEncumbrance,
   postRectification,
   postAppraisal,
@@ -53,6 +54,19 @@ export default {
   effects: {
     *getAllParcels({ payload }, { call, put }) {
       const { raw, success, message } = yield call(getParcels, payload);
+      if (success) {
+        const list = raw?.data?.parcels;
+        const total = raw?.data?.totalRecord;
+        yield put({
+          type: "save",
+          payload: { parcelsList: list, parcelsTotal: total },
+        });
+      } else {
+        Alert.error(message);
+      }
+    },
+    *getAllMyParcels({ payload }, { call, put }) {
+      const { raw, success, message } = yield call(getMyParcels, payload);
       if (success) {
         const list = raw?.data?.parcels;
         const total = raw?.data?.totalRecord;

@@ -48,16 +48,22 @@ const fetchActionURL = "entries/getApplicationDetail";
 
 export const mapStateToProps = (state, ownProps) => {
   const { match } = ownProps;
-  const { loading, entries } = state;
+  const { loading, entries, parcels, authentication } = state;
   const { applicationDetail, decisionModal, allocateModal } = entries;
   const isLoading = loading.effects[fetchActionURL];
   const { params } = match;
+  const { parcelsList } = parcels;
+  const parcelData = parcelsList[0] ? parcelsList[0] : {};
+  const { profile } = authentication;
+
   return {
     isLoading,
     applicationDetail,
     params,
     decisionModal,
     allocateModal,
+    parcelData,
+    profile,
   };
 };
 
@@ -74,6 +80,12 @@ export const mapDispatchToProps = (dispatch, ownProps) => {
     },
     openAllocateModal() {
       dispatch({ type: "entries/save", payload: { allocateModal: true } });
+    },
+    openApplicationFile(data) {
+      dispatch({ type: "archived/getApplicationFile", payload: data });
+    },
+    searchParcels(data) {
+      dispatch({ type: "parcels/getAllParcels", payload: data });
     },
   };
 };

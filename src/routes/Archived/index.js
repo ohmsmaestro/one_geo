@@ -56,7 +56,7 @@ const sampleData = [
 
 const fetchActionURL = "archived/getAllArchived";
 
-export const mapStateToProps = (state, ownProps) => {
+const mapStateToProps = (state, ownProps) => {
   const { loading, archived } = state;
   const { archivedList, archivedTotal } = archived;
   const isLoading = loading.effects[fetchActionURL];
@@ -68,7 +68,7 @@ export const mapStateToProps = (state, ownProps) => {
   };
 };
 
-export const mapDispatchToProps = (dispatch, ownProps) => {
+const mapDispatchToProps = (dispatch, ownProps) => {
   return {
     redirect(pathname, search) {
       dispatch(routerRedux.push({ pathname, search }));

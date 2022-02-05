@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 
 import Dropdown from "react-bootstrap/Dropdown";
 
@@ -6,7 +6,7 @@ import Wrapper from "../Common/FilterWrapper/index";
 
 import { Grid } from "../../components/Grid.components";
 import { Boxed } from "../../components/Boxed.components";
-import { Input } from "../../components/Input.components";
+import { Input, AsyncSelect } from "../../components/Input.components";
 import { Text } from "../../components/Text.components";
 import { Button } from "../../components/Button.components";
 import { Loader } from "../../components/Loader.components";
@@ -25,6 +25,11 @@ import { Theme } from "../../utils/theme";
 import TerminateModal from "./TerminateModal/index";
 import DetailModal from "./DetailModal/index";
 
+const statusOptions = [
+  { value: 1, label: "Closed" },
+  { value: 2, label: "Open" },
+];
+
 export const Encumbrance = (props) => {
   // state props
   const {
@@ -34,17 +39,22 @@ export const Encumbrance = (props) => {
     fetchActionURL,
     terminateModal,
     encumbranceDetailModal,
+    accessList,
   } = props;
 
   // dispatch props
-  const { getAllEncumbrance, openTerminateModal, openDetailModal } = props;
+  const { getAllEncumbrance, openTerminateModal, openDetailModal, redirect } =
+    props;
+
+  const [status, setStatus] = useState(null);
 
   useEffect(() => {
-    let data = {
-      page: 1,
-      size: 10,
-    };
-    getAllEncumbrance(data);
+    if (accessList["VIEW_ENCUMBRANCE"]) {
+      let data = { size: 10, page: 1 };
+      getAllEncumbrance(data);
+    } else {
+      redirect("/dashboard");
+    }
   }, []);
 
   let viewMode = calcViewMode();
@@ -98,7 +108,7 @@ export const Encumbrance = (props) => {
                 <Dropdown.Item onClick={() => openDetailModal(record)}>
                   View Details
                 </Dropdown.Item>
-                {!record.close && (
+                {!record.close && accessList["TERMINATE_ENCUMBRANCE"] && (
                   <Dropdown.Item onClick={() => openTerminateModal(record)}>
                     Terminate Entry
                   </Dropdown.Item>
@@ -111,6 +121,9 @@ export const Encumbrance = (props) => {
     },
   ];
 
+  let externalParams = {
+    status: status?.value,
+  };
   return (
     <>
       <Boxed pad="20px">
@@ -121,6 +134,7 @@ export const Encumbrance = (props) => {
           borderRadius={Theme.SecondaryRadius}
         >
           <Wrapper
+            externalParams
             externalActionURL={fetchActionURL}
             render={({
               changePageSize,
@@ -135,13 +149,19 @@ export const Encumbrance = (props) => {
                     tablet="repeat(4, 1fr)"
                     mobile="repeat(1, 1fr)"
                   >
-                    <Boxed pad="5px 0">
+                    <Boxed pad="5px 0" margin="auto 0 0 0">
                       <Input
                         type="search"
                         placeholder="Search by plot number"
                       />
                     </Boxed>
-                    <Boxed />
+                    <Boxed>
+                      <AsyncSelect
+                        label="Status"
+                        options={statusOptions}
+                        onChange={(value) => setStatus(value)}
+                      />
+                    </Boxed>
                     <Boxed />
                   </Grid>
                   {isLoading ? (

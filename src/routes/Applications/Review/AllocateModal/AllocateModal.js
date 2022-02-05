@@ -7,6 +7,7 @@ import { Text } from "../../../../components/Text.components";
 import { Button } from "../../../../components/Button.components";
 import { Alert } from "../../../../components/Alert.components";
 import { ModalComponent } from "../../../../components/Modal.components";
+import { Loader } from "../../../../components/Loader.components";
 import { FileIcon, Icon } from "../../../../components/style";
 
 import {
@@ -43,7 +44,8 @@ export const AllocateModal = (props) => {
         size: 10,
         search: value,
         allocated: 0,
-        appraised: 0,
+        appraised: 1,
+        assigned: 0,
       });
     }
   };
@@ -94,15 +96,21 @@ export const AllocateModal = (props) => {
           </Button>
         </Grid>
         <Boxed minHeight="150px">
-          <Boxed pad="10px 0">
-            <AsyncSelect
-              label="Plot list"
-              placeholder="Search by plot number..."
-              loading={isSearching}
-              options={modiParcelList}
-              onChange={(value) => setParcelData(value)}
-            />
-          </Boxed>
+          {isSearching ? (
+            <Boxed display="flex" pad="20px">
+              <Loader margin="auto" />
+            </Boxed>
+          ) : (
+            <Boxed pad="10px 0">
+              <AsyncSelect
+                label="Plot list"
+                placeholder="Search by plot number..."
+                loading={isSearching}
+                options={modiParcelList}
+                onChange={(value) => setParcelData(value)}
+              />
+            </Boxed>
+          )}
           {parcelData && (
             <Boxed pad="5px 0">
               <Grid

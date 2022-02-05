@@ -31,17 +31,19 @@ export const Rectification = (props) => {
     rectificationTotal,
     fetchActionURL,
     rectificationDetailModal,
+    accessList,
   } = props;
 
   // dispatch props
-  const { getAllRectification, openDetailModal } = props;
+  const { getAllRectification, openDetailModal, redirect } = props;
 
   useEffect(() => {
-    let data = {
-      page: 1,
-      size: 10,
-    };
-    getAllRectification(data);
+    if (accessList["VIEW_RECTIFICATION"]) {
+      let data = { size: 10, page: 1 };
+      getAllRectification(data);
+    } else {
+      redirect("/dashboard");
+    }
   }, []);
 
   let viewMode = calcViewMode();

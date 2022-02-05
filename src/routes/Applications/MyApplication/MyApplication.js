@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect } from "react";
 
 import Dropdown from "react-bootstrap/Dropdown";
 
@@ -6,7 +6,7 @@ import Wrapper from "../Common/FilterWrapper/index";
 
 import { Grid } from "../../components/Grid.components";
 import { Boxed } from "../../components/Boxed.components";
-import { AsyncSelect, Input } from "../../components/Input.components";
+import { Input } from "../../components/Input.components";
 import { Text } from "../../components/Text.components";
 import { Button } from "../../components/Button.components";
 import { Loader } from "../../components/Loader.components";
@@ -21,17 +21,27 @@ import { calcViewMode, formatDate } from "../../utils/utils";
 import { pageOptions } from "../../utils/constant";
 import { Theme } from "../../utils/theme";
 
-const statusOptions = [
-  { value: 1, label: "Pending Review" },
-  { value: 2, label: "Pending Allocation" },
-  { value: 3, label: "Pending Allocation Review" },
-  { value: 4, label: "Pending User Review" },
-  { value: 5, label: "Allocated" },
-];
-
-const getStatus = (status) => {
+const statusOption = (status) => {
   switch (status) {
-    case "PENDING REVIEW":
+    case "ALLOCATED":
+      return (
+        <Text
+          color={Theme.PrimaryGreen}
+          align="center"
+          fontSize={Theme.SecondaryFontSize}
+        >
+          {" "}
+          <Icon
+            className="icon-ok-circled-1"
+            color={Theme.PrimaryGreen}
+            margin="0 5px 0 0"
+            fontSize={Theme.SecondaryFontSize}
+            fontSize="16px"
+          />{" "}
+          ALLOCATED
+        </Text>
+      );
+    case "PENDING":
       return (
         <Text
           color={Theme.PrimaryYellow}
@@ -45,11 +55,11 @@ const getStatus = (status) => {
             margin="0 5px 0 0"
             fontSize="16px"
           />{" "}
-          Pending Review
+          PENDING REVIEW
         </Text>
       );
 
-    case "PENDING ALLOCATION":
+    case "APPROVED":
       return (
         <Text
           color={Theme.PrimaryBlue}
@@ -63,43 +73,7 @@ const getStatus = (status) => {
             margin="0 5px 0 0"
             fontSize="16px"
           />{" "}
-          Pending Allocation
-        </Text>
-      );
-
-    case "PENDING ALLOCATION APPROVAL":
-      return (
-        <Text
-          color={Theme.PrimaryYellow}
-          fontSize={Theme.SecondaryFontSize}
-          align="center"
-        >
-          {" "}
-          <Icon
-            className="icon-attention-1"
-            color={Theme.PrimaryYellow}
-            margin="0 5px 0 0"
-            fontSize="16px"
-          />{" "}
-          Pending Allocation Approval
-        </Text>
-      );
-
-    case "PENDING ACCEPTANCE":
-      return (
-        <Text
-          color={Theme.PrimaryBlue}
-          fontSize={Theme.SecondaryFontSize}
-          align="center"
-        >
-          {" "}
-          <Icon
-            className="icon-attention-1"
-            color={Theme.PrimaryBlue}
-            margin="0 5px 0 0"
-            fontSize="16px"
-          />{" "}
-          Pending Acceptance
+          PENDING ALLOCATION
         </Text>
       );
 
@@ -121,24 +95,6 @@ const getStatus = (status) => {
           REJECTED
         </Text>
       );
-    case "ALLOCATED":
-      return (
-        <Text
-          color={Theme.PrimaryGreen}
-          align="center"
-          fontSize={Theme.SecondaryFontSize}
-        >
-          {" "}
-          <Icon
-            className="icon-ok-circled-1"
-            color={Theme.PrimaryGreen}
-            margin="0 5px 0 0"
-            fontSize={Theme.SecondaryFontSize}
-            fontSize="16px"
-          />{" "}
-          Allocated
-        </Text>
-      );
     default:
       return "-- / --";
   }
@@ -146,23 +102,16 @@ const getStatus = (status) => {
 
 export const Applications = (props) => {
   // state props
-  const {
-    isLoading,
-    applicationsList,
-    applicationsTotal,
-    fetchActionURL,
-    isProprietor,
-  } = props;
+  const { isLoading, applicationsList, applicationsTotal, fetchActionURL } =
+    props;
 
   // dispatch props
   const { getAllApplications, redirect } = props;
 
-  const [status, setStatus] = useState(null);
-
   useEffect(() => {
     let data = {
-      // page: 1,
-      // size: 10,
+      page: 1,
+      size: 10,
     };
     getAllApplications(data);
   }, []);
@@ -212,7 +161,7 @@ export const Applications = (props) => {
                 fontSize={Theme.SecondaryFontSize}
                 color={Theme.SecondaryTextColor}
               >
-                Application Number
+                App. Number
               </Text>
             </Boxed>
             <Boxed>
@@ -240,7 +189,7 @@ export const Applications = (props) => {
         >
           {createdAt && formatDate(createdAt)}
         </Text>
-        <Boxed pad="5px 10px">{getStatus(status)}</Boxed>
+        <Boxed pad="5px 10px">{statusOption(status)}</Boxed>
       </Boxed>
     );
   };
@@ -278,7 +227,7 @@ export const Applications = (props) => {
       key: "status",
       align: "center",
       render: (text, record) => {
-        return getStatus(text);
+        return statusOption(text);
       },
     },
     {
@@ -290,8 +239,6 @@ export const Applications = (props) => {
     },
   ];
 
-  let externalParams = { status: status?.value };
-
   return (
     <>
       <Boxed pad="20px">
@@ -302,7 +249,6 @@ export const Applications = (props) => {
           borderRadius={Theme.SecondaryRadius}
         >
           <Wrapper
-            externalParams={externalParams}
             externalActionURL={fetchActionURL}
             render={({
               changePageSize,
@@ -318,27 +264,19 @@ export const Applications = (props) => {
                     tablet="repeat(4, 1fr)"
                     mobile="repeat(1, 1fr)"
                   >
-                    <Boxed pad="5px 0" margin="auto 0 0 0">
+                    <Boxed pad="5px 0">
                       <Input
                         type="search"
-                        placeholder="Search by App. no."
+                        placeholder="Search by Applicant Name"
                         onChange={(value) => search(value, fetchActionURL)}
                       />
                     </Boxed>
-                    <Boxed pad="5px 0" margin="auto 0 0 0">
-                      <AsyncSelect
-                        label="status"
-                        options={statusOptions}
-                        onChange={(value) => setStatus(value)}
-                      />
-                    </Boxed>
                     <Boxed />
-                    <Boxed pad="5px 0" align="right" margin="auto 0 0 0">
-                      {!isProprietor && (
-                        <Button onClick={() => redirect("application/create")}>
-                          Create Application
-                        </Button>
-                      )}
+                    <Boxed />
+                    <Boxed pad="5px 0" align="right">
+                      <Button onClick={() => redirect("application/create")}>
+                        Create Application
+                      </Button>
                     </Boxed>
                   </Grid>
                   {isLoading ? (
@@ -381,13 +319,13 @@ export const Applications = (props) => {
                             pad="10px 0"
                           >
                             {applicationsList.map((item) => (
-                              <Boxed pad="10px 0">
+                              <Boxed pad="10px 5px">
                                 <ApplicationCard record={item} />
                               </Boxed>
                             ))}
                           </Grid>
                           <Boxed pad="10px 0 ">
-                            {" "}
+                            //{" "}
                             <PaginationComponent
                               total={applicationsTotal}
                               onChange={(page) =>

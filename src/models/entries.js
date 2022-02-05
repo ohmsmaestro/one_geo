@@ -4,9 +4,11 @@ import { Alert } from "../components/Alert.components";
 import {
   getEntries,
   getApplications,
+  getMyApplications,
   postApplication,
   getApplicationDetail,
   putApplication,
+  getApplicationFile,
   getRectifications,
   getRectificationDetail,
   getRectificationFile,
@@ -84,6 +86,19 @@ export default {
         Alert.error(message);
       }
     },
+    *getAllMyApplications({ payload }, { call, put }) {
+      const { raw, success, message } = yield call(getMyApplications, payload);
+      if (success) {
+        const list = raw?.data?.applications;
+        const total = raw?.data?.pagination?.totalRecord;
+        yield put({
+          type: "save",
+          payload: { applicationsList: list, applicationsTotal: total || 10 },
+        });
+      } else {
+        Alert.error(message);
+      }
+    },
     *getApplicationDetail({ payload }, { call, put }) {
       // Fetch application details
       const detail_response = yield call(getApplications, {
@@ -120,16 +135,15 @@ export default {
     *approveApplication({ payload }, { call, put, select }) {
       const { success, raw, message } = yield call(putApplication, payload);
       if (success) {
+        const data = raw?.data?.application;
         let applicationDetail = yield select(
           ({ entries }) => entries.applicationDetail
         );
-        applicationDetail["status"] = payload.status;
-        payload.status === "APPROVED" && (applicationDetail["approved"] = true);
         yield put({
           type: "save",
           payload: {
             decisionModal: false,
-            applicationDetail: applicationDetail,
+            applicationDetail: { ...applicationDetail, ...data },
           },
         });
       } else {
@@ -139,11 +153,13 @@ export default {
     *allocateParcel({ payload }, { call, put, select }) {
       const { success, raw, message } = yield call(postAllocateParcel, payload);
       if (success) {
+        const data = raw?.data?.application;
         Alert.success("Application is successfully allocated.");
         yield put({
           type: "save",
           payload: {
             allocateModal: false,
+            applcicationDetail: { ...data },
           },
         });
       } else {
@@ -274,7 +290,6 @@ export default {
         payload.fileName
       );
       if (success) {
-        console.log({ raw });
         const data = raw?.data ? raw?.data : {};
         yield put({
           type: "save",

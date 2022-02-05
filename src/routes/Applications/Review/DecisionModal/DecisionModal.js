@@ -15,7 +15,7 @@ export const DecisionModal = (props) => {
   const { decisionModal, isLoading, applicationDetail } = props;
 
   // Dispatch props
-  const { closeModal, form, approveApplication } = props;
+  const { closeModal, form, approveApplicationReview } = props;
   const { getFieldProps, getFieldError, validateFields } = form;
 
   let viewMode = calcViewMode();
@@ -28,7 +28,8 @@ export const DecisionModal = (props) => {
           applicationId: applicationDetail.id,
           comment: value.comment,
         };
-        approveApplication(data);
+
+        approveApplicationReview(data);
       }
     });
   };
@@ -59,7 +60,7 @@ export const DecisionModal = (props) => {
               }
               onClick={() => onSubmit(decisionModal)}
             >
-              {decisionModal === "REJECTED" ? "Decline" : "Approve"} Application
+              {decisionModal === "REJECTED" ? "Decline" : "Approve"}
             </Button>
           </>
         }

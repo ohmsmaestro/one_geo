@@ -1,22 +1,18 @@
 import { connect } from "dva";
-import { Applications } from "./Applications";
+import { MyApplications } from "./MyApplications";
 import { routerRedux } from "dva/router";
 
-let fetchActionURL = "entries/getAllApplications";
+const fetchActionURL = "entries/getAllApplications";
 
 export const mapStateToProps = (state, ownProps) => {
-  const { loading, entries, authentication } = state;
-  const { profile } = authentication;
-  const isProprietor = profile?.isProprietor;
-  isProprietor && (fetchActionURL = "entries/getAllMyApplications");
-  const isLoading = loading.effects[fetchActionURL];
+  const { loading, entries } = state;
   const { applicationsList, applicationsTotal } = entries;
+  const isLoading = loading.effects[fetchActionURL];
   return {
     isLoading,
     applicationsList,
     applicationsTotal,
     fetchActionURL,
-    isProprietor,
   };
 };
 

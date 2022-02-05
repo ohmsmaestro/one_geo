@@ -24,6 +24,7 @@ export class Wrapper extends Component {
         this.setState(
           {
             filter: {
+              ...this.state.filter,
               page: 1,
               size: 10,
               ...this.props.externalParams,
@@ -91,8 +92,8 @@ export class Wrapper extends Component {
       {
         filter: {
           ...this.state.filter,
-          search: search.target.value ? search.target.value : null,
           ...this.props.externalParams,
+          search: search.target.value ? search.target.value : null,
         },
       },
       () => {

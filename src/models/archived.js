@@ -4,6 +4,7 @@ import {
   getArchived,
   getParcelArchieved,
   getParcelArchievedFile,
+  getApplicationFile,
 } from "../services/archived";
 
 const insitialState = {
@@ -36,7 +37,6 @@ export default {
         Alert.error(message);
       }
     },
-
     *getParcelArchieved({ payload }, { call, put }) {
       const { raw, success, message } = yield call(getParcelArchieved, payload);
       if (success) {
@@ -45,6 +45,19 @@ export default {
         yield put({
           type: "save",
           payload: { archivedList: list, archivedTotal: total },
+        });
+      } else {
+        Alert.error(message);
+      }
+    },
+    *getApplicationFile({ payload }, { call, put }) {
+      const { success, raw, message } = yield call(getApplicationFile, payload);
+      if (success) {
+        yield put({ type: "save", payload: { allocateModal: false } });
+        let data = { name: payload.fileName, ...raw?.data };
+        yield put({
+          type: "app/save",
+          payload: { file: data, openFileViewer: true },
         });
       } else {
         Alert.error(message);

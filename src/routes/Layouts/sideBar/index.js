@@ -2,9 +2,13 @@ import { connect } from "dva";
 import { SideBar } from "./sideBar";
 import { routerRedux } from "dva/router";
 
-import usersMenu from "./usersMenu";
+import { adminMenu, usersMenu } from "./menu";
 
 import { storagePrivilege } from "../../../utils/constant";
+
+const accessList = localStorage.getItem(storagePrivilege)
+  ? JSON.parse(localStorage.getItem(storagePrivilege))
+  : {};
 
 const mapStateToProps = (state, ownProps) => {
   const { app, authentication } = state;
@@ -16,10 +20,7 @@ const mapStateToProps = (state, ownProps) => {
   let dataList = usersMenu;
 
   const isProprietor = profile?.isProprietor;
-
-  const accessList = localStorage.getItem(storagePrivilege)
-    ? JSON.parse(localStorage.getItem(storagePrivilege))
-    : {};
+  !isProprietor && (dataList = adminMenu);
 
   return {
     profile,

@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import moment from "moment";
 
 import Dropdown from "react-bootstrap/Dropdown";
@@ -7,7 +7,7 @@ import Wrapper from "../Common/FilterWrapper/index";
 
 import { Grid } from "../../components/Grid.components";
 import { Boxed } from "../../components/Boxed.components";
-import { Input } from "../../components/Input.components";
+import { Input, AsyncSelect } from "../../components/Input.components";
 import { Button } from "../../components/Button.components";
 import { Loader } from "../../components/Loader.components";
 import { EmptyState } from "../../components/EmptyState.components";
@@ -27,6 +27,16 @@ import AppraisalModal from "./Appraisal/index";
 import EncumbranceModal from "./EncumbranceModal/index";
 import Rectification from "./RectificationModal/index";
 
+const appraisalOptions = [
+  { value: 1, label: "Appraised" },
+  { value: 0, label: "Not Appraised" },
+];
+
+const allocatedOptions = [
+  { value: 1, label: "Allocated" },
+  { value: 0, label: "Not Allocated" },
+];
+
 export const Parcels = (props) => {
   // state props
   const {
@@ -38,6 +48,7 @@ export const Parcels = (props) => {
     encumbranceModal,
     rectificationModal,
     accessList,
+    profile,
   } = props;
 
   // dispatch props
@@ -53,13 +64,16 @@ export const Parcels = (props) => {
   } = props;
 
   useEffect(() => {
-    if (accessList["VIEW_PARCEL"]) {
-      let data = {};
+    if (profile?.isProprietor || accessList["VIEW_PLOT"]) {
+      let data = { size: 10, page: 1 };
       getAllParcels(data);
     } else {
       redirect("/dashboard");
     }
   }, []);
+
+  const [appraisalStatus, setAppraisalStatus] = useState(null);
+  const [allocatedStatus, setAllocatedStatus] = useState(null);
 
   let viewMode = calcViewMode();
 
@@ -67,17 +81,19 @@ export const Parcels = (props) => {
     const { record } = props;
     return (
       <StyledDrpDown>
-        <Dropdown>
-          <Dropdown.Toggle variant id="dropdown-basic">
-            <Icon className="icon-more-vertical" />
-          </Dropdown.Toggle>
-          <Dropdown.Menu>
-            <Dropdown.Item
-              onClick={() => redirect(`/parcels/detail/${record.ParcelNumber}`)}
-            >
-              View Detail
-            </Dropdown.Item>
-            {accessList["VIEW_PARCEL"] && (
+        {profile?.isProprietor ? (
+          <Dropdown>
+            <Dropdown.Toggle variant id="dropdown-basic">
+              <Icon className="icon-more-vertical" />
+            </Dropdown.Toggle>
+            <Dropdown.Menu>
+              <Dropdown.Item
+                onClick={() =>
+                  redirect(`/parcels/detail/${record.ParcelNumber}`)
+                }
+              >
+                View Detail
+              </Dropdown.Item>
               <Dropdown.Item
                 onClick={() =>
                   redirect(`/parcels/view`, `?parcel=${record.FID}`)
@@ -85,37 +101,64 @@ export const Parcels = (props) => {
               >
                 View Plot
               </Dropdown.Item>
-            )}
-            {accessList["VIEW_PARCEL"] && (
-              <Dropdown.Item onClick={() => viewTDP(record)}>
-                View TDP
-              </Dropdown.Item>
-            )}
-            {accessList["VIEW_PARCEL"] && (
-              <Dropdown.Item onClick={() => appraisalParcel(record)}>
-                Appraise Plot
-              </Dropdown.Item>
-            )}
-            {accessList["VIEW_PARCEL_RENT"] && (
               <Dropdown.Item onClick={() => rentParcel(record)}>
                 Rent Plot
               </Dropdown.Item>
-            )}
-            {accessList["VIEW_PARCEL"] && (
-              <Dropdown.Item onClick={() => openEncumbranceModal(record)}>
-                Create Encumbrance
+            </Dropdown.Menu>
+          </Dropdown>
+        ) : (
+          <Dropdown>
+            <Dropdown.Toggle variant id="dropdown-basic">
+              <Icon className="icon-more-vertical" />
+            </Dropdown.Toggle>
+            <Dropdown.Menu>
+              <Dropdown.Item
+                onClick={() =>
+                  redirect(`/parcels/detail/${record.ParcelNumber}`)
+                }
+              >
+                View Detail
               </Dropdown.Item>
-            )}
-            {accessList["VIEW_PARCEL"] && (
-              <Dropdown.Item onClick={() => openRectificationModal(record)}>
-                Create Rectification
-              </Dropdown.Item>
-            )}
-            {accessList["VIEW_PARCEL_WORK_QUERIES"] && (
-              <Dropdown.Item>Work Queries</Dropdown.Item>
-            )}
-          </Dropdown.Menu>
-        </Dropdown>
+              {accessList["VIEW_PLOT_MAP"] && (
+                <Dropdown.Item
+                  onClick={() =>
+                    redirect(`/parcels/view`, `?parcel=${record.FID}`)
+                  }
+                >
+                  View Plot
+                </Dropdown.Item>
+              )}
+              {accessList["VIEW_PLOT_TDP"] && (
+                <Dropdown.Item onClick={() => viewTDP(record)}>
+                  View TDP
+                </Dropdown.Item>
+              )}
+              {accessList["CREATE_APPRAISAL"] && (
+                <Dropdown.Item onClick={() => appraisalParcel(record)}>
+                  Appraise Plot
+                </Dropdown.Item>
+              )}
+              {accessList["VIEW_PARCEL_RENT"] && (
+                <Dropdown.Item onClick={() => rentParcel(record)}>
+                  Rent Plot
+                </Dropdown.Item>
+              )}
+              {accessList["CREATE_ENCUMBRANCE"] && (
+                <Dropdown.Item onClick={() => openEncumbranceModal(record)}>
+                  Create Encumbrance
+                </Dropdown.Item>
+              )}
+              {accessList["CREATE_RECTIFICATION"] && (
+                <Dropdown.Item onClick={() => openRectificationModal(record)}>
+                  Create Rectification
+                </Dropdown.Item>
+              )}
+              {accessList["VIEW_PARCEL_WORK_QUERIES"] && (
+                <Dropdown.Item>Work Queries</Dropdown.Item>
+              )}
+            </Dropdown.Menu>
+          </Dropdown>
+        )}
       </StyledDrpDown>
     );
   };
@@ -171,6 +214,11 @@ export const Parcels = (props) => {
     },
   ];
 
+  let externalParams = {
+    appraised: appraisalStatus?.value,
+    allocated: allocatedStatus?.value,
+  };
+
   return (
     <>
       <Boxed pad="20px">
@@ -182,6 +230,7 @@ export const Parcels = (props) => {
         >
           <Wrapper
             externalActionURL={fetchActionURL}
+            externalParams={externalParams}
             render={({
               changePageSize,
               handlePagination,
@@ -192,19 +241,33 @@ export const Parcels = (props) => {
               return (
                 <>
                   <Grid
-                    desktop="repeat(4, 1fr)"
+                    desktop="repeat(5, 1fr)"
                     tablet="repeat(4, 1fr)"
                     mobile="repeat(1, 1fr)"
                   >
-                    <Boxed pad="5px 0">
+                    <Boxed pad="5px 0" margin="auto 0 0 0">
                       <Input
                         type="search"
                         placeholder="Search by plot number"
                         onChange={(value) => search(value, fetchActionURL)}
                       />
                     </Boxed>
-                    <Boxed />
-                    <Boxed />
+                    <Boxed margin="auto 0 0 0">
+                      <AsyncSelect
+                        label="Appraisal Status"
+                        isClearable={true}
+                        options={appraisalOptions}
+                        onChange={(value) => setAppraisalStatus(value)}
+                      />
+                    </Boxed>
+                    <Boxed margin="auto 0 0 0">
+                      <AsyncSelect
+                        label="Allocated Status"
+                        isClearable={true}
+                        options={allocatedOptions}
+                        onChange={(value) => setAllocatedStatus(value)}
+                      />
+                    </Boxed>
                     <Boxed />
                   </Grid>
                   {isLoading ? (

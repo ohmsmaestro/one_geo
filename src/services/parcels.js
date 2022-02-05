@@ -10,6 +10,15 @@ export async function getParcels(data) {
   });
 }
 
+export async function getMyParcels(data) {
+  const url = `${endpoint}/users/parcels`;
+  return await request({
+    url,
+    method: "GET",
+    data,
+  });
+}
+
 export async function getAppraisals(data) {
   const url = `${endpoint}/appraisals`;
   return await request({

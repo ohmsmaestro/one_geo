@@ -12,16 +12,15 @@ export async function getArchived(data) {
 
 export async function getParcelArchieved(data) {
   const url = `${endpoint}/parcels/documents/${data.ParcelNumber}`;
-  return await request({
-    url,
-    method: "GET",
-  });
+  return await request({ url, method: "GET" });
 }
 
 export async function getParcelArchievedFile(data) {
   const url = `${endpoint}/parcels/documents/${data.ParcelNumber}/${data.fileName}`;
-  return await request({
-    url,
-    method: "GET",
-  });
+  return await request({ url, method: "GET" });
+}
+
+export async function getApplicationFile(data) {
+  const url = `${endpoint}/applications/documents/${data.id}/${data.fileName}`;
+  return await request({ url, method: "GET" });
 }

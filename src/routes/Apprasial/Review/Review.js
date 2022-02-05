@@ -54,20 +54,24 @@ export const Review = (props) => {
             <Button clear onClick={closeModal}>
               Cancel
             </Button>
-            <Button
-              margin="0 0 0 auto"
-              color={Theme.PrimaryRed}
-              onClick={() => onSubmit("REJECTED")}
-            >
-              Decline
-            </Button>
-            <Button
-              progress={isLoading}
-              disabled={isLoading}
-              onClick={() => onSubmit("APPROVED")}
-            >
-              Approve
-            </Button>
+            {appraisalDetail.status === "UNATTENDED" && (
+              <>
+                <Button
+                  margin="0 0 0 auto"
+                  color={Theme.PrimaryRed}
+                  onClick={() => onSubmit("REJECTED")}
+                >
+                  Decline
+                </Button>
+                <Button
+                  progress={isLoading}
+                  disabled={isLoading}
+                  onClick={() => onSubmit("APPROVED")}
+                >
+                  Approve
+                </Button>
+              </>
+            )}
           </Boxed>
         }
       >
@@ -156,20 +160,36 @@ export const Review = (props) => {
             </Text>
           </Boxed>
         </Grid>
-        <Boxed pad="15px 0">
-          <Input
-            type="text"
-            label="Comment"
-            placeholder="Enter comment..."
-            error={
-              (errors = getFieldError("comment")) ? "Comment is required" : null
-            }
-            {...getFieldProps("comment", {
-              initialValue: "",
-              rules: [{ required: true }],
-            })}
-          />
-        </Boxed>
+
+        {appraisalDetail.status === "UNATTENDED" ? (
+          <Boxed pad="15px 0">
+            <Input
+              type="text"
+              label="Comment"
+              placeholder="Enter comment..."
+              error={
+                (errors = getFieldError("comment"))
+                  ? "Comment is required"
+                  : null
+              }
+              {...getFieldProps("comment", {
+                initialValue: "",
+                rules: [{ required: true }],
+              })}
+            />
+          </Boxed>
+        ) : (
+          <Boxed>
+            <Text
+              fontSize={Theme.SecondaryFontSize}
+              color={Theme.SecondaryTextColor}
+              fontWeight="600"
+            >
+              Status
+            </Text>
+            <Text>{appraisalDetail.status}</Text>
+          </Boxed>
+        )}
       </ModalComponent>
     </>
   );

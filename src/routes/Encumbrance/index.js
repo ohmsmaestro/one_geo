@@ -2,8 +2,12 @@ import { connect } from "dva";
 import { createForm } from "rc-form";
 import { Encumbrance } from "./Encumbrance";
 import { routerRedux } from "dva/router";
+import { storagePrivilege } from "../../utils/constant";
 
 const fetchActionURL = "entries/getAllEncumbrance";
+const accessList = localStorage.getItem(storagePrivilege)
+  ? JSON.parse(localStorage.getItem(storagePrivilege))
+  : {};
 
 export const mapStateToProps = (state, ownProps) => {
   const { loading, entries } = state;
@@ -21,6 +25,7 @@ export const mapStateToProps = (state, ownProps) => {
     fetchActionURL,
     terminateModal,
     encumbranceDetailModal,
+    accessList,
   };
 };
 

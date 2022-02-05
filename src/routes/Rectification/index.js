@@ -3,52 +3,13 @@ import { createForm } from "rc-form";
 import { Rectification } from "./Rectification";
 import { routerRedux } from "dva/router";
 
-const sampleData = [
-  {
-    id: 1,
-    entry_number: "W18956M",
-    parcel_number: "PS45654",
-    created_at: "30-09-2021",
-    proprietor: "Ijeh Michael",
-  },
-  {
-    id: 2,
-    entry_number: "W18956M",
-    parcel_number: "PS45654",
-    created_at: "30-09-2021",
-    proprietor: "Ijeh Michael",
-  },
-  {
-    id: 3,
-    entry_number: "W18956M",
-    parcel_number: "PS45654",
-    created_at: "30-09-2021",
-    proprietor: "Ijeh Michael",
-  },
-  {
-    id: 4,
-    entry_number: "W18956M",
-    parcel_number: "PS45654",
-    created_at: "30-09-2021",
-    proprietor: "Ijeh Michael",
-  },
-  {
-    id: 5,
-    entry_number: "W18956M",
-    parcel_number: "PS45654",
-    created_at: "30-09-2021",
-    proprietor: "Ijeh Michael",
-  },
-  {
-    id: 6,
-    entry_number: "W18956M",
-    parcel_number: "PS45654",
-    created_at: "30-09-2021",
-    proprietor: "Ijeh Michael",
-  },
-];
+import { storagePrivilege } from "../../utils/constant";
 
 const fetchActionURL = "entries/getAllRectification";
+
+const accessList = localStorage.getItem(storagePrivilege)
+  ? JSON.parse(localStorage.getItem(storagePrivilege))
+  : {};
 
 export const mapStateToProps = (state, ownProps) => {
   const { loading, entries } = state;
@@ -61,6 +22,7 @@ export const mapStateToProps = (state, ownProps) => {
     rectificationTotal,
     fetchActionURL,
     rectificationDetailModal,
+    accessList,
   };
 };
 

@@ -1,4 +1,5 @@
 import React, { useEffect } from "react";
+import moment from "moment";
 
 import Dropdown from "react-bootstrap/Dropdown";
 
@@ -12,7 +13,7 @@ import { Avatar } from "../../../components/Avatar.components";
 import { FileComponent } from "../../../components/File.components";
 import { PageTitle, Icon, StyledDrpDown, HR } from "../../../components/style";
 
-import { calcViewMode, formatDate } from "../../../utils/utils";
+import { calcViewMode, formatDate, formatCurrency } from "../../../utils/utils";
 import { pageOptions } from "../../../utils/constant";
 import { Theme } from "../../../utils/theme";
 
@@ -20,11 +21,19 @@ import MALE_IMG from "../../../assets/img/male.png";
 
 import DecisionModal from "./DecisionModal";
 import AllocateModal from "./AllocateModal";
+import { MAP_URL } from "../../../utils/config";
 
 export const Review = (props) => {
   // state props
-  const { isLoading, applicationDetail, params, decisionModal, allocateModal } =
-    props;
+  const {
+    isLoading,
+    applicationDetail,
+    params,
+    decisionModal,
+    allocateModal,
+    parcelData,
+    profile,
+  } = props;
   const documents = applicationDetail.documents
     ? applicationDetail.documents
     : [];
@@ -35,6 +44,8 @@ export const Review = (props) => {
     getApplicationDetail,
     openDecisionModal,
     openAllocateModal,
+    openApplicationFile,
+    searchParcels,
   } = props;
 
   useEffect(() => {
@@ -43,6 +54,16 @@ export const Review = (props) => {
     };
     getApplicationDetail(data);
   }, []);
+
+  useEffect(() => {
+    if (applicationDetail.plotNumber) {
+      searchParcels({
+        search: applicationDetail.plotNumber,
+        size: 10,
+        page: 1,
+      });
+    }
+  }, [applicationDetail.plotNumber]);
 
   let viewMode = calcViewMode();
 
@@ -67,7 +88,10 @@ export const Review = (props) => {
         ) : (
           <Boxed>
             <Boxed pad="10px 0" align="right">
-              {applicationDetail.status === "PENDING" && (
+              {(applicationDetail.status === "PENDING REVIEW" ||
+                applicationDetail.status === "PENDING ALLOCATION APPROVAL" ||
+                (applicationDetail.status === "PENDING ACCEPTANCE" &&
+                  profile?.email === applicationDetail?.email)) && (
                 <>
                   <Button
                     color={Theme.PrimaryRed}
@@ -76,12 +100,14 @@ export const Review = (props) => {
                     Decline
                   </Button>
                   <Button onClick={() => openDecisionModal("APPROVED")}>
-                    Approve
+                    {applicationDetail.status === "PENDING ACCEPTANCE"
+                      ? "Accept"
+                      : "Approve"}
                   </Button>
                 </>
               )}
 
-              {applicationDetail.status === "APPROVED" && (
+              {applicationDetail.status === "PENDING ALLOCATION" && (
                 <Button
                   color={Theme.PrimaryBlue}
                   onClick={() => openAllocateModal()}
@@ -312,14 +338,128 @@ export const Review = (props) => {
                     return (
                       <Boxed pad="10px" key={index}>
                         <FileComponent
+                          onClick={() =>
+                            openApplicationFile({
+                              id: applicationDetail.id,
+                              fileName: item.fileName,
+                            })
+                          }
                           name={item.description}
                           type={item.fileFormat}
+                          cursor="pointer"
                         />
                       </Boxed>
                     );
                   })}
               </Grid>
             </Boxed>
+
+            {applicationDetail.status === "PENDING ALLOCATION APPROVAL" ||
+            (applicationDetail.status === "PENDING ACCEPTANCE" &&
+              profile?.email === applicationDetail?.email) ? (
+              <>
+                <HR />
+                <Text
+                  fontSize={Theme.SecondaryFontSize}
+                  color={Theme.SecondaryTextColor}
+                >
+                  Assigned Plot
+                </Text>
+                <Boxed pad="10px 0">
+                  <Grid
+                    desktop="repeat(3,1fr)"
+                    tablet="repeat=(3,1fr)"
+                    mobile="repeat(2, 1fr)"
+                  >
+                    <Boxed pad="10px 0">
+                      <Text
+                        fontSize={Theme.SecondaryFontSize}
+                        color={Theme.SecondaryTextColor}
+                      >
+                        Plot Number
+                      </Text>
+                      <Text padding="0 5px">{parcelData.ParcelNumber}</Text>
+                    </Boxed>
+                    <Boxed />
+                    <Boxed />
+
+                    <Boxed pad="8px 0">
+                      <Text
+                        fontSize={Theme.SecondaryFontSize}
+                        color={Theme.SecondaryTextColor}
+                      >
+                        Registration Number
+                      </Text>
+                      <Text>{parcelData.REG_NUMBER}</Text>
+                    </Boxed>
+
+                    <Boxed pad="8px 0">
+                      <Text
+                        fontSize={Theme.SecondaryFontSize}
+                        color={Theme.SecondaryTextColor}
+                      >
+                        Registration Date
+                      </Text>
+                      <Text>
+                        {parcelData.REG_DATE &&
+                          moment(parcelData.REG_DATE).format("ll")}
+                      </Text>
+                    </Boxed>
+
+                    <Boxed pad="8px 0">
+                      <Text
+                        fontSize={Theme.SecondaryFontSize}
+                        color={Theme.SecondaryTextColor}
+                      >
+                        Category
+                      </Text>
+                      <Text>{parcelData.CATEGORY}</Text>
+                    </Boxed>
+
+                    <Boxed pad="8px 0">
+                      <Text
+                        fontSize={Theme.SecondaryFontSize}
+                        color={Theme.SecondaryTextColor}
+                      >
+                        Land Type
+                      </Text>
+                      <Text>{parcelData.LAND_TYPE}</Text>
+                    </Boxed>
+                    <Boxed pad="8px 0">
+                      <Text
+                        fontSize={Theme.SecondaryFontSize}
+                        color={Theme.SecondaryTextColor}
+                      >
+                        Land Use
+                      </Text>
+                      <Text>{parcelData.LAND_USE}</Text>
+                    </Boxed>
+                    <Boxed pad="8px 0">
+                      <Text
+                        fontSize={Theme.SecondaryFontSize}
+                        color={Theme.SecondaryTextColor}
+                      >
+                        Area
+                      </Text>
+                      <Text>
+                        {parcelData.Shape__Area &&
+                          formatCurrency(
+                            Math.round(parcelData.Shape__Area * 100) / 100
+                          )}{" "}
+                        sqr meter
+                      </Text>
+                    </Boxed>
+                  </Grid>
+                  <Boxed>
+                    <iframe
+                      src={`${MAP_URL}/map.html?parcel=${parcelData.FID}`}
+                      width="100%"
+                      height="300px"
+                    />
+                  </Boxed>
+                </Boxed>
+              </>
+            ) : null}
           </Boxed>
         )}
       </Boxed>
@@ -327,113 +467,4 @@ export const Review = (props) => {
       {allocateModal && <AllocateModal />}
     </>
   );
-};
-
-const payload = {
-  type: "SSCE_INT",
-  year: 2023,
-  description: "SSEC INTERNAL",
-  status: "ACTIVE",
-  ca3UploadEnd: "2022-01-25 00:00:00",
-  ca3UploadStart: "2022-01-12 00:00:00",
-  lateCA3UploadEnd: "2022-01-25 00:00:00",
-  lateCA3UploadStart: "2022-01-12 00:00:00",
-  lateRegistrationEnd: "2022-01-28 00:00:00",
-  lateRegistrationStart: "2022-01-25 00:00:00",
-  paymentEnd: "2022-01-25 00:00:00",
-  paymentStart: "2022-01-12 00:00:00",
-  registrationEnd: "2022-01-25 00:00:00",
-  registrationStart: "2022-01-12 00:00:00",
-  countriesFeeList: [
-    {
-      countyId: 140,
-      fees: [
-        {
-          type: "FOUR_FIG_FIGURE",
-          amount: 1000,
-          currencyType: "NGN",
-        },
-        {
-          type: "REGISTRATION_FEE",
-          amount: 7800,
-          currencyType: "NGN",
-        },
-        {
-          type: "LATE_REGISTRATION_FEE",
-          amount: 2000,
-          currencyType: "NGN",
-        },
-        {
-          type: "LATE_CA3_SUBMISSION",
-          amount: 1000,
-          currencyType: "NGN",
-        },
-        {
-          type: "SYLLABUS",
-          amount: 1000,
-          currencyType: "NGN",
-        },
-      ],
-    },
-    {
-      countyId: 278,
-      fees: [
-        {
-          type: "FOUR_FIG_FIGURE",
-          amount: 10,
-          currencyType: "USD",
-        },
-        {
-          type: "REGISTRATION_FEE",
-          amount: 290,
-          currencyType: "USD",
-        },
-        {
-          type: "LATE_REGISTRATION_FEE",
-          amount: 100,
-          currencyType: "USD",
-        },
-        {
-          type: "LATE_CA3_SUBMISSION",
-          amount: 200,
-          currencyType: "USD",
-        },
-        {
-          type: "SYLLABUS",
-          amount: 10,
-          currencyType: "USD",
-        },
-      ],
-    },
-    {
-      countyId: 239,
-      fees: [
-        {
-          type: "FOUR_FIG_FIGURE",
-          amount: 10,
-          currencyType: "USD",
-        },
-        {
-          type: "REGISTRATION_FEE",
-          amount: 190,
-          currencyType: "USD",
-        },
-        {
-          type: "LATE_REGISTRATION_FEE",
-          amount: 50,
-          currencyType: "USD",
-        },
-        {
-          type: "LATE_CA3_SUBMISSION",
-          amount: 150,
-          currencyType: "USD",
-        },
-        {
-          type: "SYLLABUS",
-          amount: 15,
-          currencyType: "USD",
-        },
-      ],
-    },
-  ],
 };

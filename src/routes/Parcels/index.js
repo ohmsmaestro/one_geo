@@ -4,14 +4,16 @@ import { Parcels } from "./Parcels";
 import { routerRedux } from "dva/router";
 import { storagePrivilege } from "../../utils/constant";
 
-const fetchActionURL = "parcels/getAllParcels";
+let fetchActionURL = "parcels/getAllParcels";
 
 const accessList = localStorage.getItem(storagePrivilege)
   ? JSON.parse(localStorage.getItem(storagePrivilege))
   : {};
 
 export const mapStateToProps = (state, ownProps) => {
-  const { loading, parcels } = state;
+  const { loading, parcels, authentication } = state;
+  const { profile } = authentication;
+  profile?.isProprietor && (fetchActionURL = "parcels/getAllMyParcels");
   const {
     parcelsList,
     parcelsTotal,
@@ -21,6 +23,7 @@ export const mapStateToProps = (state, ownProps) => {
     rectificationModal,
   } = parcels;
   const isLoading = loading.effects[fetchActionURL];
+
   return {
     isLoading,
     parcelsList,
@@ -31,6 +34,7 @@ export const mapStateToProps = (state, ownProps) => {
     encumbranceModal,
     rectificationModal,
     accessList,
+    profile,
   };
 };
 

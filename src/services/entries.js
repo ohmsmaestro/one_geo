@@ -18,6 +18,14 @@ export async function getApplications(data) {
     data,
   });
 }
+export async function getMyApplications(data) {
+  const url = `${endpoint}/users/applications`;
+  return await request({
+    url,
+    method: "GET",
+    data,
+  });
+}
 export async function postApplication(data) {
   const url = `${endpoint}/signup/internal`;
   return await request({

@@ -111,7 +111,7 @@ export const Appraisal = (props) => {
       align: "center",
       render: (text, record) => {
         switch (text) {
-          case "PENDING":
+          case "UNATTENDED":
             return (
               <Text
                 color={Theme.PrimaryYellow}

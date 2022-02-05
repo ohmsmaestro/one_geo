@@ -25,7 +25,7 @@ export const mapDispatchToProps = (dispatch, ownProps) => {
         payload: { decisionModal: false },
       });
     },
-    approveApplication(data) {
+    approveApplicationReview(data) {
       dispatch({ type: "entries/approveApplication", payload: data });
     },
   };
