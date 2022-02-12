@@ -10,6 +10,15 @@ export async function getEntries(data) {
   });
 }
 
+export async function getOwners(data) {
+  const url = `${endpoint}/parcels/owners?`;
+  return await request({
+    url,
+    method: "GET",
+    data,
+  });
+}
+
 export async function getApplications(data) {
   const url = `${endpoint}/applications`;
   return await request({

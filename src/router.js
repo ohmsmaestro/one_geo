@@ -21,6 +21,7 @@ import ParcelDetail from "./routes/Parcels/ParcelDetail/index";
 import ParcelsView from "./routes/Parcels/View/index";
 import ParcelsTDP from "./routes/Parcels/TDP/index";
 import Entries from "./routes/Entries/index";
+import OwnersEntries from "./routes/OwnersEntries/index";
 import Rectification from "./routes/Rectification/index";
 import Encumbrance from "./routes/Encumbrance/index";
 import Archived from "./routes/Archived/index";
@@ -135,6 +136,13 @@ export function RouterConfig({ history, app }) {
             exact
             render={(props) => {
               return <Entries {...props} />;
+            }}
+          />
+          <PrivateRoute
+            path="/owners"
+            exact
+            render={(props) => {
+              return <OwnersEntries {...props} />;
             }}
           />
           <PrivateRoute

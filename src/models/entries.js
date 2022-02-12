@@ -17,6 +17,7 @@ import {
   putTerminateEncumbrance,
   getEncumbranceDetail,
   postAllocateParcel,
+  getOwners,
 } from "../services/entries";
 
 export default {
@@ -26,6 +27,9 @@ export default {
     entriesList: [],
     entriesTotal: 0,
     entryData: {},
+
+    ownersList: [],
+    ownersTotal: 0,
 
     applicationsList: [],
     applicationsTotal: 0,
@@ -58,6 +62,20 @@ export default {
         yield put({
           type: "save",
           payload: { entriesList: list, entriesTotal: total },
+        });
+      } else {
+        Alert.error(message);
+      }
+    },
+
+    *getAllOwnersEntries({ payload }, { call, put }) {
+      const { raw, success, message } = yield call(getOwners, payload);
+      if (success) {
+        const list = raw?.data?.owners;
+        const total = raw?.data?.pagination?.totalRecord;
+        yield put({
+          type: "save",
+          payload: { ownersList: list, ownersTotal: total },
         });
       } else {
         Alert.error(message);
@@ -159,7 +177,7 @@ export default {
           type: "save",
           payload: {
             allocateModal: false,
-            applcicationDetail: { ...data },
+            applicationDetail: { ...data },
           },
         });
       } else {

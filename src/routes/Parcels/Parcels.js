@@ -252,22 +252,26 @@ export const Parcels = (props) => {
                         onChange={(value) => search(value, fetchActionURL)}
                       />
                     </Boxed>
-                    <Boxed margin="auto 0 0 0">
-                      <AsyncSelect
-                        label="Appraisal Status"
-                        isClearable={true}
-                        options={appraisalOptions}
-                        onChange={(value) => setAppraisalStatus(value)}
-                      />
-                    </Boxed>
-                    <Boxed margin="auto 0 0 0">
-                      <AsyncSelect
-                        label="Allocated Status"
-                        isClearable={true}
-                        options={allocatedOptions}
-                        onChange={(value) => setAllocatedStatus(value)}
-                      />
-                    </Boxed>
+                    {!profile?.isProprietor && (
+                      <>
+                        <Boxed margin="auto 0 0 0">
+                          <AsyncSelect
+                            label="Appraisal Status"
+                            isClearable={true}
+                            options={appraisalOptions}
+                            onChange={(value) => setAppraisalStatus(value)}
+                          />
+                        </Boxed>
+                        <Boxed margin="auto 0 0 0">
+                          <AsyncSelect
+                            label="Allocated Status"
+                            isClearable={true}
+                            options={allocatedOptions}
+                            onChange={(value) => setAllocatedStatus(value)}
+                          />
+                        </Boxed>
+                      </>
+                    )}
                     <Boxed />
                   </Grid>
                   {isLoading ? (

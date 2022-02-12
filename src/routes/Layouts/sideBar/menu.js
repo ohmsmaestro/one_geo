@@ -29,7 +29,7 @@ export const adminMenu = [
       {
         icon: "icon-forward-outline",
         label: "Owners Entries",
-        pathname: "/entries",
+        pathname: "/owners",
         role: ["VIEW_PARCEL"],
       },
       {

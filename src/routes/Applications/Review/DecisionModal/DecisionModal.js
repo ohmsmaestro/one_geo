@@ -26,6 +26,7 @@ export const DecisionModal = (props) => {
         const data = {
           status: status,
           applicationId: applicationDetail.id,
+          stageId: applicationDetail.stageId,
           comment: value.comment,
         };
 

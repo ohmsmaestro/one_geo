@@ -87,25 +87,38 @@ export const Review = (props) => {
           </Boxed>
         ) : (
           <Boxed>
+            {applicationDetail.declined ? (
+              <Boxed
+                pad="20px"
+                border={`1px solid ${Theme.PrimaryRed}50`}
+                background={`${Theme.PrimaryRed}20`}
+                align="left"
+              >
+                <Text>
+                  Declined Comment: <b>{applicationDetail.declinedComment}</b>
+                </Text>
+              </Boxed>
+            ) : null}
             <Boxed pad="10px 0" align="right">
               {(applicationDetail.status === "PENDING REVIEW" ||
                 applicationDetail.status === "PENDING ALLOCATION APPROVAL" ||
                 (applicationDetail.status === "PENDING ACCEPTANCE" &&
-                  profile?.email === applicationDetail?.email)) && (
-                <>
-                  <Button
-                    color={Theme.PrimaryRed}
-                    onClick={() => openDecisionModal("REJECTED")}
-                  >
-                    Decline
-                  </Button>
-                  <Button onClick={() => openDecisionModal("APPROVED")}>
-                    {applicationDetail.status === "PENDING ACCEPTANCE"
-                      ? "Accept"
-                      : "Approve"}
-                  </Button>
-                </>
-              )}
+                  profile?.email === applicationDetail?.email)) &&
+                !applicationDetail?.declined && (
+                  <>
+                    <Button
+                      color={Theme.PrimaryRed}
+                      onClick={() => openDecisionModal("REJECTED")}
+                    >
+                      Decline
+                    </Button>
+                    <Button onClick={() => openDecisionModal("APPROVED")}>
+                      {applicationDetail.status === "PENDING ACCEPTANCE"
+                        ? "Accept"
+                        : "Approve"}
+                    </Button>
+                  </>
+                )}
 
               {applicationDetail.status === "PENDING ALLOCATION" && (
                 <Button
@@ -160,7 +173,11 @@ export const Review = (props) => {
                     >
                       Status
                     </Text>
-                    <Text padding="0 5px">{applicationDetail.status}</Text>
+                    <Text padding="0 5px">
+                      {applicationDetail?.declined
+                        ? `Declined [${applicationDetail?.status}]`
+                        : applicationDetail?.status}
+                    </Text>
                   </Boxed>
                   {applicationDetail?.nin && (
                     <>
@@ -356,7 +373,8 @@ export const Review = (props) => {
 
             {applicationDetail.status === "PENDING ALLOCATION APPROVAL" ||
             (applicationDetail.status === "PENDING ACCEPTANCE" &&
-              profile?.email === applicationDetail?.email) ? (
+              profile?.email === applicationDetail?.email) ||
+            applicationDetail.status === "ALLOCATED" ? (
               <>
                 <HR />
                 <Text

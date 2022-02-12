@@ -29,7 +29,26 @@ const statusOptions = [
   { value: 5, label: "Allocated" },
 ];
 
-const getStatus = (status) => {
+const getStatus = (status, declined) => {
+  if (declined) {
+    return (
+      <Text
+        color={Theme.PrimaryRed}
+        fontWeight="600"
+        fontSize={Theme.SecondaryFontSize}
+        align="center"
+      >
+        {" "}
+        <Icon
+          className="icon-cancel-circled"
+          color={Theme.PrimaryRed}
+          margin="0 5px 0 0"
+          fontSize="16px"
+        />{" "}
+        Declined [{status}]
+      </Text>
+    );
+  }
   switch (status) {
     case "PENDING REVIEW":
       return (
@@ -192,7 +211,8 @@ export const Applications = (props) => {
   };
 
   const ApplicationCard = ({ record }) => {
-    const { id, status, createdAt, firstname, middlename, lastname } = record;
+    const { id, status, createdAt, firstname, middlename, lastname, declined } =
+      record;
     return (
       <Boxed
         background={Theme.TertiaryDark}
@@ -208,11 +228,10 @@ export const Applications = (props) => {
             <Boxed>
               <Text fontWeight="600">{id}</Text>
               <Text
-                fontWeight="600"
                 fontSize={Theme.SecondaryFontSize}
                 color={Theme.SecondaryTextColor}
               >
-                Application Number
+                App. Number
               </Text>
             </Boxed>
             <Boxed>
@@ -240,7 +259,7 @@ export const Applications = (props) => {
         >
           {createdAt && formatDate(createdAt)}
         </Text>
-        <Boxed pad="5px 10px">{getStatus(status)}</Boxed>
+        <Boxed pad="5px 10px">{getStatus(status, declined)}</Boxed>
       </Boxed>
     );
   };
@@ -278,7 +297,7 @@ export const Applications = (props) => {
       key: "status",
       align: "center",
       render: (text, record) => {
-        return getStatus(text);
+        return getStatus(text, record.declined);
       },
     },
     {
