@@ -3,12 +3,14 @@ import { Alert } from "../components/Alert.components";
 import {
   getParcels,
   getMyParcels,
+  getParcelOwner,
   postEncumbrance,
   postRectification,
   postAppraisal,
   getAppraisals,
   putAppraisal,
   getAppraisalType,
+  getDeeds,
 } from "../services/parcels";
 
 import { storageParcelsModel } from "../utils/constant";
@@ -20,6 +22,7 @@ export default {
     parcelsList: [],
     parcelsTotal: 0,
     parcelData: {},
+    parcelOwner: {},
     createParcel: false,
     rentModal: false,
     appraisalModal: false,
@@ -31,6 +34,9 @@ export default {
     appraisalTotal: 0,
     appraisalReview: false,
     appraisalDetail: {},
+
+    deedList: [],
+    deedTotal: 0,
   },
 
   subscriptions: {
@@ -78,7 +84,6 @@ export default {
         Alert.error(message);
       }
     },
-
     *getSingleParcel({ payload }, { call, put }) {
       const { raw, success, message } = yield call(getParcels, payload);
       if (success) {
@@ -89,8 +94,21 @@ export default {
             type: "save",
             payload: { parcelData: item },
           });
-
           yield put({ type: "archived/getParcelArchieved", payload: item });
+        }
+      } else {
+        // Alert.error(message);
+      }
+    },
+    *getParcelOwner({ payload }, { call, put }) {
+      const { raw, success, message } = yield call(getParcelOwner, payload);
+      if (success) {
+        const item = raw?.data;
+        if (item) {
+          yield put({
+            type: "save",
+            payload: { parcelOwner: item },
+          });
         }
       } else {
         // Alert.error(message);
@@ -192,6 +210,20 @@ export default {
             appraisalDetail: {},
             appraisalList: list,
           },
+        });
+      } else {
+        Alert.error(message);
+      }
+    },
+
+    *getAllDeedRequest({ payload }, { call, put }) {
+      const { raw, success, message } = yield call(getDeeds, payload);
+      if (success) {
+        const list = raw?.data?.deeds;
+        const total = raw?.data?.totalRecord;
+        yield put({
+          type: "save",
+          payload: { parcelsList: list, parcelsTotal: total },
         });
       } else {
         Alert.error(message);

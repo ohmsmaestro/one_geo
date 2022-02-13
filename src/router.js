@@ -29,6 +29,8 @@ import Appraisal from "./routes/Apprasial/index";
 import Applications from "./routes/Applications/index";
 import CreateApplication from "./routes/Applications/CreateApplication/index";
 import ApplicationReview from "./routes/Applications/Review/index";
+import DeedRequest from "./routes/DeedRequest/index";
+import CreateDeedRequest from "./routes/DeedRequest/CreateDeedRequest/index";
 import UsersManagement from "./routes/UserManagement/index";
 import RoleManagement from "./routes/RoleManagement/index";
 import CreateRole from "./routes/RoleManagement/CreateRole/index";
@@ -178,6 +180,20 @@ export function RouterConfig({ history, app }) {
             exact
             render={(props) => {
               return <ApplicationReview {...props} />;
+            }}
+          />
+          <PrivateRoute
+            path="/deeds"
+            exact
+            render={(props) => {
+              return <DeedRequest {...props} />;
+            }}
+          />
+          <PrivateRoute
+            path="/deeds/application/:ParcelNumber"
+            exact
+            render={(props) => {
+              return <CreateDeedRequest {...props} />;
             }}
           />
           <PrivateRoute

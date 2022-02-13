@@ -19,6 +19,14 @@ export async function getMyParcels(data) {
   });
 }
 
+export async function getParcelOwner(data) {
+  const url = `${endpoint}/parcels/owners/${data.search}`;
+  return await request({
+    url,
+    method: "GET",
+  });
+}
+
 export async function getAppraisals(data) {
   const url = `${endpoint}/appraisals`;
   return await request({
@@ -69,6 +77,15 @@ export async function postRectification(data) {
   return await request({
     url,
     method: "POST",
+    data,
+  });
+}
+
+export async function getDeeds(data) {
+  const url = `${endpoint}/deeds`;
+  return await request({
+    url,
+    method: "GET",
     data,
   });
 }

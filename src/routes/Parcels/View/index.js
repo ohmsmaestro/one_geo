@@ -4,7 +4,6 @@ import { routerRedux } from "dva/router";
 // import qs from "query-string";
 
 export const mapStateToProps = (state, ownProps) => {
-  console.log(window.location);
   const search = window?.location?.search;
   return {
     search,

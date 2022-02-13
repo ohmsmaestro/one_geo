@@ -81,7 +81,7 @@ export const Parcels = (props) => {
     const { record } = props;
     return (
       <StyledDrpDown>
-        {profile?.isProprietor ? (
+        {profile?.isProprietor ? ( // Menu for a plot owner
           <Dropdown>
             <Dropdown.Toggle variant id="dropdown-basic">
               <Icon className="icon-more-vertical" />
@@ -107,6 +107,7 @@ export const Parcels = (props) => {
             </Dropdown.Menu>
           </Dropdown>
         ) : (
+          // Menu for a system admin
           <Dropdown>
             <Dropdown.Toggle variant id="dropdown-basic">
               <Icon className="icon-more-vertical" />
@@ -151,6 +152,15 @@ export const Parcels = (props) => {
               {accessList["CREATE_RECTIFICATION"] && (
                 <Dropdown.Item onClick={() => openRectificationModal(record)}>
                   Create Rectification
+                </Dropdown.Item>
+              )}
+              {accessList["VIEW_PLOT_MAP"] && record.ALLOCATED === 1 && (
+                <Dropdown.Item
+                  onClick={() =>
+                    redirect(`deeds/application/${record.ParcelNumber}`)
+                  }
+                >
+                  Create Deed Request
                 </Dropdown.Item>
               )}
               {accessList["VIEW_PARCEL_WORK_QUERIES"] && (
