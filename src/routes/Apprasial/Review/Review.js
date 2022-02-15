@@ -25,11 +25,14 @@ export const Review = (props) => {
     validateFields((error, values) => {
       if (!error) {
         let data = {
-          FID: appraisalDetail.FID, // Confirm from Mohammed
           status: status,
           comment: values.comment,
           parcels: [
-            { id: appraisalDetail.id, fileNumber: appraisalDetail.fileNumber },
+            {
+              id: appraisalDetail.id,
+              fileNumber: appraisalDetail.fileNumber,
+              FID: appraisalDetail.FID,
+            },
           ],
         };
         approveApprasial(data);

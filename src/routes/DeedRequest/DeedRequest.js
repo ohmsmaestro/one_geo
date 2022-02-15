@@ -291,7 +291,7 @@ export const DeedRequest = (props) => {
                     <Boxed pad="5px 0" margin="auto 0 0 0">
                       <Input
                         type="search"
-                        placeholder="Search by Deed. no."
+                        placeholder="Search by plot number."
                         onChange={(value) => search(value, fetchActionURL)}
                       />
                     </Boxed>
