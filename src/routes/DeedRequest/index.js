@@ -12,6 +12,7 @@ const mapStateToProps = (state, ownProps) => {
     deedList,
     deedTotal,
     isLoading,
+    fetchActionURL,
   };
 };
 

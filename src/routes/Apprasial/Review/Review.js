@@ -1,6 +1,4 @@
-import React, { useEffect } from "react";
-
-import Dropdown from "react-bootstrap/Dropdown";
+import React from "react";
 
 import { ModalComponent } from "../../../components/Modal.components";
 import { Grid } from "../../../components/Grid.components";
@@ -8,10 +6,7 @@ import { Boxed } from "../../../components/Boxed.components";
 import { Input } from "../../../components/Input.components";
 import { Text } from "../../../components/Text.components";
 import { Button } from "../../../components/Button.components";
-import { Loader } from "../../../components/Loader.components";
-import { Avatar } from "../../../components/Avatar.components";
-import { FileComponent } from "../../../components/File.components";
-import { PageTitle, Icon, StyledDrpDown, HR } from "../../../components/style";
+import { PageTitle } from "../../../components/style";
 
 import { calcViewMode, formatCurrency, formatDate } from "../../../utils/utils";
 import { Theme } from "../../../utils/theme";
@@ -30,6 +25,7 @@ export const Review = (props) => {
     validateFields((error, values) => {
       if (!error) {
         let data = {
+          FID: appraisalDetail.FID, // Confirm from Mohammed
           status: status,
           comment: values.comment,
           parcels: [

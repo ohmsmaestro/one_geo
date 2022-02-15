@@ -175,8 +175,8 @@ export const DeedRequest = (props) => {
 
   useEffect(() => {
     let data = {
-      // page: 1,
-      // size: 10,
+      page: 1,
+      size: 10,
     };
     getAllDeedRequest(data);
   }, []);
@@ -212,28 +212,28 @@ export const DeedRequest = (props) => {
       key: "id",
     },
     {
-      title: "Type",
-      dataIndex: "id",
-      key: "id",
+      title: "Plot Number",
+      dataIndex: "plotNumber",
+      key: "plotNumber",
     },
     {
       title: "Old Owner",
-      dataIndex: "lastname",
-      key: "lastname",
+      dataIndex: "oldLastname",
+      key: "oldLastname",
       render: (text, record) =>
         text &&
-        `${record.firstname ? record.firstname : ""}  ${
-          record.middlename ? record.middlename : ""
+        `${record.oldFirstname ? record.oldFirstname : ""}  ${
+          record.oldMiddlename ? record.oldMiddlename : ""
         } ${text}`,
     },
     {
       title: "New Owner",
-      dataIndex: "lastname",
-      key: "lastname",
+      dataIndex: "newLastname",
+      key: "newLastname",
       render: (text, record) =>
         text &&
-        `${record.firstname ? record.firstname : ""}  ${
-          record.middlename ? record.middlename : ""
+        `${record.newFirstname ? record.newFirstname : ""}  ${
+          record.newMiddlename ? record.newMiddlename : ""
         } ${text}`,
     },
     {
@@ -244,8 +244,8 @@ export const DeedRequest = (props) => {
     },
     {
       title: "Status",
-      dataIndex: "status",
-      key: "status",
+      dataIndex: "stageName",
+      key: "stageName",
       align: "center",
       render: (text, record) => {
         return getStatus(text, record.declined);
@@ -291,7 +291,7 @@ export const DeedRequest = (props) => {
                     <Boxed pad="5px 0" margin="auto 0 0 0">
                       <Input
                         type="search"
-                        placeholder="Search by App. no."
+                        placeholder="Search by Deed. no."
                         onChange={(value) => search(value, fetchActionURL)}
                       />
                     </Boxed>
@@ -303,13 +303,7 @@ export const DeedRequest = (props) => {
                       />
                     </Boxed>
                     <Boxed />
-                    <Boxed pad="5px 0" align="right" margin="auto 0 0 0">
-                      {!isProprietor && (
-                        <Button onClick={() => redirect("application/create")}>
-                          Create Application
-                        </Button>
-                      )}
-                    </Boxed>
+                    <Boxed />
                   </Grid>
                   {isLoading ? (
                     <Boxed display="flex" pad="20px">

@@ -246,8 +246,8 @@ export const Applications = (props) => {
         >
           By:{" "}
           <b>
-            {firstname ? firstname : ""}
-            {middlename ? middlename : ""} {lastname ? lastname : ""}
+            {firstname ? firstname : ""} {middlename ? middlename : ""}{" "}
+            {lastname ? lastname : ""}
           </b>
         </Text>
         <Text

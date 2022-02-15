@@ -30,7 +30,7 @@ export const adminMenu = [
         icon: "icon-forward-outline",
         label: "Owners Entries",
         pathname: "/owners",
-        role: ["VIEW_PARCEL"],
+        role: ["VIEW_PLOT"],
       },
       {
         icon: "icon-forward-outline",
@@ -66,13 +66,13 @@ export const adminMenu = [
         icon: "icon-folder",
         label: "Archived Documents",
         pathname: "/archived",
-        role: ["VIEW_PARCEL"],
+        role: ["VIEW_PLOT"],
       },
       {
         icon: "icon-briefcase",
-        label: "Deeds Parties",
+        label: "Deeds",
         pathname: "/deeds",
-        role: ["VIEW_DEEDS"],
+        role: ["VIEW_PLOT"],
       },
       {
         icon: "icon-users",

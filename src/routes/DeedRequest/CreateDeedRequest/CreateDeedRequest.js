@@ -29,6 +29,7 @@ export const CreateDeedRequest = (props) => {
     isLoadingStates,
     isLoadingRequirements,
     isLoadingParcel,
+    isLoadingOwner,
     parcelData,
     params,
     parcelOwner,
@@ -55,6 +56,12 @@ export const CreateDeedRequest = (props) => {
   const [lgaResidenceList, setLgaResidenceList] = useState([]);
   const [file, setFile] = useState({});
   const [requirementFiles, setRequirementFiles] = useState({});
+
+  useEffect(() => {
+    fetchStates({});
+    getAllRequirements({});
+    getSingleParcel({ search: params.ParcelNumber });
+  }, []);
 
   // handle logic for uploading an image
   const beforeUpload = (file, id) => {
@@ -131,18 +138,14 @@ export const CreateDeedRequest = (props) => {
             nin: value.nin,
             photo: "",
             files: requireList,
+            fid: parcelData.FID,
+            plotNumber: parcelData.ParcelNumber,
           };
           postDeepRequest(data);
         }
       }
     });
   };
-
-  useEffect(() => {
-    fetchStates({});
-    getAllRequirements({});
-    getSingleParcel({ search: params.ParcelNumber });
-  }, []);
 
   let errors;
 
@@ -307,132 +310,141 @@ export const CreateDeedRequest = (props) => {
         border={`1px solid ${Theme.PrimaryBorderColor}`}
         borderRadius={Theme.PrimaryRadius}
       >
-        <Grid
-          default="repeat(3,1fr)"
-          tablet="repeat(3,1fr)"
-          mobile="repeat(1,1fr)"
-        >
-          <Boxed pad="5px 0">
-            <Text
-              fontSize={Theme.SecondaryFontSize}
-              color={Theme.SecondaryTextColor}
-            >
-              First Name
-            </Text>
-            <Text>{parcelOwner?.firstname}</Text>
+        {isLoadingOwner ? (
+          <Boxed display="flex">
+            {" "}
+            <Loader />
           </Boxed>
-          <Boxed pad="5px 0">
-            <Text
-              fontSize={Theme.SecondaryFontSize}
-              color={Theme.SecondaryTextColor}
+        ) : (
+          <>
+            <Grid
+              default="repeat(3,1fr)"
+              tablet="repeat(3,1fr)"
+              mobile="repeat(1,1fr)"
             >
-              Middle Name
-            </Text>
-            <Text>{parcelOwner?.middlename}</Text>
-          </Boxed>
-          <Boxed pad="5px 0">
-            <Text
-              fontSize={Theme.SecondaryFontSize}
-              color={Theme.SecondaryTextColor}
-            >
-              Last Name
-            </Text>
-            <Text>{parcelOwner?.lastname}</Text>
-          </Boxed>
+              <Boxed pad="5px 0">
+                <Text
+                  fontSize={Theme.SecondaryFontSize}
+                  color={Theme.SecondaryTextColor}
+                >
+                  First Name
+                </Text>
+                <Text>{parcelOwner?.firstname}</Text>
+              </Boxed>
+              <Boxed pad="5px 0">
+                <Text
+                  fontSize={Theme.SecondaryFontSize}
+                  color={Theme.SecondaryTextColor}
+                >
+                  Middle Name
+                </Text>
+                <Text>{parcelOwner?.middlename}</Text>
+              </Boxed>
+              <Boxed pad="5px 0">
+                <Text
+                  fontSize={Theme.SecondaryFontSize}
+                  color={Theme.SecondaryTextColor}
+                >
+                  Last Name
+                </Text>
+                <Text>{parcelOwner?.lastname}</Text>
+              </Boxed>
 
-          <Boxed pad="5px 0">
-            <Text
-              fontSize={Theme.SecondaryFontSize}
-              color={Theme.SecondaryTextColor}
-            >
-              Phone Number
-            </Text>
-            <Text>{parcelOwner?.phone}</Text>
-          </Boxed>
-          <Boxed pad="5px 0">
-            <Text
-              fontSize={Theme.SecondaryFontSize}
-              color={Theme.SecondaryTextColor}
-            >
-              Email
-            </Text>
-            <Text>{parcelOwner?.email}</Text>
-          </Boxed>
-          <Boxed pad="5px 0">
-            <Text
-              fontSize={Theme.SecondaryFontSize}
-              color={Theme.SecondaryTextColor}
-            >
-              Date Of Birth
-            </Text>
-            <Text>{parcelOwner?.dob}</Text>
-          </Boxed>
+              <Boxed pad="5px 0">
+                <Text
+                  fontSize={Theme.SecondaryFontSize}
+                  color={Theme.SecondaryTextColor}
+                >
+                  Phone Number
+                </Text>
+                <Text>{parcelOwner?.phone}</Text>
+              </Boxed>
+              <Boxed pad="5px 0">
+                <Text
+                  fontSize={Theme.SecondaryFontSize}
+                  color={Theme.SecondaryTextColor}
+                >
+                  Email
+                </Text>
+                <Text>{parcelOwner?.email}</Text>
+              </Boxed>
+              <Boxed pad="5px 0">
+                <Text
+                  fontSize={Theme.SecondaryFontSize}
+                  color={Theme.SecondaryTextColor}
+                >
+                  Date Of Birth
+                </Text>
+                <Text>{parcelOwner?.dob}</Text>
+              </Boxed>
 
-          <Boxed pad="5px 0">
-            <Text
-              fontSize={Theme.SecondaryFontSize}
-              color={Theme.SecondaryTextColor}
-            >
-              Country of Origin
-            </Text>
-            <Text>Nigeria</Text>
-          </Boxed>
-          <Boxed pad="5px 0">
-            <Text
-              fontSize={Theme.SecondaryFontSize}
-              color={Theme.SecondaryTextColor}
-            >
-              State of Origin
-            </Text>
-            <Text>{parcelOwner?.stateOfOrigin}</Text>
-          </Boxed>
-          <Boxed pad="5px 0">
-            <Text
-              fontSize={Theme.SecondaryFontSize}
-              color={Theme.SecondaryTextColor}
-            >
-              LGA of Residence
-            </Text>
-            <Text>{parcelOwner?.lgaOfResidence}</Text>
-          </Boxed>
+              <Boxed pad="5px 0">
+                <Text
+                  fontSize={Theme.SecondaryFontSize}
+                  color={Theme.SecondaryTextColor}
+                >
+                  Country of Origin
+                </Text>
+                <Text>Nigeria</Text>
+              </Boxed>
+              <Boxed pad="5px 0">
+                <Text
+                  fontSize={Theme.SecondaryFontSize}
+                  color={Theme.SecondaryTextColor}
+                >
+                  State of Origin
+                </Text>
+                <Text>{parcelOwner?.stateOfOrigin}</Text>
+              </Boxed>
+              <Boxed pad="5px 0">
+                <Text
+                  fontSize={Theme.SecondaryFontSize}
+                  color={Theme.SecondaryTextColor}
+                >
+                  LGA of Origin
+                </Text>
+                <Text>{parcelOwner?.lgaOfOrigin}</Text>
+              </Boxed>
 
-          <Boxed pad="5px 0">
-            <Text
-              fontSize={Theme.SecondaryFontSize}
-              color={Theme.SecondaryTextColor}
-            >
-              Country of Residence
-            </Text>
-            <Text>Nigeria</Text>
-          </Boxed>
-          <Boxed pad="5px 0">
-            <Text
-              fontSize={Theme.SecondaryFontSize}
-              color={Theme.SecondaryTextColor}
-            >
-              State of Residence
-            </Text>
-            <Text>{parcelOwner?.stateOfResidence}</Text>
-          </Boxed>
-          <Boxed pad="5px 0">
-            <Text
-              fontSize={Theme.SecondaryFontSize}
-              color={Theme.SecondaryTextColor}
-            >
-              LGA of Residence
-            </Text>
-            <Text>{parcelOwner?.lgaOfResidence}</Text>
-          </Boxed>
-        </Grid>
-        <Boxed pad="5px 0">
-          <Text
-            fontSize={Theme.SecondaryFontSize}
-            color={Theme.SecondaryTextColor}
-          >
-            Residential Address
-          </Text>
-          <Text>{parcelOwner?.residentialAddress}</Text>
-        </Boxed>
+              <Boxed pad="5px 0">
+                <Text
+                  fontSize={Theme.SecondaryFontSize}
+                  color={Theme.SecondaryTextColor}
+                >
+                  Country of Residence
+                </Text>
+                <Text>Nigeria</Text>
+              </Boxed>
+              <Boxed pad="5px 0">
+                <Text
+                  fontSize={Theme.SecondaryFontSize}
+                  color={Theme.SecondaryTextColor}
+                >
+                  State of Residence
+                </Text>
+                <Text>{parcelOwner?.stateOfResidence}</Text>
+              </Boxed>
+              <Boxed pad="5px 0">
+                <Text
+                  fontSize={Theme.SecondaryFontSize}
+                  color={Theme.SecondaryTextColor}
+                >
+                  LGA of Residence
+                </Text>
+                <Text>{parcelOwner?.lgaOfResidence}</Text>
+              </Boxed>
+            </Grid>
+            <Boxed pad="5px 0">
+              <Text
+                fontSize={Theme.SecondaryFontSize}
+                color={Theme.SecondaryTextColor}
+              >
+                Residential Address
+              </Text>
+              <Text>{parcelOwner?.residentialAddress}</Text>
+            </Boxed>
+          </>
+        )}
       </Boxed>
 
       {/* #############         E N D    :    O L D   O W N E R S   D E T A I L       ############# */}

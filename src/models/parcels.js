@@ -1,4 +1,5 @@
 import { Alert } from "../components/Alert.components";
+import { routerRedux } from "dva/router";
 
 import {
   getParcels,
@@ -11,6 +12,7 @@ import {
   putAppraisal,
   getAppraisalType,
   getDeeds,
+  postDeepRequest,
 } from "../services/parcels";
 
 import { storageParcelsModel } from "../utils/constant";
@@ -220,11 +222,20 @@ export default {
       const { raw, success, message } = yield call(getDeeds, payload);
       if (success) {
         const list = raw?.data?.deeds;
-        const total = raw?.data?.totalRecord;
+        const total = raw?.data?.pagination?.totalRecord;
         yield put({
           type: "save",
-          payload: { parcelsList: list, parcelsTotal: total },
+          payload: { deedList: list, deedTotal: total },
         });
+      } else {
+        Alert.error(message);
+      }
+    },
+    *postDeepRequest({ payload }, { call, put }) {
+      const { success, message, raw } = yield call(postDeepRequest, payload);
+      if (success) {
+        Alert.success("Deed Application has been created successfully.");
+        yield put(routerRedux.push({ pathname: "/deeds" }));
       } else {
         Alert.error(message);
       }

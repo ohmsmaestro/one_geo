@@ -89,3 +89,12 @@ export async function getDeeds(data) {
     data,
   });
 }
+
+export async function postDeepRequest(data) {
+  const url = `${endpoint}/deeds`;
+  return await request({
+    url,
+    method: "POST",
+    data,
+  });
+}
