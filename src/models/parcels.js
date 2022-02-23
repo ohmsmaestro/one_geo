@@ -13,6 +13,7 @@ import {
   getAppraisalType,
   getDeeds,
   postDeepRequest,
+  putApproveDeed,
 } from "../services/parcels";
 
 import { storageParcelsModel } from "../utils/constant";
@@ -39,6 +40,8 @@ export default {
 
     deedList: [],
     deedTotal: 0,
+    deedData: {},
+    deedDecisionModal: false,
   },
 
   subscriptions: {
@@ -231,11 +234,42 @@ export default {
         Alert.error(message);
       }
     },
+    *getSingleDeed({ payload }, { call, put }) {
+      const { raw, success, message } = yield call(getDeeds, payload);
+      if (success) {
+        const item = raw?.data?.deeds[0];
+        // const total = raw?.data?.pagination?.totalRecord;
+        console.log({ item });
+        yield put({
+          type: "save",
+          payload: { deedData: item },
+        });
+      } else {
+        Alert.error(message);
+      }
+    },
     *postDeepRequest({ payload }, { call, put }) {
       const { success, message, raw } = yield call(postDeepRequest, payload);
       if (success) {
         Alert.success("Deed Application has been created successfully.");
         yield put(routerRedux.push({ pathname: "/deeds" }));
+      } else {
+        Alert.error(message);
+      }
+    },
+    *approveDeed({ payload }, { call, put, select }) {
+      const { success, raw, message } = yield call(putApproveDeed, payload);
+      if (success) {
+        const data = raw?.data?.application;
+        let deedData = yield select(({ parcels }) => parcels.deedData);
+
+        yield put({
+          type: "save",
+          payload: {
+            deedDecisionModal: false,
+            deedData: { ...deedData, ...data },
+          },
+        });
       } else {
         Alert.error(message);
       }

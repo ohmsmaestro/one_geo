@@ -17,9 +17,9 @@ export const mapStateToProps = (state, ownProps) => {
     ...item,
   }));
 
-  const isLoading = loading.effects["entries/postApplication"];
+  const isLoading = loading.effects["parcels/postDeepRequest"];
   const isLoadingStates = loading.effects["auxillary/getAllStates"];
-  const isLoadingRequirements = loading.effects["auxillary/getAllStates"];
+  const isLoadingRequirements = loading.effects["auxillary/getAllRequirements"];
   const isLoadingParcel = loading.effects["parcels/getSingleParcel"];
   const isLoadingOwner = loading.effects["parcels/getParcelOwner"];
 

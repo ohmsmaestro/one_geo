@@ -90,6 +90,15 @@ export async function getDeeds(data) {
   });
 }
 
+export async function putApproveDeed(data) {
+  const url = `${endpoint}/deeds`;
+  return await request({
+    url,
+    method: "PUT",
+    data,
+  });
+}
+
 export async function postDeepRequest(data) {
   const url = `${endpoint}/deeds`;
   return await request({

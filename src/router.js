@@ -20,6 +20,7 @@ import Parcels from "./routes/Parcels/index";
 import ParcelDetail from "./routes/Parcels/ParcelDetail/index";
 import ParcelsView from "./routes/Parcels/View/index";
 import ParcelsTDP from "./routes/Parcels/TDP/index";
+import ParcelsCOFO from "./routes/Parcels/COFO/index";
 import Entries from "./routes/Entries/index";
 import OwnersEntries from "./routes/OwnersEntries/index";
 import Rectification from "./routes/Rectification/index";
@@ -31,6 +32,7 @@ import CreateApplication from "./routes/Applications/CreateApplication/index";
 import ApplicationReview from "./routes/Applications/Review/index";
 import DeedRequest from "./routes/DeedRequest/index";
 import CreateDeedRequest from "./routes/DeedRequest/CreateDeedRequest/index";
+import DeedReview from "./routes/DeedRequest/Review/index";
 import UsersManagement from "./routes/UserManagement/index";
 import RoleManagement from "./routes/RoleManagement/index";
 import CreateRole from "./routes/RoleManagement/CreateRole/index";
@@ -129,6 +131,13 @@ export function RouterConfig({ history, app }) {
             }}
           />
           <PrivateRoute
+            path="/parcels/cofo/:ParcelNumber"
+            exact
+            render={(props) => {
+              return <ParcelsCOFO {...props} />;
+            }}
+          />
+          <PrivateRoute
             path="/appraisal"
             exact
             render={(props) => <Appraisal {...props} />}
@@ -194,6 +203,13 @@ export function RouterConfig({ history, app }) {
             exact
             render={(props) => {
               return <CreateDeedRequest {...props} />;
+            }}
+          />
+          <PrivateRoute
+            path="/deeds/review/:ParcelNumber"
+            exact
+            render={(props) => {
+              return <DeedReview {...props} />;
             }}
           />
           <PrivateRoute

@@ -182,7 +182,7 @@ export const DeedRequest = (props) => {
   }, []);
 
   const goToReview = (id) => {
-    redirect(`/application/${id}`);
+    redirect(`/deeds/review/${id}`);
   };
 
   let viewMode = calcViewMode();
@@ -196,7 +196,7 @@ export const DeedRequest = (props) => {
             <Icon className="icon-more-vertical" />
           </Dropdown.Toggle>
           <Dropdown.Menu>
-            <Dropdown.Item onClick={() => goToReview(record.id)}>
+            <Dropdown.Item onClick={() => goToReview(record.plotNumber)}>
               Review
             </Dropdown.Item>
           </Dropdown.Menu>

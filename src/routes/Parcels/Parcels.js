@@ -166,6 +166,15 @@ export const Parcels = (props) => {
               {accessList["VIEW_PARCEL_WORK_QUERIES"] && (
                 <Dropdown.Item>Work Queries</Dropdown.Item>
               )}
+              {accessList["VIEW_PLOT_MAP"] && (
+                <Dropdown.Item
+                  onClick={() =>
+                    redirect(`/parcels/cofo/${record.ParcelNumber}`)
+                  }
+                >
+                  Generate COFO
+                </Dropdown.Item>
+              )}
             </Dropdown.Menu>
           </Dropdown>
         )}
