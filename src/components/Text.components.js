@@ -46,4 +46,9 @@ export const Text = styled.p`
     css`
       border-radius: ${props.borderRadius};
     `}
+    ${(props) =>
+    props.border &&
+    css`
+      border: ${props.border};
+    `}
 `;

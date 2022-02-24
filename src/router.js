@@ -124,10 +124,10 @@ export function RouterConfig({ history, app }) {
             }}
           />
           <PrivateRoute
-            path="/parcels/tdp"
+            path="/parcels/tdp/:ParcelNumber"
             exact
             render={(props) => {
-              return <ParcelsTDP {...props} />;
+              return <ParcelsTDP {...props} showPrint={true} />;
             }}
           />
           <PrivateRoute

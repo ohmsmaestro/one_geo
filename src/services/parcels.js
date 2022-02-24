@@ -107,3 +107,11 @@ export async function postDeepRequest(data) {
     data,
   });
 }
+
+export async function getDeedNewOwner(data) {
+  const url = `${endpoint}/parcels/new_owner/${data.search}`;
+  return await request({
+    url,
+    method: "GET",
+  });
+}

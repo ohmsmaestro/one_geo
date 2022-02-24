@@ -11,6 +11,8 @@ import ARROW_ICON from "../../../assets/img/north-arrow.png";
 import { MAP_URL } from "../../../utils/config";
 import { Theme } from "../../../utils/theme";
 
+import TDP from "../TDP/index";
+
 export const COFO = (props) => {
   // state props received
   const { params, parcelData, parcelOwner } = props;
@@ -19,7 +21,6 @@ export const COFO = (props) => {
   const { redirect, getParcelDetails } = props;
 
   useEffect(() => {
-    console.log(params);
     getParcelDetails({ search: params.ParcelNumber });
   }, []);
 
@@ -68,7 +69,7 @@ export const COFO = (props) => {
             <br />
           </Text>
 
-          <Text fontSize={Theme.SecondaryFontSize}>
+          <Text fontSize="10.5px">
             This Is To Certify That <b>{fullName}</b> Whose address is{" "}
             <b>{parcelOwner.residentialAddress}</b>.
             <br />
@@ -201,7 +202,7 @@ export const COFO = (props) => {
                 margin="40px 0 10px 0"
                 padding="5px 0"
                 align="center"
-                style={{ borderTop: `1px dashed ${Theme.PrimaryBorderColor}` }}
+                style={{ borderTop: `1px dashed ${Theme.PrimaryTextColor}` }}
                 fontWeight="600"
                 fontSize={Theme.SecondaryFontSize}
               >
@@ -222,86 +223,20 @@ export const COFO = (props) => {
                 margin="40px 0 10px 0"
                 padding="5px 0"
                 align="center"
-                style={{ borderTop: `1px dashed ${Theme.PrimaryBorderColor}` }}
+                style={{ borderTop: `1px dashed ${Theme.PrimaryTextColor}` }}
                 fontWeight="600"
                 fontSize={Theme.SecondaryFontSize}
               >
-                (MAI MALA BUNI)
-                <br />
-                The Executive Governor, Yobe State
+                Deed Registrar
               </Text>
             </Boxed>
           </Grid>
         </Boxed>
       </Boxed>
 
-      <Boxed display="flex">
-        <Boxed
-          className="page-break-print"
-          pad="10px"
-          background="#FFFFFF"
-          margin="10px auto"
-          width="100%"
-          maxWidth="800px"
-        >
-          <Text pad="10px" align="center" fontSize="24px" fontWeight="bold">
-            {parcelData.ParcelNumber}
-          </Text>
-
-          <Text padding="5px 0">
-            Land Guaranty To: <b>{parcelData.parcelNumber}</b>
-          </Text>
-          <Text padding="5px 0">
-            Situated At: <b>{parcelData.LEGAL_DESC}</b>
-          </Text>
-
-          <Boxed display="flex">
-            <Text padding="20px 0 5px 0">
-              {" "}
-              Signed By: _________________________________{" "}
-            </Text>
-
-            <Text padding="10px 0 5px 0" margin="auto 0 0 0" pad="0 10px">
-              Date : ______________________________
-            </Text>
-          </Boxed>
-          <Grid desktop="40px auto" tablet="40px auto" mobile="40px auto">
-            <Boxed pad="10px 0">
-              <img src={ARROW_ICON} width="38px" alt="north-arrow" />
-            </Boxed>
-            <iframe
-              src={mapURL}
-              width="100%"
-              height="375px"
-              style={{ width: "500px", margin: "auto" }}
-            ></iframe>
-          </Grid>
-
-          <Boxed pad="10px 0">
-            <Text>
-              Surveyed By: <b>{parcelData.surveyedBy}</b>
-            </Text>
-            <Text>
-              Drawn By: <b>{parcelData.drawnBy}</b>
-            </Text>
-            <Text>
-              Checked By: <b>{parcelData.checkedBy}</b>
-            </Text>
-            <Text>
-              Passed By: <b>{parcelData.passedBy}</b>
-            </Text>
-          </Boxed>
-          <Text
-            padding="10px"
-            align="center"
-            fontSize={Theme.SecondaryFontSize}
-          >
-            All bearings and distances shown on this plan has been computed from
-            the registered coordinates. <br />
-            Date: {moment().format("ll")}
-          </Text>
-        </Boxed>
-      </Boxed>
+      {/* ######################     S T A R T   :   T D P    ###################### */}
+      <TDP />
+      {/* ######################     E N D  :   T D P    ###################### */}
     </Boxed>
   );
 };

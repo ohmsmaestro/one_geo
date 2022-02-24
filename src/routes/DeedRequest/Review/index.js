@@ -4,23 +4,29 @@ import { routerRedux } from "dva/router";
 
 export const mapStateToProps = (state, ownProps) => {
   const { loading, parcels } = state;
-  const { parcelData, parcelOwner, deedDecisionModal, deedData } = parcels;
+  const { parcelData, parcelOwner, deedDecisionModal, deedData, deedNewOwner } =
+    parcels;
 
   const isLoading = loading.effects["entries/postApplication"];
   const isLoadingParcel = loading.effects["parcels/getSingleParcel"];
   const isLoadingOwner = loading.effects["parcels/getParcelOwner"];
+  const isLoadingNewOwner = loading.effects["parcels/getDeedNewOwner"];
 
   const params = ownProps?.match?.params;
+
+  console.log({ deedNewOwner });
 
   return {
     isLoading,
     isLoadingParcel,
     isLoadingOwner,
+    isLoadingNewOwner,
     parcelData,
     params,
     parcelOwner,
     deedData,
     deedDecisionModal,
+    deedNewOwner,
   };
 };
 
@@ -33,6 +39,7 @@ export const mapDispatchToProps = (dispatch, ownProps) => {
       dispatch({ type: "parcels/getSingleParcel", payload: data });
       dispatch({ type: "parcels/getParcelOwner", payload: data });
       dispatch({ type: "parcels/getSingleDeed", payload: data });
+      dispatch({ type: "parcels/getDeedNewOwner", payload: data });
     },
     openDecisionModal(text) {
       dispatch({ type: "parcels/save", payload: { deedDecisionModal: text } });

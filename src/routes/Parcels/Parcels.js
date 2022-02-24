@@ -130,7 +130,9 @@ export const Parcels = (props) => {
                 </Dropdown.Item>
               )}
               {accessList["VIEW_PLOT_TDP"] && (
-                <Dropdown.Item onClick={() => viewTDP(record)}>
+                <Dropdown.Item
+                  onClick={() => redirect(`parcels/tdp/${record.ParcelNumber}`)}
+                >
                   View TDP
                 </Dropdown.Item>
               )}
@@ -166,7 +168,7 @@ export const Parcels = (props) => {
               {accessList["VIEW_PARCEL_WORK_QUERIES"] && (
                 <Dropdown.Item>Work Queries</Dropdown.Item>
               )}
-              {accessList["VIEW_PLOT_MAP"] && (
+              {accessList["VIEW_PLOT_MAP"] && record.ALLOCATED === 1 && (
                 <Dropdown.Item
                   onClick={() =>
                     redirect(`/parcels/cofo/${record.ParcelNumber}`)

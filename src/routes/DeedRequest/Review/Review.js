@@ -16,11 +16,162 @@ import { Alert } from "../../../components/Alert.components";
 import { Loader } from "../../../components/Loader.components";
 import { PageTitle, Icon, FileIcon } from "../../../components/style";
 
-import { calcViewMode, getBase64, formatCurrency } from "../../../utils/utils";
+import {
+  calcViewMode,
+  getBase64,
+  formatCurrency,
+  formatDate,
+} from "../../../utils/utils";
 import { Theme } from "../../../utils/theme";
 import { MAP_URL } from "../../../utils/config";
 
 import DecisionModal from "./DecisionModal/index";
+
+const PersonalCard = ({ person, loading }) => {
+  return (
+    <Boxed
+      pad="20px"
+      border={`1px solid ${Theme.PrimaryBorderColor}`}
+      borderRadius={Theme.PrimaryRadius}
+    >
+      {loading ? (
+        <Boxed display="flex">
+          {" "}
+          <Loader />
+        </Boxed>
+      ) : (
+        <>
+          <Grid
+            default="repeat(3,1fr)"
+            tablet="repeat(3,1fr)"
+            mobile="repeat(1,1fr)"
+          >
+            <Boxed pad="5px 0">
+              <Text
+                fontSize={Theme.SecondaryFontSize}
+                color={Theme.SecondaryTextColor}
+              >
+                First Name
+              </Text>
+              <Text>{person?.firstname}</Text>
+            </Boxed>
+            <Boxed pad="5px 0">
+              <Text
+                fontSize={Theme.SecondaryFontSize}
+                color={Theme.SecondaryTextColor}
+              >
+                Middle Name
+              </Text>
+              <Text>{person?.middlename}</Text>
+            </Boxed>
+            <Boxed pad="5px 0">
+              <Text
+                fontSize={Theme.SecondaryFontSize}
+                color={Theme.SecondaryTextColor}
+              >
+                Last Name
+              </Text>
+              <Text>{person?.lastname}</Text>
+            </Boxed>
+
+            <Boxed pad="5px 0">
+              <Text
+                fontSize={Theme.SecondaryFontSize}
+                color={Theme.SecondaryTextColor}
+              >
+                Phone Number
+              </Text>
+              <Text>{person?.phone}</Text>
+            </Boxed>
+            <Boxed pad="5px 0">
+              <Text
+                fontSize={Theme.SecondaryFontSize}
+                color={Theme.SecondaryTextColor}
+              >
+                Email
+              </Text>
+              <Text>{person?.email}</Text>
+            </Boxed>
+            <Boxed pad="5px 0">
+              <Text
+                fontSize={Theme.SecondaryFontSize}
+                color={Theme.SecondaryTextColor}
+              >
+                Date Of Birth
+              </Text>
+              <Text>{person?.dob && formatDate(person?.dob)}</Text>
+            </Boxed>
+
+            <Boxed pad="5px 0">
+              <Text
+                fontSize={Theme.SecondaryFontSize}
+                color={Theme.SecondaryTextColor}
+              >
+                Country of Origin
+              </Text>
+              <Text>Nigeria</Text>
+            </Boxed>
+            <Boxed pad="5px 0">
+              <Text
+                fontSize={Theme.SecondaryFontSize}
+                color={Theme.SecondaryTextColor}
+              >
+                State of Origin
+              </Text>
+              <Text>{person?.stateOfOrigin}</Text>
+            </Boxed>
+            <Boxed pad="5px 0">
+              <Text
+                fontSize={Theme.SecondaryFontSize}
+                color={Theme.SecondaryTextColor}
+              >
+                LGA of Origin
+              </Text>
+              <Text>{person?.lgaOfOrigin}</Text>
+            </Boxed>
+
+            <Boxed pad="5px 0">
+              <Text
+                fontSize={Theme.SecondaryFontSize}
+                color={Theme.SecondaryTextColor}
+              >
+                Country of Residence
+              </Text>
+              <Text>Nigeria</Text>
+            </Boxed>
+            <Boxed pad="5px 0">
+              <Text
+                fontSize={Theme.SecondaryFontSize}
+                color={Theme.SecondaryTextColor}
+              >
+                State of Residence
+              </Text>
+              <Text>{person?.stateOfResidence}</Text>
+            </Boxed>
+            <Boxed pad="5px 0">
+              <Text
+                fontSize={Theme.SecondaryFontSize}
+                color={Theme.SecondaryTextColor}
+              >
+                LGA of Residence
+              </Text>
+              <Text>{person?.lgaOfResidence}</Text>
+            </Boxed>
+          </Grid>
+          <Boxed pad="5px 0">
+            <Text
+              fontSize={Theme.SecondaryFontSize}
+              color={Theme.SecondaryTextColor}
+            >
+              Residential Address
+            </Text>
+            <Text>{person?.residentialAddress}</Text>
+          </Boxed>
+        </>
+      )}
+    </Boxed>
+  );
+};
 
 export const Review = (props) => {
   let viewMode = calcViewMode();
@@ -29,10 +180,12 @@ export const Review = (props) => {
     deedDecisionModal,
     isLoadingParcel,
     isLoadingOwner,
+    isLoadingNewOwner,
     parcelData,
     parcelOwner,
     params,
     deedData,
+    deedNewOwner,
   } = props;
 
   // dispatch props received
@@ -207,147 +360,8 @@ export const Review = (props) => {
       >
         Old owner's Detail
       </Text>
-      <Boxed
-        pad="20px"
-        border={`1px solid ${Theme.PrimaryBorderColor}`}
-        borderRadius={Theme.PrimaryRadius}
-      >
-        {isLoadingOwner ? (
-          <Boxed display="flex">
-            {" "}
-            <Loader />
-          </Boxed>
-        ) : (
-          <>
-            <Grid
-              default="repeat(3,1fr)"
-              tablet="repeat(3,1fr)"
-              mobile="repeat(1,1fr)"
-            >
-              <Boxed pad="5px 0">
-                <Text
-                  fontSize={Theme.SecondaryFontSize}
-                  color={Theme.SecondaryTextColor}
-                >
-                  First Name
-                </Text>
-                <Text>{parcelOwner?.firstname}</Text>
-              </Boxed>
-              <Boxed pad="5px 0">
-                <Text
-                  fontSize={Theme.SecondaryFontSize}
-                  color={Theme.SecondaryTextColor}
-                >
-                  Middle Name
-                </Text>
-                <Text>{parcelOwner?.middlename}</Text>
-              </Boxed>
-              <Boxed pad="5px 0">
-                <Text
-                  fontSize={Theme.SecondaryFontSize}
-                  color={Theme.SecondaryTextColor}
-                >
-                  Last Name
-                </Text>
-                <Text>{parcelOwner?.lastname}</Text>
-              </Boxed>
 
-              <Boxed pad="5px 0">
-                <Text
-                  fontSize={Theme.SecondaryFontSize}
-                  color={Theme.SecondaryTextColor}
-                >
-                  Phone Number
-                </Text>
-                <Text>{parcelOwner?.phone}</Text>
-              </Boxed>
-              <Boxed pad="5px 0">
-                <Text
-                  fontSize={Theme.SecondaryFontSize}
-                  color={Theme.SecondaryTextColor}
-                >
-                  Email
-                </Text>
-                <Text>{parcelOwner?.email}</Text>
-              </Boxed>
-              <Boxed pad="5px 0">
-                <Text
-                  fontSize={Theme.SecondaryFontSize}
-                  color={Theme.SecondaryTextColor}
-                >
-                  Date Of Birth
-                </Text>
-                <Text>{parcelOwner?.dob}</Text>
-              </Boxed>
-
-              <Boxed pad="5px 0">
-                <Text
-                  fontSize={Theme.SecondaryFontSize}
-                  color={Theme.SecondaryTextColor}
-                >
-                  Country of Origin
-                </Text>
-                <Text>Nigeria</Text>
-              </Boxed>
-              <Boxed pad="5px 0">
-                <Text
-                  fontSize={Theme.SecondaryFontSize}
-                  color={Theme.SecondaryTextColor}
-                >
-                  State of Origin
-                </Text>
-                <Text>{parcelOwner?.stateOfOrigin}</Text>
-              </Boxed>
-              <Boxed pad="5px 0">
-                <Text
-                  fontSize={Theme.SecondaryFontSize}
-                  color={Theme.SecondaryTextColor}
-                >
-                  LGA of Origin
-                </Text>
-                <Text>{parcelOwner?.lgaOfOrigin}</Text>
-              </Boxed>
-
-              <Boxed pad="5px 0">
-                <Text
-                  fontSize={Theme.SecondaryFontSize}
-                  color={Theme.SecondaryTextColor}
-                >
-                  Country of Residence
-                </Text>
-                <Text>Nigeria</Text>
-              </Boxed>
-              <Boxed pad="5px 0">
-                <Text
-                  fontSize={Theme.SecondaryFontSize}
-                  color={Theme.SecondaryTextColor}
-                >
-                  State of Residence
-                </Text>
-                <Text>{parcelOwner?.stateOfResidence}</Text>
-              </Boxed>
-              <Boxed pad="5px 0">
-                <Text
-                  fontSize={Theme.SecondaryFontSize}
-                  color={Theme.SecondaryTextColor}
-                >
-                  LGA of Residence
-                </Text>
-                <Text>{parcelOwner?.lgaOfResidence}</Text>
-              </Boxed>
-            </Grid>
-            <Boxed pad="5px 0">
-              <Text
-                fontSize={Theme.SecondaryFontSize}
-                color={Theme.SecondaryTextColor}
-              >
-                Residential Address
-              </Text>
-              <Text>{parcelOwner?.residentialAddress}</Text>
-            </Boxed>
-          </>
-        )}
-      </Boxed>
+      <PersonalCard person={parcelOwner} loading={isLoadingOwner} />
       {/* #############         E N D    :    O L D   O W N E R S   D E T A I L       ############# */}
 
       {/* #############         S T A R T    :    N E W   O W N E R S   D E T A I L       ############# */}
@@ -359,11 +373,7 @@ export const Review = (props) => {
       >
         New Owner's Details
       </Text>
-      <Boxed
-        pad="20px"
-        border={`1px solid ${Theme.PrimaryBorderColor}`}
-        borderRadius={Theme.PrimaryRadius}
-      ></Boxed>
+      <PersonalCard person={deedNewOwner} loading={isLoadingNewOwner} />
       {/* #############         E N D    :    N E W   O W N E R S   D E T A I L       ############# */}
       {deedDecisionModal && <DecisionModal />}
     </Boxed>

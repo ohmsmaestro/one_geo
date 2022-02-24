@@ -14,6 +14,7 @@ import {
   getDeeds,
   postDeepRequest,
   putApproveDeed,
+  getDeedNewOwner,
 } from "../services/parcels";
 
 import { storageParcelsModel } from "../utils/constant";
@@ -42,6 +43,7 @@ export default {
     deedTotal: 0,
     deedData: {},
     deedDecisionModal: false,
+    deedNewOwner: {},
   },
 
   subscriptions: {
@@ -235,7 +237,11 @@ export default {
       }
     },
     *getSingleDeed({ payload }, { call, put }) {
-      const { raw, success, message } = yield call(getDeeds, payload);
+      const { raw, success, message } = yield call(getDeeds, {
+        ...payload,
+        size: 10,
+        page: 1,
+      });
       if (success) {
         const item = raw?.data?.deeds[0];
         // const total = raw?.data?.pagination?.totalRecord;
@@ -272,6 +278,20 @@ export default {
         });
       } else {
         Alert.error(message);
+      }
+    },
+    *getDeedNewOwner({ payload }, { call, put, select }) {
+      const { raw, success, message } = yield call(getDeedNewOwner, payload);
+      if (success) {
+        const item = raw?.data;
+        if (item) {
+          yield put({
+            type: "save",
+            payload: { deedNewOwner: item },
+          });
+        }
+      } else {
+        // Alert.error(message);
       }
     },
   },
