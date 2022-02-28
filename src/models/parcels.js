@@ -89,6 +89,10 @@ export default {
         });
       } else {
         Alert.error(message);
+        yield put({
+          type: "save",
+          payload: { parcelsList: [], parcelsTotal: 0 },
+        });
       }
     },
     *getSingleParcel({ payload }, { call, put }) {
@@ -244,14 +248,16 @@ export default {
       });
       if (success) {
         const item = raw?.data?.deeds[0];
-        // const total = raw?.data?.pagination?.totalRecord;
-        console.log({ item });
         yield put({
           type: "save",
           payload: { deedData: item },
         });
       } else {
         Alert.error(message);
+        yield put({
+          type: "save",
+          payload: { deedData: {} },
+        });
       }
     },
     *postDeepRequest({ payload }, { call, put }) {

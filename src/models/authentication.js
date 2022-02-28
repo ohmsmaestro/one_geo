@@ -21,6 +21,7 @@ const initialState = {
   profile: {},
   regForm: {},
   regStep: 1,
+  accessList: {},
 };
 
 export default {
@@ -34,13 +35,15 @@ export default {
       //Persist token details logic
       try {
         let profile = localStorage.getItem(storageProfile);
+        let privilege = localStorage.getItem(storagePrivilege);
 
         if (profile) {
           let profileData = JSON.parse(profile);
+          let accessList = JSON.parse(privilege);
 
           dispatch({
             type: "save",
-            payload: { profile: profileData },
+            payload: { profile: profileData, accessList },
           });
         }
       } catch (err) {
@@ -68,7 +71,10 @@ export default {
           JSON.stringify(privilegeList)
         );
 
-        yield put({ type: "save", payload: { profile: data } });
+        yield put({
+          type: "save",
+          payload: { profile: data, accessList: privilegeList },
+        });
         yield put(routerRedux.push({ pathname: "/parcels" }));
       } else {
         Alert.error(message);
@@ -109,6 +115,7 @@ export default {
       // call(postLogOut, { refresh_token });
       localStorage.clear();
       yield put(routerRedux.push("/"));
+      yield put({ type: "save", payload: initialState });
     },
   },
 

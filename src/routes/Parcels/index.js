@@ -2,17 +2,12 @@ import { connect } from "dva";
 import { createForm } from "rc-form";
 import { Parcels } from "./Parcels";
 import { routerRedux } from "dva/router";
-import { storagePrivilege } from "../../utils/constant";
 
 let fetchActionURL = "parcels/getAllParcels";
 
-const accessList = localStorage.getItem(storagePrivilege)
-  ? JSON.parse(localStorage.getItem(storagePrivilege))
-  : {};
-
 export const mapStateToProps = (state, ownProps) => {
   const { loading, parcels, authentication } = state;
-  const { profile } = authentication;
+  const { profile, accessList } = authentication;
   profile?.isProprietor && (fetchActionURL = "parcels/getAllMyParcels");
   const {
     parcelsList,

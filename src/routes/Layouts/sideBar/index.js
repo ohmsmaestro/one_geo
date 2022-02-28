@@ -6,15 +6,11 @@ import { adminMenu, usersMenu } from "./menu";
 
 import { storagePrivilege } from "../../../utils/constant";
 
-const accessList = localStorage.getItem(storagePrivilege)
-  ? JSON.parse(localStorage.getItem(storagePrivilege))
-  : {};
-
 const mapStateToProps = (state, ownProps) => {
   const { app, authentication } = state;
   const { openMediaMenu, menuMode } = app;
 
-  const { profile } = authentication;
+  const { profile, accessList } = authentication;
   const { collaspe } = ownProps;
 
   let dataList = usersMenu;
