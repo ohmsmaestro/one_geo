@@ -68,60 +68,6 @@ const getStatus = (status, declined) => {
         </Text>
       );
 
-    case "PENDING ALLOCATION":
-      return (
-        <Text
-          color={Theme.PrimaryBlue}
-          fontSize={Theme.SecondaryFontSize}
-          align="center"
-        >
-          {" "}
-          <Icon
-            className="icon-attention-1"
-            color={Theme.PrimaryBlue}
-            margin="0 5px 0 0"
-            fontSize="16px"
-          />{" "}
-          Pending Allocation
-        </Text>
-      );
-
-    case "PENDING ALLOCATION APPROVAL":
-      return (
-        <Text
-          color={Theme.PrimaryYellow}
-          fontSize={Theme.SecondaryFontSize}
-          align="center"
-        >
-          {" "}
-          <Icon
-            className="icon-attention-1"
-            color={Theme.PrimaryYellow}
-            margin="0 5px 0 0"
-            fontSize="16px"
-          />{" "}
-          Pending Allocation Approval
-        </Text>
-      );
-
-    case "PENDING ACCEPTANCE":
-      return (
-        <Text
-          color={Theme.PrimaryBlue}
-          fontSize={Theme.SecondaryFontSize}
-          align="center"
-        >
-          {" "}
-          <Icon
-            className="icon-attention-1"
-            color={Theme.PrimaryBlue}
-            margin="0 5px 0 0"
-            fontSize="16px"
-          />{" "}
-          Pending Acceptance
-        </Text>
-      );
-
     case "REJECTED":
       return (
         <Text
@@ -140,7 +86,7 @@ const getStatus = (status, declined) => {
           REJECTED
         </Text>
       );
-    case "ALLOCATED":
+    case "TRANSFER COMPLETED":
       return (
         <Text
           color={Theme.PrimaryGreen}
@@ -155,7 +101,7 @@ const getStatus = (status, declined) => {
             fontSize={Theme.SecondaryFontSize}
             fontSize="16px"
           />{" "}
-          Allocated
+          Completed
         </Text>
       );
     default:

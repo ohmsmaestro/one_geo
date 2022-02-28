@@ -220,17 +220,19 @@ export const Review = (props) => {
           </Boxed>
         ) : null}
         <Boxed pad="10px 0" align="right">
-          <>
-            <Button
-              color={Theme.PrimaryRed}
-              onClick={() => openDecisionModal("DECLINED")}
-            >
-              Decline
-            </Button>
-            <Button onClick={() => openDecisionModal("APPROVE")}>
-              Approve
-            </Button>
-          </>
+          {deedData.stageId === 1 && (
+            <>
+              <Button
+                color={Theme.PrimaryRed}
+                onClick={() => openDecisionModal("DECLINED")}
+              >
+                Decline
+              </Button>
+              <Button onClick={() => openDecisionModal("APPROVE")}>
+                Approve
+              </Button>
+            </>
+          )}
         </Boxed>
       </Boxed>
 

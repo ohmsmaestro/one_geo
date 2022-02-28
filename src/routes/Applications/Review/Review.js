@@ -33,6 +33,7 @@ export const Review = (props) => {
     allocateModal,
     parcelData,
     profile,
+    accessList,
   } = props;
   const documents = applicationDetail.documents
     ? applicationDetail.documents
@@ -100,8 +101,10 @@ export const Review = (props) => {
               </Boxed>
             ) : null}
             <Boxed pad="10px 0" align="right">
-              {(applicationDetail.status === "PENDING REVIEW" ||
-                applicationDetail.status === "PENDING ALLOCATION APPROVAL" ||
+              {((applicationDetail.status === "PENDING REVIEW" &&
+                accessList["REVIEW_PLOT_APPLCIATION"]) ||
+                (applicationDetail.status === "PENDING ALLOCATION APPROVAL" &&
+                  accessList["REVIEW_ALLOCATION_PLOT"]) ||
                 (applicationDetail.status === "PENDING ACCEPTANCE" &&
                   profile?.email === applicationDetail?.email)) &&
                 !applicationDetail?.declined && (
@@ -120,14 +123,15 @@ export const Review = (props) => {
                   </>
                 )}
 
-              {applicationDetail.status === "PENDING ALLOCATION" && (
-                <Button
-                  color={Theme.PrimaryBlue}
-                  onClick={() => openAllocateModal()}
-                >
-                  Allocate Parcel
-                </Button>
-              )}
+              {applicationDetail.status === "PENDING ALLOCATION" &&
+                accessList["ALLOCATE_PLOT"] && (
+                  <Button
+                    color={Theme.PrimaryBlue}
+                    onClick={() => openAllocateModal()}
+                  >
+                    Allocate Parcel
+                  </Button>
+                )}
             </Boxed>
 
             <Grid

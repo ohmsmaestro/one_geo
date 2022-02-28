@@ -81,11 +81,6 @@ export const Appraisal = (props) => {
       dataIndex: "subAppraisalType",
       key: "subAppraisalType",
     },
-    {
-      title: "Sub. App. Type",
-      dataIndex: "value",
-      key: "value",
-    },
 
     {
       title: "value(₦)",

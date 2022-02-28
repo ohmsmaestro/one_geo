@@ -141,6 +141,10 @@ export default {
           });
         } else {
           Alert.error(message);
+          yield put({
+            type: "save",
+            payload: { applicationDetail: { ...payload, ...details } },
+          });
         }
       } else {
         Alert.error(detail_response.message);

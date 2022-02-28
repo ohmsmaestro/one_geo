@@ -7,7 +7,6 @@ export const mapStateToProps = (state, ownProps) => {
   const { parcels, loading } = state;
   const { parcelData, parcelOwner } = parcels;
   const params = ownProps?.match?.params;
-  console.log({ ownProps });
   const showPrint = ownProps.showPrint;
 
   const isLoadingParcel = loading.effects["parcels/getSingleParcel"];
