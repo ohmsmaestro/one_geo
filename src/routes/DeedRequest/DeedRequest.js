@@ -142,7 +142,7 @@ export const DeedRequest = (props) => {
             <Icon className="icon-more-vertical" />
           </Dropdown.Toggle>
           <Dropdown.Menu>
-            <Dropdown.Item onClick={() => goToReview(record.plotNumber)}>
+            <Dropdown.Item onClick={() => goToReview(record.id)}>
               Review
             </Dropdown.Item>
           </Dropdown.Menu>
@@ -184,8 +184,8 @@ export const DeedRequest = (props) => {
     },
     {
       title: "Submitted Date",
-      dataIndex: "createdAt",
-      key: "createdAt",
+      dataIndex: "entryDate",
+      key: "entryDate",
       render: (text) => text && formatDate(text),
     },
     {

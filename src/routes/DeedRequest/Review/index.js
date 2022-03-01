@@ -36,10 +36,10 @@ export const mapDispatchToProps = (dispatch, ownProps) => {
       dispatch(routerRedux.push({ pathname: `${pathname}` }));
     },
     getDeedDetails(data) {
-      dispatch({ type: "parcels/getSingleParcel", payload: data });
-      dispatch({ type: "parcels/getParcelOwner", payload: data });
+      // dispatch({ type: "parcels/getSingleParcel", payload: data });
+      // dispatch({ type: "parcels/getParcelOwner", payload: data });
       dispatch({ type: "parcels/getSingleDeed", payload: data });
-      dispatch({ type: "parcels/getDeedNewOwner", payload: data });
+      // dispatch({ type: "parcels/getDeedNewOwner", payload: data });
     },
     openDecisionModal(text) {
       dispatch({ type: "parcels/save", payload: { deedDecisionModal: text } });

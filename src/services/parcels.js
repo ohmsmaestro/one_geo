@@ -107,6 +107,21 @@ export async function postDeepRequest(data) {
     data,
   });
 }
+export async function getDeedOwners(deedId) {
+  const url = `${endpoint}/deeds/profiles/${deedId}`;
+  return await request({
+    url,
+    method: "GET",
+  });
+}
+
+export async function getSingleDeed(deedId) {
+  const url = `${endpoint}/deeds/${deedId}`;
+  return await request({
+    url,
+    method: "GET",
+  });
+}
 
 export async function getDeedNewOwner(data) {
   const url = `${endpoint}/parcels/new_owner/${data.search}`;

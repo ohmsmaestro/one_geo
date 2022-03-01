@@ -15,6 +15,8 @@ import {
   postDeepRequest,
   putApproveDeed,
   getDeedNewOwner,
+  getDeedOwners,
+  getSingleDeed,
 } from "../services/parcels";
 
 import { storageParcelsModel } from "../utils/constant";
@@ -241,23 +243,43 @@ export default {
       }
     },
     *getSingleDeed({ payload }, { call, put }) {
-      const { raw, success, message } = yield call(getDeeds, {
-        ...payload,
-        size: 10,
-        page: 1,
-      });
+      const { raw, success, message } = yield call(getSingleDeed, payload.id);
       if (success) {
-        const item = raw?.data?.deeds[0];
-        yield put({
-          type: "save",
-          payload: { deedData: item },
-        });
+        const item = raw?.data;
+        const deed_response = yield call(getDeedOwners, item.id);
+        if (deed_response.success) {
+          const newOwner = deed_response.raw?.data?.newOwner;
+          const oldOwner = deed_response.raw?.data?.oldOwner;
+
+          yield put({
+            type: "parcels/getSingleParcel",
+            payload: { search: item.plotNumber },
+          });
+          yield put({
+            type: "save",
+            payload: {
+              deedNewOwner: newOwner ? newOwner : {},
+              parcelOwner: oldOwner ? oldOwner : {},
+              deedData: item,
+            },
+          });
+        } else {
+          yield put({
+            type: "save",
+            payload: {
+              deedData: {},
+              deedNewOwner: {},
+              parcelOwner: {},
+            },
+          });
+        }
       } else {
         Alert.error(message);
         yield put({
           type: "save",
           payload: { deedData: {} },
         });
+        yield;
       }
     },
     *postDeepRequest({ payload }, { call, put }) {
@@ -272,8 +294,8 @@ export default {
     *approveDeed({ payload }, { call, put, select }) {
       const { success, raw, message } = yield call(putApproveDeed, payload);
       if (success) {
-        const data = raw?.data?.application;
-        let deedData = yield select(({ parcels }) => parcels.deedData);
+        const data = raw?.data?.deed;
+        const deedData = yield select(({ parcels }) => parcels.deedData);
 
         yield put({
           type: "save",

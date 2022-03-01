@@ -4,9 +4,6 @@ import { routerRedux } from "dva/router";
 import { storagePrivilege } from "../../../utils/constant";
 
 const fetchActionURL = "entries/getApplicationDetail";
-const accessList = localStorage.getItem(storagePrivilege)
-  ? JSON.parse(localStorage.getItem(storagePrivilege))
-  : {};
 
 export const mapStateToProps = (state, ownProps) => {
   const { match } = ownProps;
@@ -16,7 +13,7 @@ export const mapStateToProps = (state, ownProps) => {
   const { params } = match;
   const { parcelsList } = parcels;
   const parcelData = parcelsList[0] ? parcelsList[0] : {};
-  const { profile } = authentication;
+  const { profile, accessList } = authentication;
 
   return {
     isLoading,

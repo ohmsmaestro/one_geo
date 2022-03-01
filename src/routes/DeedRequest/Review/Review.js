@@ -192,7 +192,7 @@ export const Review = (props) => {
   const { redirect, getDeedDetails, openDecisionModal } = props;
 
   useEffect(() => {
-    getDeedDetails({ search: params.ParcelNumber });
+    getDeedDetails({ id: params.ParcelNumber });
   }, []);
 
   return (
