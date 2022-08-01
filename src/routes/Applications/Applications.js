@@ -276,8 +276,7 @@ export const Applications = (props) => {
       key: "lastname",
       render: (text, record) =>
         text &&
-        `${record.firstname ? record.firstname : ""}  ${
-          record.middlename ? record.middlename : ""
+        `${record.firstname ? record.firstname : ""}  ${record.middlename ? record.middlename : ""
         } ${text}`,
     },
     {

@@ -61,6 +61,11 @@ export const Encumbrance = (props) => {
 
   const columns = [
     {
+      title: "Type",
+      dataIndex: "type",
+      key: "type",
+    },
+    {
       title: "Description",
       dataIndex: "description",
       key: "description",
@@ -127,7 +132,7 @@ export const Encumbrance = (props) => {
   return (
     <>
       <Boxed pad="20px">
-        <PageTitle>Encumbrance Entry</PageTitle>
+        <PageTitle>Defect Entry</PageTitle>
         <Boxed
           pad="20px 10px"
           background={Theme.TertiaryDark}

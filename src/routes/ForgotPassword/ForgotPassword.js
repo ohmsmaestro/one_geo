@@ -43,7 +43,7 @@ export const ForgotPassword = (props) => {
             <Boxed display="flex" width="100%" minHeight="100vh">
               <Boxed margin="auto" minWidth="300px">
                 <Boxed pad="10px 0">
-                  <img src={LOGO} height="50px" alt="app_logo" />
+                  <img src={LOGO} height="100px" alt="app_logo" />
                 </Boxed>
                 <Text margin="1rem 0" fontWeight="600" fontSize="24px">
                   Reset Link

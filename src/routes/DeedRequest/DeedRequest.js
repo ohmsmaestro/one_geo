@@ -18,16 +18,8 @@ import {
 import { PageTitle, Icon, StyledDrpDown } from "../../components/style";
 
 import { calcViewMode, formatDate } from "../../utils/utils";
-import { pageOptions } from "../../utils/constant";
+import { pageOptions, deedStatusOption } from "../../utils/constant";
 import { Theme } from "../../utils/theme";
-
-const statusOptions = [
-  { value: 1, label: "Pending Review" },
-  { value: 2, label: "Pending Allocation" },
-  { value: 3, label: "Pending Allocation Review" },
-  { value: 4, label: "Pending User Review" },
-  { value: 5, label: "Allocated" },
-];
 
 const getStatus = (status, declined) => {
   if (declined) {
@@ -98,8 +90,7 @@ const getStatus = (status, declined) => {
             className="icon-ok-circled-1"
             color={Theme.PrimaryGreen}
             margin="0 5px 0 0"
-            fontSize={Theme.SecondaryFontSize}
-            fontSize="16px"
+            fontSize={`16px`}
           />{" "}
           Completed
         </Text>
@@ -168,8 +159,7 @@ export const DeedRequest = (props) => {
       key: "oldLastname",
       render: (text, record) =>
         text &&
-        `${record.oldFirstname ? record.oldFirstname : ""}  ${
-          record.oldMiddlename ? record.oldMiddlename : ""
+        `${record.oldFirstname ? record.oldFirstname : ""}  ${record.oldMiddlename ? record.oldMiddlename : ""
         } ${text}`,
     },
     {
@@ -178,8 +168,7 @@ export const DeedRequest = (props) => {
       key: "newLastname",
       render: (text, record) =>
         text &&
-        `${record.newFirstname ? record.newFirstname : ""}  ${
-          record.newMiddlename ? record.newMiddlename : ""
+        `${record.newFirstname ? record.newFirstname : ""}  ${record.newMiddlename ? record.newMiddlename : ""
         } ${text}`,
     },
     {
@@ -243,8 +232,8 @@ export const DeedRequest = (props) => {
                     </Boxed>
                     <Boxed pad="5px 0" margin="auto 0 0 0">
                       <AsyncSelect
-                        label="status"
-                        options={statusOptions}
+                        label="Status"
+                        options={deedStatusOption}
                         onChange={(value) => setStatus(value)}
                       />
                     </Boxed>

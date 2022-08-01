@@ -1,27 +1,19 @@
 import React, { useEffect, useState } from "react";
 import moment from "moment";
-import Upload from "rc-upload";
-
-import {
-  Input,
-  RadioButton,
-  AsyncSelect,
-} from "../../../components/Input.components";
 
 import { Grid } from "../../../components/Grid.components";
 import { Boxed } from "../../../components/Boxed.components";
 import { Text } from "../../../components/Text.components";
 import { Button } from "../../../components/Button.components";
-import { Alert } from "../../../components/Alert.components";
 import { Loader } from "../../../components/Loader.components";
-import { PageTitle, Icon, FileIcon } from "../../../components/style";
+import { PageTitle } from "../../../components/style";
 
 import {
   calcViewMode,
-  getBase64,
   formatCurrency,
   formatDate,
 } from "../../../utils/utils";
+import { deedStatusOption } from '../../../utils/constant'
 import { Theme } from "../../../utils/theme";
 import { MAP_URL } from "../../../utils/config";
 
@@ -236,6 +228,32 @@ export const Review = (props) => {
         </Boxed>
       </Boxed>
 
+      <Grid
+        desktop="repeat(3,1fr)"
+        tablet="repeat=(3,1fr)"
+        mobile="repeat(2, 1fr)"
+      >
+        <Boxed pad="10px 0">
+          <Text
+            fontSize={Theme.SecondaryFontSize}
+            color={Theme.SecondaryTextColor}
+          >
+            Deed Number
+          </Text>
+          <Text padding="0 5px">{deedData.id}</Text>
+        </Boxed>
+        <Boxed pad="10px 0">
+          <Text
+            fontSize={Theme.SecondaryFontSize}
+            color={Theme.SecondaryTextColor}
+          >
+            Status
+          </Text>
+          <Text padding="0 5px">{deedData.stageName}</Text>
+        </Boxed>
+        <Boxed />
+      </Grid>
+
       {/* #############         S T A R T    :    P A R C E L   D E T A I L       ############# */}
       <Text
         size={Theme.SecondaryTextColor}
@@ -350,8 +368,7 @@ export const Review = (props) => {
           </Boxed>
         )}
       </Boxed>
-
-      {/* #############         S T A R T    :    P A R C E L   D E T A I L       ############# */}
+      {/* #############         E N D    :    P A R C E L   D E T A I L       ############# */}
 
       {/* #############         S T A R T    :    O L D   O W N E R S   D E T A I L       ############# */}
       <Text

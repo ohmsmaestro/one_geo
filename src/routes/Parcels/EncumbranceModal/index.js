@@ -4,13 +4,15 @@ import { EncumbranceModal } from "./EncumbranceModal";
 import { routerRedux } from "dva/router";
 
 export const mapStateToProps = (state, ownProps) => {
-  const { loading, parcels } = state;
+  const { loading, parcels, auxillary } = state;
   const isLoading = loading.effects["parcels/createEncumbrance"];
   const { encumbranceModal, parcelData } = parcels;
+  const { defectTypes } = auxillary
   return {
     encumbranceModal,
     parcelData,
     isLoading,
+    defectTypes
   };
 };
 
@@ -19,7 +21,10 @@ export const mapDispatchToProps = (dispatch, ownProps) => {
     redirect(pathname) {
       dispatch(routerRedux.push({ pathname: `${pathname}` }));
     },
-    createEncumbrance(data) {
+    getAllDefectTypes() {
+      dispatch({ type: 'auxillary/getAllDefectTypes' })
+    },
+    createDefect(data) {
       dispatch({ type: "parcels/createEncumbrance", payload: data });
     },
     closeModal() {

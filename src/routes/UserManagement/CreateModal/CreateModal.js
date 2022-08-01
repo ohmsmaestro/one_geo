@@ -205,6 +205,7 @@ export const CreateModal = (props) => {
 
           <Boxed pad="10px 0">
             <Input
+              label="Password"
               type="password"
               placeholder="New Password..."
               error={
@@ -226,6 +227,7 @@ export const CreateModal = (props) => {
           </Boxed>
           <Boxed pad="10px 0">
             <Input
+              label="Confirm Password"
               type="password"
               placeholder="Confirm Password..."
               error={

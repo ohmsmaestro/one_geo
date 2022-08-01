@@ -45,7 +45,7 @@ export const Login = (props) => {
         <Boxed display="flex" width="100%" minHeight="100vh">
           <Boxed margin="auto">
             <Boxed pad="10px 0">
-              <img src={LOGO} height="50px" alt="app_logo" />
+              <img src={LOGO} height="100px" alt="app_logo" />
             </Boxed>
             <Text fontSize="24px" fontWeight="bold" margin="5px 0">
               Welcome back
@@ -88,22 +88,22 @@ export const Login = (props) => {
               desktop="repeat(2, 1fr)"
               tablet="repeat(2, 1fr)"
               mobile="repeat(2, 1fr)"
-              pad="10px 0"
+              pad="5px 0"
             >
-              <Boxed pad="10px 0">
+              {/* <Boxed pad="10px 0">
                 <Checkbox
                   label="Remember Me"
                   onClick={(value) => console.log(value)}
                 />
-              </Boxed>
-              <Boxed pad="10px 5px" align="right">
-                <Text
+              </Boxed> */}
+              <Boxed pad="10px 0">
+                {/* <Text
                   cursor="pointer"
                   color={Theme.PrimaryRed}
                   onClick={() => redirect("/forgotpassword")}
                 >
                   Forgot password?
-                </Text>
+                </Text> */}
               </Boxed>
             </Grid>
             <Grid
@@ -122,7 +122,7 @@ export const Login = (props) => {
                   SIGN IN
                 </Button>
               </Boxed>
-              <Boxed pad="5px 0 0 0">
+              {/* <Boxed pad="5px 0 0 0">
                 <Button
                   clear
                   block
@@ -131,7 +131,7 @@ export const Login = (props) => {
                 >
                   <i className="icon-chevron-left" /> Sign Up
                 </Button>
-              </Boxed>
+              </Boxed> */}
             </Grid>
           </Boxed>
         </Boxed>

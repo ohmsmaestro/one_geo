@@ -1,7 +1,7 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import Upload from "rc-upload";
 
-import { Input } from "../../../components/Input.components";
+import { Input, AsyncSelect } from "../../../components/Input.components";
 import { Grid } from "../../../components/Grid.components";
 import { Boxed } from "../../../components/Boxed.components";
 import { Text } from "../../../components/Text.components";
@@ -14,13 +14,23 @@ import { calcViewMode, formatCurrency, getBase64 } from "../../../utils/utils";
 import { Theme } from "../../../utils/theme";
 import { PageTitle } from "../../../components/style";
 
+const DefectOptions = [
+  { value: 'ENCUMBRANCE', label: 'Encumbrance Defect' },
+  { value: '', label: 'Title Defect' },
+]
+
 export const EncumbranceModal = (props) => {
   // State props
-  const { encumbranceModal, isLoading, parcelData } = props;
+  const { encumbranceModal, isLoading, parcelData, defectTypes } = props;
 
   // Dispatch props
-  const { form, createEncumbrance, closeModal } = props;
+  const { form, createDefect, closeModal, getAllDefectTypes } = props;
   const { getFieldProps, getFieldError, validateFields } = form;
+
+  useEffect(() => {
+    //Fetch all defect types
+    getAllDefectTypes();
+  }, [])
 
   const [file, setFile] = useState({});
 
@@ -65,13 +75,15 @@ export const EncumbranceModal = (props) => {
             fileFormat: "pdf",
             parcelNumber: parcelData.ParcelNumber,
           };
-          createEncumbrance(data);
+          createDefect(data);
         }
       });
     } else {
       Alert.info("Instrument file is required");
     }
   };
+
+  const defectTypeOptions = defectTypes.map(item => ({ value: item.value, value: item.label }));
   let errors;
 
   return (
@@ -79,7 +91,7 @@ export const EncumbranceModal = (props) => {
       <ModalComponent
         show={encumbranceModal}
         onHide={closeModal}
-        title={<PageTitle margin="5px 0">Create Encumbrance</PageTitle>}
+        title={<PageTitle margin="5px 0">Create Defect</PageTitle>}
         footer={
           <>
             <Button pale onClick={closeModal}>
@@ -90,7 +102,7 @@ export const EncumbranceModal = (props) => {
               disabled={isLoading}
               onClick={onSubmit}
             >
-              Create Encumbrance
+              Create Defect
             </Button>
           </>
         }
@@ -125,16 +137,32 @@ export const EncumbranceModal = (props) => {
           </Text>
         </Boxed>
         <Boxed pad="10px 0">
-          <Input
-            type="text"
-            label="Encumbrance Text"
-            placeholder="Enter encumbrance text..."
+          <AsyncSelect
+            label="Defect Type"
+            options={defectTypeOptions}
             error={
-              (errors = getFieldError("encumbrance_text"))
-                ? "Encumbrance Text is required"
+              (errors = getFieldError("defect_type"))
+                ? "Defect Type is required"
                 : null
             }
-            {...getFieldProps("encumbrance_text", {
+            {...getFieldProps("defect_type", {
+              initialValue: "",
+              rules: [{ required: true }],
+            })}
+          />
+        </Boxed>
+
+        <Boxed pad="10px 0">
+          <Input
+            type="text"
+            label="Defect Text"
+            placeholder="Enter Defect text..."
+            error={
+              (errors = getFieldError("defect_text"))
+                ? "Defect Text is required"
+                : null
+            }
+            {...getFieldProps("defect_text", {
               initialValue: "",
               rules: [{ required: true }],
             })}
@@ -162,7 +190,7 @@ export const EncumbranceModal = (props) => {
               type="drap"
               multiple={false}
               beforeUpload={(pdf) => beforeUpload(pdf)}
-              onChange={() => {}}
+              onChange={() => { }}
             >
               <Boxed
                 height="120px"

@@ -34,8 +34,8 @@ const SideList = styled.div`
     text-align: right;
     padding: 0.25rem 1rem;
     ${(props) =>
-      props.collaspe &&
-      css`
+    props.collaspe &&
+    css`
         transform: rotate(180deg);
         text-align: "center";
       `}
@@ -94,8 +94,8 @@ const SideList = styled.div`
         opacity: ${(props) => (props.collaspe ? "0" : "1")};
         margin: auto 0;
         ${(props) =>
-          props.collaspe &&
-          css`
+    props.collaspe &&
+    css`
             display: none;
           `}
       }
@@ -124,8 +124,8 @@ const SideList = styled.div`
       overflow: hidden;
       border-radius: 50%;
       ${(props) =>
-        props.collaspe &&
-        css`
+    props.collaspe &&
+    css`
           display: none;
         `}
 
@@ -140,8 +140,8 @@ const SideList = styled.div`
       opacity: 1;
       transition: opacity 0.2s ease-in;
       ${(props) =>
-        props.collaspe &&
-        css`
+    props.collaspe &&
+    css`
           display: none;
         `}
     }
@@ -187,7 +187,7 @@ export const SideBar = (props) => {
       <Boxed display="flex">
         <img
           src={collaspe ? LOGO : LOGO_FULL}
-          height={collaspe ? "35px" : "50px"}
+          height={collaspe ? "35px" : "100px"}
           style={{ margin: "auto", cursor: "pointer", padding: "5px" }}
           alt="app-logo"
           onClick={() => toggleSidebar(!collaspe)}

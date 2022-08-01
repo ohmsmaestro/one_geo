@@ -40,7 +40,7 @@ export const adminMenu = [
       },
       {
         icon: "icon-forward-outline",
-        label: "Encumbrance Entries",
+        label: "Defect Entries",
         pathname: "/encumbrance",
         role: ["VIEW_ENCUMBRANCE"],
       },
@@ -66,7 +66,7 @@ export const adminMenu = [
         icon: "icon-folder",
         label: "Archived Documents",
         pathname: "/archived",
-        role: ["VIEW_PLOT"],
+        role: ["VIEW_PLOT_PENDING"],
       },
       {
         icon: "icon-briefcase",

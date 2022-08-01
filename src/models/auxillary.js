@@ -1,6 +1,6 @@
 import { Alert } from "../components/Alert.components";
 
-import { getStates, getRequirements } from "../services/auxillary";
+import { getStates, getRequirements, getDefectTypes } from "../services/auxillary";
 
 export default {
   namespace: "auxillary",
@@ -10,6 +10,7 @@ export default {
     requirementList: [],
     stateTotal: 0,
     createLawModal: false,
+    defectTypes: []
   },
 
   subscriptions: {
@@ -43,6 +44,18 @@ export default {
         Alert.error(message);
       }
     },
+    *getAllDefectTypes({ payload }, { call, put }) {
+      const { raw, success, message } = yield call(getDefectTypes, payload);
+      if (success) {
+        const list = raw?.data?.types;
+        yield put({
+          type: "save",
+          payload: { defectTypes: list },
+        });
+      } else {
+        Alert.error(message);
+      }
+    }
   },
 
   reducers: {

@@ -94,8 +94,8 @@ const InputWrapper = styled.div`
     top: 55%;
 
     ${(props) =>
-      props.small &&
-      css`
+    props.small &&
+    css`
         margin: 10px 0 10px -50px;
       `}
   }
@@ -112,7 +112,7 @@ const InputWrapper = styled.div`
     position: relative;
   }
 
-  & .gelacop__menu {
+  & .onegeo__menu {
     background-color: ${(props) => props.theme.TertiaryDark};
     color: ${(props) => props.theme.PrimaryTextColor};
     border-radius: ${(props) => props.theme.PrimaryRadius};
@@ -121,10 +121,10 @@ const InputWrapper = styled.div`
     text-align: left;
     box-shadow: 0px 3px 6px #00000025;
 
-    & .gelacop__menu-list {
+    & .onegeo__menu-list {
       max-height: 200px;
 
-      & .gelacop__option {
+      & .onegeo__option {
         border-radius: ${(props) => props.theme.PrimaryRadius};
         height: 40px;
         padding: 8px 30px;
@@ -137,7 +137,7 @@ const InputWrapper = styled.div`
         }
       }
 
-      & .gelacop__option--is-selected {
+      & .onegeo__option--is-selected {
         color: ${(props) => props.theme.PrimaryTextColor};
       }
     }
@@ -145,7 +145,7 @@ const InputWrapper = styled.div`
 
   & input,
   textarea,
-  .gelacop__control {
+  .onegeo__control {
     box-shadow: none;
     position: relative;
     background-color: ${(props) => `${props.theme.TertiaryDark}50`};
@@ -156,8 +156,7 @@ const InputWrapper = styled.div`
     padding: 10px 10px 10px 10px;
     font-size: 13px;
     font-weight: normal;
-    color: ${(props) =>
-      props.color ? props.color : props.theme.PrimaryTextColor};
+    color: ${(props) => props.color ? props.color : props.theme.PrimaryTextColor};
 
     :focus {
       outline: none;
@@ -165,38 +164,38 @@ const InputWrapper = styled.div`
       border-bottom: ${`1.2px solid ${(props) => props.theme.PrimaryColor}`};
     }
 
-    & .gelacop__value-container {
+    & .onegeo__value-container {
       padding: 2px 0px;
       width: 90%;
       height: 20px;
 
-      & .gelacop__placeholder {
+      & .onegeo__placeholder {
         color: ${transparentize(0.2, Theme.PrimaryTextColor)};
         transform: unset;
-        // top: unset;
+        top: 0;
         // position: unset;
       }
 
-      & .gelacop__single-value,
-      .gelacop__input {
-        color: ${(props) =>
-          props.color ? props.color : props.theme.PrimaryTextColor};
+      & .onegeo__single-value,
+      .onegeo__input {
+        color: ${(props) => props.color ? props.color : props.theme.PrimaryTextColor};
         transform: unset;
+        top:66%;
       }
     }
 
-    & .gelacop__indicators {
+    & .onegeo__indicators {
       position: absolute;
       right: 15px;
       top: 0%;
       height: 100%;
 
-      & .gelacop__indicator.gelacop__dropdown-indicator {
+      & .onegeo__indicator.onegeo__dropdown-indicator {
         color: ${(props) => props.theme.PrimaryColor};
       }
     }
 
-    & .gelacop__indicator-separator {
+    & .onegeo__indicator-separator {
       display: none;
     }
 
@@ -207,25 +206,25 @@ const InputWrapper = styled.div`
     }
 
     ${(props) =>
-      props.error &&
-      css`
+    props.error &&
+    css`
         border: ${`1.5px solid ${(props) => props.theme.PrimaryRed}`};
       `}
 
     ${(props) =>
-      props.rounded &&
-      css`
+    props.rounded &&
+    css`
         border-radius: 26px;
         padding: 10px 20px 10px 30px;
       `}
 
     ${(props) =>
-      props.pale &&
-      css`
+    props.pale &&
+    css`
         background-color: ${(props) =>
-          props.color
-            ? transparentize(0.85, props.color)
-            : transparentize(0.85, Theme.PrimaryDark)};
+        props.color
+          ? transparentize(0.85, props.color)
+          : transparentize(0.85, Theme.PrimaryDark)};
         color: ${(props) => (props.color ? props.color : "#fff")};
 
         ::-webkit-input-placeholder {
@@ -244,9 +243,9 @@ const InputWrapper = styled.div`
 
         &:hover {
           background-color: ${(props) =>
-            props.color
-              ? transparentize(0.8, props.color)
-              : transparentize(0.8, Theme.PrimaryColor)};
+        props.color
+          ? transparentize(0.8, props.color)
+          : transparentize(0.8, Theme.PrimaryColor)};
           color: ${(props) => props.theme.PrimaryTextColor};
         }
 
@@ -257,8 +256,8 @@ const InputWrapper = styled.div`
       `}  
 
     ${(props) =>
-      props.small &&
-      css`
+    props.small &&
+    css`
         height: ${(props) => (props.height ? props.height : "40px")};
         padding: 10px 20px 10px 15px;
       `}
@@ -372,8 +371,8 @@ export class AsyncSelect extends React.Component {
           <Select
             {...this.props}
             isDisabled={this.props.disabled}
-            classNamePrefix="gelacop"
-            className="gelacop-select"
+            classNamePrefix="onegeo"
+            className="onegeo-select"
           />
           {this.props.error && <em>{this.props.error}</em>}
         </div>
@@ -475,7 +474,7 @@ export class Checkbox extends React.Component {
           type="checkbox"
           defaultChecked={this.props.defaultChecked}
           checked={this.props.checked}
-          onClick={this.props.onClick ? () => this.props.onClick() : () => {}}
+          onClick={this.props.onClick ? () => this.props.onClick() : () => { }}
         />
         <Label className="title" fontSize={this.props.fontSize}>
           {this.props.label} {this.props.children}

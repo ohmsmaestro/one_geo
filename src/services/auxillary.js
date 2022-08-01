@@ -19,3 +19,12 @@ export async function getRequirements(data) {
     data,
   });
 }
+
+export async function getDefectTypes(data) {
+  const url = `${endpoint}/defect/types`;
+  return await request({
+    url,
+    method: "GET",
+    data,
+  });
+}

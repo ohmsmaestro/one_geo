@@ -148,7 +148,7 @@ export const Parcels = (props) => {
               )}
               {accessList["CREATE_ENCUMBRANCE"] && (
                 <Dropdown.Item onClick={() => openEncumbranceModal(record)}>
-                  Create Encumbrance
+                  Create Defect
                 </Dropdown.Item>
               )}
               {accessList["CREATE_RECTIFICATION"] && (

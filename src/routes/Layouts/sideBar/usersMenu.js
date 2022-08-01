@@ -40,7 +40,7 @@ const usersMenu = [
       },
       {
         icon: "icon-forward-outline",
-        label: "Encumbrance Entries",
+        label: "Defect Entries",
         pathname: "/encumbrance",
         role: ["VIEW_PARCEL"],
       },
