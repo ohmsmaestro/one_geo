@@ -12,7 +12,7 @@ import { Button } from "../../components/Button.components";
 import { Loader } from "../../components/Loader.components";
 import { EmptyState } from "../../components/EmptyState.components";
 import {
-  TableComponent,
+
   PaginationComponent,
 } from "../../components/Table.components";
 import { PageTitle, Icon, StyledDrpDown } from "../../components/style";
@@ -180,8 +180,8 @@ export const Applications = (props) => {
 
   useEffect(() => {
     let data = {
-      // page: 1,
-      // size: 10,
+      page: 1,
+      size: 10,
     };
     getAllApplications(data);
   }, []);
@@ -313,7 +313,7 @@ export const Applications = (props) => {
   return (
     <>
       <Boxed pad="20px">
-        <PageTitle>Plot Application Request</PageTitle>
+        <PageTitle>Title Grant Application Requests</PageTitle>
         <Boxed
           pad="20px 10px"
           background={Theme.TertiaryDark}
@@ -345,7 +345,7 @@ export const Applications = (props) => {
                     </Boxed>
                     <Boxed pad="5px 0" margin="auto 0 0 0">
                       <AsyncSelect
-                        label="status"
+                        label="Status"
                         options={statusOptions}
                         onChange={(value) => setStatus(value)}
                       />

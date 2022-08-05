@@ -8,7 +8,6 @@ import { Grid } from "../../components/Grid.components";
 import { Boxed } from "../../components/Boxed.components";
 import { AsyncSelect, Input } from "../../components/Input.components";
 import { Text } from "../../components/Text.components";
-import { Button } from "../../components/Button.components";
 import { Loader } from "../../components/Loader.components";
 import { EmptyState } from "../../components/EmptyState.components";
 import {

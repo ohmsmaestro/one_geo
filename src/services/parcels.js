@@ -130,3 +130,12 @@ export async function getDeedNewOwner(data) {
     method: "GET",
   });
 }
+
+export async function postApplicationForm(data) {
+  const url = `${endpoint}/application/form`;
+  return await request({
+    url,
+    method: "POST",
+    data,
+  });
+}

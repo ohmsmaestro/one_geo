@@ -132,14 +132,14 @@ export const Encumbrance = (props) => {
   return (
     <>
       <Boxed pad="20px">
-        <PageTitle>Defect Entry</PageTitle>
+        <PageTitle>Title Defect Entry</PageTitle>
         <Boxed
           pad="20px 10px"
           background={Theme.TertiaryDark}
           borderRadius={Theme.SecondaryRadius}
         >
           <Wrapper
-            externalParams
+            externalParams={externalParams}
             externalActionURL={fetchActionURL}
             render={({
               changePageSize,

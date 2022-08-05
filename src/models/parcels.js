@@ -17,36 +17,41 @@ import {
   getDeedNewOwner,
   getDeedOwners,
   getSingleDeed,
+  postApplicationForm
 } from "../services/parcels";
 
 import { storageParcelsModel } from "../utils/constant";
 
+const initialState = {
+  parcelsList: [],
+  parcelsTotal: 0,
+  parcelData: {},
+  parcelOwner: {},
+  createParcel: false,
+  rentModal: false,
+  appraisalModal: false,
+  appraisalTypes: [],
+  encumbranceModal: false,
+  rectificationModal: false,
+
+  appraisalList: [],
+  appraisalTotal: 0,
+  appraisalReview: false,
+  appraisalDetail: {},
+
+  deedList: [],
+  deedTotal: 0,
+  deedData: {},
+  deedDecisionModal: false,
+  deedNewOwner: {},
+
+  applicationFormModal: false,
+}
+
 export default {
   namespace: "parcels",
 
-  state: {
-    parcelsList: [],
-    parcelsTotal: 0,
-    parcelData: {},
-    parcelOwner: {},
-    createParcel: false,
-    rentModal: false,
-    appraisalModal: false,
-    appraisalTypes: [],
-    encumbranceModal: false,
-    rectificationModal: false,
-
-    appraisalList: [],
-    appraisalTotal: 0,
-    appraisalReview: false,
-    appraisalDetail: {},
-
-    deedList: [],
-    deedTotal: 0,
-    deedData: {},
-    deedDecisionModal: false,
-    deedNewOwner: {},
-  },
+  state: { ...initialState },
 
   subscriptions: {
     setup({ dispatch, history }) {
@@ -322,6 +327,19 @@ export default {
         // Alert.error(message);
       }
     },
+
+    *createApplicationForm({ payload }, { call, put }) {
+      const { success, message, raw } = yield call(postApplicationForm, payload);
+      if (success) {
+        Alert.success("Successfully created a new application");
+        yield put({
+          type: "save",
+          payload: { applicationFormModal: false, parcelData: {} },
+        });
+      } else {
+        Alert.error(message);
+      }
+    }
   },
 
   reducers: {

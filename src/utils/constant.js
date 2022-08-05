@@ -511,7 +511,7 @@ export const SubcriptionPlans = {
 };
 
 export const deedStatusOption = [
-  { value: "RANSFER COMPLETED", label: "Completed" },
+  { value: "TRANSFER COMPLETED", label: "Completed" },
   { value: "PENDING REVIEW", label: "Pending Review" },
   { value: "REJECTED", label: "Rejected" },
 ]

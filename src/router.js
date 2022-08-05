@@ -37,6 +37,7 @@ import UsersManagement from "./routes/UserManagement/index";
 import RoleManagement from "./routes/RoleManagement/index";
 import CreateRole from "./routes/RoleManagement/CreateRole/index";
 import Survey from "./routes/Survey";
+import ApplicationForms from './routes/ApplicationForms/index'
 
 const { ConnectedRouter } = routerRedux;
 
@@ -183,6 +184,11 @@ export function RouterConfig({ history, app }) {
             render={(props) => {
               return <CreateApplication {...props} />;
             }}
+          />
+          <PrivateRoute
+            path="/application/form"
+            exact
+            render={(props) => <ApplicationForms {...props} />}
           />
           <PrivateRoute
             path="/application/:id"

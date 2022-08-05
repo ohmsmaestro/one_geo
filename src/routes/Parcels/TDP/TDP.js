@@ -31,9 +31,8 @@ export const TDP = (props) => {
     params?.ParcelNumber && getParcelDetails({ search: params.ParcelNumber });
   }, []);
 
-  const mapURL = `${MAP_URL}/map.html${
-    parcelData ? `?tdp=${parcelData.FID}` : ""
-  }`;
+  const mapURL = `${MAP_URL}/map.html${parcelData ? `?tdp=${parcelData.FID}` : ""
+    }`;
 
   let fullName = `${parcelOwner.firstname} ${parcelOwner.middlename} ${parcelOwner.lastname}`;
 
@@ -53,14 +52,14 @@ export const TDP = (props) => {
       )}
       <Boxed display="flex">
         <Boxed pad="20px" background="#FFFFFF" maxWidth="800px" margin="0 auto">
-          <Text pad="10px" align="center" fontSize="24px" fontWeight="600">
+          <Text pad="10px" align="center" fontSize="22px" fontWeight="600">
             CERTIFICATE OF OCCUPANCY
           </Text>
-          <Text pad="10px" align="center" fontSize="18px" fontWeight="600">
+          <Text pad="10px" align="center" fontSize="16px" fontWeight="600">
             {parcelData.ParcelNumber}
           </Text>
 
-          <Text padding="5px 0" align="center" fontSize="18px">
+          <Text padding="5px 0" align="center" fontSize="16px">
             Land Guaranty To:
             <br />
             <b>{fullName}</b>
@@ -92,8 +91,8 @@ export const TDP = (props) => {
             <iframe
               src={mapURL}
               width="100%"
-              height="375px"
-              style={{ width: "500px", margin: "auto" }}
+              height="400px"
+              style={{ width: "550px", margin: "auto" }}
             ></iframe>
             <Boxed pad="10px 0">
               <img src={ARROW_ICON} width="38px" alt="north-arrow" />
@@ -116,6 +115,7 @@ export const TDP = (props) => {
                 border={`1px solid ${Theme.PrimaryTextColor}`}
                 fontWeight="600"
                 padding="2px 5px"
+                fontSize={Theme.SecondaryFontSize}
               >
                 Origin
               </Text>
@@ -123,6 +123,7 @@ export const TDP = (props) => {
                 border={`1px solid ${Theme.PrimaryTextColor}`}
                 fontWeight="600"
                 padding="2px 5px"
+                fontSize={Theme.SecondaryFontSize}
               >
                 {" "}
               </Text>
@@ -131,6 +132,7 @@ export const TDP = (props) => {
                 border={`1px solid ${Theme.PrimaryTextColor}`}
                 fontWeight="600"
                 padding="2px 5px"
+                fontSize={Theme.SecondaryFontSize}
               >
                 Coordinates
               </Text>
@@ -138,6 +140,7 @@ export const TDP = (props) => {
                 border={`1px solid ${Theme.PrimaryTextColor}`}
                 fontWeight="600"
                 padding="2px 5px"
+                fontSize={Theme.SecondaryFontSize}
               >
                 {" "}
               </Text>
@@ -146,6 +149,7 @@ export const TDP = (props) => {
                 border={`1px solid ${Theme.PrimaryTextColor}`}
                 fontWeight="600"
                 padding="2px 5px"
+                fontSize={Theme.SecondaryFontSize}
               >
                 Surveyed By
               </Text>
@@ -153,6 +157,7 @@ export const TDP = (props) => {
                 border={`1px solid ${Theme.PrimaryTextColor}`}
                 fontWeight="600"
                 padding="2px 5px"
+                fontSize={Theme.SecondaryFontSize}
               >
                 {parcelData.surveyedBy}
               </Text>
@@ -161,6 +166,7 @@ export const TDP = (props) => {
                 border={`1px solid ${Theme.PrimaryTextColor}`}
                 fontWeight="600"
                 padding="2px 5px"
+                fontSize={Theme.SecondaryFontSize}
               >
                 Date
               </Text>
@@ -168,6 +174,7 @@ export const TDP = (props) => {
                 border={`1px solid ${Theme.PrimaryTextColor}`}
                 fontWeight="600"
                 padding="2px 5px"
+                fontSize={Theme.SecondaryFontSize}
               >
                 {parcelData?.REG_DATE &&
                   moment(parcelData?.REG_DATE).format("ll")}{" "}
@@ -177,6 +184,7 @@ export const TDP = (props) => {
                 border={`1px solid ${Theme.PrimaryTextColor}`}
                 fontWeight="600"
                 padding="2px 5px"
+                fontSize={Theme.SecondaryFontSize}
               >
                 Checked By
               </Text>
@@ -184,6 +192,7 @@ export const TDP = (props) => {
                 border={`1px solid ${Theme.PrimaryTextColor}`}
                 fontWeight="600"
                 padding="2px 5px"
+                fontSize={Theme.SecondaryFontSize}
               >
                 {parcelData.checkedBy}
               </Text>
@@ -192,6 +201,7 @@ export const TDP = (props) => {
                 border={`1px solid ${Theme.PrimaryTextColor}`}
                 fontWeight="600"
                 padding="2px 5px"
+                fontSize={Theme.SecondaryFontSize}
               >
                 Drawn By
               </Text>
@@ -199,6 +209,7 @@ export const TDP = (props) => {
                 border={`1px solid ${Theme.PrimaryTextColor}`}
                 fontWeight="600"
                 padding="2px 5px"
+                fontSize={Theme.SecondaryFontSize}
               >
                 {parcelData.drawnBy}
               </Text>
@@ -207,6 +218,7 @@ export const TDP = (props) => {
                 border={`1px solid ${Theme.PrimaryTextColor}`}
                 fontWeight="600"
                 padding="2px 5px"
+                fontSize={Theme.SecondaryFontSize}
               >
                 Location
               </Text>
@@ -214,16 +226,17 @@ export const TDP = (props) => {
                 border={`1px solid ${Theme.PrimaryTextColor}`}
                 fontWeight="600"
                 padding="2px 5px"
+                fontSize={Theme.SecondaryFontSize}
               >
                 {parcelData.LEGAL_DESC}
               </Text>
             </Grid>
             <Boxed border={`1px solid ${Theme.PrimaryTextColor}`} pad="10px">
-              <Text align="center" fontWeight="600">
+              <Text align="center" fontWeight="600" fontSize={Theme.SecondaryFontSize}>
                 Schedule
               </Text>
 
-              <Text>
+              <Text fontSize={Theme.SecondaryFontSize}>
                 All that piece of land, surveyed under Right of Occupancy no.{" "}
                 <b>{parcelData.ParcelNumber}</b> at {parcelData.LEGAL_DESC}{" "}
                 Local Government Area of Yobe State, consisting of an area of{" "}

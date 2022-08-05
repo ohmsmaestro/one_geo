@@ -57,7 +57,7 @@ export default {
         const total = raw?.data?.pagination?.totalRecord;
         yield put({
           type: "save",
-          payload: { usersList: list, usersTotal: 9 },
+          payload: { usersList: list, usersTotal: total },
         });
       } else {
         Alert.error(message);

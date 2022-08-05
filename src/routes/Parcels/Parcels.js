@@ -26,6 +26,7 @@ import RentModal from "./Rent/index";
 import AppraisalModal from "./Appraisal/index";
 import EncumbranceModal from "./EncumbranceModal/index";
 import Rectification from "./RectificationModal/index";
+import ApplicationFormModal from './ApplicationForm/index';
 
 const appraisalOptions = [
   { value: 1, label: "Appraised" },
@@ -47,6 +48,7 @@ export const Parcels = (props) => {
     fetchActionURL,
     encumbranceModal,
     rectificationModal,
+    applicationFormModal,
     accessList,
     profile,
   } = props;
@@ -61,6 +63,7 @@ export const Parcels = (props) => {
     viewTDP,
     openEncumbranceModal,
     openRectificationModal,
+    openApplicationFormModal,
   } = props;
 
   useEffect(() => {
@@ -177,6 +180,9 @@ export const Parcels = (props) => {
                   Generate COFO
                 </Dropdown.Item>
               )}
+              {record.ALLOCATED === 1 && (<Dropdown.Item onClick={() => openApplicationFormModal(record)}>
+                Other Applications
+              </Dropdown.Item>)}
             </Dropdown.Menu>
           </Dropdown>
         )}
@@ -343,6 +349,7 @@ export const Parcels = (props) => {
       {appraisalModal && <AppraisalModal />}
       {encumbranceModal && <EncumbranceModal />}
       {rectificationModal && <Rectification />}
+      {applicationFormModal && <ApplicationFormModal />}
     </>
   );
 };

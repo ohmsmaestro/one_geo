@@ -12,6 +12,7 @@ import {
   calcViewMode,
   formatCurrency,
   formatDate,
+  getOptionsLabel
 } from "../../../utils/utils";
 import { deedStatusOption } from '../../../utils/constant'
 import { Theme } from "../../../utils/theme";
@@ -196,7 +197,7 @@ export const Review = (props) => {
         >
           Deed
         </span>{" "}
-        / review
+        / Review
       </PageTitle>
       <Boxed>
         {deedData?.declined ? (
@@ -249,7 +250,7 @@ export const Review = (props) => {
           >
             Status
           </Text>
-          <Text padding="0 5px">{deedData.stageName}</Text>
+          <Text padding="0 5px">{getOptionsLabel(deedData.stageName, deedStatusOption)}</Text>
         </Boxed>
         <Boxed />
       </Grid>

@@ -158,9 +158,8 @@ export const timeElapsed = (thenProps, nowProps, endText) => {
   const seconds = elapsedTime.format("ss");
 
   const statement = (value, type) => {
-    return `${Number(value)} ${type}${value > 1 ? "s" : " "} ${
-      endText ? endText : "ago"
-    }`;
+    return `${Number(value)} ${type}${value > 1 ? "s" : " "} ${endText ? endText : "ago"
+      }`;
   };
 
   if (then > now) {
@@ -254,3 +253,9 @@ export const formatCount = (value) => {
   if (1000000000 > value) return `${round(value / 1000000, 1)}M`;
   return value;
 };
+
+export const getOptionsLabel = (value, list) => {
+  const item = list?.find(item => item.value === value);
+  if (item) return item.label;
+  return '--/--'
+}

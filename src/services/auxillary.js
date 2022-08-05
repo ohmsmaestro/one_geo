@@ -28,3 +28,12 @@ export async function getDefectTypes(data) {
     data,
   });
 }
+
+export async function getApplicationTypes(data) {
+  const url = `${endpoint}/application/form/types`;
+  return await request({
+    url,
+    method: "GET",
+    data,
+  });
+}
