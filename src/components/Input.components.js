@@ -127,7 +127,7 @@ const InputWrapper = styled.div`
       & .onegeo__option {
         border-radius: ${(props) => props.theme.PrimaryRadius};
         height: 40px;
-        padding: 8px 30px;
+        padding: 8px 10px;
         font-size: ${(props) => props.theme.SecondaryFontSize};
         cursor: pointer;
         background-color: transparent

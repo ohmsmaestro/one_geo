@@ -18,11 +18,10 @@ import { pageOptions } from "../../utils/constant";
 import { Theme } from "../../utils/theme";
 
 const statusOptions = [
-    { value: 1, label: "Pending Review" },
-    { value: 2, label: "Pending Allocation" },
-    { value: 3, label: "Pending Allocation Review" },
-    { value: 4, label: "Pending User Review" },
-    { value: 5, label: "Allocated" },
+    { value: 1, label: "Open" },
+    { value: 2, label: "In Progress" },
+    { value: 3, label: "Closed" },
+    { value: 4, label: "Rejected" },
 ];
 
 const getStatus = (status, declined) => {
@@ -46,7 +45,7 @@ const getStatus = (status, declined) => {
         );
     }
     switch (status) {
-        case "PENDING REVIEW":
+        case "In Progress":
             return (
                 <Text
                     color={Theme.PrimaryYellow}
@@ -60,11 +59,11 @@ const getStatus = (status, declined) => {
                         margin="0 5px 0 0"
                         fontSize="16px"
                     />{" "}
-                    Pending Review
+                    In Progress
                 </Text>
             );
 
-        case "PENDING ALLOCATION":
+        case "OPEN":
             return (
                 <Text
                     color={Theme.PrimaryBlue}
@@ -78,43 +77,7 @@ const getStatus = (status, declined) => {
                         margin="0 5px 0 0"
                         fontSize="16px"
                     />{" "}
-                    Pending Allocation
-                </Text>
-            );
-
-        case "PENDING ALLOCATION APPROVAL":
-            return (
-                <Text
-                    color={Theme.PrimaryYellow}
-                    fontSize={Theme.SecondaryFontSize}
-                    align="center"
-                >
-                    {" "}
-                    <Icon
-                        className="icon-attention-1"
-                        color={Theme.PrimaryYellow}
-                        margin="0 5px 0 0"
-                        fontSize="16px"
-                    />{" "}
-                    Pending Allocation Approval
-                </Text>
-            );
-
-        case "PENDING ACCEPTANCE":
-            return (
-                <Text
-                    color={Theme.PrimaryBlue}
-                    fontSize={Theme.SecondaryFontSize}
-                    align="center"
-                >
-                    {" "}
-                    <Icon
-                        className="icon-attention-1"
-                        color={Theme.PrimaryBlue}
-                        margin="0 5px 0 0"
-                        fontSize="16px"
-                    />{" "}
-                    Pending Acceptance
+                    Open
                 </Text>
             );
 
@@ -136,22 +99,20 @@ const getStatus = (status, declined) => {
                     REJECTED
                 </Text>
             );
-        case "ALLOCATED":
+        case "CLOSED":
             return (
                 <Text
                     color={Theme.PrimaryGreen}
                     align="center"
                     fontSize={Theme.SecondaryFontSize}
                 >
-                    {" "}
                     <Icon
                         className="icon-ok-circled-1"
                         color={Theme.PrimaryGreen}
                         margin="0 5px 0 0"
-                        fontSize={Theme.SecondaryFontSize}
                         fontSize="16px"
                     />{" "}
-                    Allocated
+                    Closed
                 </Text>
             );
         default:
