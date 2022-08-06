@@ -17,10 +17,22 @@ import {
   getDeedNewOwner,
   getDeedOwners,
   getSingleDeed,
-  postApplicationForm
+  postApplicationForm,
+  getApplicationForms,
 } from "../services/parcels";
 
 import { storageParcelsModel } from "../utils/constant";
+
+const sample_applicationsFormsList = [
+  {
+    id: 0,
+    createdBy: { firstName: 'Michael', lastName: 'Ijeh', middleName: 'Ifeanyi' },
+    parcelNumber: "AD009455",
+    description: 'Something is here ...... ',
+    type: 'Application for Regularization of Title',
+    status: 'OPEN'
+  }
+];
 
 const initialState = {
   parcelsList: [],
@@ -46,6 +58,8 @@ const initialState = {
   deedNewOwner: {},
 
   applicationFormModal: false,
+  applicationFormList: [...sample_applicationsFormsList],
+  applicationFormTotal: 13,
 }
 
 export default {
@@ -335,6 +349,19 @@ export default {
         yield put({
           type: "save",
           payload: { applicationFormModal: false, parcelData: {} },
+        });
+      } else {
+        Alert.error(message);
+      }
+    },
+    *fetchAllApplicationForms({ payload }, { call, put }) {
+      const { raw, success, message } = yield call(getApplicationForms, payload);
+      if (success) {
+        const list = raw?.data?.applicationForms;
+        const total = raw?.data?.totalRecord;
+        yield put({
+          type: "save",
+          payload: { applicationFormList: list, applicationFormTotal: total },
         });
       } else {
         Alert.error(message);

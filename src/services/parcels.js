@@ -139,3 +139,11 @@ export async function postApplicationForm(data) {
     data,
   });
 }
+
+export async function getApplicationForms(data) {
+  const url = `${endpoint}/application/form`;
+  return await request({
+    url,
+    method: "GET",
+  });
+}

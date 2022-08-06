@@ -45,7 +45,7 @@ const getStatus = (status, declined) => {
         );
     }
     switch (status) {
-        case "In Progress":
+        case "IN_PROGRESS":
             return (
                 <Text
                     color={Theme.PrimaryYellow}
@@ -270,7 +270,7 @@ export const ApplicationForms = (props) => {
                                             <AsyncSelect
                                                 label="Type"
                                                 options={applicationFormTypes}
-                                                onChange={(value) => setStatus(value)}
+                                                onChange={(value) => setType(value)}
                                             />
                                         </Boxed>
                                     </Grid>

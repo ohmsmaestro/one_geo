@@ -14,11 +14,6 @@ import { calcViewMode, formatCurrency, getBase64 } from "../../../utils/utils";
 import { Theme } from "../../../utils/theme";
 import { PageTitle } from "../../../components/style";
 
-const DefectOptions = [
-  { value: 'ENCUMBRANCE', label: 'Encumbrance Defect' },
-  { value: '', label: 'Title Defect' },
-]
-
 export const EncumbranceModal = (props) => {
   // State props
   const { encumbranceModal, isLoading, parcelData, defectTypes } = props;
@@ -70,10 +65,11 @@ export const EncumbranceModal = (props) => {
       validateFields((error, value) => {
         if (!error) {
           const data = {
-            description: value.encumbrance_text.trim(),
+            description: value.defect_text.trim(),
             file: file.base64,
             fileFormat: "pdf",
             parcelNumber: parcelData.ParcelNumber,
+            defectTypeId: value.defect_type.value
           };
           createDefect(data);
         }
@@ -83,7 +79,7 @@ export const EncumbranceModal = (props) => {
     }
   };
 
-  const defectTypeOptions = defectTypes.map(item => ({ value: item.value, value: item.label }));
+  const defectTypeOptions = defectTypes.map(item => ({ ...item, value: item.id, label: item.name }));
   let errors;
 
   return (

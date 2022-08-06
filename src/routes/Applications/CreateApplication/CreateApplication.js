@@ -12,12 +12,17 @@ import { Boxed } from "../../../components/Boxed.components";
 import { Text } from "../../../components/Text.components";
 import { Button } from "../../../components/Button.components";
 import { Alert } from "../../../components/Alert.components";
+import { Loader } from "../../../components/Loader.components";
 import { PageTitle, Icon, FileIcon } from "../../../components/style";
 
 import { calcViewMode, getBase64, formatCurrency } from "../../../utils/utils";
-
 import { Theme } from "../../../utils/theme";
-import { Loader } from "../../../components/Loader.components";
+
+const applicationTypeOptions = [{ value: "PRIVATE", label: 'Private' }, { value: "CORPORATE", label: 'Corporate' },]
+const maritalOptions = [
+  { value: "SINGLE", label: 'Single' },
+  { value: "MARRIED", label: 'Married' },
+]
 
 export const CreateApplication = (props) => {
   let viewMode = calcViewMode();
@@ -127,11 +132,6 @@ export const CreateApplication = (props) => {
     });
   };
 
-  const onEnter = (e) => {
-    e.stopPropagation();
-    e.key === "Enter" && onSubmit();
-  };
-
   useEffect(() => {
     fetchStates({});
     getAllRequirements({});
@@ -149,7 +149,6 @@ export const CreateApplication = (props) => {
   };
 
   const handleStateResidenceSelect = (item) => {
-    console.log({ item });
     setFieldsValue({ lgaOfResidence: {} });
     let list = item.lgas.map((element) => ({
       label: element.name,
@@ -157,6 +156,8 @@ export const CreateApplication = (props) => {
     }));
     setLgaResidenceList(list ? list : []);
   };
+
+  const isPrivate = getFieldValue('type')?.value === 'PRIVATE';
 
   return (
     <Boxed pad="20px">
@@ -170,35 +171,74 @@ export const CreateApplication = (props) => {
         / Application Creation
       </PageTitle>
 
-      <Text fontSize={Theme.SecondaryFontSize} fontWeight="600">
-        Gender
-      </Text>
-      <Boxed pad="10px 0" display="flex">
-        <RadioButton
-          name="gender"
-          value="M"
-          label="Male"
-          onClick={() => setFieldsValue({ gender: "M" })}
-          {...getFieldProps("gender", {
-            rules: [{ required: true }],
-          })}
-          style={{ margin: "0 20px 0 0" }}
-        />
-        <RadioButton
-          name="gender"
-          value="F"
-          label="Female"
-          onClick={() => setFieldsValue({ gender: "F" })}
-          {...getFieldProps("gender", {
-            rules: [{ required: true }],
-          })}
-        />
-      </Boxed>
+
+
       <Grid
         default="repeat(3,1fr)"
         tablet="repeat(3,1fr)"
         mobile="repeat(1,1fr)"
       >
+        <Boxed margin="10px 0">
+          <AsyncSelect
+            label="Applciation Type"
+            placeholder="Select type..."
+            options={applicationTypeOptions}
+            error={
+              (errors = getFieldError("type"))
+                ? "Application type is required"
+                : null
+            }
+            {...getFieldProps("type", {
+              rules: [{ required: true }],
+            })}
+          />
+        </Boxed>
+        <div />
+        <div />
+        <Boxed margin="10px 0">
+          <Text fontSize={Theme.SecondaryFontSize} fontWeight="600">
+            Gender
+          </Text>
+          <Boxed pad="10px 0" display="flex">
+            <RadioButton
+              name="gender"
+              value="M"
+              label="Male"
+              onClick={() => setFieldsValue({ gender: "M" })}
+              {...getFieldProps("gender", {
+                rules: [{ required: true }],
+              })}
+              style={{ margin: "0 20px 0 0" }}
+            />
+            <RadioButton
+              name="gender"
+              value="F"
+              label="Female"
+              onClick={() => setFieldsValue({ gender: "F" })}
+              {...getFieldProps("gender", {
+                rules: [{ required: true }],
+              })}
+            />
+          </Boxed>
+        </Boxed>
+        <Boxed margin="10px 0">
+
+          <AsyncSelect
+            label="Marital Status"
+            placeholder="Select Marital Status..."
+            options={maritalOptions}
+            error={
+              (errors = getFieldError("maritalStatus"))
+                ? "Marital Status is required"
+                : null
+            }
+            {...getFieldProps("maritalStatus", {
+              rules: [{ required: true }],
+            })}
+          />
+        </Boxed>
+        <div />
+
         <Boxed>
           <Input
             label="National Identification Number"
@@ -209,8 +249,18 @@ export const CreateApplication = (props) => {
             })}
           />
         </Boxed>
+        <Boxed>
+          <Input
+            label="Passport Number"
+            type="text"
+            placeholder="Enter Passport Number..."
+            {...getFieldProps("passportNumber", {
+              rules: [{ required: true }],
+            })}
+          />
+        </Boxed>
         <div />
-        <div />
+
         <Boxed margin="10px 0">
           <Input
             label="First Name"
@@ -364,6 +414,7 @@ export const CreateApplication = (props) => {
             })}
           />
         </Boxed>
+
       </Grid>
       <Boxed pad="10px 0">
         <Input
@@ -381,13 +432,51 @@ export const CreateApplication = (props) => {
         />
       </Boxed>
 
-      {/* <Boxed pad="10px 0">
-        <AsyncSelect
-          label="Requirement file"
-          placeholder="Select a requirement file type"
-          options={modiRequirementList}
-        />
-      </Boxed> */}
+      {isPrivate && (<Grid
+        default="repeat(3,1fr)"
+        tablet="repeat(3,1fr)"
+        mobile="repeat(1,1fr)"
+      >
+        <Boxed margin="10px 0">
+          <Input
+            label="Occupation "
+            type="text"
+            placeholder="Enter your occupation..."
+            error={
+              (errors = getFieldError("occupation")) ? "Occupation  is required" : null
+            }
+            {...getFieldProps("occupation", {
+              rules: [{ required: true }],
+            })}
+          />
+        </Boxed>
+        <Boxed margin="10px 0">
+          <Input
+            label="Employer Name"
+            type="text"
+            placeholder="Your Employer name..."
+            error={
+              (errors = getFieldError("employerName")) ? "Employer Name  is required" : null
+            }
+            {...getFieldProps("employerName", {
+              rules: [{ required: true }],
+            })}
+          />
+        </Boxed>
+        <Boxed margin="10px 0">
+          <Input
+            label="Employer Address"
+            type="text"
+            placeholder="Your Employer Address..."
+            error={
+              (errors = getFieldError("employerAddress")) ? "Employer Address  is required" : null
+            }
+            {...getFieldProps("employerAddress", {
+              rules: [{ required: true }],
+            })}
+          />
+        </Boxed>
+      </Grid>)}
 
       {isLoadingRequirements ? (
         <Boxed pad="10px" display="flex">
@@ -436,7 +525,7 @@ export const CreateApplication = (props) => {
                       type="drap"
                       multiple={false}
                       beforeUpload={(pdf) => beforeUpload(pdf, item.id)}
-                      onChange={() => {}}
+                      onChange={() => { }}
                     >
                       <Boxed
                         height="80px"

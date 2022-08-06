@@ -40,6 +40,7 @@ export const Encumbrance = (props) => {
     terminateModal,
     encumbranceDetailModal,
     accessList,
+    defectTypes
   } = props;
 
   // dispatch props
@@ -47,6 +48,7 @@ export const Encumbrance = (props) => {
     props;
 
   const [status, setStatus] = useState(null);
+  const [type, setType] = useState(null);
 
   useEffect(() => {
     if (accessList["VIEW_ENCUMBRANCE"]) {
@@ -62,8 +64,8 @@ export const Encumbrance = (props) => {
   const columns = [
     {
       title: "Type",
-      dataIndex: "type",
-      key: "type",
+      dataIndex: "defectTypeName",
+      key: "defectTypeName",
     },
     {
       title: "Description",
@@ -126,9 +128,13 @@ export const Encumbrance = (props) => {
     },
   ];
 
+  const defectTypesOptions = defectTypes.map(item => ({ ...item, value: item.id, label: item.name }))
+
   let externalParams = {
     status: status?.value,
+    defectTypeId: type?.id,
   };
+
   return (
     <>
       <Boxed pad="20px">
@@ -165,6 +171,13 @@ export const Encumbrance = (props) => {
                         label="Status"
                         options={statusOptions}
                         onChange={(value) => setStatus(value)}
+                      />
+                    </Boxed>
+                    <Boxed>
+                      <AsyncSelect
+                        label="Type"
+                        options={defectTypesOptions}
+                        onChange={(value) => setType(value)}
                       />
                     </Boxed>
                     <Boxed />

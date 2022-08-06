@@ -21,7 +21,7 @@ export async function getRequirements(data) {
 }
 
 export async function getDefectTypes(data) {
-  const url = `${endpoint}/defect/types`;
+  const url = `${endpoint}/defects`;
   return await request({
     url,
     method: "GET",

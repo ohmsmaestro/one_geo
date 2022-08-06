@@ -10,13 +10,14 @@ const accessList = localStorage.getItem(storagePrivilege)
   : {};
 
 export const mapStateToProps = (state, ownProps) => {
-  const { loading, entries } = state;
+  const { loading, entries, auxillary } = state;
   const {
     encumbranceList,
     encumbranceTotal,
     terminateModal,
     encumbranceDetailModal,
   } = entries;
+  const { defectTypes } = auxillary;
   const isLoading = loading.effects[fetchActionURL];
   return {
     isLoading,
@@ -26,6 +27,7 @@ export const mapStateToProps = (state, ownProps) => {
     terminateModal,
     encumbranceDetailModal,
     accessList,
+    defectTypes
   };
 };
 
