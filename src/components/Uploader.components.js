@@ -1,5 +1,6 @@
 import React from "react";
 import Upload from "rc-upload"
+import PropTypes from 'prop-types';
 
 import { Boxed } from "./Boxed.components";
 import { Alert } from './Alert.components';
@@ -13,9 +14,10 @@ export const Uploader = ({ maxSize, types, multiple, callBack, message }) => {
 
     // handle logic for uploading an image
     const beforeUpload = (file) => {
-        const isType = file.type === "application/pdf";
+        const isType = types.includes(file.type);
+        console.log({ file: file.type, types, isType })
         if (!isType) {
-            Alert.error("You can only upload PDF file.");
+            Alert.error(`You can only upload${types.map(item => ` ${item},`)} file format.`);
         }
         const isSize = file.size / 1024 / 1024 < maxSize;
         if (!isSize) {
@@ -30,6 +32,7 @@ export const Uploader = ({ maxSize, types, multiple, callBack, message }) => {
     const handleFileUploader = (file) => {
         getBase64(file).then((data) => {
             const base64Data = data.split(",")[1];
+
             callBack({
                 file: file,
                 base64: base64Data,
@@ -43,7 +46,7 @@ export const Uploader = ({ maxSize, types, multiple, callBack, message }) => {
     return (
         <Upload
             type="drap"
-            multiple={multiple ?? false}
+            multiple={multiple}
             beforeUpload={(file) => beforeUpload(file)}
             onChange={() => { }}
         >
@@ -61,9 +64,25 @@ export const Uploader = ({ maxSize, types, multiple, callBack, message }) => {
                         fontSize="35px"
                         color={Theme.PrimaryTextColor}
                     />
-                    <Text>{message ?? "Click or drag instrument file here to upload."} </Text>
+                    <Text>{message} </Text>
                 </Boxed>
             </Boxed>
         </Upload>
     )
 }
+
+Uploader.defaultProps = {
+    maxSize: 10,
+    multiple: false,
+    callBack: () => { },
+    message: 'Click or drag instrument file here to upload',
+    types: ["application/pdf"]
+};
+
+Uploader.propTypes = {
+    maxSize: PropTypes.number,
+    multiple: PropTypes.bool,
+    callBack: PropTypes.func,
+    message: PropTypes.string,
+    types: PropTypes.array,
+};

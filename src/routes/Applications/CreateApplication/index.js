@@ -8,12 +8,9 @@ export const mapStateToProps = (state, ownProps) => {
   const { stateList, requirementList } = auxillary;
 
   const modiStateList = stateList.map((item) => ({
+    ...item,
     label: item.name,
-    ...item,
-  }));
-  const modiRequirementList = requirementList.map((item) => ({
-    label: item.description,
-    ...item,
+    value: item.id,
   }));
 
   const isLoading = loading.effects["entries/postApplication"];
@@ -23,7 +20,7 @@ export const mapStateToProps = (state, ownProps) => {
   return {
     isLoading,
     modiStateList,
-    modiRequirementList,
+    requirementList,
     isLoadingStates,
     isLoadingRequirements,
   };

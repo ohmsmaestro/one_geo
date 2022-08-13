@@ -25,7 +25,7 @@ export default {
 
   state: {
     stateList: [],
-    requirementList: [],
+    requirementList: {},
     stateTotal: 0,
     createLawModal: false,
     defectTypes: [],
@@ -54,7 +54,7 @@ export default {
     *getAllRequirements({ payload }, { call, put }) {
       const { raw, success, message } = yield call(getRequirements, payload);
       if (success) {
-        const list = raw?.data?.requirements;
+        const list = raw?.data;
         yield put({
           type: "save",
           payload: { requirementList: list },

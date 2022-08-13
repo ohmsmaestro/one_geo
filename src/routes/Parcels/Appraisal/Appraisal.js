@@ -69,8 +69,7 @@ export const Appraisal = (props) => {
   const onSubmit = () => {
     validateFields((error, value) => {
       if (!error) {
-        console.log({ parcelData });
-        console.log(value);
+
         let data = {
           type1: value.type1.id,
           type1SubDivision: value.type1SubDivision.id,
@@ -215,7 +214,7 @@ export const Appraisal = (props) => {
               type="drap"
               multiple={false}
               beforeUpload={(pdf) => beforeUpload(pdf)}
-              onChange={() => {}}
+              onChange={() => { }}
             >
               <Boxed
                 height="120px"

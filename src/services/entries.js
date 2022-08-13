@@ -36,7 +36,7 @@ export async function getMyApplications(data) {
   });
 }
 export async function postApplication(data) {
-  const url = `${endpoint}/signup/internal`;
+  const url = `${endpoint}/signup/applications`;
   return await request({
     url,
     method: "POST",
