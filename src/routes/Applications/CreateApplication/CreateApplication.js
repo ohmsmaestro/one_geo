@@ -127,6 +127,7 @@ export const CreateApplication = (props) => {
                   type: value?.type?.value,
                   ownershipType: value?.ownershipType?.value,
                   photo: photo?.base64,
+                  maritalStatus: value?.maritalStatus?.value,
 
                   gender: value?.gender,
                   nin: value?.nin,
@@ -146,6 +147,15 @@ export const CreateApplication = (props) => {
 
                   stateOfResidence: value?.stateOfResidence?.stateId,
                   lgaOfResidence: value?.lgaOfResidence?.lgaId,
+                  homeTown: value?.homeTown,
+
+                  nationality: value?.nationality,
+                  mailAddress: value?.mailAddress,
+                  residentialAddress: value?.residentialAddress,
+
+                  occupation: value?.occupation,
+                  employerName: value?.employerName,
+                  employerAddress: value?.employerAddress,
                   residentialAddress: value?.residentialAddress,
 
                   repName: value?.repName,
@@ -153,8 +163,9 @@ export const CreateApplication = (props) => {
                   repAddress: value?.repAddress,
                   repPhone: value?.repPhone,
                   repEmail: value?.repEmail,
+
+                  files: requireList,
                 }
-                console.log({ privateData })
                 postApplication(privateData);
                 break;
 
@@ -165,6 +176,7 @@ export const CreateApplication = (props) => {
                   photo: photo?.base64,
 
                   name: value?.name,
+                  companyEmail: value?.companyEmail,
                   companyType: value?.companyType,
                   phone: value?.phone,
 
@@ -190,12 +202,10 @@ export const CreateApplication = (props) => {
 
                   files: requireList,
                 }
-                console.log({ companyData })
                 postApplication(companyData);
                 break;
 
               default:
-
                 break;
             }
 
@@ -383,7 +393,7 @@ export const CreateApplication = (props) => {
           </Boxed>
           <div />
 
-          <Boxed>
+          <Boxed margin="10px 0">
             <Input
               label="National Identification Number"
               type="text"
@@ -398,7 +408,7 @@ export const CreateApplication = (props) => {
               })}
             />
           </Boxed>
-          <Boxed>
+          <Boxed margin="10px 0">
             <Input
               label="Passport Number"
               type="text"
@@ -413,7 +423,7 @@ export const CreateApplication = (props) => {
               })}
             />
           </Boxed>
-          <Boxed>
+          <Boxed margin="10px 0">
             <Input
               label="Tax Identification Number"
               type="text"
@@ -583,7 +593,21 @@ export const CreateApplication = (props) => {
             />
           </Boxed>
 
-
+          <Boxed pad="10px 0">
+            <Input
+              label="Nationality"
+              type="text"
+              placeholder="Enter Nationality..."
+              error={
+                getFieldError("nationality")
+                  ? 'Nationality is required'
+                  : null
+              }
+              {...getFieldProps("nationality", {
+                rules: [{ required: true }],
+              })}
+            />
+          </Boxed>
           <Boxed pad="10px 0">
             <Input
               label="Home Town"
@@ -605,11 +629,11 @@ export const CreateApplication = (props) => {
               type="text"
               placeholder="Enter mailing address..."
               error={
-                getFieldError("mailingAddress")
+                getFieldError("mailAddress")
                   ? 'Mailing Address is required'
                   : null
               }
-              {...getFieldProps("mailingAddress", {
+              {...getFieldProps("mailAddress", {
                 rules: [{ required: true }],
               })}
             />
@@ -680,11 +704,9 @@ export const CreateApplication = (props) => {
 
       {isCooperate && (
         <>
-          <Grid
-            desktop="repeat(3,1fr)"
-            tablet="repeat(3,1fr)"
-            mobile="repeat(1,1fr)"
-          >
+          <Grid desktop="2fr 1fr"
+            tablet="2fr 1fr"
+            mobile="repeat(1,1fr)">
             <Boxed pad="15px 0">
               <Input
                 label="Company Name"
@@ -696,6 +718,28 @@ export const CreateApplication = (props) => {
                     : null
                 }
                 {...getFieldProps("name", {
+                  rules: [{ required: true }],
+                })}
+              />
+            </Boxed>
+
+          </Grid>
+          <Grid
+            desktop="repeat(3,1fr)"
+            tablet="repeat(3,1fr)"
+            mobile="repeat(1,1fr)"
+          >
+            <Boxed pad="15px 0">
+              <Input
+                label="Company Email"
+                type="text"
+                placeholder="Enter company email..."
+                error={
+                  (errors = getFieldError("companyEmail"))
+                    ? "Company Email is required"
+                    : null
+                }
+                {...getFieldProps("companyEmail", {
                   rules: [{ required: true }],
                 })}
               />
