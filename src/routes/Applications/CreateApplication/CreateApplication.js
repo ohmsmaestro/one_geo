@@ -59,7 +59,7 @@ export const CreateApplication = (props) => {
   const [lgaResidenceList, setLgaResidenceList] = useState([]);
   const [photo, setPhoto] = useState({});
   const [requirementFiles, setRequirementFiles] = useState({});
-  const [list, setList] = useState([])
+  const [list, setList] = useState([]);
 
 
   // handle logic for uploading an image
@@ -316,19 +316,22 @@ export const CreateApplication = (props) => {
               <Text fontSize={Theme.SecondaryFontSize} fontWeight="bold">
                 Passport Photo
               </Text>
-              <embed
-                type={photo.type}
-                src={`data:${photo.type}; base64, ${photo.base64}`}
-                style={{
-                  height: "230px",
-                  maxWidth: "230px",
-                  borderRadius: "100%",
-                  boxShadow: Theme.PrimaryShadow,
-                  border: `2px solid ${Theme.PrimaryBorderColor}`,
-                  padding: "15px",
-                }}
-                alt="avatar"
-              />
+              <Boxed>
+                <embed
+                  type={photo.type}
+                  src={`data:${photo.type}; base64, ${photo.base64}`}
+                  style={{
+                    height: "230px",
+                    maxWidth: "230px",
+                    borderRadius: "100%",
+                    boxShadow: Theme.PrimaryShadow,
+                    border: `2px solid ${Theme.PrimaryBorderColor}`,
+                    padding: "15px",
+                  }}
+                  alt="avatar"
+                />
+                <Button pale onClick={() => setPhoto({})}>Remove</Button>
+              </Boxed>
             </Boxed>
             :
             <Boxed>
@@ -722,7 +725,6 @@ export const CreateApplication = (props) => {
                 })}
               />
             </Boxed>
-
           </Grid>
           <Grid
             desktop="repeat(3,1fr)"

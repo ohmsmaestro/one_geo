@@ -36,6 +36,8 @@ export const DecisionModal = (props) => {
   };
   let errors;
 
+  let decisionMessage = decisionModal === 'REJECTED' ? 'Decline' : (applicationDetail.status === "PENDING ACCEPTANCE" ? "Accept" : "Approve")
+
   return (
     <>
       <ModalComponent

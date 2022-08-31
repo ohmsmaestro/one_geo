@@ -23,6 +23,285 @@ import DecisionModal from "./DecisionModal";
 import AllocateModal from "./AllocateModal";
 import { MAP_URL } from "../../../utils/config";
 
+const PrivateCard = ({ applicationDetail }) => {
+  return (
+    <Boxed>
+      <Grid
+        desktop="repeat(3,1fr)"
+        tablet="repeat=(3,1fr)"
+        mobile="repeat(2, 1fr)"
+      >
+
+        <Boxed pad="10px 0">
+          <Text
+            fontSize={Theme.SecondaryFontSize}
+            color={Theme.SecondaryTextColor}
+          >
+            National Identification Number
+          </Text>
+          <Text padding="0 5px">{applicationDetail?.nin}</Text>
+        </Boxed>
+        <Boxed pad="10px 0">
+          <Text
+            fontSize={Theme.SecondaryFontSize}
+            color={Theme.SecondaryTextColor}
+          >
+            Passport Number
+          </Text>
+          <Text padding="0 5px">{applicationDetail?.passportNumber}</Text>
+        </Boxed>
+        <Boxed pad="10px 0">
+          <Text
+            fontSize={Theme.SecondaryFontSize}
+            color={Theme.SecondaryTextColor}
+          >
+            Tax Identification Number
+          </Text>
+          <Text padding="0 5px">{applicationDetail?.tin}</Text>
+        </Boxed>
+
+        <Boxed pad="10px 0">
+          <Text
+            fontSize={Theme.SecondaryFontSize}
+            color={Theme.SecondaryTextColor}
+          >
+            Gender
+          </Text>
+          <Text padding="0 5px">{applicationDetail.gender === "M" ? "Male" : "Female"}</Text>
+        </Boxed>
+        <Boxed pad="10px 0">
+          <Text
+            fontSize={Theme.SecondaryFontSize}
+            color={Theme.SecondaryTextColor}
+          >
+            Marital Status
+          </Text>
+          <Text padding="0 5px">{applicationDetail.maritalStatus}</Text>
+        </Boxed>
+        <Boxed />
+
+        <Boxed pad="10px 0">
+          <Text
+            fontSize={Theme.SecondaryFontSize}
+            color={Theme.SecondaryTextColor}
+          >
+            Last Name
+          </Text>
+          <Text padding="0 5px">{applicationDetail.lastname}</Text>
+        </Boxed>
+        <Boxed pad="10px 0">
+          <Text
+            fontSize={Theme.SecondaryFontSize}
+            color={Theme.SecondaryTextColor}
+          >
+            First Name
+          </Text>
+          <Text padding="0 5px">{applicationDetail.firstname}</Text>
+        </Boxed>
+        <Boxed pad="10px 0">
+          {applicationDetail.middlename && (
+            <>
+              <Text
+                fontSize={Theme.SecondaryFontSize}
+                color={Theme.SecondaryTextColor}
+              >
+                Middle Name
+              </Text>
+              <Text padding="0 5px">
+                {applicationDetail.middlename}
+              </Text>{" "}
+            </>
+          )}
+        </Boxed>
+
+
+        <Boxed pad="10px 0">
+          <Text
+            fontSize={Theme.SecondaryFontSize}
+            color={Theme.SecondaryTextColor}
+          >
+            Email
+          </Text>
+          <Text padding="0 5px">{applicationDetail.email}</Text>
+        </Boxed>
+        <Boxed pad="10px 0">
+          <Text
+            fontSize={Theme.SecondaryFontSize}
+            color={Theme.SecondaryTextColor}
+          >
+            Phone
+          </Text>
+          <Text padding="0 5px">{applicationDetail.phone}</Text>
+        </Boxed>
+        <Boxed pad="10px 0">
+          <Text
+            fontSize={Theme.SecondaryFontSize}
+            color={Theme.SecondaryTextColor}
+          >
+            Date of birth
+          </Text>
+          <Text padding="0 5px">
+            {applicationDetail.dob &&
+              formatDate(applicationDetail.dob)}
+          </Text>
+        </Boxed>
+
+        <Boxed pad="10px 0">
+          <Text
+            fontSize={Theme.SecondaryFontSize}
+            color={Theme.SecondaryTextColor}
+          >
+            Country of Origin
+          </Text>
+          <Text padding="0 5px">Nigeria</Text>
+        </Boxed>
+        <Boxed pad="10px 0">
+          <Text
+            fontSize={Theme.SecondaryFontSize}
+            color={Theme.SecondaryTextColor}
+          >
+            State of Origin
+          </Text>
+          <Text padding="0 5px">
+            {applicationDetail?.stateOfOrigin}
+          </Text>
+        </Boxed>
+        <Boxed pad="10px 0">
+          <Text
+            fontSize={Theme.SecondaryFontSize}
+            color={Theme.SecondaryTextColor}
+          >
+            Local Gov. Area of Origin
+          </Text>
+          <Text padding="0 5px">
+            {applicationDetail?.lgaOfOrigin}
+          </Text>
+        </Boxed>
+
+        <Boxed pad="10px 0">
+          <Text
+            fontSize={Theme.SecondaryFontSize}
+            color={Theme.SecondaryTextColor}
+          >
+            Nationality
+          </Text>
+          <Text padding="0 5px">{applicationDetail?.nationality}</Text>
+        </Boxed>
+        <Boxed pad="10px 0">
+          <Text
+            fontSize={Theme.SecondaryFontSize}
+            color={Theme.SecondaryTextColor}
+          >
+            Home Town
+          </Text>
+          <Text padding="0 5px">
+            {applicationDetail?.homeTown}
+          </Text>
+        </Boxed>
+        <Boxed pad="10px 0">
+          <Text
+            fontSize={Theme.SecondaryFontSize}
+            color={Theme.SecondaryTextColor}
+          >
+            Mailing Address
+          </Text>
+          <Text padding="0 5px">
+            {applicationDetail?.mailAddress}
+          </Text>
+        </Boxed>
+
+        <Boxed pad="10px 0">
+          <Text
+            fontSize={Theme.SecondaryFontSize}
+            color={Theme.SecondaryTextColor}
+          >
+            Country of Residence
+          </Text>
+          <Text padding="0 5px">Nigeria</Text>
+        </Boxed>
+        <Boxed pad="10px 0">
+          <Text
+            fontSize={Theme.SecondaryFontSize}
+            color={Theme.SecondaryTextColor}
+          >
+            State of Residence
+          </Text>
+          <Text padding="0 5px">
+            {applicationDetail?.stateOfResidence}
+          </Text>
+        </Boxed>
+        <Boxed pad="10px 0">
+          <Text
+            fontSize={Theme.SecondaryFontSize}
+            color={Theme.SecondaryTextColor}
+          >
+            Local Gov. Area of Residence
+          </Text>
+          <Text padding="0 5px">
+            {applicationDetail?.lgaOfResidence}
+          </Text>
+        </Boxed>
+      </Grid>
+      <Boxed pad="10px 0">
+        <Text
+          fontSize={Theme.SecondaryFontSize}
+          color={Theme.SecondaryTextColor}
+        >
+          Address of residence
+        </Text>
+        <Text padding="0 5px">
+          {applicationDetail?.residentialAddress}
+        </Text>
+      </Boxed>
+      <Grid
+        desktop="repeat(3,1fr)"
+        tablet="repeat=(3,1fr)"
+        mobile="repeat(2, 1fr)"
+      >
+        <Boxed pad="10px 0">
+          <Text
+            fontSize={Theme.SecondaryFontSize}
+            color={Theme.SecondaryTextColor}
+          >
+            Occupation
+          </Text>
+          <Text padding="0 5px">{applicationDetail?.occupation}</Text>
+        </Boxed>
+        <Boxed pad="10px 0">
+          <Text
+            fontSize={Theme.SecondaryFontSize}
+            color={Theme.SecondaryTextColor}
+          >
+            Employer Name
+          </Text>
+          <Text padding="0 5px">
+            {applicationDetail?.employerName}
+          </Text>
+        </Boxed>
+        <Boxed pad="10px 0">
+          <Text
+            fontSize={Theme.SecondaryFontSize}
+            color={Theme.SecondaryTextColor}
+          >
+            Employer Address
+          </Text>
+          <Text padding="0 5px">
+            {applicationDetail?.employerAddress}
+          </Text>
+        </Boxed>
+      </Grid>
+    </Boxed>
+  )
+}
+
+const CompanyCard = ({ applicationDetail }) => {
+  return (
+    <>
+      Company Card is here...
+    </>
+  )
+}
+
 export const Review = (props) => {
   // state props
   const {
@@ -169,7 +448,6 @@ export const Review = (props) => {
                         formatDate(applicationDetail.createdAt)}
                     </Text>
                   </Boxed>
-
                   <Boxed pad="10px 0">
                     <Text
                       fontSize={Theme.SecondaryFontSize}
@@ -183,66 +461,53 @@ export const Review = (props) => {
                         : applicationDetail?.status}
                     </Text>
                   </Boxed>
-                  {applicationDetail?.nin && (
-                    <>
-                      <Boxed pad="10px 0">
-                        <Text
-                          fontSize={Theme.SecondaryFontSize}
-                          color={Theme.SecondaryTextColor}
-                        >
-                          National Identification Number
-                        </Text>
-                        <Text padding="0 5px">{applicationDetail?.nin}</Text>
-                      </Boxed>
-                      <Boxed />
-                      <Boxed />
-                    </>
-                  )}
 
                   <Boxed pad="10px 0">
                     <Text
                       fontSize={Theme.SecondaryFontSize}
                       color={Theme.SecondaryTextColor}
                     >
-                      Last Name
+                      Application Type
                     </Text>
-                    <Text padding="0 5px">{applicationDetail.lastname}</Text>
+                    <Text padding="0 5px">{applicationDetail.type}</Text>
                   </Boxed>
                   <Boxed pad="10px 0">
                     <Text
                       fontSize={Theme.SecondaryFontSize}
                       color={Theme.SecondaryTextColor}
                     >
-                      First Name
+                      Owenership Type
                     </Text>
-                    <Text padding="0 5px">{applicationDetail.firstname}</Text>
+                    <Text padding="0 5px">
+                      {applicationDetail?.ownwershipType}
+                    </Text>
                   </Boxed>
-                  <Boxed pad="10px 0">
-                    {applicationDetail.middlename && (
-                      <>
-                        <Text
-                          fontSize={Theme.SecondaryFontSize}
-                          color={Theme.SecondaryTextColor}
-                        >
-                          Middle Name
-                        </Text>
-                        <Text padding="0 5px">
-                          {applicationDetail.middlename}
-                        </Text>{" "}
-                      </>
-                    )}
-                  </Boxed>
+                </Grid>
+                <PrivateCard applicationDetail={applicationDetail} />
 
+                <Grid
+                  desktop="repeat(3,1fr)"
+                  tablet="repeat=(3,1fr)"
+                  mobile="repeat(2, 1fr)"
+                >
                   <Boxed pad="10px 0">
                     <Text
                       fontSize={Theme.SecondaryFontSize}
                       color={Theme.SecondaryTextColor}
                     >
-                      Date of birth
+                      Representative Name
+                    </Text>
+                    <Text padding="0 5px">{applicationDetail?.repName}</Text>
+                  </Boxed>
+                  <Boxed pad="10px 0">
+                    <Text
+                      fontSize={Theme.SecondaryFontSize}
+                      color={Theme.SecondaryTextColor}
+                    >
+                      Representative Email
                     </Text>
                     <Text padding="0 5px">
-                      {applicationDetail.dob &&
-                        formatDate(applicationDetail.dob)}
+                      {applicationDetail?.repEmail}
                     </Text>
                   </Boxed>
                   <Boxed pad="10px 0">
@@ -250,81 +515,10 @@ export const Review = (props) => {
                       fontSize={Theme.SecondaryFontSize}
                       color={Theme.SecondaryTextColor}
                     >
-                      Email
-                    </Text>
-                    <Text padding="0 5px">{applicationDetail.email}</Text>
-                  </Boxed>
-                  <Boxed pad="10px 0">
-                    <Text
-                      fontSize={Theme.SecondaryFontSize}
-                      color={Theme.SecondaryTextColor}
-                    >
-                      Phone
-                    </Text>
-                    <Text padding="0 5px">{applicationDetail.phone}</Text>
-                  </Boxed>
-
-                  <Boxed pad="10px 0">
-                    <Text
-                      fontSize={Theme.SecondaryFontSize}
-                      color={Theme.SecondaryTextColor}
-                    >
-                      Country of Origin
-                    </Text>
-                    <Text padding="0 5px">Nigeria</Text>
-                  </Boxed>
-                  <Boxed pad="10px 0">
-                    <Text
-                      fontSize={Theme.SecondaryFontSize}
-                      color={Theme.SecondaryTextColor}
-                    >
-                      State of Origin
+                      Representative Phone
                     </Text>
                     <Text padding="0 5px">
-                      {applicationDetail?.stateOfOrigin}
-                    </Text>
-                  </Boxed>
-                  <Boxed pad="10px 0">
-                    <Text
-                      fontSize={Theme.SecondaryFontSize}
-                      color={Theme.SecondaryTextColor}
-                    >
-                      Local Gov. Area of Origin
-                    </Text>
-                    <Text padding="0 5px">
-                      {applicationDetail?.lgaOfOrigin}
-                    </Text>
-                  </Boxed>
-
-                  <Boxed pad="10px 0">
-                    <Text
-                      fontSize={Theme.SecondaryFontSize}
-                      color={Theme.SecondaryTextColor}
-                    >
-                      Country of Residence
-                    </Text>
-                    <Text padding="0 5px">Nigeria</Text>
-                  </Boxed>
-                  <Boxed pad="10px 0">
-                    <Text
-                      fontSize={Theme.SecondaryFontSize}
-                      color={Theme.SecondaryTextColor}
-                    >
-                      State of Residence
-                    </Text>
-                    <Text padding="0 5px">
-                      {applicationDetail?.stateOfResidence}
-                    </Text>
-                  </Boxed>
-                  <Boxed pad="10px 0">
-                    <Text
-                      fontSize={Theme.SecondaryFontSize}
-                      color={Theme.SecondaryTextColor}
-                    >
-                      Local Gov. Area of Residence
-                    </Text>
-                    <Text padding="0 5px">
-                      {applicationDetail?.lgaOfResidence}
+                      {applicationDetail?.repPhone}
                     </Text>
                   </Boxed>
                 </Grid>
@@ -333,10 +527,10 @@ export const Review = (props) => {
                     fontSize={Theme.SecondaryFontSize}
                     color={Theme.SecondaryTextColor}
                   >
-                    Address of residence
+                    Representative Address
                   </Text>
                   <Text padding="0 5px">
-                    {applicationDetail?.residentialAddress}
+                    {applicationDetail?.repAddress}
                   </Text>
                 </Boxed>
               </Boxed>
@@ -376,9 +570,9 @@ export const Review = (props) => {
             </Boxed>
 
             {applicationDetail.status === "PENDING ALLOCATION APPROVAL" ||
-            (applicationDetail.status === "PENDING ACCEPTANCE" &&
-              profile?.email === applicationDetail?.email) ||
-            applicationDetail.status === "ALLOCATED" ? (
+              (applicationDetail.status === "PENDING ACCEPTANCE" &&
+                profile?.email === applicationDetail?.email) ||
+              applicationDetail.status === "ALLOCATED" ? (
               <>
                 <HR />
                 <Text

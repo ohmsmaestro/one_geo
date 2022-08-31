@@ -515,3 +515,17 @@ export const deedStatusOption = [
   { value: "PENDING REVIEW", label: "Pending Review" },
   { value: "REJECTED", label: "Rejected" },
 ]
+
+export const ownerShipOptions = [
+  { value: "PRIVATE", label: 'Private' },
+  { value: "COOPERATE", label: 'Co-Operate' },
+]
+
+export const applicationTypeOptions = [
+  { value: "CUSTOMARY", label: 'Customary' },
+  { value: "STATUTORY", label: 'Statutory' },
+]
+export const maritalOptions = [
+  { value: "SINGLE", label: 'Single' },
+  { value: "MARRIED", label: 'Married' },
+]

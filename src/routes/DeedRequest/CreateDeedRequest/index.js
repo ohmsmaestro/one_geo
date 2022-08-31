@@ -12,10 +12,6 @@ export const mapStateToProps = (state, ownProps) => {
     label: item.name,
     ...item,
   }));
-  const modiRequirementList = requirementList.map((item) => ({
-    label: item.description,
-    ...item,
-  }));
 
   const isLoading = loading.effects["parcels/postDeepRequest"];
   const isLoadingStates = loading.effects["auxillary/getAllStates"];
@@ -27,7 +23,7 @@ export const mapStateToProps = (state, ownProps) => {
 
   return {
     modiStateList,
-    modiRequirementList,
+    requirementList,
     isLoading,
     isLoadingStates,
     isLoadingRequirements,
