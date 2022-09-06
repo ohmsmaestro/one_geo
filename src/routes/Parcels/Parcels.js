@@ -27,6 +27,7 @@ import AppraisalModal from "./Appraisal/index";
 import EncumbranceModal from "./EncumbranceModal/index";
 import Rectification from "./RectificationModal/index";
 import ApplicationFormModal from './ApplicationForm/index';
+import AssignOwnerModal from "./AssignOwnerModal/index";
 
 const appraisalOptions = [
   { value: 1, label: "Appraised" },
@@ -49,6 +50,7 @@ export const Parcels = (props) => {
     encumbranceModal,
     rectificationModal,
     applicationFormModal,
+    assignOwnerModal,
     accessList,
     profile,
   } = props;
@@ -64,6 +66,7 @@ export const Parcels = (props) => {
     openEncumbranceModal,
     openRectificationModal,
     openApplicationFormModal,
+    openAssignOwnerModal,
   } = props;
 
   useEffect(() => {
@@ -180,6 +183,9 @@ export const Parcels = (props) => {
                   Generate COFO
                 </Dropdown.Item>
               )}
+              {accessList["VIEW_PLOT_TDP"] && (<Dropdown.Item onClick={() => openAssignOwnerModal(record)}>
+                Assign Owner
+              </Dropdown.Item>)}
               {record.ALLOCATED === 1 && (<Dropdown.Item onClick={() => openApplicationFormModal(record)}>
                 Other Applications
               </Dropdown.Item>)}
@@ -350,6 +356,7 @@ export const Parcels = (props) => {
       {encumbranceModal && <EncumbranceModal />}
       {rectificationModal && <Rectification />}
       {applicationFormModal && <ApplicationFormModal />}
+      {assignOwnerModal && <AssignOwnerModal />}
     </>
   );
 };

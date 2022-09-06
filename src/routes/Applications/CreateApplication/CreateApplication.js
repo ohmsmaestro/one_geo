@@ -346,364 +346,365 @@ export const CreateApplication = (props) => {
       </Grid>
 
 
-      {isPrivate && (<>
-        <Grid
-          desktop="repeat(3,1fr)"
-          tablet="repeat(3,1fr)"
-          mobile="repeat(1,1fr)"
-        >
+      {isPrivate && (
+        <>
+          <Grid
+            desktop="repeat(3,1fr)"
+            tablet="repeat(3,1fr)"
+            mobile="repeat(1,1fr)"
+          >
 
-          <Boxed margin="10px 0">
-            <Text fontSize={Theme.SecondaryFontSize} fontWeight="600">
-              Gender
-            </Text>
-            <Boxed pad="10px 0" display="flex">
-              <RadioButton
-                name="gender"
-                value="M"
-                label="Male"
-                onClick={() => setFieldsValue({ gender: "M" })}
-                {...getFieldProps("gender", {
-                  rules: [{ required: true }],
-                })}
-                style={{ margin: "0 20px 0 0" }}
-              />
-              <RadioButton
-                name="gender"
-                value="F"
-                label="Female"
-                onClick={() => setFieldsValue({ gender: "F" })}
-                {...getFieldProps("gender", {
+            <Boxed margin="10px 0">
+              <Text fontSize={Theme.SecondaryFontSize} fontWeight="600">
+                Gender
+              </Text>
+              <Boxed pad="10px 0" display="flex">
+                <RadioButton
+                  name="gender"
+                  value="M"
+                  label="Male"
+                  onClick={() => setFieldsValue({ gender: "M" })}
+                  {...getFieldProps("gender", {
+                    rules: [{ required: true }],
+                  })}
+                  style={{ margin: "0 20px 0 0" }}
+                />
+                <RadioButton
+                  name="gender"
+                  value="F"
+                  label="Female"
+                  onClick={() => setFieldsValue({ gender: "F" })}
+                  {...getFieldProps("gender", {
+                    rules: [{ required: true }],
+                  })}
+                />
+              </Boxed>
+            </Boxed>
+            <Boxed margin="10px 0">
+              <AsyncSelect
+                label="Marital Status"
+                placeholder="Select Marital Status..."
+                options={maritalOptions}
+                error={
+                  (errors = getFieldError("maritalStatus"))
+                    ? "Marital Status is required"
+                    : null
+                }
+                {...getFieldProps("maritalStatus", {
                   rules: [{ required: true }],
                 })}
               />
             </Boxed>
-          </Boxed>
-          <Boxed margin="10px 0">
-            <AsyncSelect
-              label="Marital Status"
-              placeholder="Select Marital Status..."
-              options={maritalOptions}
-              error={
-                (errors = getFieldError("maritalStatus"))
-                  ? "Marital Status is required"
-                  : null
-              }
-              {...getFieldProps("maritalStatus", {
-                rules: [{ required: true }],
-              })}
-            />
-          </Boxed>
-          <div />
+            <div />
 
-          <Boxed margin="10px 0">
-            <Input
-              label="National Identification Number"
-              type="text"
-              placeholder="Enter National Identification Number..."
-              error={
-                (errors = getFieldError("nin"))
-                  ? "NIN is required"
-                  : null
-              }
-              {...getFieldProps("nin", {
-                rules: [{ required: true }],
-              })}
-            />
-          </Boxed>
-          <Boxed margin="10px 0">
-            <Input
-              label="Passport Number"
-              type="text"
-              placeholder="Enter Passport Number..."
-              error={
-                (errors = getFieldError("passportNumber"))
-                  ? "Passport Number is required"
-                  : null
-              }
-              {...getFieldProps("passportNumber", {
-                rules: [{ required: true }],
-              })}
-            />
-          </Boxed>
-          <Boxed margin="10px 0">
-            <Input
-              label="Tax Identification Number"
-              type="text"
-              placeholder="Enter TIN ..."
-              error={
-                (errors = getFieldError("tin"))
-                  ? "Tax Identification Number is required"
-                  : null
-              }
-              {...getFieldProps("tin", {
-                rules: [{ required: true }],
-              })}
-            />
-          </Boxed>
+            <Boxed margin="10px 0">
+              <Input
+                label="National Identification Number"
+                type="text"
+                placeholder="Enter National Identification Number..."
+                error={
+                  (errors = getFieldError("nin"))
+                    ? "NIN is required"
+                    : null
+                }
+                {...getFieldProps("nin", {
+                  rules: [{ required: true }],
+                })}
+              />
+            </Boxed>
+            <Boxed margin="10px 0">
+              <Input
+                label="Passport Number"
+                type="text"
+                placeholder="Enter Passport Number..."
+                error={
+                  (errors = getFieldError("passportNumber"))
+                    ? "Passport Number is required"
+                    : null
+                }
+                {...getFieldProps("passportNumber", {
+                  rules: [{ required: true }],
+                })}
+              />
+            </Boxed>
+            <Boxed margin="10px 0">
+              <Input
+                label="Tax Identification Number"
+                type="text"
+                placeholder="Enter TIN ..."
+                error={
+                  (errors = getFieldError("tin"))
+                    ? "Tax Identification Number is required"
+                    : null
+                }
+                {...getFieldProps("tin", {
+                  rules: [{ required: true }],
+                })}
+              />
+            </Boxed>
 
-          <Boxed margin="10px 0">
-            <Input
-              label="Surname"
-              type="text"
-              placeholder="Your Surname..."
-              error={
-                (errors = getFieldError("lastname"))
-                  ? "Last Name is required"
-                  : null
-              }
-              {...getFieldProps("lastname", {
-                rules: [{ required: true }],
-              })}
-            />
-          </Boxed>
-          <Boxed margin="10px 0">
-            <Input
-              label="First Name"
-              type="text"
-              placeholder="Your first name..."
-              error={
-                (errors = getFieldError("firstname"))
-                  ? "First Name is required"
-                  : null
-              }
-              {...getFieldProps("firstname", {
-                rules: [{ required: true }],
-              })}
-            />
-          </Boxed>
-          <Boxed margin="10px 0">
-            <Input
-              label="Middle Name"
-              type="text"
-              placeholder="Your middle name..."
-              {...getFieldProps("middlename", {
-                rules: [],
-              })}
-            />
-          </Boxed>
+            <Boxed margin="10px 0">
+              <Input
+                label="Surname"
+                type="text"
+                placeholder="Your Surname..."
+                error={
+                  (errors = getFieldError("lastname"))
+                    ? "Last Name is required"
+                    : null
+                }
+                {...getFieldProps("lastname", {
+                  rules: [{ required: true }],
+                })}
+              />
+            </Boxed>
+            <Boxed margin="10px 0">
+              <Input
+                label="First Name"
+                type="text"
+                placeholder="Your first name..."
+                error={
+                  (errors = getFieldError("firstname"))
+                    ? "First Name is required"
+                    : null
+                }
+                {...getFieldProps("firstname", {
+                  rules: [{ required: true }],
+                })}
+              />
+            </Boxed>
+            <Boxed margin="10px 0">
+              <Input
+                label="Middle Name"
+                type="text"
+                placeholder="Your middle name..."
+                {...getFieldProps("middlename", {
+                  rules: [],
+                })}
+              />
+            </Boxed>
 
-          <Boxed margin="10px 0">
-            <Input
-              label="Email "
-              type="email"
-              placeholder="Your Email..."
-              error={
-                (errors = getFieldError("email")) ? "Email  is required" : null
-              }
-              {...getFieldProps("email", {
-                rules: [{ required: true, type: "email" }],
-              })}
-            />
-          </Boxed>
-          <Boxed margin="10px 0">
-            <Input
-              label="Phone Number"
-              type="number"
-              placeholder="Your phone number..."
-              error={
-                (errors = getFieldError("phone"))
-                  ? "Phone number is required"
-                  : null
-              }
-              {...getFieldProps("phone", {
-                rules: [{ required: true }],
-              })}
-            />
-          </Boxed>
-          <Boxed margin="10px 0">
-            <Input
-              label="Date of Birth"
-              type="date"
-              placeholder="Your Date of birth..."
-              max={moment().subtract(18, "years").format("YYYY-MM-DD")}
-              error={
-                (errors = getFieldError("dob"))
-                  ? "Date of birth is required"
-                  : null
-              }
-              {...getFieldProps("dob", {
-                rules: [{ required: true }],
-              })}
-            />
-          </Boxed>
+            <Boxed margin="10px 0">
+              <Input
+                label="Email "
+                type="email"
+                placeholder="Your Email..."
+                error={
+                  (errors = getFieldError("email")) ? "Email  is required" : null
+                }
+                {...getFieldProps("email", {
+                  rules: [{ required: true, type: "email" }],
+                })}
+              />
+            </Boxed>
+            <Boxed margin="10px 0">
+              <Input
+                label="Phone Number"
+                type="number"
+                placeholder="Your phone number..."
+                error={
+                  (errors = getFieldError("phone"))
+                    ? "Phone number is required"
+                    : null
+                }
+                {...getFieldProps("phone", {
+                  rules: [{ required: true }],
+                })}
+              />
+            </Boxed>
+            <Boxed margin="10px 0">
+              <Input
+                label="Date of Birth"
+                type="date"
+                placeholder="Your Date of birth..."
+                max={moment().subtract(18, "years").format("YYYY-MM-DD")}
+                error={
+                  (errors = getFieldError("dob"))
+                    ? "Date of birth is required"
+                    : null
+                }
+                {...getFieldProps("dob", {
+                  rules: [{ required: true }],
+                })}
+              />
+            </Boxed>
 
-          <Boxed margin="10px 0">
-            <Input disabled label="Country of Origin" value="Nigeria" />
-          </Boxed>
-          <Boxed margin="10px 0">
-            <AsyncSelect
-              label="State of Origin"
-              placeholder="Select your state of origin..."
-              options={modiStateList ? modiStateList : []}
-              error={
-                (errors = getFieldError("stateOfOrigin"))
-                  ? "State of origin is required"
-                  : null
-              }
-              {...getFieldProps("stateOfOrigin", {
-                rules: [{ required: true }],
-                onChange: (value) => handleStateOriginSelect(value),
-              })}
-            />
-          </Boxed>
-          <Boxed margin="10px 0">
-            <AsyncSelect
-              label="Local Gov. Area of Origin"
-              placeholder="Select your LGA of Origin..."
-              options={lgaOriginList ? lgaOriginList : []}
-              error={
-                (errors = getFieldError("lgaOfOrigin")) ? "LGA is required" : null
-              }
-              {...getFieldProps("lgaOfOrigin", {
-                rules: [{ required: true }],
-              })}
-            />
-          </Boxed>
+            <Boxed margin="10px 0">
+              <Input disabled label="Country of Origin" value="Nigeria" />
+            </Boxed>
+            <Boxed margin="10px 0">
+              <AsyncSelect
+                label="State of Origin"
+                placeholder="Select your state of origin..."
+                options={modiStateList ? modiStateList : []}
+                error={
+                  (errors = getFieldError("stateOfOrigin"))
+                    ? "State of origin is required"
+                    : null
+                }
+                {...getFieldProps("stateOfOrigin", {
+                  rules: [{ required: true }],
+                  onChange: (value) => handleStateOriginSelect(value),
+                })}
+              />
+            </Boxed>
+            <Boxed margin="10px 0">
+              <AsyncSelect
+                label="Local Gov. Area of Origin"
+                placeholder="Select your LGA of Origin..."
+                options={lgaOriginList ? lgaOriginList : []}
+                error={
+                  (errors = getFieldError("lgaOfOrigin")) ? "LGA is required" : null
+                }
+                {...getFieldProps("lgaOfOrigin", {
+                  rules: [{ required: true }],
+                })}
+              />
+            </Boxed>
 
-          <Boxed margin="10px 0">
-            <Input disabled label="Country of Residence" value="Nigeria" />
-          </Boxed>
-          <Boxed margin="10px 0">
-            <AsyncSelect
-              label="State of Residence"
-              placeholder="Select your state of Residence..."
-              options={modiStateList ? modiStateList : []}
-              error={
-                (errors = getFieldError("stateOfResidence"))
-                  ? "State of Residence is required"
-                  : null
-              }
-              {...getFieldProps("stateOfResidence", {
-                rules: [{ required: true }],
-                onChange: (value) => handleStateResidenceSelect(value),
-              })}
-            />
-          </Boxed>
-          <Boxed margin="10px 0">
-            <AsyncSelect
-              label="Local Gov. Area of Residence"
-              placeholder="Select your LGA of Residence..."
-              options={lgaResidenceList ? lgaResidenceList : []}
-              error={
-                (errors = getFieldError("lgaOfResidence"))
-                  ? "LGA is required"
-                  : null
-              }
-              {...getFieldProps("lgaOfResidence", {
-                rules: [{ required: true }],
-              })}
-            />
-          </Boxed>
+            <Boxed margin="10px 0">
+              <Input disabled label="Country of Residence" value="Nigeria" />
+            </Boxed>
+            <Boxed margin="10px 0">
+              <AsyncSelect
+                label="State of Residence"
+                placeholder="Select your state of Residence..."
+                options={modiStateList ? modiStateList : []}
+                error={
+                  (errors = getFieldError("stateOfResidence"))
+                    ? "State of Residence is required"
+                    : null
+                }
+                {...getFieldProps("stateOfResidence", {
+                  rules: [{ required: true }],
+                  onChange: (value) => handleStateResidenceSelect(value),
+                })}
+              />
+            </Boxed>
+            <Boxed margin="10px 0">
+              <AsyncSelect
+                label="Local Gov. Area of Residence"
+                placeholder="Select your LGA of Residence..."
+                options={lgaResidenceList ? lgaResidenceList : []}
+                error={
+                  (errors = getFieldError("lgaOfResidence"))
+                    ? "LGA is required"
+                    : null
+                }
+                {...getFieldProps("lgaOfResidence", {
+                  rules: [{ required: true }],
+                })}
+              />
+            </Boxed>
 
+            <Boxed pad="10px 0">
+              <Input
+                label="Nationality"
+                type="text"
+                placeholder="Enter Nationality..."
+                error={
+                  getFieldError("nationality")
+                    ? 'Nationality is required'
+                    : null
+                }
+                {...getFieldProps("nationality", {
+                  rules: [{ required: true }],
+                })}
+              />
+            </Boxed>
+            <Boxed pad="10px 0">
+              <Input
+                label="Home Town"
+                type="text"
+                placeholder="Enter home town..."
+                error={
+                  getFieldError("homeTown")
+                    ? 'Home town is required'
+                    : null
+                }
+                {...getFieldProps("homeTown", {
+                  rules: [{ required: true }],
+                })}
+              />
+            </Boxed>
+            <Boxed pad="10px 0">
+              <Input
+                label="Mailing Address"
+                type="text"
+                placeholder="Enter mailing address..."
+                error={
+                  getFieldError("mailAddress")
+                    ? 'Mailing Address is required'
+                    : null
+                }
+                {...getFieldProps("mailAddress", {
+                  rules: [{ required: true }],
+                })}
+              />
+            </Boxed>
+            <div />
+          </Grid>
           <Boxed pad="10px 0">
             <Input
-              label="Nationality"
+              label="Residential Address"
               type="text"
-              placeholder="Enter Nationality..."
+              placeholder="Enter residential address..."
               error={
-                getFieldError("nationality")
-                  ? 'Nationality is required'
+                getFieldError("residentialAddress")
+                  ? 'Residential Address is required'
                   : null
               }
-              {...getFieldProps("nationality", {
+              {...getFieldProps("residentialAddress", {
                 rules: [{ required: true }],
               })}
             />
           </Boxed>
-          <Boxed pad="10px 0">
-            <Input
-              label="Home Town"
-              type="text"
-              placeholder="Enter home town..."
-              error={
-                getFieldError("homeTown")
-                  ? 'Home town is required'
-                  : null
-              }
-              {...getFieldProps("homeTown", {
-                rules: [{ required: true }],
-              })}
-            />
-          </Boxed>
-          <Boxed pad="10px 0">
-            <Input
-              label="Mailing Address"
-              type="text"
-              placeholder="Enter mailing address..."
-              error={
-                getFieldError("mailAddress")
-                  ? 'Mailing Address is required'
-                  : null
-              }
-              {...getFieldProps("mailAddress", {
-                rules: [{ required: true }],
-              })}
-            />
-          </Boxed>
-          <div />
-        </Grid>
-        <Boxed pad="10px 0">
-          <Input
-            label="Residential Address"
-            type="text"
-            placeholder="Enter residential address..."
-            error={
-              getFieldError("residentialAddress")
-                ? 'Residential Address is required'
-                : null
-            }
-            {...getFieldProps("residentialAddress", {
-              rules: [{ required: true }],
-            })}
-          />
-        </Boxed>
-        <Grid
-          desktop="repeat(3,1fr)"
-          tablet="repeat(3,1fr)"
-          mobile="repeat(1,1fr)"
-        >
-          <Boxed margin="10px 0">
-            <Input
-              label="Occupation"
-              type="text"
-              placeholder="Enter your occupation..."
-              error={
-                (errors = getFieldError("occupation")) ? "Occupation  is required" : null
-              }
-              {...getFieldProps("occupation", {
-                rules: [{ required: true }],
-              })}
-            />
-          </Boxed>
-          <Boxed margin="10px 0">
-            <Input
-              label="Employer Name"
-              type="text"
-              placeholder="Your Employer name..."
-              error={
-                (errors = getFieldError("employerName")) ? "Employer Name  is required" : null
-              }
-              {...getFieldProps("employerName", {
-                rules: [{ required: true }],
-              })}
-            />
-          </Boxed>
-          <Boxed margin="10px 0">
-            <Input
-              label="Employer Address"
-              type="text"
-              placeholder="Your Employer Address..."
-              error={
-                (errors = getFieldError("employerAddress")) ? "Employer Address  is required" : null
-              }
-              {...getFieldProps("employerAddress", {
-                rules: [{ required: true }],
-              })}
-            />
-          </Boxed>
-        </Grid>
-      </>)}
+          <Grid
+            desktop="repeat(3,1fr)"
+            tablet="repeat(3,1fr)"
+            mobile="repeat(1,1fr)"
+          >
+            <Boxed margin="10px 0">
+              <Input
+                label="Occupation"
+                type="text"
+                placeholder="Enter your occupation..."
+                error={
+                  (errors = getFieldError("occupation")) ? "Occupation  is required" : null
+                }
+                {...getFieldProps("occupation", {
+                  rules: [{ required: true }],
+                })}
+              />
+            </Boxed>
+            <Boxed margin="10px 0">
+              <Input
+                label="Employer Name"
+                type="text"
+                placeholder="Your Employer name..."
+                error={
+                  (errors = getFieldError("employerName")) ? "Employer Name  is required" : null
+                }
+                {...getFieldProps("employerName", {
+                  rules: [{ required: true }],
+                })}
+              />
+            </Boxed>
+            <Boxed margin="10px 0">
+              <Input
+                label="Employer Address"
+                type="text"
+                placeholder="Your Employer Address..."
+                error={
+                  (errors = getFieldError("employerAddress")) ? "Employer Address  is required" : null
+                }
+                {...getFieldProps("employerAddress", {
+                  rules: [{ required: true }],
+                })}
+              />
+            </Boxed>
+          </Grid>
+        </>)}
 
       {isCooperate && (
         <>

@@ -60,6 +60,8 @@ const initialState = {
   applicationFormModal: false,
   applicationFormList: [...sample_applicationsFormsList],
   applicationFormTotal: 13,
+
+  assignOwnerModal: false, // Toggle the assign owner modal
 }
 
 export default {

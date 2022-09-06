@@ -16,7 +16,7 @@ export const mapStateToProps = (state, ownProps) => {
     appraisalModal,
     encumbranceModal,
     rectificationModal,
-    applicationFormModal,
+    applicationFormModal, assignOwnerModal,
   } = parcels;
   const isLoading = loading.effects[fetchActionURL];
 
@@ -32,6 +32,7 @@ export const mapStateToProps = (state, ownProps) => {
     accessList,
     profile,
     applicationFormModal,
+    assignOwnerModal,
   };
 };
 
@@ -78,6 +79,12 @@ export const mapDispatchToProps = (dispatch, ownProps) => {
         },
       });
     },
+    openAssignOwnerModal(data) {
+      dispatch({
+        type: "parcels/save",
+        payload: { assignOwnerModal: true, parcelData: data },
+      });
+    }
   };
 };
 

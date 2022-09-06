@@ -109,7 +109,6 @@ export const CreateDeedRequest = (props) => {
     validateFields((error, value) => {
       if (!error) {
         let errorExist = false;
-
         let requireList = [];
         list.forEach((item) => {
           if (requirementFiles[item.id]) {

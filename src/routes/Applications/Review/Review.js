@@ -297,7 +297,164 @@ const PrivateCard = ({ applicationDetail }) => {
 const CompanyCard = ({ applicationDetail }) => {
   return (
     <>
-      Company Card is here...
+      <Boxed pad="10px 0">
+        <Text
+          fontSize={Theme.SecondaryFontSize}
+          color={Theme.SecondaryTextColor}
+        >
+          Company Name
+        </Text>
+        <Text padding="0 5px">{applicationDetail?.firstname}</Text>
+      </Boxed>
+
+      <Grid
+        desktop="repeat(3,1fr)"
+        tablet="repeat=(3,1fr)"
+        mobile="repeat(2, 1fr)"
+      >
+
+        <Boxed pad="10px 0">
+          <Text
+            fontSize={Theme.SecondaryFontSize}
+            color={Theme.SecondaryTextColor}
+          >
+            Company Email
+          </Text>
+          <Text padding="0 5px">{applicationDetail?.nin}</Text>
+        </Boxed>
+        <Boxed pad="10px 0">
+          <Text
+            fontSize={Theme.SecondaryFontSize}
+            color={Theme.SecondaryTextColor}
+          >
+            Company Type
+          </Text>
+          <Text padding="0 5px">{applicationDetail?.companyType}</Text>
+        </Boxed>
+        <Boxed pad="10px 0">
+          <Text
+            fontSize={Theme.SecondaryFontSize}
+            color={Theme.SecondaryTextColor}
+          >
+            Company Phone
+          </Text>
+          <Text padding="0 5px">{applicationDetail?.nin}</Text>
+        </Boxed>
+
+
+        <Boxed pad="10px 0">
+          <Text
+            fontSize={Theme.SecondaryFontSize}
+            color={Theme.SecondaryTextColor}
+          >
+            Contact Name
+          </Text>
+          <Text padding="0 5px">{applicationDetail?.contactName}</Text>
+        </Boxed>
+        <Boxed pad="10px 0">
+          <Text
+            fontSize={Theme.SecondaryFontSize}
+            color={Theme.SecondaryTextColor}
+          >
+            Contact Phone
+          </Text>
+          <Text padding="0 5px">{applicationDetail?.contactPhone}</Text>
+        </Boxed>
+        <Boxed pad="10px 0">
+          <Text
+            fontSize={Theme.SecondaryFontSize}
+            color={Theme.SecondaryTextColor}
+          >
+            Contact Address
+          </Text>
+          <Text padding="0 5px">{applicationDetail?.contactAddress}</Text>
+        </Boxed>
+
+
+        <Boxed pad="10px 0">
+          <Text
+            fontSize={Theme.SecondaryFontSize}
+            color={Theme.SecondaryTextColor}
+          >
+            Source of Capital
+          </Text>
+          <Text padding="0 5px">{applicationDetail?.nin}</Text>
+        </Boxed>
+        <Boxed pad="10px 0">
+          <Text
+            fontSize={Theme.SecondaryFontSize}
+            color={Theme.SecondaryTextColor}
+          >
+            Registration Number
+          </Text>
+          <Text padding="0 5px">{applicationDetail?.registration_number}</Text>
+        </Boxed>
+        <Boxed pad="10px 0">
+          <Text
+            fontSize={Theme.SecondaryFontSize}
+            color={Theme.SecondaryTextColor}
+          >
+            Registration Date
+          </Text>
+          <Text padding="0 5px">{applicationDetail?.nin}</Text>
+        </Boxed>
+      </Grid>
+
+      <Boxed pad="10px 0">
+        <Text
+          fontSize={Theme.SecondaryFontSize}
+          color={Theme.SecondaryTextColor}
+        >
+          Registration Address
+        </Text>
+        <Text padding="0 5px">{applicationDetail?.registration_address}</Text>
+      </Boxed>
+
+      <Grid
+        desktop="repeat(3,1fr)"
+        tablet="repeat=(3,1fr)"
+        mobile="repeat(2, 1fr)"
+      >
+
+        <Boxed pad="10px 0">
+          <Text
+            fontSize={Theme.SecondaryFontSize}
+            color={Theme.SecondaryTextColor}
+          >
+            Manager Name
+          </Text>
+          <Text padding="0 5px">{applicationDetail?.managerName}</Text>
+        </Boxed>
+        <Boxed pad="10px 0">
+          <Text
+            fontSize={Theme.SecondaryFontSize}
+            color={Theme.SecondaryTextColor}
+          >
+            Manager Phone
+          </Text>
+          <Text padding="0 5px">{applicationDetail?.managerPhone}</Text>
+        </Boxed>
+        <Boxed />
+        <Boxed pad="10px 0">
+          <Text
+            fontSize={Theme.SecondaryFontSize}
+            color={Theme.SecondaryTextColor}
+          >
+            CEO Name
+          </Text>
+          <Text padding="0 5px">{applicationDetail?.ceo_name}</Text>
+        </Boxed>
+        <Boxed pad="10px 0">
+          <Text
+            fontSize={Theme.SecondaryFontSize}
+            color={Theme.SecondaryTextColor}
+          >
+            CEO Phone
+          </Text>
+          <Text padding="0 5px">{applicationDetail?.ceo_phone}</Text>
+        </Boxed>
+      </Grid>
+
     </>
   )
 }
@@ -346,6 +503,7 @@ export const Review = (props) => {
   }, [applicationDetail.plotNumber]);
 
   let viewMode = calcViewMode();
+  console.log({ applicationDetail })
 
   return (
     <>
@@ -419,7 +577,19 @@ export const Review = (props) => {
               mobile="repeat(1, 1fr)"
             >
               <Boxed>
-                <Avatar src={MALE_IMG} size="110px" />
+                {applicationDetail.photo ? <embed
+                  type={'image/jpeg'}
+                  src={`data:${'image/jpeg'}; base64, ${applicationDetail.photo}`}
+                  style={{
+                    height: "110px",
+                    maxWidth: "110px",
+                    borderRadius: "5px",
+                    boxShadow: Theme.PrimaryShadow,
+                    border: `2px solid ${Theme.PrimaryBorderColor}`,
+                    padding: "5px",
+                  }}
+                  alt="avatar"
+                /> : <Avatar src={MALE_IMG} size="110px" />}
               </Boxed>
               <Boxed>
                 <Grid
@@ -469,7 +639,7 @@ export const Review = (props) => {
                     >
                       Application Type
                     </Text>
-                    <Text padding="0 5px">{applicationDetail.type}</Text>
+                    <Text padding="0 5px">{applicationDetail.applicationType}</Text>
                   </Boxed>
                   <Boxed pad="10px 0">
                     <Text
@@ -479,11 +649,14 @@ export const Review = (props) => {
                       Owenership Type
                     </Text>
                     <Text padding="0 5px">
-                      {applicationDetail?.ownwershipType}
+                      {applicationDetail?.ownershipType}
                     </Text>
                   </Boxed>
                 </Grid>
-                <PrivateCard applicationDetail={applicationDetail} />
+
+                {applicationDetail.ownershipType === "PRIVATE" && <PrivateCard applicationDetail={applicationDetail} />}
+
+                {applicationDetail.ownershipType === "COOPERATE" && <CompanyCard applicationDetail={applicationDetail} />}
 
                 <Grid
                   desktop="repeat(3,1fr)"

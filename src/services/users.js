@@ -15,6 +15,15 @@ export async function postUser(data) {
   return await request({ url, method: "POST", data });
 }
 
+export async function getUserDetails(data) {
+  const url = `${endpoint}/users`;
+  return await request({
+    url,
+    method: "get",
+    data,
+  });
+}
+
 export async function getRoles(data) {
   const url = `${endpoint}/roles/role_privileges`;
   return await request({

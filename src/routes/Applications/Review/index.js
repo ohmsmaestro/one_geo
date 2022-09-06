@@ -7,10 +7,11 @@ const fetchActionURL = "entries/getApplicationDetail";
 
 export const mapStateToProps = (state, ownProps) => {
   const { match } = ownProps;
+  const { params } = match;
   const { loading, entries, parcels, authentication } = state;
   const { applicationDetail, decisionModal, allocateModal } = entries;
   const isLoading = loading.effects[fetchActionURL];
-  const { params } = match;
+
   const { parcelsList } = parcels;
   const parcelData = parcelsList[0] ? parcelsList[0] : {};
   const { profile, accessList } = authentication;

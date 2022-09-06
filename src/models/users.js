@@ -8,6 +8,7 @@ import {
   postRole,
   putRole,
   getAllPermissions,
+  getUserDetails,
 } from "../services/users";
 
 import { storageUsersModel } from "../utils/constant";
@@ -16,11 +17,13 @@ const initialState = {
   usersList: [],
   usersTotal: 0,
   createUserModal: false,
+  usersDetail: {}, // user detail on profile
 
   rolesList: [],
   rolesTotal: 0,
   roleData: {},
   roleEditMode: false,
+
   permissionList: [],
 };
 
@@ -127,6 +130,21 @@ export default {
         Alert.error(message);
       }
     },
+
+    *getUserDetails({ payload }, { call, put }) {
+      const { raw, message, success } = yield call(getUserDetails, payload);
+      if (success) {
+        const data = raw?.data;
+        yield put({
+          type: "save",
+          payload: {
+            usersDetail: data,
+          },
+        });
+      } else {
+        Alert.error(message);
+      }
+    }
   },
 
   reducers: {
