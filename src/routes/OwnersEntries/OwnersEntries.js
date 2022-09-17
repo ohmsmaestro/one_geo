@@ -24,7 +24,7 @@ export const OwnersEntries = (props) => {
   const { isLoading, ownersList, ownersTotal, fetchActionURL } = props;
 
   // dispatch props
-  const { getAllOwnersEntries } = props;
+  const { redirect, getAllOwnersEntries } = props;
 
   useEffect(() => {
     let data = {
@@ -45,11 +45,10 @@ export const OwnersEntries = (props) => {
             <Icon className="icon-more-vertical" />
           </Dropdown.Toggle>
           <Dropdown.Menu>
-            <Dropdown.Item>View Details</Dropdown.Item>
-            <Dropdown.Item>Terminate Ownership</Dropdown.Item>
+            <Dropdown.Item onClick={() => redirect(`/users/${record.userId}`)}>View Owner</Dropdown.Item>
           </Dropdown.Menu>
         </Dropdown>
-      </StyledDrpDown>
+      </StyledDrpDown >
     );
   };
 
@@ -76,13 +75,13 @@ export const OwnersEntries = (props) => {
       key: "entryDate",
       render: (text) => text && formatDate(text),
     },
-    // {
-    //   title: "",
-    //   dataIndex: "action",
-    //   key: "action",
-    //   align: "right",
-    //   render: (text, record) => <DropDownMenu record={record} />,
-    // },
+    {
+      title: "",
+      dataIndex: "action",
+      key: "action",
+      align: "right",
+      render: (text, record) => <DropDownMenu record={record} />,
+    },
   ];
 
   return (

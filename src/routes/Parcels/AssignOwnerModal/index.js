@@ -9,7 +9,7 @@ export const mapStateToProps = (state, ownProps) => {
     return {
         parcelData,
         assignOwnerModal,
-        isLoading: loading.effects["parcels/assignOwner"],
+        isLoading: loading.effects["parcels/assignParcelOwner"],
     };
 };
 
@@ -19,7 +19,7 @@ export const mapDispatchToProps = (dispatch, ownProps) => {
             dispatch(routerRedux.push({ pathname: `${pathname}` }));
         },
         assignOwner(data) {
-            dispatch({ type: 'parcels/assignOwner', payload: data })
+            dispatch({ type: 'parcels/assignParcelOwner', payload: data })
         },
         closeModal() {
             dispatch({

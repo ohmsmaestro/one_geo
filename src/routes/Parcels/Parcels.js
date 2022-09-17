@@ -9,6 +9,7 @@ import { Grid } from "../../components/Grid.components";
 import { Boxed } from "../../components/Boxed.components";
 import { Input, AsyncSelect } from "../../components/Input.components";
 import { Button } from "../../components/Button.components";
+import { Text } from "../../components/Text.components";
 import { Loader } from "../../components/Loader.components";
 import { EmptyState } from "../../components/EmptyState.components";
 
@@ -206,23 +207,35 @@ export const Parcels = (props) => {
       title: "Reg. Number",
       dataIndex: "REG_NUMBER",
       key: "REG_NUMBER",
+      render: (text, row) => {
+        return (<>
+          <Text color={Theme.SecondaryTextColor} fontSize={Theme.SecondaryFontSize}>{text}</Text>
+          <Text color={Theme.SecondaryTextColor} fontSize={Theme.SecondaryFontSize}>{row?.REG_DATE ? moment(row?.REG_DATE).format("ll") : '--/--'}</Text>
+        </>)
+      }
     },
+    // {
+    //   title: "Reg. Date",
+    //   dataIndex: "REG_DATE",
+    //   key: "REG_DATE",
+    //   render: (text) => text && moment(text).format("ll"),
+    // },
     {
-      title: "Reg. Date",
-      dataIndex: "REG_DATE",
-      key: "REG_DATE",
-      render: (text) => text && moment(text).format("ll"),
-    },
-    {
-      title: "Land Type",
+      title: "Land",
       dataIndex: "LAND_TYPE",
       key: "LAND_TYPE",
+      render: (text, row) => {
+        return (<>
+          <Text color={Theme.SecondaryTextColor} fontSize={Theme.SecondaryFontSize}>Type: {text}</Text>
+          <Text color={Theme.SecondaryTextColor} fontSize={Theme.SecondaryFontSize}>Use: {row.LAND_USE ?? '--/--'}</Text>
+        </>)
+      }
     },
-    {
-      title: "Land Use",
-      dataIndex: "LAND_USE",
-      key: "LAND_USE",
-    },
+    // {
+    //   title: "Land Use",
+    //   dataIndex: "LAND_USE",
+    //   key: "LAND_USE",
+    // },
     {
       title: "Area",
       dataIndex: "Shape__Area",
@@ -230,6 +243,18 @@ export const Parcels = (props) => {
       align: "right",
       render: (text) =>
         text && `${formatCurrency(Math.round(text * 100) / 100)} sqt meter`,
+    },
+    {
+      title: "Status",
+      dataIndex: "status",
+      key: "status",
+      align: "right",
+      render: (text, row) => {
+        return (<>
+          <Text color={Theme.SecondaryTextColor} fontSize={Theme.SecondaryFontSize}>{row.appraised === 1 ? 'APPRAISED' : "NOT APPRAISED"}</Text>
+          <Text color={Theme.SecondaryTextColor} fontSize={Theme.SecondaryFontSize}>{row.assigned === 1 ? "ALLOCATED" : "NOT ALLOCATED"}</Text>
+        </>)
+      }
     },
     {
       title: "Date Created",

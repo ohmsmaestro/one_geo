@@ -15,13 +15,15 @@ export const mapStateToProps = (state, ownProps) => {
 
     return {
         isLoading,
-        params
+        params,
+        userDetail
     };
 };
 
 export const mapDispatchToProps = (dispatch, ownProps) => {
     return {
         redirect(pathname) {
+            console.log({ pathname })
             dispatch(routerRedux.push({ pathname: `${pathname}` }));
         },
         getUserDetails(data) {

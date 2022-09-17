@@ -130,7 +130,6 @@ export default {
         Alert.error(message);
       }
     },
-
     *getUserDetails({ payload }, { call, put }) {
       const { raw, message, success } = yield call(getUserDetails, payload);
       if (success) {

@@ -60,7 +60,7 @@ export const TDP = (props) => {
           </Text>
 
           <Text padding="5px 0" align="center" fontSize="16px">
-            Land Guaranty To:
+            Land Granted to:
             <br />
             <b>{fullName}</b>
             <br />

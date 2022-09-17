@@ -1,15 +1,17 @@
 import React from "react";
 
-import { Input } from "../../../components/Input.components";
+import { Input, Label } from "../../../components/Input.components";
 import { Grid } from "../../../components/Grid.components";
 import { Boxed } from "../../../components/Boxed.components";
 import { Text } from "../../../components/Text.components";
 import { Button } from "../../../components/Button.components";
 import { ModalComponent } from "../../../components/Modal.components";
+import { AsyncSelect } from "../../../components/Input.components";
+import { PageTitle, } from "../../../components/style";
 
 import { calcViewMode, formatCurrency } from "../../../utils/utils";
 import { Theme } from "../../../utils/theme";
-import { PageTitle, } from "../../../components/style";
+import { ownerShipOptions } from "../../../utils/constant";
 
 export const AssignOwnerModal = (props) => {
     // State props
@@ -26,12 +28,13 @@ export const AssignOwnerModal = (props) => {
     let viewMode = calcViewMode();
 
     const onSubmit = () => {
-        validateFields((error, value) => {
+        validateFields((error, values) => {
             if (!error) {
-
                 let data = {
+                    ...values,
+                    ownershipType: values.value
                 };
-
+                console.log({ values, data })
                 // file?.base64 && (data['file'] = file.base64)
                 assignOwner(data);
             }
@@ -89,9 +92,26 @@ export const AssignOwnerModal = (props) => {
                         Land Use : <b>{parcelData.LAND_USE}</b>
                     </Text>
                 </Boxed>
-                <Text padding="10px 0" fontWeight="600" fontSize={Theme.SecondaryFontSize}>
+                <Label padding="10px 0" fontWeight="600" fontSize={Theme.SecondaryFontSize}>
                     New Owner Detail
-                </Text>
+                </Label>
+                <Grid desktop="repeat(2, 1fr)" tablet="repeat(2, 1fr)" mobile="repeat(1, 1fr)">
+                    <Boxed pad="10px 0">
+                        <AsyncSelect
+                            label="Ownership Type"
+                            placeholder="Select type..."
+                            options={ownerShipOptions}
+                            error={
+                                (errors = getFieldError("ownershipType"))
+                                    ? "Ownership type is required"
+                                    : null
+                            }
+                            {...getFieldProps("ownershipType", {
+                                rules: [{ required: true }],
+                            })}
+                        />
+                    </Boxed>
+                </Grid>
                 <Boxed pad="10px 0">
                     <Input
                         type="text"
@@ -121,7 +141,7 @@ export const AssignOwnerModal = (props) => {
                             }
                             {...getFieldProps("email", {
                                 initialValue: "",
-                                rules: [{ required: true, type: "email" }],
+                                rules: [{ type: "email" }],
                             })}
                         />
                     </Boxed>
@@ -137,7 +157,7 @@ export const AssignOwnerModal = (props) => {
                             }
                             {...getFieldProps("phone", {
                                 initialValue: "",
-                                rules: [{ required: true }],
+                                // rules: [{ required: true }],
                             })}
                         />
                     </Boxed>

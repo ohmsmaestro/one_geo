@@ -589,12 +589,12 @@ export const CreateDeedRequest = (props) => {
       >
         <Boxed margin="10px 0">
           <AsyncSelect
-            label="Applciation Type"
+            label="Deed Type"
             placeholder="Select type..."
             options={applicationTypeOptions}
             error={
               (errors = getFieldError("type"))
-                ? "Application type is required"
+                ? "Deed type is required"
                 : null
             }
             {...getFieldProps("type", {
@@ -1233,6 +1233,7 @@ export const CreateDeedRequest = (props) => {
               />
             </Boxed>
             <div />
+
             <Boxed pad="15px 0">
               <Input
                 label="CEO Name"

@@ -16,7 +16,7 @@ export async function postUser(data) {
 }
 
 export async function getUserDetails(data) {
-  const url = `${endpoint}/users`;
+  const url = `${endpoint}/users/detail`;
   return await request({
     url,
     method: "get",

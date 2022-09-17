@@ -5,6 +5,7 @@ import {
   getParcels,
   getMyParcels,
   getParcelOwner,
+  postAssignParcelOwner,
   postEncumbrance,
   postRectification,
   postAppraisal,
@@ -148,6 +149,18 @@ export default {
         // Alert.error(message);
       }
     },
+    *assignParcelOwner({ payload }, { call, put }) {
+      const { success, message } = yield call(postAssignParcelOwner, payload);
+      if (success) {
+        Alert.success("Successfully Assigned a new owner");
+        yield put({
+          type: "save",
+          payload: { assignOwnerModal: false, parcelData: {} },
+        });
+      } else {
+        Alert.error(message);
+      }
+    },
 
     *createRent({ payload }, { call, put }) {
       const { raw, success, message } = yield call(getParcels, payload);
@@ -174,7 +187,6 @@ export default {
         Alert.error(message);
       }
     },
-
     *createAppraisal({ payload }, { call, put }) {
       const { raw, success, message } = yield call(postAppraisal, payload);
       if (success) {
@@ -369,6 +381,8 @@ export default {
         Alert.error(message);
       }
     }
+
+
   },
 
   reducers: {

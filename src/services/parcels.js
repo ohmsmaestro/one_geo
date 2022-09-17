@@ -27,6 +27,15 @@ export async function getParcelOwner(data) {
   });
 }
 
+export async function postAssignParcelOwner(data) {
+  const url = `${endpoint}/parcels/owners/assign`;
+  return await request({
+    url,
+    method: 'POST',
+    data
+  })
+}
+
 export async function getAppraisals(data) {
   const url = `${endpoint}/appraisals`;
   return await request({

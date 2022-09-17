@@ -34,6 +34,7 @@ import DeedRequest from "./routes/DeedRequest/index";
 import CreateDeedRequest from "./routes/DeedRequest/CreateDeedRequest/index";
 import DeedReview from "./routes/DeedRequest/Review/index";
 import UsersManagement from "./routes/UserManagement/index";
+import UsersProfile from "./routes/Profile/index";
 import RoleManagement from "./routes/RoleManagement/index";
 import CreateRole from "./routes/RoleManagement/CreateRole/index";
 import Survey from "./routes/Survey";
@@ -234,6 +235,15 @@ export function RouterConfig({ history, app }) {
             }}
           />
           <PrivateRoute
+            path="/users/:userId"
+            exact
+            render={(props) => {
+              registerModel(app, require("./models/users").default);
+              return <UsersProfile {...props} />;
+            }}
+          />
+
+          <PrivateRoute
             path="/role-management"
             exact
             render={(props) => {
@@ -257,11 +267,11 @@ export function RouterConfig({ history, app }) {
             }}
           />
           {/* #########   E N D :    G U A R D E D      U R L S   #########*/}
-          <Route
+          {/* <Route
             render={(props) => {
               return <Redirect to={{ pathname: "/" }} />;
             }}
-          />
+          /> */}
         </Switch>
       </App>
     </ConnectedRouter>
