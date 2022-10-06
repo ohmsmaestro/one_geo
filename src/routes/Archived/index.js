@@ -54,7 +54,7 @@ const sampleData = [
   },
 ];
 
-const fetchActionURL = "archived/getAllArchived";
+const fetchActionURL = "archived/getParcelArchieved";
 
 const mapStateToProps = (state, ownProps) => {
   const { loading, archived } = state;
@@ -62,8 +62,8 @@ const mapStateToProps = (state, ownProps) => {
   const isLoading = loading.effects[fetchActionURL];
   return {
     isLoading,
-    archivedList: sampleData,
-    archivedTotal: 5,
+    archivedList,
+    archivedTotal: archivedList.length,
     fetchActionURL,
   };
 };

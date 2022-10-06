@@ -7,7 +7,7 @@ const fetchActionURL = "users/getUserDetails";
 
 export const mapStateToProps = (state, ownProps) => {
     const { loading, users } = state;
-    const { userDetail } = users;
+    const { usersDetail } = users;
     const isLoading = loading.effects[fetchActionURL];
 
     const { match } = ownProps;
@@ -16,14 +16,13 @@ export const mapStateToProps = (state, ownProps) => {
     return {
         isLoading,
         params,
-        userDetail
+        usersDetail
     };
 };
 
 export const mapDispatchToProps = (dispatch, ownProps) => {
     return {
         redirect(pathname) {
-            console.log({ pathname })
             dispatch(routerRedux.push({ pathname: `${pathname}` }));
         },
         getUserDetails(data) {

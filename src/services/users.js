@@ -16,11 +16,10 @@ export async function postUser(data) {
 }
 
 export async function getUserDetails(data) {
-  const url = `${endpoint}/users/detail`;
+  const url = `${endpoint}/parcels/owners/${data.userId}/details`;
   return await request({
     url,
     method: "get",
-    data,
   });
 }
 

@@ -48,6 +48,10 @@ export default {
         });
       } else {
         Alert.error(message);
+        yield put({
+          type: "save",
+          payload: { archivedList: [], archivedTotal: 0 },
+        });
       }
     },
     *getApplicationFile({ payload }, { call, put }) {

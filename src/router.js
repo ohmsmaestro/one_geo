@@ -7,7 +7,7 @@ import {
   Redirect,
 } from "dva/router";
 import App from "./routes/app";
-import { storageToken } from "./utils/constant";
+import { ASSIGN_MODE, storageToken } from "./utils/constant";
 
 // Pages Route Imports
 import Login from "./routes/Login/index";
@@ -21,6 +21,7 @@ import ParcelDetail from "./routes/Parcels/ParcelDetail/index";
 import ParcelsView from "./routes/Parcels/View/index";
 import ParcelsTDP from "./routes/Parcels/TDP/index";
 import ParcelsCOFO from "./routes/Parcels/COFO/index";
+import ParcelsROFO from "./routes/Parcels/ROFO/index";
 import Entries from "./routes/Entries/index";
 import OwnersEntries from "./routes/OwnersEntries/index";
 import Rectification from "./routes/Rectification/index";
@@ -140,6 +141,13 @@ export function RouterConfig({ history, app }) {
             }}
           />
           <PrivateRoute
+            path="/parcels/rofo/:ParcelNumber"
+            exact
+            render={(props) => {
+              return <ParcelsROFO {...props} />;
+            }}
+          />
+          <PrivateRoute
             path="/appraisal"
             exact
             render={(props) => <Appraisal {...props} />}
@@ -184,6 +192,13 @@ export function RouterConfig({ history, app }) {
             exact
             render={(props) => {
               return <CreateApplication {...props} />;
+            }}
+          />
+          <PrivateRoute
+            path="/application/assign/:ParcelNumber"
+            exact
+            render={(props) => {
+              return <CreateApplication mode={ASSIGN_MODE} {...props} />;
             }}
           />
           <PrivateRoute

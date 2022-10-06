@@ -12,7 +12,7 @@ import { Button } from "../../components/Button.components";
 import { Text } from "../../components/Text.components";
 import { Loader } from "../../components/Loader.components";
 import { EmptyState } from "../../components/EmptyState.components";
-
+import { Badge } from '../../components/Badge.components';
 import {
   TableComponent,
   PaginationComponent,
@@ -20,7 +20,7 @@ import {
 import { PageTitle, Icon, StyledDrpDown } from "../../components/style";
 
 import { calcViewMode, formatCurrency } from "../../utils/utils";
-import { pageOptions } from "../../utils/constant";
+import { pageOptions, ASSIGN_MODE } from "../../utils/constant";
 import { Theme } from "../../utils/theme";
 
 import RentModal from "./Rent/index";
@@ -184,7 +184,16 @@ export const Parcels = (props) => {
                   Generate COFO
                 </Dropdown.Item>
               )}
-              {accessList["VIEW_PLOT_TDP"] && (<Dropdown.Item onClick={() => openAssignOwnerModal(record)}>
+              {accessList["VIEW_PLOT_TDP"] && record.ALLOCATED === 1 && (
+                <Dropdown.Item
+                  onClick={() =>
+                    redirect(`/parcels/rofo/${record.ParcelNumber}`)
+                  }
+                >
+                  Generate ROFO
+                </Dropdown.Item>
+              )}
+              {accessList["VIEW_PLOT_TDP"] && (<Dropdown.Item onClick={() => redirect(`/application/assign/${record.ParcelNumber}`)}>
                 Assign Owner
               </Dropdown.Item>)}
               {record.ALLOCATED === 1 && (<Dropdown.Item onClick={() => openApplicationFormModal(record)}>
@@ -251,8 +260,8 @@ export const Parcels = (props) => {
       align: "right",
       render: (text, row) => {
         return (<>
-          <Text color={Theme.SecondaryTextColor} fontSize={Theme.SecondaryFontSize}>{row.appraised === 1 ? 'APPRAISED' : "NOT APPRAISED"}</Text>
-          <Text color={Theme.SecondaryTextColor} fontSize={Theme.SecondaryFontSize}>{row.assigned === 1 ? "ALLOCATED" : "NOT ALLOCATED"}</Text>
+          <Badge color={row.appraised === 1 ? Theme.PrimaryGreen : Theme.PrimaryYellow} fontSize={Theme.SecondaryFontSize}>{row.appraised === 1 ? 'APPRAISED' : "NOT APPRAISED"}</Badge>
+          <Badge color={row.assigned === 1 ? Theme.PrimaryGreen : Theme.PrimaryYellow} fontSize={Theme.SecondaryFontSize}>{row.assigned === 1 ? "ALLOCATED" : "NOT ALLOCATED"}</Badge>
         </>)
       }
     },

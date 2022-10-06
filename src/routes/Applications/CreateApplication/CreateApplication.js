@@ -18,6 +18,7 @@ import { PageTitle, Icon, FileIcon } from "../../../components/style";
 
 import { calcViewMode, getBase64, formatCurrency } from "../../../utils/utils";
 import { Theme } from "../../../utils/theme";
+import { ASSIGN_MODE } from "../../../utils/constant";
 
 const ownerShipOptions = [
   { value: "PRIVATE", label: 'Private' },
@@ -42,10 +43,12 @@ export const CreateApplication = (props) => {
     requirementList,
     isLoadingStates,
     isLoadingRequirements,
+    params,
+    parcelData
   } = props;
 
   // dispatch props received
-  const { form, redirect, fetchStates, getAllRequirements, postApplication } =
+  const { form, redirect, fetchStates, getAllRequirements, postApplication, getParcelDetail } =
     props;
   const {
     getFieldProps,
@@ -60,7 +63,6 @@ export const CreateApplication = (props) => {
   const [photo, setPhoto] = useState({});
   const [requirementFiles, setRequirementFiles] = useState({});
   const [list, setList] = useState([]);
-
 
   // handle logic for uploading an image
   const beforeUpload = (file, id) => {
@@ -218,8 +220,14 @@ export const CreateApplication = (props) => {
   };
 
   useEffect(() => {
+    console.log({ params })
+    if (params?.isAssignMode && params?.ParcelNumber) {
+      // Fetch parcel Details
+      getParcelDetail(params?.ParcelNumber);
+    }
     fetchStates({});
     getAllRequirements({});
+
   }, []);
 
   let errors;
@@ -261,6 +269,8 @@ export const CreateApplication = (props) => {
   const isPrivate = getFieldValue('ownershipType')?.value === 'PRIVATE';
   const isCooperate = getFieldValue('ownershipType')?.value === 'COOPERATE';
 
+
+  console.log({ parcelData })
   return (
     <Boxed pad="20px">
       <PageTitle>

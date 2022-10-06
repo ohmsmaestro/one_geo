@@ -7,6 +7,8 @@ export const storageProfile = `${storagePrefix}profile`;
 export const storageParcelsModel = `${storagePrefix}parcels_model`;
 export const storageUsersModel = `${storagePrefix}parcels_model`;
 
+export const ASSIGN_MODE = 'ASSIGN_OWNER'
+
 export const countryList = [
   {
     value: "AF",

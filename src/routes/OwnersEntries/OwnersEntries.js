@@ -8,6 +8,7 @@ import { Grid } from "../../components/Grid.components";
 import { Boxed } from "../../components/Boxed.components";
 import { Input } from "../../components/Input.components";
 import { Loader } from "../../components/Loader.components";
+import { Text } from "../../components/Text.components";
 import { EmptyState } from "../../components/EmptyState.components";
 import {
   TableComponent,
@@ -67,6 +68,7 @@ export const OwnersEntries = (props) => {
       title: "Owner",
       dataIndex: "name",
       key: "name",
+      render: (text, record) => text && <Text fontSize={Theme.SecondaryFontSize} cursor="pointer" onClick={() => redirect(`/users/${record.userId}`)}>{text}</Text>
     },
 
     {

@@ -66,7 +66,7 @@ export const adminMenu = [
         icon: "icon-folder",
         label: "Archived Documents",
         pathname: "/archived",
-        role: ["VIEW_PLOT_PENDING"],
+        role: ["VIEW_PLOT"],
       },
       {
         icon: "icon-briefcase",

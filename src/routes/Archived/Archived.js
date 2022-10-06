@@ -1,8 +1,6 @@
-import React, { useEffect } from "react";
+import React, { useState } from "react";
 
 import Dropdown from "react-bootstrap/Dropdown";
-
-import Wrapper from "../Common/FilterWrapper/index";
 
 import { Grid } from "../../components/Grid.components";
 import { Boxed } from "../../components/Boxed.components";
@@ -11,11 +9,9 @@ import { Text } from "../../components/Text.components";
 import { Button } from "../../components/Button.components";
 import { Loader } from "../../components/Loader.components";
 import { EmptyState } from "../../components/EmptyState.components";
-import { PaginationComponent } from "../../components/Table.components";
 import { PageTitle, Icon, StyledDrpDown } from "../../components/style";
 
-import { calcViewMode, formatDate } from "../../utils/utils";
-import { pageOptions } from "../../utils/constant";
+import { calcViewMode } from "../../utils/utils";
 import { Theme } from "../../utils/theme";
 
 import PDF_ICON from "../../assets/img/file-pdf.png";
@@ -24,18 +20,20 @@ import JPG_ICON from "../../assets/img/file-jpg.png";
 
 export const Archived = (props) => {
   // state props
-  const { isLoading, archivedList, archivedTotal, fetchActionURL } = props;
+  const { isLoading, archivedList, archivedTotal } = props;
 
   // dispatch props
   const { getAllArchived } = props;
 
-  useEffect(() => {
-    let data = {
-      page: 1,
-      size: 20,
-    };
-    getAllArchived(data);
-  }, []);
+  const [search, setSearch] = useState('')
+
+  // useEffect(() => {
+  //   let data = {
+  //     page: 1,
+  //     size: 20,
+  //   };
+  //   getAllArchived(data);
+  // }, []);
 
   let viewMode = calcViewMode();
 
@@ -56,99 +54,92 @@ export const Archived = (props) => {
     );
   };
 
+  const handleSearchArchive = () => {
+    getAllArchived({ ParcelNumber: search })
+  }
+
   return (
     <>
       <Boxed pad="20px">
         <PageTitle>Archived Documents</PageTitle>
         <Boxed pad="20px 10px">
-          <Wrapper
-            externalActionURL={fetchActionURL}
-            render={({
-              search,
-              changePageSize,
-              handlePagination,
-              currentPage,
-              pageSize,
-            }) => {
-              return (
+          <Grid
+            desktop="repeat(4, 1fr)"
+            tablet="repeat(4, 1fr)"
+            mobile="repeat(1, 1fr)"
+          >
+            <Boxed pad="5px 0" display="flex">
+              <Input
+                type="search"
+                placeholder="Search by plot number"
+                onChange={(e) => setSearch(e.target.value)}
+              />
+              <Button onClick={() => handleSearchArchive()}>
+                <i className="icon-search" />
+              </Button>
+            </Boxed>
+          </Grid>
+          {isLoading ? (
+            <Boxed display="flex" pad="20px">
+              <Loader margin="auto" />
+            </Boxed>
+          ) : (
+            <>
+              {archivedTotal > 0 ? (
                 <>
                   <Grid
-                    desktop="repeat(4, 1fr)"
+                    desktop="repeat(5, 1fr)"
                     tablet="repeat(4, 1fr)"
-                    mobile="repeat(1, 1fr)"
+                    mobile="repeat(2, 1fr)"
                   >
-                    <Boxed pad="5px 0">
-                      <Input
-                        type="search"
-                        placeholder="Search by document name"
-                        onChange={(e) => search(e, fetchActionURL)}
-                      />
-                    </Boxed>
-                    <Boxed />
-                    <Boxed />
-                    <Boxed pad="5px 0" align="right">
-                      <Button>Add Document</Button>
-                    </Boxed>
+                    {archivedList &&
+                      archivedList.map((item, index) => {
+                        let ICON = "";
+                        switch (item.type) {
+                          case "pdf":
+                            ICON = PDF_ICON;
+                            break;
+
+                          case "doc":
+                            ICON = DOC_ICON;
+                            break;
+
+                          case "jpg":
+                            ICON = JPG_ICON;
+                            break;
+
+                          default:
+                            ICON = PDF_ICON;
+                            break;
+                        }
+
+                        return (
+                          <Boxed pad="10px" key={index}>
+                            <Boxed align="right">
+                              <DropDownMenu record={item} />
+                            </Boxed>
+                            <Boxed pad="0 0 10px 0" align="center">
+                              <img
+                                src={ICON}
+                                alt={`doc-type-icon-${index}`}
+                                height="64px"
+                              />
+                            </Boxed>
+                            <Text fontSize={Theme.SecondaryFontSize} padding="10px 0">{item.name}</Text>
+                            <Button
+                              block
+                              pale
+                              color={Theme.PrimaryBlue}
+                              xs
+                            >
+                              View
+                            </Button>
+                          </Boxed>
+                        );
+                      })}
                   </Grid>
-                  {isLoading ? (
-                    <Boxed display="flex" pad="20px">
-                      <Loader margin="auto" />
-                    </Boxed>
-                  ) : (
-                    <>
-                      {archivedTotal > 0 ? (
-                        <>
-                          <Grid
-                            desktop="repeat(5, 1fr)"
-                            tablet="repeat(4, 1fr)"
-                            mobile="repeat(2, 1fr)"
-                          >
-                            {archivedList &&
-                              archivedList.map((item, index) => {
-                                let ICON = "";
-                                switch (item.type) {
-                                  case "pdf":
-                                    ICON = PDF_ICON;
-                                    break;
 
-                                  case "doc":
-                                    ICON = DOC_ICON;
-                                    break;
-
-                                  case "jpg":
-                                    ICON = JPG_ICON;
-                                    break;
-
-                                  default:
-                                    break;
-                                }
-
-                                return (
-                                  <Boxed pad="10px" key={index}>
-                                    <Boxed align="right">
-                                      <DropDownMenu record={item} />
-                                    </Boxed>
-                                    <Boxed pad="0 0 10px 0" align="center">
-                                      <img
-                                        src={ICON}
-                                        alt={`doc-type-icon-${index}`}
-                                        height="110px"
-                                      />
-                                    </Boxed>
-                                    <Text padding="10px 0">{item.name}</Text>
-                                    <Button
-                                      block
-                                      pale
-                                      color={Theme.PrimaryBlue}
-                                    >
-                                      View
-                                    </Button>
-                                  </Boxed>
-                                );
-                              })}
-                          </Grid>
-
-                          <Boxed pad="10px 0 ">
+                  {/* <Boxed pad="10px 0 ">
                             <PaginationComponent
                               total={archivedTotal}
                               onChange={(page) =>
@@ -165,17 +156,13 @@ export const Archived = (props) => {
                                 return `${range[0]} - ${range[1]} of ${archivedTotal} items`;
                               }}
                             />
-                          </Boxed>
-                        </>
-                      ) : (
-                        <EmptyState />
-                      )}
-                    </>
-                  )}
+                          </Boxed> */}
                 </>
-              );
-            }}
-          />
+              ) : (
+                <EmptyState />
+              )}
+            </>
+          )}
         </Boxed>
       </Boxed>
     </>

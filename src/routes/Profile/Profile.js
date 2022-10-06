@@ -9,6 +9,8 @@ import { Theme } from '../../utils/theme';
 import { Label } from '../../components/Input.components';
 
 import LOGIN_BG from "../../assets/img/gis-landing.png";
+import { formatDate } from '../../utils/utils';
+import { Loader } from '../../components/Loader.components';
 
 const LabelText = ({ label, value }) => {
     return (
@@ -50,72 +52,68 @@ export const Profile = props => {
     // State props received
     const {
         isLoading,
-        params } = props
+        params, usersDetail } = props
 
     // Dispatch props received
     const { redirect, getUserDetails } = props
 
     useEffect(() => {
-        getUserDetails({ id: params.userId })
+        getUserDetails({ userId: params.userId })
     }, [params.userId])
 
-    console.log({ params })
+
+
     return (
         <Boxed pad="20px">
             <PageTitle>
-                Profile / Ijeh Michael
+                Profile / {usersDetail.lastname} {usersDetail.firstname} {usersDetail.middlename}
             </PageTitle>
 
-            <Label>User Details</Label>
-            <Grid desktop="repeat(3, 1fr)" tablet="repeat(3, 1fr)" mobile="repeat(1, 1fr)">
-                <LabelText label="Surname" value="Ijeh" />
-                <LabelText label="First Name" value="Michael" />
-                <LabelText label="Middle Name" value="Ifeanyi" />
+            {(isLoading) ? <Boxed minHeight='75vh'>
+                <Loader margin="auto" />
+            </Boxed> : <>
+                <Label>User Details</Label>
+                <Grid desktop="repeat(3, 1fr)" tablet="repeat(3, 1fr)" mobile="repeat(1, 1fr)">
+                    <LabelText label="National Identification Number" value={usersDetail.nin} />
+                    <div />
+                    <div />
 
-                <LabelText label="Email" value="Ijeh" />
-                <LabelText label="Phone Number" value="Michael" />
-                <LabelText label="Date of Birth" value="Ifeanyi" />
+                    <LabelText label="Surname" value={usersDetail.lastname} />
+                    <LabelText label="First Name" value={usersDetail.firstname} />
+                    <LabelText label="Middle Name" value={usersDetail.middlename} />
 
-                <LabelText label="Country of Origin" value="Ijeh" />
-                <LabelText label="State of Origin" value="Michael" />
-                <LabelText label="Local Gov. Area of Origin" value="Ifeanyi" />
+                    <LabelText label="Email" value={usersDetail.email} />
+                    <LabelText label="Phone Number" value={usersDetail.phone} />
+                    <LabelText label="Date of Birth" value={usersDetail?.dob && formatDate(usersDetail.dob)} />
 
-                <LabelText label="Country of Residence" value="Ijeh" />
-                <LabelText label="State of Residence" value="Michael" />
-                <LabelText label="Local Gov. Area of Residence" value="Ifeanyi" />
+                    <LabelText label="Country of Origin" value={usersDetail.countryOfOrigin ?? 'Nigeria'} />
+                    <LabelText label="State of Origin" value={usersDetail.stateOfOrigin} />
+                    <LabelText label="Local Gov. Area of Origin" value={usersDetail.lgaOfOrigin} />
+                </Grid>
+                <Grid desktop="repeat(3, 1fr)" tablet="repeat(3, 1fr)" mobile="repeat(1, 1fr)">
+                    <LabelText label="Country of Residence" value={usersDetail.countryOfResidence ?? 'Nigeria'} />
+                    <LabelText label="State of Residence" value={usersDetail.stateOfResidence} />
+                    <LabelText label="Local Gov. Area of Residence" value={usersDetail.lgaOfResidence} />
+                </Grid>
+                <LabelText label="Address of Residential Address" value={usersDetail.residentialAddress} />
 
-                <LabelText label="Surname" value="Ijeh" />
-                <LabelText label="First Name" value="Michael" />
-                <LabelText label="Middle Name" value="Ifeanyi" />
-            </Grid>
+                <Label>Owned Plot(s)</Label>
+                <Grid desktop="repeat(4, 1fr)" tablet="repeat(3, 1fr)" mobile="repeat(1, 1fr)">
+                    {
+                        usersDetail?.ownerPlots.map(item => (
+                            <Boxed pad="5px">
+                                <PlotCard
+                                    parcelNumber={item}
+                                    callBack={() => redirect(`/parcels/detail/${item}`)}
+                                />
+                            </Boxed>
+                        ))
+                    }
+                </Grid>
+            </>
+            }
 
-            <Label>User Plot(s)</Label>
-            <Grid desktop="repeat(4, 1fr)" tablet="repeat(3, 1fr)" mobile="repeat(1, 1fr)">
-                <Boxed pad="5px">
-                    <PlotCard
-                        parcelNumber='YB/354334'
-                        callBack={() => redirect(`/parcels/detail/${'0000002'}`)}
-                    />
-                </Boxed>
-                <Boxed pad="5px">
-                    <PlotCard
-                        parcelNumber='YB/888334'
-                        callBack={() => redirect(`/parcels/detail/${'0000003'}`)}
-                    />
-                </Boxed>
-                <Boxed pad="5px">
-                    <PlotCard
-                        parcelNumber='YB/9994354'
-                        callBack={() => redirect(`/parcels/detail/${'0000004'}`)}
-                    />
-                </Boxed>
-                <Boxed pad="5px">
-                    <PlotCard
-                        parcelNumber='YB/4444354'
-                        callBack={() => redirect(`/parcels/detail/${'0000005'}`)}
-                    />
-                </Boxed>
-            </Grid>
+
         </Boxed>
     )
 }
