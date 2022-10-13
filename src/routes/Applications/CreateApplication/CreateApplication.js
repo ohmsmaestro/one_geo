@@ -269,8 +269,6 @@ export const CreateApplication = (props) => {
   const isPrivate = getFieldValue('ownershipType')?.value === 'PRIVATE';
   const isCooperate = getFieldValue('ownershipType')?.value === 'COOPERATE';
 
-
-  console.log({ parcelData })
   return (
     <Boxed pad="20px">
       <PageTitle>

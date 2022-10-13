@@ -141,7 +141,7 @@ export async function getDeedNewOwner(data) {
 }
 
 export async function postApplicationForm(data) {
-  const url = `${endpoint}/application/form`;
+  const url = `${endpoint}/other_applications`;
   return await request({
     url,
     method: "POST",
@@ -150,9 +150,10 @@ export async function postApplicationForm(data) {
 }
 
 export async function getApplicationForms(data) {
-  const url = `${endpoint}/application/form`;
+  const url = `${endpoint}/other_applications`;
   return await request({
     url,
     method: "GET",
+    data
   });
 }

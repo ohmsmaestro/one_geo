@@ -30,7 +30,7 @@ export async function getDefectTypes(data) {
 }
 
 export async function getApplicationTypes(data) {
-  const url = `${endpoint}/application/form/types`;
+  const url = `${endpoint}/other_applications/types`;
   return await request({
     url,
     method: "GET",

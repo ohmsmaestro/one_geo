@@ -2,7 +2,7 @@ import { connect } from "dva";
 import { ApplicationForms } from "./ApplicationForms";
 import { routerRedux } from "dva/router";
 
-let fetchActionURL = "parcels/getAllApplicationForms";
+let fetchActionURL = "parcels/fetchAllApplicationForms";
 
 export const mapStateToProps = (state, ownProps) => {
     const { loading, parcels, authentication, auxillary } = state;
@@ -14,7 +14,7 @@ export const mapStateToProps = (state, ownProps) => {
     return {
         applicationFormList,
         applicationFormTotal,
-        applicationFormTypes,
+        applicationFormTypes: applicationFormTypes?.map(item => ({ ...item, value: item.id, label: item.name })) ?? [],
         isLoading,
 
     };

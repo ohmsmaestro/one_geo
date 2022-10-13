@@ -124,8 +124,8 @@ export const ApplicationForms = (props) => {
     // state props
     const {
         isLoading,
-        applicationsList,
-        applicationsTotal,
+        applicationFormList,
+        applicationFormTotal,
         fetchActionURL,
         isProprietor,
         applicationFormTypes,
@@ -161,7 +161,7 @@ export const ApplicationForms = (props) => {
                         <Icon className="icon-more-vertical" />
                     </Dropdown.Toggle>
                     <Dropdown.Menu>
-                        <Dropdown.Item onClick={() => goToReview(record.id)}>
+                        <Dropdown.Item onClick={() => console.log({ id: record.id })}>
                             Review
                         </Dropdown.Item>
                     </Dropdown.Menu>
@@ -171,8 +171,8 @@ export const ApplicationForms = (props) => {
     };
 
     const ApplicationCard = ({ record }) => {
-        const { id, type, description, status, createdAt, createdby, declined } = record;
-        const { firstname, middlename, lastname, } = createdby
+        const { id, name, plotNumber, remark, typeid } = record;
+        // const { firstname, middlename, lastname, } = createdby
         return (
             <Boxed
                 background={Theme.TertiaryDark}
@@ -181,17 +181,26 @@ export const ApplicationForms = (props) => {
                 boxShadow={Theme.PrimaryShadow}
                 border={`0.5px solid ${Theme.PrimaryBorderColor}`}
                 cursor="pointer"
-                onClick={() => goToReview(id)}
             >
+                <Text
+                    padding="5px 5px"
+                    fontSize={Theme.SecondaryFontSize}
+                >
+                    #{id}:{" "}
+                    <b> {plotNumber}
+
+                    </b>
+                </Text>
                 <Boxed pad="10px" background={Theme.PrimaryDark}>
                     <Grid desktop="auto 10px" tablet="auto 10px" mobile="auto 10px">
                         <Boxed>
-                            <Text fontWeight="600">{type}</Text>
+                            {/* <Text fontWeight="600">{type}</Text> */}
                             <Text
                                 fontSize={Theme.SecondaryFontSize}
                                 color={Theme.SecondaryTextColor}
+                                fontWeight="600"
                             >
-                                {description && truncateText(description)}
+                                {name}
                             </Text>
                         </Boxed>
                         <Boxed>
@@ -200,26 +209,13 @@ export const ApplicationForms = (props) => {
                     </Grid>
                 </Boxed>
                 <Text
-                    padding="5px 10px"
+                    padding="5px 5px 5px 10px"
                     fontSize={Theme.SecondaryFontSize}
                     color={Theme.SecondaryTextColor}
                 >
-                    #{id} Created:{" "}
-                    <b>
-                        {firstname ? firstname : ""} {middlename ? middlename : ""}{" "}
-                        {lastname ? lastname : ""} on the {createdAt && formatDate(createdAt)}
-                    </b>
+                    {remark && truncateText(remark, 50)}
                 </Text>
-                <Text
-                    padding="5px 10px"
-                    align="right"
-                    fontWeight="600"
-                    fontSize={Theme.SecondaryFontSize}
-                    color={Theme.SecondaryTextColor}
-                >
-
-                </Text>
-                <Boxed pad="5px 10px">{getStatus(status, declined)}</Boxed>
+                {/* <Boxed pad="5px 10px">{getStatus(status, declined)}</Boxed> */}
             </Boxed>
         );
     };
@@ -280,24 +276,24 @@ export const ApplicationForms = (props) => {
                                         </Boxed>
                                     ) : (
                                         <>
-                                            {applicationsTotal > 0 ? (
+                                            {applicationFormTotal > 0 ? (
                                                 <>
                                                     <Grid
-                                                        desktop="repeat(1,1fr)"
-                                                        tablet="repeat(1, 1fr)"
+                                                        desktop="repeat(4,1fr)"
+                                                        tablet="repeat(4, 1fr)"
                                                         mobile="repeat(1,1fr)"
                                                         pad="10px 0"
                                                     >
-                                                        {applicationsList.map((item) => (
+                                                        {applicationFormList.map((item) => (
                                                             <Boxed pad="10px 0">
                                                                 <ApplicationCard record={item} />
                                                             </Boxed>
                                                         ))}
                                                     </Grid>
-                                                    <Boxed pad="10px 0 ">
+                                                    {/* <Boxed pad="10px 0 ">
                                                         {" "}
                                                         <PaginationComponent
-                                                            total={applicationsTotal}
+                                                            total={applicationFormTotal}
                                                             onChange={(page) =>
                                                                 handlePagination(page, fetchActionURL)
                                                             }
@@ -309,10 +305,10 @@ export const ApplicationForms = (props) => {
                                                             pageSize={pageSize}
                                                             itemsDisplayed
                                                             showTotal={(total, range) => {
-                                                                return `${range[0]} - ${range[1]} of ${applicationsTotal} items`;
+                                                                return `${range[0]} - ${range[1]} of ${applicationFormTotal} items`;
                                                             }}
                                                         />
-                                                    </Boxed>
+                                                    </Boxed> */}
                                                 </>
                                             ) : (
                                                 <EmptyState />

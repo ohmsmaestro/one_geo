@@ -9,6 +9,12 @@ export const adminMenu = [
       //   role: ["VIEW_PARCEL"],
       // },
       {
+        icon: "icon-forward-outline",
+        label: "Application Request",
+        pathname: "/application/form",
+        role: ["VIEW_PLOT_APPLCIATION"],
+      },
+      {
         icon: "icon-briefcase-1",
         label: "Plot",
         pathname: "/parcels",

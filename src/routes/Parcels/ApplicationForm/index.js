@@ -11,7 +11,7 @@ export const mapStateToProps = (state, ownProps) => {
     return {
         parcelData,
         applicationFormModal,
-        applicationFormTypes,
+        applicationFormTypes: applicationFormTypes.map(item => ({ ...item, value: item.id, label: item.name })),
         isLoadingTypes: loading.effects["auxillary/fetchApplicationFormTypes"],
         isLoading: loading.effects["parcels/createApplicationForm"],
     };
@@ -26,7 +26,7 @@ export const mapDispatchToProps = (dispatch, ownProps) => {
             dispatch({ type: 'auxillary/fetchApplicationFormTypes' })
         },
         createApplicationForm(data) {
-            dispatch({ type: 'parcels/createApplicationForm' })
+            dispatch({ type: 'parcels/createApplicationForm', payload: data })
         },
         closeModal() {
             dispatch({

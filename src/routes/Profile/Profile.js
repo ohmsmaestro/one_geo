@@ -100,7 +100,7 @@ export const Profile = props => {
                 <Label>Owned Plot(s)</Label>
                 <Grid desktop="repeat(4, 1fr)" tablet="repeat(3, 1fr)" mobile="repeat(1, 1fr)">
                     {
-                        usersDetail?.ownerPlots.map(item => (
+                        usersDetail?.ownerPlots && usersDetail?.ownerPlots.map(item => (
                             <Boxed pad="5px">
                                 <PlotCard
                                     parcelNumber={item}

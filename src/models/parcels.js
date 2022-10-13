@@ -59,8 +59,8 @@ const initialState = {
   deedNewOwner: {},
 
   applicationFormModal: false,
-  applicationFormList: [...sample_applicationsFormsList],
-  applicationFormTotal: 13,
+  applicationFormList: [],
+  applicationFormTotal: 0,
 
   assignOwnerModal: false, // Toggle the assign owner modal
 }
@@ -371,8 +371,8 @@ export default {
     *fetchAllApplicationForms({ payload }, { call, put }) {
       const { raw, success, message } = yield call(getApplicationForms, payload);
       if (success) {
-        const list = raw?.data?.applicationForms;
-        const total = raw?.data?.totalRecord;
+        const list = raw?.data?.otherApplications;
+        const total = raw?.data?.pagination?.totalRecord;
         yield put({
           type: "save",
           payload: { applicationFormList: list, applicationFormTotal: total },

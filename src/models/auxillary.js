@@ -78,7 +78,7 @@ export default {
     *fetchApplicationFormTypes({ payload }, { call, put }) {
       const { success, message, raw } = yield call(getApplicationTypes, payload);
       if (success) {
-        const list = raw?.data?.types;
+        const list = raw?.data?.otherApplicationTypes;
         yield put({
           type: "save",
           payload: { applicationFormTypes: list },

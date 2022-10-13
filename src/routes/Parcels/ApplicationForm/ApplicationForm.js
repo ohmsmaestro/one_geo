@@ -34,10 +34,18 @@ export const ApplicationForm = (props) => {
     const onSubmit = () => {
         validateFields((error, value) => {
             if (!error) {
-                console.log({ parcelData, value });
                 let data = {
+                    plotNumber: parcelData.ParcelNumber,
+                    typeId: value.typeId.value,
+                    remark: value.remark,
+                    files: []
                 };
-                file && (data['file'] = file.base64)
+                file?.base64 && (
+                    data['files'] = [{
+                        requirementId: value.typeId.label,
+                        fileFormat: "pdf",
+                        file: file.base64,
+                    }])
                 createApplicationForm(data);
             }
         });
@@ -101,11 +109,11 @@ export const ApplicationForm = (props) => {
                         isLoading={isLoadingTypes}
                         options={applicationFormTypes}
                         error={
-                            (errors = getFieldError("type"))
+                            (errors = getFieldError("typeId"))
                                 ? "Applciation Type is required"
                                 : null
                         }
-                        {...getFieldProps("type", {
+                        {...getFieldProps("typeId", {
                             initialValue: "",
                             rules: [{ required: true }],
                         })}
@@ -113,14 +121,14 @@ export const ApplicationForm = (props) => {
                 </Boxed>
                 <Boxed pad="10px 0">
                     <Textarea
-                        label="Description"
+                        label="Remark"
                         height="100px"
                         error={
-                            (errors = getFieldError("description"))
+                            (errors = getFieldError("remark"))
                                 ? "Applciation Type is required"
                                 : null
                         }
-                        {...getFieldProps("description", {
+                        {...getFieldProps("remark", {
                             initialValue: "",
                             rules: [{ required: true }],
                         })}
