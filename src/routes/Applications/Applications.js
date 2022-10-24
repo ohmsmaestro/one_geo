@@ -152,7 +152,6 @@ const getStatus = (status, declined) => {
             className="icon-ok-circled-1"
             color={Theme.PrimaryGreen}
             margin="0 5px 0 0"
-            fontSize={Theme.SecondaryFontSize}
             fontSize="16px"
           />{" "}
           Allocated

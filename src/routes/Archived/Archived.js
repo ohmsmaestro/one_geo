@@ -1,7 +1,5 @@
 import React, { useState } from "react";
 
-import Dropdown from "react-bootstrap/Dropdown";
-
 import { Grid } from "../../components/Grid.components";
 import { Boxed } from "../../components/Boxed.components";
 import { Input } from "../../components/Input.components";
@@ -9,7 +7,7 @@ import { Text } from "../../components/Text.components";
 import { Button } from "../../components/Button.components";
 import { Loader } from "../../components/Loader.components";
 import { EmptyState } from "../../components/EmptyState.components";
-import { PageTitle, Icon, StyledDrpDown } from "../../components/style";
+import { PageTitle, } from "../../components/style";
 
 import { calcViewMode } from "../../utils/utils";
 import { Theme } from "../../utils/theme";
@@ -23,37 +21,11 @@ export const Archived = (props) => {
   const { isLoading, archivedList, archivedTotal } = props;
 
   // dispatch props
-  const { getAllArchived } = props;
+  const { getAllArchived, openFile } = props;
 
   const [search, setSearch] = useState('')
 
-  // useEffect(() => {
-  //   let data = {
-  //     page: 1,
-  //     size: 20,
-  //   };
-  //   getAllArchived(data);
-  // }, []);
-
   let viewMode = calcViewMode();
-
-  const DropDownMenu = (props) => {
-    const { record } = props;
-    return (
-      <StyledDrpDown>
-        <Dropdown>
-          <Dropdown.Toggle variant id="dropdown-basic">
-            <Icon className="icon-more-vertical" />
-          </Dropdown.Toggle>
-          <Dropdown.Menu>
-            <Dropdown.Item>Edit File</Dropdown.Item>
-            <Dropdown.Item>Delete File</Dropdown.Item>
-          </Dropdown.Menu>
-        </Dropdown>
-      </StyledDrpDown>
-    );
-  };
-
   const handleSearchArchive = () => {
     getAllArchived({ ParcelNumber: search })
   }
@@ -115,9 +87,6 @@ export const Archived = (props) => {
 
                         return (
                           <Boxed pad="10px" key={index}>
-                            <Boxed align="right">
-                              <DropDownMenu record={item} />
-                            </Boxed>
                             <Boxed pad="0 0 10px 0" align="center">
                               <img
                                 src={ICON}
@@ -125,12 +94,16 @@ export const Archived = (props) => {
                                 height="64px"
                               />
                             </Boxed>
-                            <Text fontSize={Theme.SecondaryFontSize} padding="10px 0">{item.name}</Text>
+                            <Text fontSize={Theme.SecondaryFontSize} padding="10px 0">{item}</Text>
                             <Button
                               block
                               pale
                               color={Theme.PrimaryBlue}
                               xs
+                              onClick={() => openFile({
+                                fileName: item,
+                                ParcelNumber: search,
+                              })}
                             >
                               View
                             </Button>
@@ -138,25 +111,6 @@ export const Archived = (props) => {
                         );
                       })}
                   </Grid>
-
-                  {/* <Boxed pad="10px 0 ">
-                            <PaginationComponent
-                              total={archivedTotal}
-                              onChange={(page) =>
-                                handlePagination(page, fetchActionURL)
-                              }
-                              current={currentPage}
-                              pageCounts={pageOptions}
-                              changePageSize={(pageSize) =>
-                                changePageSize(pageSize, fetchActionURL)
-                              }
-                              pageSize={pageSize}
-                              itemsDisplayed
-                              showTotal={(total, range) => {
-                                return `${range[0]} - ${range[1]} of ${archivedTotal} items`;
-                              }}
-                            />
-                          </Boxed> */}
                 </>
               ) : (
                 <EmptyState />

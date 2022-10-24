@@ -290,8 +290,7 @@ export const ApplicationForms = (props) => {
                                                             </Boxed>
                                                         ))}
                                                     </Grid>
-                                                    {/* <Boxed pad="10px 0 ">
-                                                        {" "}
+                                                    <Boxed pad="10px 0 ">
                                                         <PaginationComponent
                                                             total={applicationFormTotal}
                                                             onChange={(page) =>
@@ -308,7 +307,7 @@ export const ApplicationForms = (props) => {
                                                                 return `${range[0]} - ${range[1]} of ${applicationFormTotal} items`;
                                                             }}
                                                         />
-                                                    </Boxed> */}
+                                                    </Boxed>
                                                 </>
                                             ) : (
                                                 <EmptyState />
