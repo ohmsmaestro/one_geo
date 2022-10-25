@@ -20,6 +20,7 @@ import {
   getSingleDeed,
   postApplicationForm,
   getApplicationForms,
+  postAssignOwner
 } from "../services/parcels";
 
 import { storageParcelsModel } from "../utils/constant";
@@ -379,6 +380,16 @@ export default {
         });
       } else {
         Alert.error(message);
+      }
+    },
+
+    *createAssignOwner({payload}, { call, put}){
+      const { raw, message, success } = yield call(postAssignOwner, payload);
+      if(success){ 
+        console.log({ raw });
+
+      } else { 
+        Alert.error(message)
       }
     }
 

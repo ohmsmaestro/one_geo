@@ -157,3 +157,12 @@ export async function getApplicationForms(data) {
     data
   });
 }
+
+export async function postAssignOwner(data){
+  const url = `${endpoint}/other_applications`;
+  return await request({
+    url,
+    method: "POST",
+    data
+  });
+}

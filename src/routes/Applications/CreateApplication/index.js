@@ -48,7 +48,6 @@ export const mapDispatchToProps = (dispatch, ownProps) => {
     },
 
     getParcelDetail(parcelNumber) {
-      console.log({ parcelNumber })
       dispatch({ type: 'parcels/getSingleParcel', payload: { search: parcelNumber, size: 10, page: 1 } })
     },
 
@@ -59,6 +58,9 @@ export const mapDispatchToProps = (dispatch, ownProps) => {
     postApplication(data) {
       dispatch({ type: "entries/postApplication", payload: data });
     },
+    createAssignOwner(data){ 
+      dispatch({ type: "parcels/createAssignOwner", payload: data });
+    }
   };
 };
 

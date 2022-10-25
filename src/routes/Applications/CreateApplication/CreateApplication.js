@@ -14,6 +14,7 @@ import { Button } from "../../../components/Button.components";
 import { Alert } from "../../../components/Alert.components";
 import { Loader } from "../../../components/Loader.components";
 import { Uploader } from '../../../components/Uploader.components'
+import { ParcelCard } from "../../../components/Card.components";
 import { PageTitle, Icon, FileIcon } from "../../../components/style";
 
 import { calcViewMode, getBase64, formatCurrency } from "../../../utils/utils";
@@ -47,8 +48,10 @@ export const CreateApplication = (props) => {
     parcelData
   } = props;
 
+  const { isAssignMode } = params
+
   // dispatch props received
-  const { form, redirect, fetchStates, getAllRequirements, postApplication, getParcelDetail } =
+  const { form, redirect, fetchStates, getAllRequirements, postApplication, getParcelDetail, createAssignOwner } =
     props;
   const {
     getFieldProps,
@@ -102,125 +105,9 @@ export const CreateApplication = (props) => {
     setRequirementFiles(list);
   };
 
-  const onSubmit = () => {
-    validateFields((error, value) => {
-      if (!error) {
-        let errorExist = false;
-
-        let requireList = [];
-        list.forEach((item) => {
-          if (requirementFiles[item.id]) {
-            requireList.push({
-              requirementId: item.id,
-              fileFormat: "pdf",
-              file: requirementFiles[item.id]?.base64,
-            });
-          } else {
-            errorExist = true;
-          }
-        });
-        if (errorExist) {
-          Alert.error("All requirement files are compulsory.");
-        } else {
-          if (photo?.base64) {
-            switch (value?.ownershipType?.value) {
-              case 'PRIVATE':
-                let privateData = {
-                  type: value?.type?.value,
-                  ownershipType: value?.ownershipType?.value,
-                  photo: photo?.base64,
-                  maritalStatus: value?.maritalStatus?.value,
-
-                  gender: value?.gender,
-                  nin: value?.nin,
-                  passportNumber: value?.passportNumber,
-                  tin: value?.tin,
-
-                  firstname: value?.firstname?.trim(),
-                  middlename: value?.middlename ? value?.middlename?.trim() : "",
-                  lastname: value?.lastname?.trim(),
-
-                  phone: value?.phone?.trim(),
-                  email: value?.email?.trim(),
-                  dob: value?.dob && moment(value?.dob).format("YYYY-MM-DD"),
-
-                  stateOfOrigin: value?.stateOfOrigin?.stateId,
-                  lgaOfOrigin: value?.lgaOfOrigin?.lgaId,
-
-                  stateOfResidence: value?.stateOfResidence?.stateId,
-                  lgaOfResidence: value?.lgaOfResidence?.lgaId,
-                  homeTown: value?.homeTown,
-
-                  nationality: value?.nationality,
-                  mailAddress: value?.mailAddress,
-                  residentialAddress: value?.residentialAddress,
-
-                  occupation: value?.occupation,
-                  employerName: value?.employerName,
-                  employerAddress: value?.employerAddress,
-                  residentialAddress: value?.residentialAddress,
-
-                  repName: value?.repName,
-                  repAddress: value?.repAddress,
-                  repAddress: value?.repAddress,
-                  repPhone: value?.repPhone,
-                  repEmail: value?.repEmail,
-
-                  files: requireList,
-                }
-                postApplication(privateData);
-                break;
-
-              case 'COOPERATE':
-                let companyData = {
-                  type: value?.type?.value,
-                  ownershipType: value?.ownershipType?.value,
-                  photo: photo?.base64,
-
-                  name: value?.name,
-                  companyEmail: value?.companyEmail,
-                  companyType: value?.companyType,
-                  phone: value?.phone,
-
-                  contactName: value?.contactName,
-                  contactPhone: value?.contactPhone,
-                  contactAddress: value?.contactAddress,
-
-                  sourceOfCapital: value?.sourceOfCapital,
-                  registrationNumber: value?.registrationNumber,
-                  registeredAddress: value?.registeredAddress,
-                  registrationDate: value?.registrationDate && moment(value?.registrationDate).format("YYYY-MM-DD"),
-
-                  managerName: value?.managerName,
-                  managerPhone: value?.managerPhone,
-                  ceoName: value?.ceoName,
-                  ceoPhone: value?.ceoPhone,
-
-                  repName: value?.repName,
-                  repAddress: value?.repAddress,
-                  repAddress: value?.repAddress,
-                  repPhone: value?.repPhone,
-                  repEmail: value?.repEmail,
-
-                  files: requireList,
-                }
-                postApplication(companyData);
-                break;
-
-              default:
-                break;
-            }
-
-          } else {
-            Alert.error('Photo is required')
-          }
-        }
-      }
-    });
-  };
+  
 
   useEffect(() => {
-    console.log({ params })
     if (params?.isAssignMode && params?.ParcelNumber) {
       // Fetch parcel Details
       getParcelDetail(params?.ParcelNumber);
@@ -269,6 +156,134 @@ export const CreateApplication = (props) => {
   const isPrivate = getFieldValue('ownershipType')?.value === 'PRIVATE';
   const isCooperate = getFieldValue('ownershipType')?.value === 'COOPERATE';
 
+  console.log({ parcelData })
+
+  const onSubmit = () => {
+    validateFields((error, value) => {
+      if (!error) {
+        let errorExist = false;
+
+        let requireList = [];
+        list.forEach((item) => {
+          if (requirementFiles[item.id]) {
+            requireList.push({
+              requirementId: item.id,
+              fileFormat: "pdf",
+              file: requirementFiles[item.id]?.base64,
+            });
+          } else {
+            errorExist = true;
+          }
+        });
+        if (errorExist && !isAssignMode) {
+          Alert.error("All requirement files are compulsory.");
+        } else {
+          if (photo?.base64 || isAssignMode) {
+            switch (value?.ownershipType?.value) {
+              case 'PRIVATE':
+                let privateData = {
+                  type: value?.type?.value,
+                  ownershipType: value?.ownershipType?.value,
+                  photo: photo?.base64,
+                  maritalStatus: value?.maritalStatus?.value,
+
+                  gender: value?.gender,
+                  nin: value?.nin,
+                  passportNumber: value?.passportNumber,
+                  tin: value?.tin,
+
+                  firstname: value?.firstname?.trim(),
+                  middlename: value?.middlename ? value?.middlename?.trim() : "",
+                  lastname: value?.lastname?.trim(),
+
+                  phone: value?.phone?.trim(),
+                  email: value?.email?.trim(),
+                  dob: value?.dob && moment(value?.dob).format("YYYY-MM-DD"),
+
+                  stateOfOrigin: value?.stateOfOrigin?.stateId,
+                  lgaOfOrigin: value?.lgaOfOrigin?.lgaId,
+
+                  stateOfResidence: value?.stateOfResidence?.stateId,
+                  lgaOfResidence: value?.lgaOfResidence?.lgaId,
+                  homeTown: value?.homeTown,
+
+                  nationality: value?.nationality,
+                  mailAddress: value?.mailAddress,
+                  residentialAddress: value?.residentialAddress,
+
+                  occupation: value?.occupation,
+                  employerName: value?.employerName,
+                  employerAddress: value?.employerAddress,
+                  residentialAddress: value?.residentialAddress,
+
+                  repName: value?.repName,
+                  repAddress: value?.repAddress,
+                  repAddress: value?.repAddress,
+                  repPhone: value?.repPhone,
+                  repEmail: value?.repEmail,
+
+                  files: requireList,
+                }
+                if(isAssignMode){ 
+                  createAssignOwner({ ...privateData, parcelNumber: params?.ParcelNumber });
+                } else {
+                  postApplication(privateData);
+                }
+                break;
+
+              case 'COOPERATE':
+                let companyData = {
+                  type: value?.type?.value,
+                  ownershipType: value?.ownershipType?.value,
+                  photo: photo?.base64,
+
+                  name: value?.name,
+                  companyEmail: value?.companyEmail,
+                  companyType: value?.companyType,
+                  phone: value?.phone,
+
+                  contactName: value?.contactName,
+                  contactPhone: value?.contactPhone,
+                  contactAddress: value?.contactAddress,
+
+                  sourceOfCapital: value?.sourceOfCapital,
+                  registrationNumber: value?.registrationNumber,
+                  registeredAddress: value?.registeredAddress,
+                  registrationDate: value?.registrationDate && moment(value?.registrationDate).format("YYYY-MM-DD"),
+
+                  managerName: value?.managerName,
+                  managerPhone: value?.managerPhone,
+                  ceoName: value?.ceoName,
+                  ceoPhone: value?.ceoPhone,
+
+                  repName: value?.repName,
+                  repAddress: value?.repAddress,
+                  repAddress: value?.repAddress,
+                  repPhone: value?.repPhone,
+                  repEmail: value?.repEmail,
+
+                  files: requireList,
+                }
+                if(isAssignMode) {
+                  createAssignOwner({ ...companyData, parcelNumber: params?.ParcelNumber });
+                } else {
+                  postApplication(companyData);
+                }
+                break;
+
+              default:
+                break;
+            }
+
+          } else {
+            Alert.error('Photo is required')
+          }
+        }
+      }
+    });
+  };
+  const isRequired = isAssignMode ? false : true;
+
   return (
     <Boxed pad="20px">
       <PageTitle>
@@ -278,8 +293,12 @@ export const CreateApplication = (props) => {
         >
           Applications
         </span>
-        / Application Creation
+        / {isAssignMode ? 'Assign Owner':"Application Creation"}
       </PageTitle>
+
+      <Boxed pad="10px 0 ">
+        {isAssignMode && parcelData?.ParcelNumber && <ParcelCard parcelData={parcelData}/>}
+      </Boxed>
 
       <Grid
         desktop="repeat(3,1fr)"
@@ -297,7 +316,7 @@ export const CreateApplication = (props) => {
                 : null
             }
             {...getFieldProps("type", {
-              rules: [{ required: true }],
+              rules: [{ required: isRequired }],
               onChange: e => handleApplicationTypeChange(e)
             })}
           />
@@ -373,7 +392,7 @@ export const CreateApplication = (props) => {
                   label="Male"
                   onClick={() => setFieldsValue({ gender: "M" })}
                   {...getFieldProps("gender", {
-                    rules: [{ required: true }],
+                    rules: [{ required: isRequired }],
                   })}
                   style={{ margin: "0 20px 0 0" }}
                 />
@@ -383,7 +402,7 @@ export const CreateApplication = (props) => {
                   label="Female"
                   onClick={() => setFieldsValue({ gender: "F" })}
                   {...getFieldProps("gender", {
-                    rules: [{ required: true }],
+                    rules: [{ required: isRequired }],
                   })}
                 />
               </Boxed>
@@ -399,7 +418,7 @@ export const CreateApplication = (props) => {
                     : null
                 }
                 {...getFieldProps("maritalStatus", {
-                  rules: [{ required: true }],
+                  rules: [{ required: isRequired }],
                 })}
               />
             </Boxed>
@@ -416,7 +435,7 @@ export const CreateApplication = (props) => {
                     : null
                 }
                 {...getFieldProps("nin", {
-                  rules: [{ required: true }],
+                  rules: [{ required: isRequired }],
                 })}
               />
             </Boxed>
@@ -431,7 +450,7 @@ export const CreateApplication = (props) => {
                     : null
                 }
                 {...getFieldProps("passportNumber", {
-                  rules: [{ required: true }],
+                  rules: [{ required: isRequired }],
                 })}
               />
             </Boxed>
@@ -446,7 +465,7 @@ export const CreateApplication = (props) => {
                     : null
                 }
                 {...getFieldProps("tin", {
-                  rules: [{ required: true }],
+                  rules: [{ required: isRequired }],
                 })}
               />
             </Boxed>
@@ -501,7 +520,7 @@ export const CreateApplication = (props) => {
                   (errors = getFieldError("email")) ? "Email  is required" : null
                 }
                 {...getFieldProps("email", {
-                  rules: [{ required: true, type: "email" }],
+                  rules: [{ required: isRequired, type: "email" }],
                 })}
               />
             </Boxed>
@@ -516,7 +535,7 @@ export const CreateApplication = (props) => {
                     : null
                 }
                 {...getFieldProps("phone", {
-                  rules: [{ required: true }],
+                  rules: [{ required: isRequired }],
                 })}
               />
             </Boxed>
@@ -532,7 +551,7 @@ export const CreateApplication = (props) => {
                     : null
                 }
                 {...getFieldProps("dob", {
-                  rules: [{ required: true }],
+                  rules: [{ required: isRequired }],
                 })}
               />
             </Boxed>
@@ -551,7 +570,7 @@ export const CreateApplication = (props) => {
                     : null
                 }
                 {...getFieldProps("stateOfOrigin", {
-                  rules: [{ required: true }],
+                  rules: [{ required: isRequired }],
                   onChange: (value) => handleStateOriginSelect(value),
                 })}
               />
@@ -565,7 +584,7 @@ export const CreateApplication = (props) => {
                   (errors = getFieldError("lgaOfOrigin")) ? "LGA is required" : null
                 }
                 {...getFieldProps("lgaOfOrigin", {
-                  rules: [{ required: true }],
+                  rules: [{ required: isRequired }],
                 })}
               />
             </Boxed>
@@ -584,7 +603,7 @@ export const CreateApplication = (props) => {
                     : null
                 }
                 {...getFieldProps("stateOfResidence", {
-                  rules: [{ required: true }],
+                  rules: [{ required: isRequired }],
                   onChange: (value) => handleStateResidenceSelect(value),
                 })}
               />
@@ -600,7 +619,7 @@ export const CreateApplication = (props) => {
                     : null
                 }
                 {...getFieldProps("lgaOfResidence", {
-                  rules: [{ required: true }],
+                  rules: [{ required: isRequired }],
                 })}
               />
             </Boxed>
@@ -616,7 +635,7 @@ export const CreateApplication = (props) => {
                     : null
                 }
                 {...getFieldProps("nationality", {
-                  rules: [{ required: true }],
+                  rules: [{ required: isRequired }],
                 })}
               />
             </Boxed>
@@ -631,7 +650,7 @@ export const CreateApplication = (props) => {
                     : null
                 }
                 {...getFieldProps("homeTown", {
-                  rules: [{ required: true }],
+                  rules: [{ required: isRequired }],
                 })}
               />
             </Boxed>
@@ -646,7 +665,7 @@ export const CreateApplication = (props) => {
                     : null
                 }
                 {...getFieldProps("mailAddress", {
-                  rules: [{ required: true }],
+                  rules: [{ required: isRequired }],
                 })}
               />
             </Boxed>
@@ -663,7 +682,7 @@ export const CreateApplication = (props) => {
                   : null
               }
               {...getFieldProps("residentialAddress", {
-                rules: [{ required: true }],
+                rules: [{ required: isRequired }],
               })}
             />
           </Boxed>
@@ -681,7 +700,7 @@ export const CreateApplication = (props) => {
                   (errors = getFieldError("occupation")) ? "Occupation  is required" : null
                 }
                 {...getFieldProps("occupation", {
-                  rules: [{ required: true }],
+                  rules: [{ required: isRequired }],
                 })}
               />
             </Boxed>
@@ -694,7 +713,7 @@ export const CreateApplication = (props) => {
                   (errors = getFieldError("employerName")) ? "Employer Name  is required" : null
                 }
                 {...getFieldProps("employerName", {
-                  rules: [{ required: true }],
+                  rules: [{ required: isRequired }],
                 })}
               />
             </Boxed>
@@ -707,7 +726,7 @@ export const CreateApplication = (props) => {
                   (errors = getFieldError("employerAddress")) ? "Employer Address  is required" : null
                 }
                 {...getFieldProps("employerAddress", {
-                  rules: [{ required: true }],
+                  rules: [{ required: isRequired }],
                 })}
               />
             </Boxed>
@@ -751,7 +770,7 @@ export const CreateApplication = (props) => {
                     : null
                 }
                 {...getFieldProps("companyEmail", {
-                  rules: [{ required: true }],
+                  rules: [{ required: isRequired }],
                 })}
               />
             </Boxed>
@@ -766,7 +785,7 @@ export const CreateApplication = (props) => {
                     : null
                 }
                 {...getFieldProps("companyType", {
-                  rules: [{ required: true }],
+                  rules: [{ required: isRequired }],
                 })}
               />
             </Boxed>
@@ -781,7 +800,7 @@ export const CreateApplication = (props) => {
                     : null
                 }
                 {...getFieldProps("phone", {
-                  rules: [{ required: true }],
+                  rules: [{ required: isRequired }],
                 })}
               />
             </Boxed>
@@ -797,7 +816,7 @@ export const CreateApplication = (props) => {
                     : null
                 }
                 {...getFieldProps("contactName", {
-                  rules: [{ required: true }],
+                  rules: [{ required: isRequired }],
                 })}
               />
             </Boxed>
@@ -812,7 +831,7 @@ export const CreateApplication = (props) => {
                     : null
                 }
                 {...getFieldProps("contactPhone", {
-                  rules: [{ required: true, }],
+                  rules: [{ required: isRequired, }],
                 })}
               />
             </Boxed>
@@ -827,7 +846,7 @@ export const CreateApplication = (props) => {
                     : null
                 }
                 {...getFieldProps("contactAddress", {
-                  rules: [{ required: true }],
+                  rules: [{ required: isRequired }],
                 })}
               />
             </Boxed>
@@ -843,7 +862,7 @@ export const CreateApplication = (props) => {
                     : null
                 }
                 {...getFieldProps("sourceOfCapital", {
-                  rules: [{ required: true }],
+                  rules: [{ required: isRequired }],
                 })}
               />
             </Boxed>
@@ -858,7 +877,7 @@ export const CreateApplication = (props) => {
                     : null
                 }
                 {...getFieldProps("registrationNumber", {
-                  rules: [{ required: true }],
+                  rules: [{ required: isRequired }],
                 })}
               />
             </Boxed>
@@ -874,7 +893,7 @@ export const CreateApplication = (props) => {
                     : null
                 }
                 {...getFieldProps("registrationDate", {
-                  rules: [{ required: true }],
+                  rules: [{ required: isRequired }],
                 })}
               />
             </Boxed>
@@ -892,7 +911,7 @@ export const CreateApplication = (props) => {
                   : null
               }
               {...getFieldProps("registeredAddress", {
-                rules: [{ required: true }],
+                rules: [{ required: isRequired }],
               })}
             />
           </Boxed>
@@ -913,7 +932,7 @@ export const CreateApplication = (props) => {
                     : null
                 }
                 {...getFieldProps("managerName", {
-                  rules: [{ required: true }],
+                  rules: [{ required: isRequired }],
                 })}
               />
             </Boxed>
@@ -928,7 +947,7 @@ export const CreateApplication = (props) => {
                     : null
                 }
                 {...getFieldProps("managerPhone", {
-                  rules: [{ required: true }],
+                  rules: [{ required: isRequired }],
                 })}
               />
             </Boxed>
@@ -944,7 +963,7 @@ export const CreateApplication = (props) => {
                     : null
                 }
                 {...getFieldProps("ceoName", {
-                  rules: [{ required: true }],
+                  rules: [{ required: isRequired }],
                 })}
               />
             </Boxed>
@@ -959,7 +978,7 @@ export const CreateApplication = (props) => {
                     : null
                 }
                 {...getFieldProps("ceoPhone", {
-                  rules: [{ required: true }],
+                  rules: [{ required: isRequired }],
                 })}
               />
             </Boxed>
@@ -981,7 +1000,7 @@ export const CreateApplication = (props) => {
               (errors = getFieldError("repName")) ? "Representative name  is required" : null
             }
             {...getFieldProps("repName", {
-              rules: [{ required: true }],
+              rules: [{ required: isRequired }],
             })}
           />
         </Boxed>
@@ -994,7 +1013,7 @@ export const CreateApplication = (props) => {
               (errors = getFieldError("repEmail")) ? "Representative email  is required" : null
             }
             {...getFieldProps("repEmail", {
-              rules: [{ required: true, type: "email" }],
+              rules: [{ required: isRequired, type: "email" }],
             })}
           />
         </Boxed>
@@ -1009,7 +1028,7 @@ export const CreateApplication = (props) => {
                 : null
             }
             {...getFieldProps("repPhone", {
-              rules: [{ required: true }],
+              rules: [{ required: isRequired }],
             })}
           />
         </Boxed>
@@ -1023,7 +1042,7 @@ export const CreateApplication = (props) => {
             (errors = getFieldError("repAddress")) ? "Representative address  is required" : null
           }
           {...getFieldProps("repAddress", {
-            rules: [{ required: true }],
+            rules: [{ required: isRequired }],
           })}
         />
       </Boxed>
@@ -1111,8 +1130,10 @@ export const CreateApplication = (props) => {
           onClick={onSubmit}
           margin=" 0 0 0 auto"
         >
-          Create Application
+          {isAssignMode ? "Assign Owner" : 'Create Application'}
         </Button>
+
+
       </Boxed>
     </Boxed >
   );
