@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 
 import Dropdown from "react-bootstrap/Dropdown";
 
@@ -9,6 +9,8 @@ import { Boxed } from "../../components/Boxed.components";
 import { Input } from "../../components/Input.components";
 import { Text } from "../../components/Text.components";
 import { Loader } from "../../components/Loader.components";
+import { ModalComponent } from "../../components/Modal.components";
+import { Button } from '../../components/Button.components';
 import { EmptyState } from "../../components/EmptyState.components";
 import {
   TableComponent,
@@ -19,8 +21,11 @@ import { PageTitle, Icon, StyledDrpDown } from "../../components/style";
 import { calcViewMode, formatCurrency, formatDate } from "../../utils/utils";
 import { pageOptions } from "../../utils/constant";
 import { Theme } from "../../utils/theme";
+import { MAP_URL } from "../../utils/config";
 
 import ReviewModal from "./Review/index";
+
+const MAP_SYNC_URL = `${MAP_URL}/map.html?sync`
 
 export const Appraisal = (props) => {
   // state props
@@ -44,6 +49,9 @@ export const Appraisal = (props) => {
   }, []);
 
   let viewMode = calcViewMode();
+
+  const [openSyncModal, setOpenSyncModal] = useState(false);
+  const closeModal = () => setOpenSyncModal(false)
 
   const DropDownMenu = (props) => {
     const { record } = props;
@@ -206,6 +214,11 @@ export const Appraisal = (props) => {
                         onChange={(value) => search(value, fetchActionURL)}
                       />
                     </Boxed>
+                    <div/>
+                    <div/>
+                    <Boxed pad="5px 0" display="flex" >
+                     <Button margin="0 0 0 auto" onClick={()=> setOpenSyncModal(true)}>Sync GIS Data</Button>
+                    </Boxed>
                   </Grid>
                   {isLoading ? (
                     <Boxed display="flex" pad="20px">
@@ -250,6 +263,31 @@ export const Appraisal = (props) => {
           />
         </Boxed>
         {appraisalReview && <ReviewModal />}
+
+        {openSyncModal &&
+          <ModalComponent
+              show={openSyncModal}
+              size={"md"}
+              onHide={closeModal}
+              title={<PageTitle margin="5px 0">Synchronsing GIS Data</PageTitle>}
+              footer={
+                <Boxed display="flex" width="100%">
+                  <Button margin='0 0 0 auto' clear onClick={closeModal}>
+                    Close
+                  </Button>
+                </Boxed>
+              }
+            >
+              <Boxed pad="10px">
+                <iframe  
+                  src={MAP_SYNC_URL}
+                  width="100%"
+                  height="450px"
+                  style={{ margin: "auto" }}
+                  />
+              </Boxed>
+            </ModalComponent>
+        }
       </Boxed>
     </>
   );

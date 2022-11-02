@@ -171,8 +171,7 @@ export const ApplicationForms = (props) => {
     };
 
     const ApplicationCard = ({ record }) => {
-        const { id, name, plotNumber, remark, typeid } = record;
-        // const { firstname, middlename, lastname, } = createdby
+        const { id, name, plotNumber, remark,  } = record;
         return (
             <Boxed
                 background={Theme.TertiaryDark}
