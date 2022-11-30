@@ -1,7 +1,7 @@
 import { Alert } from "../components/Alert.components";
 
 import {
-  getStates, getRequirements, getDefectTypes,
+  getStates, getRequirements, getDefectTypes, getDeedTypes,
   getApplicationTypes,
 } from "../services/auxillary";
 
@@ -29,7 +29,8 @@ export default {
     stateTotal: 0,
     createLawModal: false,
     defectTypes: [],
-    applicationFormTypes: [...sampleTypes]
+    applicationFormTypes: [],
+    deedTypes: [],
   },
 
   subscriptions: {
@@ -75,10 +76,22 @@ export default {
         Alert.error(message);
       }
     },
+    *getAllDeedTypes({ payload }, { call, put }) {
+      const { raw, success, message } = yield call(getDeedTypes, payload);
+      if (success) {
+        const list = raw?.data?.deedTypes ?? [];
+        yield put({
+          type: "save",
+          payload: { deedTypes: list },
+        });
+      } else {
+        Alert.error(message);
+      }
+    },
     *fetchApplicationFormTypes({ payload }, { call, put }) {
       const { success, message, raw } = yield call(getApplicationTypes, payload);
       if (success) {
-        const list = raw?.data?.otherApplicationTypes;
+        const list = raw?.data?.otherApplicationTypes ?? [];
         yield put({
           type: "save",
           payload: { applicationFormTypes: list },

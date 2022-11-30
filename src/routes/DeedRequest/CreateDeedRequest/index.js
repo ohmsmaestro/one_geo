@@ -5,7 +5,7 @@ import { createForm } from "rc-form";
 
 export const mapStateToProps = (state, ownProps) => {
   const { loading, auxillary, parcels } = state;
-  const { stateList, requirementList } = auxillary;
+  const { stateList, requirementList, deedTypes, } = auxillary;
   const { parcelData, parcelOwner } = parcels;
 
   const modiStateList = stateList.map((item) => ({
@@ -15,6 +15,7 @@ export const mapStateToProps = (state, ownProps) => {
 
   const isLoading = loading.effects["parcels/postDeepRequest"];
   const isLoadingStates = loading.effects["auxillary/getAllStates"];
+  const isLoadingDeedTypes = loading.effects["auxillary/getAllDeedTypes"];
   const isLoadingRequirements = loading.effects["auxillary/getAllRequirements"];
   const isLoadingParcel = loading.effects["parcels/getSingleParcel"];
   const isLoadingOwner = loading.effects["parcels/getParcelOwner"];
@@ -32,6 +33,8 @@ export const mapStateToProps = (state, ownProps) => {
     parcelData,
     params,
     parcelOwner,
+    isLoadingDeedTypes,
+    deedTypes,
   };
 };
 
@@ -47,6 +50,9 @@ export const mapDispatchToProps = (dispatch, ownProps) => {
 
     fetchStates() {
       dispatch({ type: "auxillary/getAllStates" });
+    },
+    fetchDeedTypes(){
+      dispatch({ type: "auxillary/getAllDeedTypes" });
     },
 
     getAllRequirements(data) {

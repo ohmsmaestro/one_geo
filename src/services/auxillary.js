@@ -29,6 +29,15 @@ export async function getDefectTypes(data) {
   });
 }
 
+export async function getDeedTypes(data) {
+  const url = `${endpoint}/deeds/types`;
+  return await request({
+    url,
+    method: "GET",
+    data,
+  });
+}
+
 export async function getApplicationTypes(data) {
   const url = `${endpoint}/other_applications/types`;
   return await request({

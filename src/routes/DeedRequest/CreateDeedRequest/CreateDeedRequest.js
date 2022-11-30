@@ -35,6 +35,7 @@ export const CreateDeedRequest = (props) => {
     parcelData,
     params,
     parcelOwner,
+    deedTypes,
   } = props;
 
   // dispatch props received
@@ -45,6 +46,7 @@ export const CreateDeedRequest = (props) => {
     getAllRequirements,
     postDeepRequest,
     getSingleParcel,
+    fetchDeedTypes,
   } = props;
   const {
     getFieldProps,
@@ -63,6 +65,7 @@ export const CreateDeedRequest = (props) => {
 
   useEffect(() => {
     fetchStates({});
+    fetchDeedTypes({});
     getAllRequirements({});
     getSingleParcel({ search: params.ParcelNumber });
   }, []);
@@ -173,6 +176,8 @@ export const CreateDeedRequest = (props) => {
 
                   fid: parcelData.FID,
                   plotNumber: parcelData.ParcelNumber,
+
+                  deedTypeId : value?.deedType.value,
                 }
                 postDeepRequest(privateData);
                 break;
@@ -212,6 +217,8 @@ export const CreateDeedRequest = (props) => {
 
                   fid: parcelData.FID,
                   plotNumber: parcelData.ParcelNumber,
+
+                  deedTypeId : value?.deedType.value,
                 }
                 postDeepRequest(companyData);
                 break;
@@ -586,15 +593,30 @@ export const CreateDeedRequest = (props) => {
         desktop="repeat(3,1fr)"
         tablet="repeat(3,1fr)"
         mobile="repeat(1,1fr)"
-      >
+      > 
         <Boxed margin="10px 0">
           <AsyncSelect
             label="Deed Type"
-            placeholder="Select type..."
+            placeholder="Select deed type..."
+            options={deedTypes?.map(item => ({...item, value: item?.id, label: item?.name }))}
+            error={
+              (errors = getFieldError("deedType"))
+                ? "Deed type is required"
+                : null
+            }
+            {...getFieldProps("deedType", {
+              rules: [{ required: true }],
+            })}
+          />
+        </Boxed>
+        <Boxed margin="10px 0">
+          <AsyncSelect
+            label="Application Type"
+            placeholder="Select application type..."
             options={applicationTypeOptions}
             error={
               (errors = getFieldError("type"))
-                ? "Deed type is required"
+                ? "Applicatoin type is required"
                 : null
             }
             {...getFieldProps("type", {
@@ -618,7 +640,7 @@ export const CreateDeedRequest = (props) => {
             })}
           />
         </Boxed>
-        <div />
+        
         <Boxed margin="10px 5px">
           {photo.base64 ?
             <Boxed>
