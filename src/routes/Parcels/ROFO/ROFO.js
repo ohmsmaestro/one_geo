@@ -83,12 +83,14 @@ export const ROFO = (props) => {
                     <Text
                         align="center"
                         fontWeight="600"
+                        stlye={{ TextDecoder: 'underline'}}
                     >
-                        APPLICATION FOR THE GRANT OF RIGHT OF OCCUPANCY
+                        RE-APPLICATION OF GRANT FOR THE RIGHT OF OCCUPANCY
                     </Text>
                     <Text
                         fontSize={Theme.SecondaryFontSize}
                     >
+                        
                         <ol>
                             <li>
                                 With reference to your application dated <b>28th of October, 2020</b> which was forwarded to this

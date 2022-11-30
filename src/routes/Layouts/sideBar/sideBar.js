@@ -178,7 +178,8 @@ export const SideBar = (props) => {
     redirect(pathname);
   };
 
-  let btnLeft = "10.5rem";
+  let btnLeft;
+
   float && collaspe && (btnLeft = "-100px");
   !float && collaspe && (btnLeft = "0.5rem");
 
@@ -224,7 +225,7 @@ export const SideBar = (props) => {
                             : () => onItemClick(subItem.pathname, subItem.label)
                         }
                       >
-                        <i className={`icon ${subItem.icon}`} />{" "}
+                        <i className={`icon ${subItem.icon}`} title={subItem.label}/>{" "}
                         <span className="sideList-label">{subItem.label}</span>
                       </li>
                     );
@@ -254,7 +255,7 @@ export const SideBar = (props) => {
           </Text>
         </div>
         <div className="user-logout">
-          <Icon color="#fff" className="icon-power" onClick={() => logOut()} />
+          <Icon color="#fff" className="icon-power" title="Log Out" onClick={() => logOut()} />
         </div>
       </div>
     </SideList>

@@ -16,7 +16,6 @@ export const mapStateToProps = (state, ownProps) => {
         applicationFormTotal,
         applicationFormTypes: applicationFormTypes?.map(item => ({ ...item, value: item.id, label: item.name })) ?? [],
         isLoading,
-
     };
 };
 

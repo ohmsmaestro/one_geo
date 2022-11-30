@@ -25,6 +25,9 @@ export const mapDispatchToProps = (dispatch, ownProps) => {
     createUser(data) {
       dispatch({ type: "users/postCreateUser", payload: data });
     },
+    editUser(data){
+
+    },
     closeModal() {
       dispatch({
         type: "users/save",

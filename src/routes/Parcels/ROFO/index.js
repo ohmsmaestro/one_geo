@@ -1,5 +1,5 @@
 import { connect } from "dva";
-import { ROFO } from "./ROFO";
+import { ROFO } from "./ROFO_new";
 import { routerRedux } from "dva/router";
 // import qs from "query-string";
 

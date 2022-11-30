@@ -203,7 +203,7 @@ export const ApplicationForms = (props) => {
                             </Text>
                         </Boxed>
                         <Boxed>
-                            <DropDownMenu record={record} />
+                            {/* <DropDownMenu record={record} /> */}
                         </Boxed>
                     </Grid>
                 </Boxed>
@@ -254,7 +254,7 @@ export const ApplicationForms = (props) => {
                                                 onChange={(value) => search(value, fetchActionURL)}
                                             />
                                         </Boxed>
-                                        <Boxed pad="5px 0" margin="auto 0 0 0">
+                                        {/* <Boxed pad="5px 0" margin="auto 0 0 0">
                                             <AsyncSelect
                                                 label="Status"
                                                 options={statusOptions}
@@ -267,7 +267,7 @@ export const ApplicationForms = (props) => {
                                                 options={applicationFormTypes}
                                                 onChange={(value) => setType(value)}
                                             />
-                                        </Boxed>
+                                        </Boxed> */}
                                     </Grid>
                                     {isLoading ? (
                                         <Boxed display="flex" pad="20px">
