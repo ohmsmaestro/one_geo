@@ -210,7 +210,7 @@ export const Applications = (props) => {
   };
 
   const ApplicationCard = ({ record }) => {
-    const { id, status, createdAt, firstname, middlename, lastname, declined } =
+    const { id, stageName, createdAt, firstname, middlename, lastname, declined } =
       record;
     return (
       <Boxed
@@ -258,7 +258,7 @@ export const Applications = (props) => {
         >
           {createdAt && formatDate(createdAt)}
         </Text>
-        <Boxed pad="5px 10px">{getStatus(status, declined)}</Boxed>
+        <Boxed pad="5px 10px">{getStatus(stageName, declined)}</Boxed>
       </Boxed>
     );
   };

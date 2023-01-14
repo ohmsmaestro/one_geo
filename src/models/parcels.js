@@ -306,6 +306,7 @@ export default {
               parcelOwner: {},
             },
           });
+          Alert.error(deed_response.message);
         }
       } else {
         Alert.error(message);

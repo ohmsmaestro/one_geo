@@ -31,8 +31,6 @@ export const Archived = (props) => {
     getAllArchived({ ParcelNumber: search })
   }
 
-  console.log({ parcelData })
-
   return (
     <>
       <Boxed pad="20px">

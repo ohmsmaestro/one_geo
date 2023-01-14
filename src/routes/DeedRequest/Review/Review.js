@@ -187,7 +187,7 @@ export const Review = (props) => {
   useEffect(() => {
     getDeedDetails({ id: params.ParcelNumber });
   }, []);
-
+  
   return (
     <Boxed pad="20px">
       <PageTitle>

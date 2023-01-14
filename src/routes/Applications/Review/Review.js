@@ -503,7 +503,6 @@ export const Review = (props) => {
   }, [applicationDetail.plotNumber]);
 
   let viewMode = calcViewMode();
-  console.log({ applicationDetail })
 
   return (
     <>
@@ -742,10 +741,10 @@ export const Review = (props) => {
               </Grid>
             </Boxed>
 
-            {applicationDetail.status === "PENDING ALLOCATION APPROVAL" ||
-              (applicationDetail.status === "PENDING ACCEPTANCE" &&
+            {applicationDetail.stageName === "PENDING ALLOCATION APPROVAL" ||
+              (applicationDetail.stageName === "PENDING ACCEPTANCE" &&
                 profile?.email === applicationDetail?.email) ||
-              applicationDetail.status === "ALLOCATED" ? (
+              applicationDetail.stageName === "ALLOCATED" ? (
               <>
                 <HR />
                 <Text
