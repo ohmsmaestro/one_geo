@@ -335,7 +335,7 @@ export const CreateDeedRequest = (props) => {
         {isLoadingOwner ? (
           <Boxed display="flex">
             {" "}
-            <Loader />
+            <Loader margin="auto" />
           </Boxed>
         ) : (
           <>
@@ -502,6 +502,21 @@ export const CreateDeedRequest = (props) => {
           />
         </Boxed>
         <Boxed margin="10px 0">
+          <AsyncSelect
+            label="Ownership Type"
+            placeholder="Select type..."
+            options={ownerShipOptions}
+            error={
+              (errors = getFieldError("ownershipType"))
+                ? "Ownership type is required"
+                : null
+            }
+            {...getFieldProps("ownershipType", {
+              rules: [{ required: true }],
+            })}
+          />
+        </Boxed>
+        <Boxed margin="10px 0">
           {/* <AsyncSelect
             label="Application Type"
             placeholder="Select application type..."
@@ -516,21 +531,6 @@ export const CreateDeedRequest = (props) => {
               onChange: e => handleApplicationTypeChange(e)
             })}
           /> */}
-        </Boxed>
-        <Boxed margin="10px 0">
-          <AsyncSelect
-            label="Ownership Type"
-            placeholder="Select type..."
-            options={ownerShipOptions}
-            error={
-              (errors = getFieldError("ownershipType"))
-                ? "Ownership type is required"
-                : null
-            }
-            {...getFieldProps("ownershipType", {
-              rules: [{ required: true }],
-            })}
-          />
         </Boxed>
         
         <Boxed margin="10px 5px">
