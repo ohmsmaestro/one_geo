@@ -28,7 +28,7 @@ const PrivateCard = ({ applicationDetail }) => {
     <Boxed>
       <Grid
         desktop="repeat(3,1fr)"
-        tablet="repeat=(3,1fr)"
+        tablet="repeat(3,1fr)"
         mobile="repeat(2, 1fr)"
       >
 
@@ -255,7 +255,7 @@ const PrivateCard = ({ applicationDetail }) => {
       </Boxed>
       <Grid
         desktop="repeat(3,1fr)"
-        tablet="repeat=(3,1fr)"
+        tablet="repeat(3,1fr)"
         mobile="repeat(2, 1fr)"
       >
         <Boxed pad="10px 0">
@@ -309,7 +309,7 @@ const CompanyCard = ({ applicationDetail }) => {
 
       <Grid
         desktop="repeat(3,1fr)"
-        tablet="repeat=(3,1fr)"
+        tablet="repeat(3,1fr)"
         mobile="repeat(2, 1fr)"
       >
 
@@ -412,7 +412,7 @@ const CompanyCard = ({ applicationDetail }) => {
 
       <Grid
         desktop="repeat(3,1fr)"
-        tablet="repeat=(3,1fr)"
+        tablet="repeat(3,1fr)"
         mobile="repeat(2, 1fr)"
       >
 
@@ -538,11 +538,11 @@ export const Review = (props) => {
               </Boxed>
             ) : null}
             <Boxed pad="10px 0" align="right">
-              {((applicationDetail.status === "PENDING REVIEW" &&
+              {((applicationDetail.stageName === "PENDING REVIEW" &&
                 accessList["REVIEW_PLOT_APPLCIATION"]) ||
-                (applicationDetail.status === "PENDING ALLOCATION APPROVAL" &&
+                (applicationDetail.stageName === "PENDING ALLOCATION APPROVAL" &&
                   accessList["REVIEW_ALLOCATION_PLOT"]) ||
-                (applicationDetail.status === "PENDING ACCEPTANCE" &&
+                (applicationDetail.stageName === "PENDING ACCEPTANCE" &&
                   profile?.email === applicationDetail?.email)) &&
                 !applicationDetail?.declined && (
                   <>
@@ -553,14 +553,14 @@ export const Review = (props) => {
                       Decline
                     </Button>
                     <Button onClick={() => openDecisionModal("APPROVED")}>
-                      {applicationDetail.status === "PENDING ACCEPTANCE"
+                      {applicationDetail.stageName === "PENDING ACCEPTANCE"
                         ? "Accept"
                         : "Approve"}
                     </Button>
                   </>
                 )}
 
-              {applicationDetail.status === "PENDING ALLOCATION" &&
+              {applicationDetail.stageName === "PENDING ALLOCATION" &&
                 accessList["ALLOCATE_PLOT"] && (
                   <Button
                     color={Theme.PrimaryBlue}
@@ -594,7 +594,7 @@ export const Review = (props) => {
               <Boxed>
                 <Grid
                   desktop="repeat(3,1fr)"
-                  tablet="repeat=(3,1fr)"
+                  tablet="repeat(3,1fr)"
                   mobile="repeat(2, 1fr)"
                 >
                   <Boxed pad="10px 0">
@@ -627,8 +627,8 @@ export const Review = (props) => {
                     </Text>
                     <Text padding="0 5px">
                       {applicationDetail?.declined
-                        ? `Declined [${applicationDetail?.status}]`
-                        : applicationDetail?.status}
+                        ? `Declined [${applicationDetail?.stageName}]`
+                        : applicationDetail?.stageName}
                     </Text>
                   </Boxed>
 
@@ -660,7 +660,7 @@ export const Review = (props) => {
 
                 <Grid
                   desktop="repeat(3,1fr)"
-                  tablet="repeat=(3,1fr)"
+                  tablet="repeat(3,1fr)"
                   mobile="repeat(2, 1fr)"
                 >
                   <Boxed pad="10px 0">
@@ -757,7 +757,7 @@ export const Review = (props) => {
                 <Boxed pad="10px 0">
                   <Grid
                     desktop="repeat(3,1fr)"
-                    tablet="repeat=(3,1fr)"
+                    tablet="repeat(3,1fr)"
                     mobile="repeat(2, 1fr)"
                   >
                     <Boxed pad="10px 0">
