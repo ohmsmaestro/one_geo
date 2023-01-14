@@ -18,7 +18,7 @@ import JPG_ICON from "../../assets/img/file-jpg.png";
 
 export const Archived = (props) => {
   // state props
-  const { isLoading, archivedList, archivedTotal } = props;
+  const { isLoading, archivedList, archivedTotal, parcelData } = props;
 
   // dispatch props
   const { getAllArchived, openFile } = props;
@@ -26,9 +26,12 @@ export const Archived = (props) => {
   const [search, setSearch] = useState('')
 
   let viewMode = calcViewMode();
+  
   const handleSearchArchive = () => {
     getAllArchived({ ParcelNumber: search })
   }
+
+  console.log({ parcelData })
 
   return (
     <>
@@ -36,8 +39,8 @@ export const Archived = (props) => {
         <PageTitle>Archived Documents</PageTitle>
         <Boxed pad="20px 10px">
           <Grid
-            desktop="repeat(4, 1fr)"
-            tablet="repeat(4, 1fr)"
+            desktop="800px"
+            tablet="650px"
             mobile="repeat(1, 1fr)"
           >
             <Boxed pad="5px 0" display="flex">
@@ -46,7 +49,7 @@ export const Archived = (props) => {
                 placeholder="Search by plot number"
                 onChange={(e) => setSearch(e.target.value)}
               />
-              <Button onClick={() => handleSearchArchive()}>
+              <Button margin="0 0 0 5px" onClick={() => handleSearchArchive()}>
                 <i className="icon-search" />
               </Button>
             </Boxed>

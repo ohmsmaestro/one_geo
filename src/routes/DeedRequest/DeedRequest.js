@@ -36,7 +36,7 @@ const getStatus = (status, declined) => {
           margin="0 5px 0 0"
           fontSize="16px"
         />{" "}
-        Declined [{status}]
+        Declined
       </Text>
     );
   }
@@ -143,46 +143,42 @@ export const DeedRequest = (props) => {
 
   const columns = [
     {
-      title: "Deed Number",
+      title: "Deed Type",
       dataIndex: "id",
       key: "id",
+      render: (text, record) => (<span>
+        {record.deed_type} <br/>
+        <small style={{ color: Theme.PrimaryBlue }}>No. {text}</small>
+      </span>)
     },
     {
       title: "Plot Number",
-      dataIndex: "plotNumber",
-      key: "plotNumber",
+      dataIndex: "plot_number",
+      key: "plot_number",
     },
     {
       title: "Old Owner",
-      dataIndex: "oldLastname",
-      key: "oldLastname",
-      render: (text, record) =>
-        text &&
-        `${record.oldFirstname ? record.oldFirstname : ""}  ${record.oldMiddlename ? record.oldMiddlename : ""
-        } ${text}`,
+      dataIndex: "old_name",
+      key: "old_name",
     },
     {
       title: "New Owner",
-      dataIndex: "newLastname",
-      key: "newLastname",
-      render: (text, record) =>
-        text &&
-        `${record.newFirstname ? record.newFirstname : ""}  ${record.newMiddlename ? record.newMiddlename : ""
-        } ${text}`,
+      dataIndex: "new_name",
+      key: "new_name",
     },
     {
       title: "Submitted Date",
-      dataIndex: "entryDate",
-      key: "entryDate",
+      dataIndex: "created_at",
+      key: "created_at",
       render: (text) => text && formatDate(text),
     },
     {
       title: "Status",
-      dataIndex: "stageName",
-      key: "stageName",
+      dataIndex: "stage_name",
+      key: "stage_name",
       align: "center",
       render: (text, record) => {
-        return getStatus(text, record.declined);
+        return getStatus(text, record.rejected);
       },
     },
     {

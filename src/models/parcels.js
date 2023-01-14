@@ -124,7 +124,7 @@ export default {
       const { raw, success, message } = yield call(getParcels, payload);
       if (success) {
         const list = raw?.data?.parcels;
-        let item = list[0];
+        const item = list[0] ? list[0] : {};
         if (item) {
           yield put({
             type: "save",
