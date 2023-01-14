@@ -7,8 +7,8 @@ import { Text } from "../../../components/Text.components";
 import { Icon } from "../../../components/style";
 import { Theme } from "../../../utils/theme";
 
-import LOGO from "../../../assets/img/logo-sm-white.png";
-import LOGO_FULL from "../../../assets/img/logo-white.png";
+import LOGO from "../../../assets/img/logo-sm.png";
+import LOGO_FULL from "../../../assets/img/logo-md.png";
 import maleImage from "../../../assets/img/male.png";
 
 const SideList = styled.div`

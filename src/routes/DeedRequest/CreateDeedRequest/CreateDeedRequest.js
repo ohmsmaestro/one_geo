@@ -27,8 +27,6 @@ export const CreateDeedRequest = (props) => {
   const {
     isLoading,
     modiStateList,
-    requirementList,
-    isLoadingStates,
     isLoadingRequirements,
     isLoadingParcel,
     isLoadingOwner,
@@ -59,200 +57,110 @@ export const CreateDeedRequest = (props) => {
   const [lgaOriginList, setLgaOriginList] = useState([]);
   const [lgaResidenceList, setLgaResidenceList] = useState([]);
   const [photo, setPhoto] = useState({});
-  const [file, setFile] = useState({});
-  const [requirementFiles, setRequirementFiles] = useState({});
-  const [list, setList] = useState([]);
 
   useEffect(() => {
     fetchStates({});
     fetchDeedTypes({});
-    getAllRequirements({});
     getSingleParcel({ search: params.ParcelNumber });
   }, []);
-
-  // handle logic for uploading an image
-  const beforeUpload = (file, id) => {
-    const isJEPG = file.type === "application/pdf";
-    if (!isJEPG) {
-      Alert.error("You can only upload PDF file.");
-    }
-    const isLt10M = file.size / 1024 / 1024 < 10;
-    if (!isLt10M) {
-      Alert.error("Image must be smaller than 10MB!");
-    }
-    if (isJEPG && isLt10M) {
-      handleFileUploader(file, id);
-      return isJEPG && isLt10M;
-    }
-  };
-
-  const handleFileUploader = (file, id) => {
-    getBase64(file).then((data) => {
-      const base64Data = data.split(",")[1];
-      const dataFile = {
-        pdf: file,
-        base64: base64Data,
-        type: file.type,
-        name: file.name,
-        size: file.size,
-      };
-      let list = { ...requirementFiles };
-      list[id] = dataFile;
-      setRequirementFiles(list);
-    });
-  };
-
-  const deleteRequirementFile = (id) => {
-    let list = { ...requirementFiles };
-    delete list[id];
-    setRequirementFiles(list);
-  };
 
   const onSubmit = () => {
     validateFields((error, value) => {
       if (!error) {
-        let errorExist = false;
-        let requireList = [];
-        list.forEach((item) => {
-          if (requirementFiles[item.id]) {
-            requireList.push({
-              requirementId: item.id,
-              fileFormat: "pdf",
-              file: requirementFiles[item.id]?.base64,
-            });
-          } else {
-            errorExist = true;
-          }
-        });
+        if (photo.base64) {
+          switch (value?.ownershipType?.value) {
+            case 'PRIVATE':
+              let privateData = {
+                ownershipType: value?.ownershipType?.value,
+                photo: photo?.base64,
+                maritalStatus: value?.maritalStatus?.value,
 
-        if (errorExist) {
-          Alert.error("All requirement files are compulsory.");
+                gender: value?.gender,
+                nin: value?.nin,
+                passportNumber: value?.passportNumber,
+                tin: value?.tin,
+
+                firstname: value?.firstname?.trim(),
+                middlename: value?.middlename ? value?.middlename?.trim() : "",
+                lastname: value?.lastname?.trim(),
+
+                phone: value?.phone?.trim(),
+                email: value?.email?.trim(),
+                dob: value?.dob && moment(value?.dob).format("YYYY-MM-DD"),
+
+                stateOfOrigin: value?.stateOfOrigin?.stateId,
+                lgaOfOrigin: value?.lgaOfOrigin?.lgaId,
+
+                stateOfResidence: value?.stateOfResidence?.stateId,
+                lgaOfResidence: value?.lgaOfResidence?.lgaId,
+                homeTown: value?.homeTown,
+
+                nationality: value?.nationality,
+                mailAddress: value?.mailAddress,
+                residentialAddress: value?.residentialAddress,
+
+                occupation: value?.occupation,
+                employerName: value?.employerName,
+                employerAddress: value?.employerAddress,
+                residentialAddress: value?.residentialAddress,
+
+                repName: value?.repName,
+                repAddress: value?.repAddress,
+                repAddress: value?.repAddress,
+                repPhone: value?.repPhone,
+                repEmail: value?.repEmail,
+
+                fid: parcelData.FID,
+                plotNumber: parcelData.ParcelNumber,
+
+                deedTypeId : value?.deedType.value,
+              }
+              postDeepRequest(privateData);
+              break;
+
+            case 'COOPERATE':
+              let companyData = {
+                ownershipType: value?.ownershipType?.value,
+                photo: photo?.base64,
+
+                name: value?.name,
+                companyEmail: value?.companyEmail,
+                companyType: value?.companyType,
+                phone: value?.phone,
+
+                contactName: value?.contactName,
+                contactPhone: value?.contactPhone,
+                contactAddress: value?.contactAddress,
+
+                sourceOfCapital: value?.sourceOfCapital,
+                registrationNumber: value?.registrationNumber,
+                registeredAddress: value?.registeredAddress,
+                registrationDate: value?.registrationDate && moment(value?.registrationDate).format("YYYY-MM-DD"),
+
+                managerName: value?.managerName,
+                managerPhone: value?.managerPhone,
+                ceoName: value?.ceoName,
+                ceoPhone: value?.ceoPhone,
+
+                repName: value?.repName,
+                repAddress: value?.repAddress,
+                repAddress: value?.repAddress,
+                repPhone: value?.repPhone,
+                repEmail: value?.repEmail,
+
+                fid: parcelData.FID,
+                plotNumber: parcelData.ParcelNumber,
+
+                deedTypeId : value?.deedType.value,
+              }
+              postDeepRequest(companyData);
+              break;
+
+            default:
+              break;
+          }
         } else {
-          if (photo.base64) {
-            switch (value?.ownershipType?.value) {
-              case 'PRIVATE':
-                let privateData = {
-                  type: value?.type?.value,
-                  ownershipType: value?.ownershipType?.value,
-                  photo: photo?.base64,
-                  maritalStatus: value?.maritalStatus?.value,
-
-                  gender: value?.gender,
-                  nin: value?.nin,
-                  passportNumber: value?.passportNumber,
-                  tin: value?.tin,
-
-                  firstname: value?.firstname?.trim(),
-                  middlename: value?.middlename ? value?.middlename?.trim() : "",
-                  lastname: value?.lastname?.trim(),
-
-                  phone: value?.phone?.trim(),
-                  email: value?.email?.trim(),
-                  dob: value?.dob && moment(value?.dob).format("YYYY-MM-DD"),
-
-                  stateOfOrigin: value?.stateOfOrigin?.stateId,
-                  lgaOfOrigin: value?.lgaOfOrigin?.lgaId,
-
-                  stateOfResidence: value?.stateOfResidence?.stateId,
-                  lgaOfResidence: value?.lgaOfResidence?.lgaId,
-                  homeTown: value?.homeTown,
-
-                  nationality: value?.nationality,
-                  mailAddress: value?.mailAddress,
-                  residentialAddress: value?.residentialAddress,
-
-                  occupation: value?.occupation,
-                  employerName: value?.employerName,
-                  employerAddress: value?.employerAddress,
-                  residentialAddress: value?.residentialAddress,
-
-                  repName: value?.repName,
-                  repAddress: value?.repAddress,
-                  repAddress: value?.repAddress,
-                  repPhone: value?.repPhone,
-                  repEmail: value?.repEmail,
-
-                  files: requireList,
-
-                  fid: parcelData.FID,
-                  plotNumber: parcelData.ParcelNumber,
-
-                  deedTypeId : value?.deedType.value,
-                }
-                postDeepRequest(privateData);
-                break;
-
-              case 'COOPERATE':
-                let companyData = {
-                  type: value?.type?.value,
-                  ownershipType: value?.ownershipType?.value,
-                  photo: photo?.base64,
-
-                  name: value?.name,
-                  companyEmail: value?.companyEmail,
-                  companyType: value?.companyType,
-                  phone: value?.phone,
-
-                  contactName: value?.contactName,
-                  contactPhone: value?.contactPhone,
-                  contactAddress: value?.contactAddress,
-
-                  sourceOfCapital: value?.sourceOfCapital,
-                  registrationNumber: value?.registrationNumber,
-                  registeredAddress: value?.registeredAddress,
-                  registrationDate: value?.registrationDate && moment(value?.registrationDate).format("YYYY-MM-DD"),
-
-                  managerName: value?.managerName,
-                  managerPhone: value?.managerPhone,
-                  ceoName: value?.ceoName,
-                  ceoPhone: value?.ceoPhone,
-
-                  repName: value?.repName,
-                  repAddress: value?.repAddress,
-                  repAddress: value?.repAddress,
-                  repPhone: value?.repPhone,
-                  repEmail: value?.repEmail,
-
-                  files: requireList,
-
-                  fid: parcelData.FID,
-                  plotNumber: parcelData.ParcelNumber,
-
-                  deedTypeId : value?.deedType.value,
-                }
-                postDeepRequest(companyData);
-                break;
-
-              default:
-                break;
-            }
-          } else {
-            Alert.error('Photo is required')
-          }
-          // let data = {
-          //   firstname: value.firstname.trim(),
-          //   middlename: value.middlename ? value.middlename.trim() : "",
-          //   lastname: value.lastname.trim(),
-          //   phone: value.phone.trim(),
-          //   email: value.email.trim(),
-          //   gender: value.gender,
-          //   dob: moment(value.dob).format("YYYY-MM-DD"),
-          //   stateOfOrigin: value.stateOfOrigin.stateId,
-          //   lgaOfOrigin: value.lgaOfOrigin.lgaId,
-          //   stateOfResidence: value.stateOfResidence.stateId,
-          //   lgaOfResidence: value.lgaOfResidence.lgaId,
-          //   residentialAddress: value.residentialAddress,
-          //   nin: value.nin,
-          //   photo: "",
-
-          //   files: requireList,
-
-          //   fid: parcelData.FID,
-          //   plotNumber: parcelData.ParcelNumber,
-          // };
-
-
-          // postDeepRequest(data);
+          Alert.error('Photo is required')
         }
       }
     });
@@ -277,22 +185,6 @@ export const CreateDeedRequest = (props) => {
     }));
     setLgaResidenceList(list ? list : []);
   };
-
-  const handleApplicationTypeChange = (item) => {
-    setRequirementFiles({});
-    switch (item.value) {
-      case 'CUSTOMARY':
-        requirementList?.customaryRequirements && setList(requirementList?.customaryRequirements);
-        break;
-
-      case 'STATUTORY':
-        requirementList?.statutoryRequirements && setList(requirementList?.statutoryRequirements);
-        break;
-
-      default:
-        break;
-    }
-  }
 
   const isPrivate = getFieldValue('ownershipType')?.value === 'PRIVATE';
   const isCooperate = getFieldValue('ownershipType')?.value === 'COOPERATE';
@@ -610,7 +502,7 @@ export const CreateDeedRequest = (props) => {
           />
         </Boxed>
         <Boxed margin="10px 0">
-          <AsyncSelect
+          {/* <AsyncSelect
             label="Application Type"
             placeholder="Select application type..."
             options={applicationTypeOptions}
@@ -623,7 +515,7 @@ export const CreateDeedRequest = (props) => {
               rules: [{ required: true }],
               onChange: e => handleApplicationTypeChange(e)
             })}
-          />
+          /> */}
         </Boxed>
         <Boxed margin="10px 0">
           <AsyncSelect
@@ -1351,85 +1243,7 @@ export const CreateDeedRequest = (props) => {
         />
       </Boxed>
 
-      {
-        isLoadingRequirements ? (
-          <Boxed pad="10px" display="flex">
-            <Loader margin="auto" />
-          </Boxed>
-        ) : (
-          <Grid
-            desktop="repeat(2, 1fr)"
-            tablet="repeat(2, 1fr)"
-            mobile="repeat(1, 1fr)"
-          >
-            {list &&
-              list.map((item) => {
-                return (
-                  <Boxed pad="10px 0">
-                    <Text fontSize={Theme.SecondaryFontSize} fontWeight="bold">
-                      {item.description} File
-                    </Text>
-                    {requirementFiles[item.id] ? (
-                      <Boxed display="flex" pad="10px">
-                        <FileIcon type="pdf" size="30px" />
-                        <Boxed pad="0 10px">
-                          <Text> {requirementFiles[item.id]?.name}</Text>
-                          <Text fontSize={Theme.SecondaryFontSize}>
-                            {" "}
-                            {requirementFiles[item.id]?.size &&
-                              formatCurrency(
-                                Math.floor(
-                                  requirementFiles[item.id]?.size / 1024
-                                ) || 0
-                              )}{" "}
-                            KB
-                          </Text>
-                          <Button
-                            margin="5px 0"
-                            clear
-                            xs
-                            onClick={() => deleteRequirementFile(item.id)}
-                          >
-                            <i className="icon-close" /> Remove
-                          </Button>
-                        </Boxed>
-                      </Boxed>
-                    ) : (
-                      <Upload
-                        type="drap"
-                        multiple={false}
-                        beforeUpload={(pdf) => beforeUpload(pdf, item.id)}
-                        onChange={() => { }}
-                      >
-                        <Boxed
-                          height="80px"
-                          width="100%"
-                          border={`1px dashed ${Theme.SecondaryTextColor}`}
-                          bColor={`${Theme.SecondaryDark}50`}
-                          display="flex"
-                          boxShadow={Theme.PrimaryShadow}
-                        >
-                          <Boxed margin="auto" align="center">
-                            <Icon
-                              className="icon-upload-cloud-1"
-                              fontSize="35px"
-                              color={Theme.PrimaryTextColor}
-                            />
-                            <Text>Click or drag file here to upload. </Text>
-                          </Boxed>
-                        </Boxed>
-                      </Upload>
-                    )}
-                  </Boxed>
-                );
-              })}
-          </Grid>
-        )
-      }
-
-
       {/* #############         E N D    :    N E W   O W N E R S   D E T A I L       ############# */}
-
       <Boxed pad="25px 0 0 0" display="flex">
         <Button
           disabled={isLoadingRequirements || isLoading}

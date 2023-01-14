@@ -150,9 +150,9 @@ export const Parcels = (props) => {
                   Rent Plot
                 </Dropdown.Item>
               )}
-              {accessList["CREATE_ENCUMBRANCE"] && (
+              {accessList["CREATE_ENCUMBRANCE"] && record.ALLOCATED === 1 && (
                 <Dropdown.Item onClick={() => openEncumbranceModal(record)}>
-                  Create Defect
+                  Create Title Defect
                 </Dropdown.Item>
               )}
               {accessList["CREATE_RECTIFICATION"] && (

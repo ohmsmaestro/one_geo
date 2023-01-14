@@ -98,7 +98,7 @@ export const EncumbranceModal = (props) => {
               disabled={isLoading}
               onClick={onSubmit}
             >
-              Create Defect
+              Create Title Defect
             </Button>
           </>
         }

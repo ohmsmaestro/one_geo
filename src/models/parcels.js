@@ -207,7 +207,7 @@ export default {
           type: "save",
           payload: { encumbranceModal: false, parcelData: {} },
         });
-        Alert.success("Successfully created an encumbrance.");
+        Alert.success("Successfully created a title defect.");
       } else {
         Alert.error(message);
       }
