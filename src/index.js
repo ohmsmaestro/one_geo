@@ -26,7 +26,7 @@ app.model(require("./models/auxillary").default);
 app.model(require("./models/parcels").default);
 app.model(require("./models/entries").default);
 app.model(require("./models/archived").default);
-// app.model(require("./models/court").default);
+app.model(require("./models/lands").default);
 // app.model(require("./models/reader").default);
 
 // 4. Router

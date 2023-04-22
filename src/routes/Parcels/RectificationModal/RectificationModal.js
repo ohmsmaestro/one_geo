@@ -56,36 +56,22 @@ export const RectificationModal = (props) => {
   };
 
   const onSubmit = () => {
-    const payload_create_rectification = {
-      entity: "PARCEL",
-      entityId: "PARCEL_NUMBER",
-      file: "file_base64",
-      fileFormat: "pdf",
-      description: "something is here .....",
-      fields: [
-        { fieldName: "firstName", value: "my new name" },
-        { fieldName: "lastName", value: "my new last name" },
-        { fieldName: "regNumber", value: "my new reg number" },
-        { fieldName: "firstName", value: "my new name" },
-      ],
-    };
+
     let list = [
-      "REG_NUMBER",
+      "registrationNumber",
       "CATEGORY",
-      "LAND_TYPE",
-      "LAND_USE",
+      "landType",
+      "landUse",
       "checkedBy",
       "drawnBy",
       "passedBy",
-      "surveyedBy",
-      "LEGAL_DESC",
+      "surveyorName",
+      "legalDescription",
     ];
 
     if (file.base64) {
       validateFields((error, values) => {
         if (!error) {
-          console.log(values);
-
           let field_list = [];
           list.forEach((item) => {
             if (parcelData[item] !== values[item]) {
@@ -99,7 +85,7 @@ export const RectificationModal = (props) => {
 
           const payload = {
             entity: "PARCEL",
-            entityId: parcelData.FID,
+            entityId: parcelData.id,
             file: file.base64,
             fileFormat: "pdf",
             description: values.description.trim(),
@@ -143,7 +129,7 @@ export const RectificationModal = (props) => {
           borderRadius={Theme.SecondaryRadius}
         >
           <Text fontSize={Theme.SecondaryFontSize}>
-            Plot Number : <b>{parcelData.ParcelNumber}</b>
+            Plot Number : <b>{parcelData.parcelNumber}</b>
           </Text>
         </Boxed>
         <Grid
@@ -156,49 +142,24 @@ export const RectificationModal = (props) => {
               type="text"
               label="Registration Number"
               placeholder="Enter Registration number..."
-              error={
-                (errors = getFieldError("REG_NUMBER"))
-                  ? "Registration number is required"
-                  : null
-              }
-              {...getFieldProps("REG_NUMBER", {
-                initialValue: parcelData.REG_NUMBER
-                  ? parcelData.REG_NUMBER
+              {...getFieldProps("registrationNumber", {
+                initialValue: parcelData.registrationNumber
+                  ? parcelData.registrationNumber
                   : "",
-                rules: [{ required: true }],
+                rules: [],
               })}
             />
           </Boxed>
-          <Boxed pad="10px 0">
-            <Input
-              type="text"
-              label="Category"
-              placeholder="Enter Category..."
-              error={
-                (errors = getFieldError("CATEGORY"))
-                  ? "Category is required"
-                  : null
-              }
-              {...getFieldProps("CATEGORY", {
-                initialValue: parcelData.CATEGORY ? parcelData.CATEGORY : "",
-                rules: [{ required: true }],
-              })}
-            />
-          </Boxed>
+          <Boxed pad="10px 0" />
 
           <Boxed pad="10px 0">
             <Input
               type="text"
               label="Land Type"
               placeholder="Enter Land type..."
-              error={
-                (errors = getFieldError("LAND_TYPE"))
-                  ? "Land type is required"
-                  : null
-              }
-              {...getFieldProps("LAND_TYPE", {
-                initialValue: parcelData.LAND_TYPE ? parcelData.LAND_TYPE : "",
-                rules: [{ required: true }],
+              {...getFieldProps("landType", {
+                initialValue: parcelData.landType ? parcelData.landType : "",
+                rules: [],
               })}
             />
           </Boxed>
@@ -207,14 +168,9 @@ export const RectificationModal = (props) => {
               type="text"
               label="Land Use"
               placeholder="Enter Land use..."
-              error={
-                (errors = getFieldError("LAND_USE"))
-                  ? "Land use is required"
-                  : null
-              }
-              {...getFieldProps("LAND_USE", {
-                initialValue: parcelData.LAND_USE ? parcelData.LAND_USE : "",
-                rules: [{ required: true }],
+              {...getFieldProps("landUse", {
+                initialValue: parcelData.landUse ? parcelData.landUse : "",
+                rules: [],
               })}
             />
           </Boxed>
@@ -231,7 +187,7 @@ export const RectificationModal = (props) => {
               }
               {...getFieldProps("checkedBy", {
                 initialValue: parcelData.checkedBy ? parcelData.checkedBy : "",
-                rules: [{ required: true }],
+                rules: [],
               })}
             />
           </Boxed>
@@ -240,14 +196,9 @@ export const RectificationModal = (props) => {
               type="text"
               label="Drawn By"
               placeholder="Enter Drawn by..."
-              error={
-                (errors = getFieldError("drawnBy"))
-                  ? "Drawn by is required"
-                  : null
-              }
               {...getFieldProps("drawnBy", {
                 initialValue: parcelData.drawnBy ? parcelData.drawnBy : "",
-                rules: [{ required: true }],
+                rules: [],
               })}
             />
           </Boxed>
@@ -257,16 +208,11 @@ export const RectificationModal = (props) => {
               type="text"
               label="Surveyed by"
               placeholder="Enter Surveyed by..."
-              error={
-                (errors = getFieldError("surveyedBy"))
-                  ? "Surveyed by is required"
-                  : null
-              }
-              {...getFieldProps("surveyedBy", {
-                initialValue: parcelData.surveyedBy
-                  ? parcelData.surveyedBy
+              {...getFieldProps("surveyorName", {
+                initialValue: parcelData.surveyorName
+                  ? parcelData.surveyorName
                   : "",
-                rules: [{ required: true }],
+                rules: [],
               })}
             />
           </Boxed>
@@ -275,14 +221,9 @@ export const RectificationModal = (props) => {
               type="text"
               label="Passed by"
               placeholder="Enter Passed by..."
-              error={
-                (errors = getFieldError("passedBy"))
-                  ? "Passed by is required"
-                  : null
-              }
               {...getFieldProps("passedBy", {
                 initialValue: parcelData.passedBy ? parcelData.passedBy : "",
-                rules: [{ required: true }],
+                rules: [],
               })}
             />
           </Boxed>
@@ -292,14 +233,9 @@ export const RectificationModal = (props) => {
             type="text"
             label="Legal Description"
             placeholder="Enter Legal Description..."
-            error={
-              (errors = getFieldError("LEGAL_DESC"))
-                ? "Legal Description is required"
-                : null
-            }
-            {...getFieldProps("LEGAL_DESC", {
-              initialValue: parcelData.LEGAL_DESC ? parcelData.LEGAL_DESC : "",
-              rules: [{ required: true }],
+            {...getFieldProps("legalDescription", {
+              initialValue: parcelData.legalDescription ? parcelData.legalDescription : "",
+              rules: [],
             })}
           />
         </Boxed>
@@ -309,14 +245,9 @@ export const RectificationModal = (props) => {
             type="text"
             label="Recification Description"
             placeholder="Enter Rectification description..."
-            error={
-              (errors = getFieldError("description"))
-                ? "Rectification description is required"
-                : null
-            }
             {...getFieldProps("description", {
               initialValue: "",
-              rules: [{ required: true }],
+              rules: [],
             })}
           />
         </Boxed>
@@ -346,7 +277,7 @@ export const RectificationModal = (props) => {
               type="drap"
               multiple={false}
               beforeUpload={(pdf) => beforeUpload(pdf)}
-              onChange={() => {}}
+              onChange={() => { }}
             >
               <Boxed
                 height="120px"

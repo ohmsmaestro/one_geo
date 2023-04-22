@@ -1,4 +1,5 @@
-import React, { Component } from "react";
+import { Component } from "react";
+import { pageOptions } from '../../../utils/constant'
 
 export class Wrapper extends Component {
   constructor(props) {
@@ -157,6 +158,7 @@ export class Wrapper extends Component {
       pageSize: this.state.pageSize,
       filter: this.state.filter,
       isLoading: this.props.isLoading,
+      pageOptions: pageOptions
     });
   }
 }

@@ -1,8 +1,10 @@
+/* eslint-disable import/no-anonymous-default-export */
 import { Alert } from "../components/Alert.components";
 
 import {
   getStates, getRequirements, getDefectTypes, getDeedTypes,
   getApplicationTypes,
+  getLandTypes
 } from "../services/auxillary";
 
 const sampleTypes = [
@@ -31,6 +33,7 @@ export default {
     defectTypes: [],
     applicationFormTypes: [],
     deedTypes: [],
+    landTypes: [],
   },
 
   subscriptions: {
@@ -83,6 +86,24 @@ export default {
         yield put({
           type: "save",
           payload: { deedTypes: list },
+        });
+      } else {
+        Alert.error(message);
+      }
+    },
+    *getAllLandTypes({ payload }, { call, put }) {
+      const { raw, success, message } = yield call(getLandTypes, payload);
+      if (success) {
+        const data = raw?.data ?? {};
+        let list = [];
+
+        for (const [key, value] of Object.entries(data)) {
+          list.push({ value: key, label: key, types: value?.map(item => ({ value: item, label: item })) });
+        }
+
+        yield put({
+          type: "save",
+          payload: { landTypes: list },
         });
       } else {
         Alert.error(message);

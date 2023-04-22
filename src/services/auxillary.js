@@ -38,6 +38,16 @@ export async function getDeedTypes(data) {
   });
 }
 
+export async function getLandTypes(data) {
+  const url = `${endpoint}/parcels/attributes`;
+  return await request({
+    url,
+    method: "GET",
+    data,
+  });
+}
+
+
 export async function getApplicationTypes(data) {
   const url = `${endpoint}/other_applications/types`;
   return await request({

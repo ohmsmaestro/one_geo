@@ -1,3 +1,4 @@
+/* eslint-disable import/no-anonymous-default-export */
 import { Alert } from "../components/Alert.components";
 import { routerRedux } from "dva/router";
 

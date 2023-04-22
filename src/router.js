@@ -1,52 +1,47 @@
-import React from "react";
-import {
-  BrowserRouter as Router,
-  Route,
-  Switch,
-  routerRedux,
-  Redirect,
-} from "dva/router";
-import App from "./routes/app";
-import { ASSIGN_MODE, storageToken } from "./utils/constant";
+import React from 'react';
+import { BrowserRouter as Router, Route, Switch, routerRedux, Redirect } from 'dva/router';
+import App from './routes/app';
+import { ASSIGN_MODE, storageToken } from './utils/constant';
 
 // Pages Route Imports
-import Login from "./routes/Login/index";
-import SignUp from "./routes/SignUp/index";
-import ForgotPassword from "./routes/ForgotPassword/index";
-import ResetPassword from "./routes/ResetPassword/index";
+import Login from './routes/Login/index';
+import SignUp from './routes/SignUp/index';
+import ForgotPassword from './routes/ForgotPassword/index';
+import ResetPassword from './routes/ResetPassword/index';
 
 // Gaurded Routes Imports
-import Parcels from "./routes/Parcels/index";
-import ParcelDetail from "./routes/Parcels/ParcelDetail/index";
-import ParcelsView from "./routes/Parcels/View/index";
-import ParcelsTDP from "./routes/Parcels/TDP/index";
-import ParcelsCOFO from "./routes/Parcels/COFO/index";
-import ParcelsROFO from "./routes/Parcels/ROFO/index";
-import Entries from "./routes/Entries/index";
-import OwnersEntries from "./routes/OwnersEntries/index";
-import Rectification from "./routes/Rectification/index";
-import Encumbrance from "./routes/Encumbrance/index";
-import Archived from "./routes/Archived/index";
-import Appraisal from "./routes/Apprasial/index";
-import Applications from "./routes/Applications/index";
-import CreateApplication from "./routes/Applications/CreateApplication/index";
-import ApplicationReview from "./routes/Applications/Review/index";
-import DeedRequest from "./routes/DeedRequest/index";
-import CreateDeedRequest from "./routes/DeedRequest/CreateDeedRequest/index";
-import DeedReview from "./routes/DeedRequest/Review/index";
-import UsersManagement from "./routes/UserManagement/index";
-import UsersProfile from "./routes/Profile/index";
-import RoleManagement from "./routes/RoleManagement/index";
-import CreateRole from "./routes/RoleManagement/CreateRole/index";
-import Survey from "./routes/Survey";
-import ApplicationForms from './routes/ApplicationForms/index'
+import CreateLand from './routes/Land/CreateLand/index';
+import Lands from './routes/Land/index';
+
+import Parcels from './routes/Parcels/index';
+import ParcelDetail from './routes/Parcels/ParcelDetail/index';
+import ParcelsView from './routes/Parcels/View/index';
+import ParcelsTDP from './routes/Parcels/TDP/index';
+import ParcelsCOFO from './routes/Parcels/COFO/index';
+import ParcelsROFO from './routes/Parcels/ROFO/index';
+import Entries from './routes/Entries/index';
+import OwnersEntries from './routes/OwnersEntries/index';
+import Rectification from './routes/Rectification/index';
+import Encumbrance from './routes/Encumbrance/index';
+import Archived from './routes/Archived/index';
+import Appraisal from './routes/Apprasial/index';
+import Applications from './routes/Applications/index';
+import CreateApplication from './routes/Applications/CreateApplication/index';
+import ApplicationReview from './routes/Applications/Review/index';
+import DeedRequest from './routes/DeedRequest/index';
+import CreateDeedRequest from './routes/DeedRequest/CreateDeedRequest/index';
+import DeedReview from './routes/DeedRequest/Review/index';
+import UsersManagement from './routes/UserManagement/index';
+import UsersProfile from './routes/Profile/index';
+import RoleManagement from './routes/RoleManagement/index';
+import CreateRole from './routes/RoleManagement/CreateRole/index';
+import Survey from './routes/Survey';
+import ApplicationForms from './routes/ApplicationForms/index';
 
 const { ConnectedRouter } = routerRedux;
 
 const registerModel = (app, model) => {
-  if (
-    !(app._models.filter((m) => m.namespace === model.namespace).length === 1)
-  ) {
+  if (!(app._models.filter((m) => m.namespace === model.namespace).length === 1)) {
     app.model(model);
   }
 };
@@ -56,16 +51,16 @@ const PrivateRoute = (props) => {
   if (AuthToken) {
     return <Route {...props} />;
   } else {
-    return <Redirect to={{ pathname: "/" }} />;
+    return <Redirect to={{ pathname: '/' }} />;
   }
 };
 
 const openRoutes = [
-  "/",
-  "/login",
-  "/signup",
-  "/forgotpassword",
-  "/resetpassword",
+  '/',
+  '/login',
+  '/signup',
+  '/forgotpassword',
+  '/resetpassword'
   // "/parcels/view",
 ];
 
@@ -105,6 +100,14 @@ export function RouterConfig({ history, app }) {
           />
           {/* #########   E N D :    O P E N      U R L S   #########*/}
           {/* #########   S T A R T :   G U A R D E D      U R L S   #########*/}
+          <Route // Make private before pushing
+            path="/lands/create"
+            exact
+            render={(props) => {
+              return <CreateLand {...props} />;
+            }}
+          />
+          <Route path="/lands" exact render={(props) => <Lands {...props} />}  /> 
           <PrivateRoute
             path="/parcels"
             exact
@@ -147,11 +150,7 @@ export function RouterConfig({ history, app }) {
               return <ParcelsROFO {...props} />;
             }}
           />
-          <PrivateRoute
-            path="/appraisal"
-            exact
-            render={(props) => <Appraisal {...props} />}
-          />
+          <PrivateRoute path="/appraisal" exact render={(props) => <Appraisal {...props} />} />
           <PrivateRoute
             path="/entries"
             exact
@@ -245,7 +244,7 @@ export function RouterConfig({ history, app }) {
             path="/users"
             exact
             render={(props) => {
-              registerModel(app, require("./models/users").default);
+              registerModel(app, require('./models/users').default);
               return <UsersManagement {...props} />;
             }}
           />
@@ -253,16 +252,15 @@ export function RouterConfig({ history, app }) {
             path="/users/:userId"
             exact
             render={(props) => {
-              registerModel(app, require("./models/users").default);
+              registerModel(app, require('./models/users').default);
               return <UsersProfile {...props} />;
             }}
           />
-
           <PrivateRoute
             path="/role-management"
             exact
             render={(props) => {
-              registerModel(app, require("./models/users").default);
+              registerModel(app, require('./models/users').default);
               return <RoleManagement {...props} />;
             }}
           />
@@ -270,10 +268,10 @@ export function RouterConfig({ history, app }) {
             path="/role-management/role"
             exact
             render={(props) => {
-              registerModel(app, require("./models/users").default);
+              registerModel(app, require('./models/users').default);
               return <CreateRole {...props} />;
             }}
-          />{" "}
+          />{' '}
           <PrivateRoute
             path="/survey"
             exact
