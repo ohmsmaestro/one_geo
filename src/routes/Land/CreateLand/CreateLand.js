@@ -27,7 +27,7 @@ export const CreateLandForm = (props) => {
   const [lgaOriginList, setLgaOriginList] = useState([]);
 
   const isPrivate = getFieldValue('ownershipType')?.value === 'PRIVATE';
-  const isCooperate = getFieldValue('ownershipType')?.value === 'COOPERATE';
+  const isCooperate = getFieldValue('ownershipType')?.value === 'CORPORATE';
 
   const handleStateOriginSelect = (item) => {
     setFieldsValue({ lgaOfOrigin: {} });
@@ -85,7 +85,7 @@ export const CreateLandForm = (props) => {
 
             ownershipType: values?.ownershipType?.value ?? '',
 
-            gender: values?.gender ?? '',
+            gender: values?.gender?.value ?? '',
             nin: values?.nin ?? '',
 
             firstname: values?.firstname?.trim() ?? '',
@@ -138,7 +138,7 @@ export const CreateLandForm = (props) => {
   };
 
 
-  const landUseList = getFieldValue('landType')?.types ?? [];
+  const landUseList = getFieldValue('landUse')?.types ?? [];
   const lgaList = modiStateList[35]?.lgas?.map(item => ({ label: item?.name, value: item?.lgaId })) ?? [];
 
   console.log({ landTypes, landUseList, modiStateList });
@@ -640,7 +640,7 @@ export const CreateLandForm = (props) => {
                     <AsyncSelect
                       label="Gender"
                       placeholder="Select gender..."
-                      options={[{ label: 'MALE', value: 'Male' }, { label: 'FEMALE', value: 'Female' },]}
+                      options={[{ label: 'MALE', value: 'M' }, { label: 'FEMALE', value: 'F' },]}
                       {...getFieldProps('gender', {
                         rules: [{ required: isRequired }],
                       })}
