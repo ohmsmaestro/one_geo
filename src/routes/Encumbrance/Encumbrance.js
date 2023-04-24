@@ -155,7 +155,7 @@ export const Encumbrance = (props) => {
             }) => {
               return (
                 <>
-                  <Grid
+                  {/* <Grid
                     desktop="repeat(4, 1fr)"
                     tablet="repeat(4, 1fr)"
                     mobile="repeat(1, 1fr)"
@@ -181,7 +181,7 @@ export const Encumbrance = (props) => {
                       />
                     </Boxed>
                     <Boxed />
-                  </Grid>
+                  </Grid> */}
                   {isLoading ? (
                     <Boxed display="flex" pad="20px">
                       <Loader margin="auto" />

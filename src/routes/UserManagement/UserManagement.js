@@ -25,7 +25,7 @@ import CreateModal from "./CreateModal/index";
 
 export const UserManagement = (props) => {
   // state props
-  const { isLoading, usersList, usersTotal, fetchActionURL, accessList } =
+  const { isLoading, usersList, usersTotal, fetchActionURL, accessList, createUserModal } =
     props;
 
   // dispatch props
@@ -190,7 +190,7 @@ export const UserManagement = (props) => {
           />
         </Boxed>
       </Boxed>
-      <CreateModal />
+      {createUserModal && <CreateModal />}
     </>
   );
 };

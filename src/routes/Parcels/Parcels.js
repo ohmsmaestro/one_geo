@@ -64,7 +64,6 @@ export const Parcels = (props) => {
     openEncumbranceModal,
     openRectificationModal,
     openApplicationFormModal,
-    
   } = props;
 
   useEffect(() => {

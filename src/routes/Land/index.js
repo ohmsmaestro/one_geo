@@ -12,8 +12,9 @@ export const mapStateToProps = (state, ownProps) => {
   const {
     landsList,
     landsTotal,
+    subsequentTransModal,
   } = lands;
-  const { rectificationModal } = parcels
+  const { rectificationModal, appraisalModal, encumbranceModal, applicationFormModal } = parcels
   const isLoading = loading.effects[fetchActionURL];
 
   return {
@@ -23,13 +24,16 @@ export const mapStateToProps = (state, ownProps) => {
     accessList,
     profile,
     rectificationModal,
+    appraisalModal,
+    encumbranceModal,
+    applicationFormModal,
+    subsequentTransModal,
   };
 };
 
 export const mapDispatchToProps = (dispatch, ownProps) => {
-  const redirect = (pathname, search) => {
-    dispatch(routerRedux.push({ pathname, search }));
-  };
+  const redirect = (pathname, search) => dispatch(routerRedux.push({ pathname, search }));
+
   return {
     redirect,
     getAllLands(data) {
@@ -44,6 +48,28 @@ export const mapDispatchToProps = (dispatch, ownProps) => {
         },
       });
     },
+    openAppraisalModal(data) {
+      dispatch({
+        type: "parcels/save",
+        payload: { appraisalModal: true, parcelData: data },
+      });
+    },
+    openEncumbranceModal(data) {
+      dispatch({
+        type: "parcels/save",
+        payload: { encumbranceModal: true, parcelData: data },
+      });
+    },
+    openApplicationFormModal(data) {
+      dispatch({ type: 'parcels/save', payload: { applicationFormModal: true, parcelData: data } })
+    },
+    openSubsequentTransModal(data) {
+      dispatch({ type: 'lands/save', payload: { subsequentTransModal: true, landData: data } })
+    },
+    openLandDetail(data) {
+      dispatch({ type: 'lands/save', payload: { landData: data } })
+      redirect(`lands/detail/${data.id}`)
+    }
   };
 };
 

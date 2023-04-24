@@ -46,6 +46,14 @@ export async function getLandTypes(data) {
     data,
   });
 }
+export async function getSubsequentTransTypes(data) {
+  const url = `${endpoint}/sub-transactions/types`;
+  return await request({
+    url,
+    method: "GET",
+    data,
+  });
+}
 
 
 export async function getApplicationTypes(data) {

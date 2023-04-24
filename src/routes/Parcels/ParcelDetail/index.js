@@ -29,7 +29,6 @@ export const mapDispatchToProps = (dispatch, ownProps) => {
       dispatch({ type: "parcels/getSingleParcel", payload: data });
     },
     openFile(data) {
-      console.log({ data });
       dispatch({ type: "archived/readArchivedFile", payload: data });
     },
   };

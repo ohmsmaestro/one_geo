@@ -9,7 +9,7 @@ const fetchActionURL = "users/getAllUsers";
 
 export const mapStateToProps = (state, ownProps) => {
   const { loading, users } = state;
-  const { usersList, usersTotal } = users;
+  const { usersList, usersTotal, createUserModal } = users;
   const isLoading = loading.effects[fetchActionURL];
 
   const accessList = localStorage.getItem(storagePrivilege)
@@ -22,6 +22,7 @@ export const mapStateToProps = (state, ownProps) => {
     usersTotal,
     fetchActionURL,
     accessList,
+    createUserModal,
   };
 };
 

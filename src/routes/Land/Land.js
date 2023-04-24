@@ -17,8 +17,12 @@ import { Dropdown } from 'react-bootstrap';
 import { Button } from '../../components/Button.components';
 
 import RectificationModal from '../Parcels/RectificationModal/index';
+import AppraisalModal from '../Parcels/Appraisal/index';
+import EncumbranceModal from '../Parcels/EncumbranceModal/index';
+import ApplicationFormModal from '../Parcels/ApplicationForm/index';
+import SubsequentTransModal from './SubsequentTransModal';
 
-const DropDownMenu = ({ list, handleAction }) => {
+const DropDownMenu = ({ list, handleAction, }) => {
   return (
     <StyledDrpDown>
       <Dropdown>
@@ -41,10 +45,32 @@ const DropDownMenu = ({ list, handleAction }) => {
 
 export const Lands = (props) => {
   // state props
-  const { landsList, landsTotal, fetchActionURL, accessList, profile, rectificationModal } = props;
+  const {
+    landsList,
+    landsTotal,
+    fetchActionURL,
+    accessList,
+    profile,
+    rectificationModal,
+    appraisalModal,
+    encumbranceModal,
+    applicationFormModal,
+    subsequentTransModal,
+
+  } = props;
 
   // dispatch props
-  const { isLoading, getAllLands, redirect, openRectificationModal } = props;
+  const {
+    isLoading,
+    getAllLands,
+    redirect,
+    openRectificationModal,
+    openAppraisalModal,
+    openEncumbranceModal,
+    openApplicationFormModal,
+    openSubsequentTransModal,
+    openLandDetail,
+  } = props;
 
   useEffect(() => {
     if (profile?.isProprietor || accessList['VIEW_PLOT']) {
@@ -57,19 +83,33 @@ export const Lands = (props) => {
 
   const dropDownMenu = [
     { key: 1, label: `View Details` },
-    { key: 2, label: `Create Retification` },
-
+    // { key: 4, label: `Create Retification` },
+    // { key: 5, label: `Appraise Plot` },
+    { key: 6, label: `Create Title Defect` },
+    { key: 7, label: `Create Subsequent Trans` },
+    // { key: 8, label: `Other Applications` }
   ];
 
   const handleDropDownMenuAction = (item, record) => {
     switch (item.key) {
       case 1: // View land Details
-        console.log({ item });
+        openLandDetail(record)
         break;
-      case 2: // Create Rectification
+      case 4: // Open Rectification Modal
         openRectificationModal(record);
         break;
-
+      case 5: // Open Appraise Modal
+        openAppraisalModal(record);
+        break;
+      case 6: // Open Encumbrance Modal
+        openEncumbranceModal(record);
+        break;
+      case 7: // Create Subsequent Transaction
+        openSubsequentTransModal(record);
+        break;
+      case 8: // Create other Applications
+        openApplicationFormModal(record);
+        break;
       default:
         break;
     }
@@ -100,28 +140,33 @@ export const Lands = (props) => {
     },
 
     {
-      title: "Type",
-      dataIndex: "landType",
-      key: "landType",
+      title: 'Type',
+      dataIndex: 'landType',
+      key: 'landType',
       render: (text, row) => {
-        return (<>
-          <Text color={Theme.SecondaryTextColor} fontSize={Theme.SecondaryFontSize}>Type: {text}</Text>
-          <Text color={Theme.SecondaryTextColor} fontSize={Theme.SecondaryFontSize}>Use: {row.landUse ?? '--'}</Text>
-        </>)
+        return (
+          <>
+            <Text color={Theme.SecondaryTextColor} fontSize={Theme.SecondaryFontSize}>
+              Type: {text}
+            </Text>
+            <Text color={Theme.SecondaryTextColor} fontSize={Theme.SecondaryFontSize}>
+              Use: {row.landUse ?? '--'}
+            </Text>
+          </>
+        );
       }
     },
     {
-      title: "Area",
-      dataIndex: "landSize",
-      key: "landSize",
-      align: "right",
-      render: (text) =>
-        text && `${formatCurrency(Math.round(text * 100) / 100)} sqt meter`,
+      title: 'Area',
+      dataIndex: 'landSize',
+      key: 'landSize',
+      align: 'right',
+      render: (text) => text && `${formatCurrency(Math.round(text * 100) / 100)} sqt meter`
     },
     {
       title: 'Cert. No.',
-      dataIndex: 'rofo',
-      key: 'rofo',
+      dataIndex: 'rofoNumber',
+      key: 'rofoNumber',
       render: (text, row) => {
         return (
           <>
@@ -129,42 +174,60 @@ export const Lands = (props) => {
               ROFO: {text ? text : '--'}
             </Text>
             <Text color={Theme.SecondaryTextColor} fontSize={Theme.SecondaryFontSize}>
-              COFO: {row?.cofo ? row?.cofo : '--'}
+              COFO: {row?.cofoNumber ? row?.cofoNumber : '--'}
             </Text>
           </>
         );
       }
     },
     {
-      title: "Status",
-      dataIndex: "status",
-      key: "status",
-      align: "right",
+      title: 'Status',
+      dataIndex: 'status',
+      key: 'status',
+      align: 'right',
       render: (text, row) => {
-        return (<>
-          <Badge color={row.appraised === 1 ? Theme.PrimaryGreen : Theme.PrimaryYellow} fontSize={Theme.SecondaryFontSize}>{row.appraised === 1 ? 'APPRAISED' : "NOT APPRAISED"}</Badge>
-          <Badge color={row.assigned ? Theme.PrimaryGreen : Theme.PrimaryYellow} fontSize={Theme.SecondaryFontSize}>{row.assigned ? "ALLOCATED" : "NOT ALLOCATED"}</Badge>
-        </>)
+        return (
+          <>
+            {/* <Badge
+              color={row.appraised === 1 ? Theme.PrimaryGreen : Theme.PrimaryYellow}
+              fontSize={Theme.SecondaryFontSize}
+            >
+              {row.appraised === 1 ? 'APPRAISED' : 'NOT APPRAISED'}
+            </Badge> */}
+            <Badge
+              color={row.assigned ? Theme.PrimaryGreen : Theme.PrimaryYellow}
+              fontSize={Theme.SecondaryFontSize}
+            >
+              {row.assigned ? 'ALLOCATED' : 'NOT ALLOCATED'}
+            </Badge>
+          </>
+        );
       }
     },
     {
-      title: "Last Payment",
-      dataIndex: "lastPaymentDate",
-      key: "lastPaymentDate",
-      align: "right",
-      render: (text) => text && moment(text).format("ll"),
+      title: 'Last Payment',
+      dataIndex: 'lastPaymentDate',
+      key: 'lastPaymentDate',
+      align: 'right',
+      render: (text) => text && moment(text).format('ll')
     },
     {
       title: '',
       dataIndex: 'action',
       key: 'action',
       align: 'right',
-      render: (text, record) => (
-        <DropDownMenu
-          list={dropDownMenu}
+      render: (text, record) => {
+        const newList = dropDownMenu.filter(item => {
+          if (!record.assigned && (item.key === 6 || item.key === 7)) {
+            return false;
+          }
+          return true
+        })
+        return (<DropDownMenu
+          list={newList}
           handleAction={(e) => handleDropDownMenuAction(e, record)}
-        />
-      )
+        />)
+      }
     }
   ];
   const externalParams = {};
@@ -198,7 +261,7 @@ export const Lands = (props) => {
                     </Boxed>
                     <Boxed />
                     <Boxed />
-                    <Boxed pad="5px 0" align='right'>
+                    <Boxed pad="5px 0" align="right">
                       <Button onClick={() => redirect('/lands/create')}>Add Land</Button>
                     </Boxed>
                   </Grid>
@@ -241,6 +304,10 @@ export const Lands = (props) => {
         </Boxed>
       </Boxed>
       {rectificationModal && <RectificationModal />}
+      {appraisalModal && <AppraisalModal />}
+      {encumbranceModal && <EncumbranceModal />}
+      {applicationFormModal && <ApplicationFormModal />}
+      {subsequentTransModal && <SubsequentTransModal />}
     </>
   );
 };

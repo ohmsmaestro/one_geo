@@ -11,11 +11,18 @@ export async function getEntries(data) {
 }
 
 export async function getOwners(data) {
-  const url = `${endpoint}/parcels/owners?`;
+  const url = `${endpoint}/old-plots/owners`;
   return await request({
     url,
     method: "GET",
     data,
+  });
+}
+export async function getOwnerById(data) {
+  const url = `${endpoint}/old-plots/owners/${data.id}`;
+  return await request({
+    url,
+    method: "GET",
   });
 }
 

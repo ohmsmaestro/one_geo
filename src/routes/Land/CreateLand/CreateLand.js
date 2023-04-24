@@ -172,7 +172,7 @@ export const CreateLandForm = (props) => {
               </Boxed>
               <Boxed pad="10px 0">
                 <Input
-                  label="Land Size"
+                  label="Land Size (square meter)"
                   type="number"
                   placeholder="Enter Land size..."
                   error={getFieldError('landSize') ? 'Land Size is required' : null}
@@ -185,24 +185,24 @@ export const CreateLandForm = (props) => {
 
               <Boxed pad="10px 0">
                 <AsyncSelect
-                  label="Land Type"
+                  label="Land Use"
                   options={landTypes}
                   placeholder="Select Land Type..."
-                  error={getFieldError('landType') ? 'Land Type is required' : null}
-                  {...getFieldProps('landType', {
+                  error={getFieldError('landUse') ? 'Land Type is required' : null}
+                  {...getFieldProps('landUse', {
                     initialValue: '',
                     rules: [{ required: isRequired }],
-                    onChange: () => setFieldsValue({ landUse: '' })
+                    onChange: () => setFieldsValue({ landType: '' })
                   })}
                 />
               </Boxed>
               <Boxed pad="10px 0">
                 <AsyncSelect
-                  label="Land Use"
+                  label="Land Use Type"
                   options={landUseList}
-                  placeholder="Select Land Use..."
-                  error={getFieldError('landUse') ? 'Land Use is required' : null}
-                  {...getFieldProps('landUse', {
+                  placeholder="Select Land Use Type..."
+                  error={getFieldError('landType') ? 'Land Use Type is required' : null}
+                  {...getFieldProps('landType', {
                     initialValue: '',
                     rules: [{ required: isRequired }]
                   })}
@@ -636,7 +636,16 @@ export const CreateLandForm = (props) => {
                       })}
                     />
                   </Boxed>
-                  <Boxed margin="10px 0" />
+                  <Boxed margin="10px 0">
+                    <AsyncSelect
+                      label="Gender"
+                      placeholder="Select gender..."
+                      options={[{ label: 'MALE', value: 'Male' }, { label: 'FEMALE', value: 'Female' },]}
+                      {...getFieldProps('gender', {
+                        rules: [{ required: isRequired }],
+                      })}
+                    />
+                  </Boxed>
                   <Boxed margin="10px 0" />
 
                   <Boxed margin="10px 0">

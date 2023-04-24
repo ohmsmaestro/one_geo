@@ -27,3 +27,29 @@ export async function putLand(data) {
     data,
   });
 }
+
+export async function postSubSequentTrans(data) {
+  const url = `${endpoint}/sub-transactions`;
+  return await request({
+    url,
+    method: "POST",
+    data,
+  });
+}
+
+export async function getSubsequentTrans(data) {
+  const url = `${endpoint}/sub-transactions`;
+  return await request({
+    url,
+    method: 'GET',
+    data,
+  })
+}
+
+export async function getSubsequentTransById(data) {
+  const url = `${endpoint}/sub-transactions/${data.parcelNumber}`;
+  return await request({
+    url,
+    method: 'GET',
+  })
+}

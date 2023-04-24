@@ -12,6 +12,7 @@ import ResetPassword from './routes/ResetPassword/index';
 // Gaurded Routes Imports
 import CreateLand from './routes/Land/CreateLand/index';
 import Lands from './routes/Land/index';
+import LandDetail from './routes/Land/LandDetail/index'
 
 import Parcels from './routes/Parcels/index';
 import ParcelDetail from './routes/Parcels/ParcelDetail/index';
@@ -37,6 +38,7 @@ import RoleManagement from './routes/RoleManagement/index';
 import CreateRole from './routes/RoleManagement/CreateRole/index';
 import Survey from './routes/Survey';
 import ApplicationForms from './routes/ApplicationForms/index';
+import SubsequentTrans from './routes/SubsequentTrans/index';
 
 const { ConnectedRouter } = routerRedux;
 
@@ -100,14 +102,22 @@ export function RouterConfig({ history, app }) {
           />
           {/* #########   E N D :    O P E N      U R L S   #########*/}
           {/* #########   S T A R T :   G U A R D E D      U R L S   #########*/}
-          <Route // Make private before pushing
+          <PrivateRoute
             path="/lands/create"
             exact
             render={(props) => {
               return <CreateLand {...props} />;
             }}
           />
-          <Route path="/lands" exact render={(props) => <Lands {...props} />}  /> 
+          <PrivateRoute path="/lands" exact render={(props) => <Lands {...props} />} />
+          <PrivateRoute
+            path="/lands/detail/:id"
+            exact
+            render={(props) => {
+              return <LandDetail {...props} />;
+            }}
+          />
+          <PrivateRoute path="/subsequent-trans" exact render={(props) => <SubsequentTrans {...props} />} />
           <PrivateRoute
             path="/parcels"
             exact

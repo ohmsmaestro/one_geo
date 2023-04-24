@@ -82,9 +82,9 @@ export const Appraisal = (props) => {
           file: file.base64,
           parcels: [
             {
-              FID: parcelData.FID,
-              parcelNumber: parcelData.ParcelNumber,
-              parcelSize: parcelData.Shape__Area,
+              FID: parcelData.id,
+              parcelNumber: parcelData.parcelNumber,
+              parcelSize: parcelData?.landSize,
             },
           ],
         };
@@ -131,6 +131,17 @@ export const Appraisal = (props) => {
           </>
         }
       >
+        <Boxed
+          pad="10px"
+          border={`1px solid ${Theme.PrimaryBlue}`}
+          background={`${Theme.PrimaryBlue}30`}
+          borderRadius={Theme.SecondaryRadius}
+        >
+          <Text fontSize={Theme.SecondaryFontSize}>
+            Plot Number : <b>{parcelData.parcelNumber}</b>
+          </Text>
+        </Boxed>
+
         <Grid
           desktop="repeat(2, 1fr)"
           tablet="repeat(2, 1fr)"

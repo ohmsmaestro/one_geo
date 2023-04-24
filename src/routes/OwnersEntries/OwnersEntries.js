@@ -54,36 +54,40 @@ export const OwnersEntries = (props) => {
   };
 
   const columns = [
-    {
-      title: "Entry Number",
-      dataIndex: "applicationId",
-      key: "applicationId",
-    },
+    // {
+    //   title: "Entry Number",
+    //   dataIndex: "applicationId",
+    //   key: "applicationId",
+    // },
     {
       title: "Plot No.",
-      dataIndex: "plotNumber",
-      key: "plotNumber",
+      dataIndex: "parcelNumber",
+      key: "parcelNumber",
     },
     {
       title: "Owner",
       dataIndex: "name",
       key: "name",
-      render: (text, record) => text && <Text fontSize={Theme.SecondaryFontSize} cursor="pointer" onClick={() => redirect(`/users/${record.userId}`)}>{text}</Text>
+      render: (text, record) => <>{record.ownershipType === 'CORPORATE' ? text : `${record.firstname} ${record.lastname}`}</>
     },
 
     {
-      title: "Entry. Date",
-      dataIndex: "entryDate",
-      key: "entryDate",
-      render: (text) => text && formatDate(text),
+      title: "Email",
+      dataIndex: "email",
+      key: "email",
     },
     {
-      title: "",
-      dataIndex: "action",
-      key: "action",
-      align: "right",
-      render: (text, record) => <DropDownMenu record={record} />,
+      title: "Phone",
+      dataIndex: "phone",
+      key: "phone",
     },
+    // {
+    //   title: "",
+    //   dataIndex: "action",
+    //   key: "action",
+    //   align: "right",
+    //   render: (text, record) => <DropDownMenu record={record} />,
+    // },
   ];
 
   return (

@@ -1,3 +1,4 @@
+/* eslint-disable import/no-anonymous-default-export */
 import { routerRedux } from "dva/router";
 import { Alert } from "../components/Alert.components";
 
@@ -18,6 +19,7 @@ import {
   getEncumbranceDetail,
   postAllocateParcel,
   getOwners,
+  getOwnerById,
 } from "../services/entries";
 
 export default {
@@ -30,6 +32,7 @@ export default {
 
     ownersList: [],
     ownersTotal: 0,
+    ownersDetail: {},
 
     applicationsList: [],
     applicationsTotal: 0,
@@ -48,7 +51,7 @@ export default {
   },
 
   subscriptions: {
-    setup({ dispatch, history }) {
+    setup() {
       // eslint-disable-line
     },
   },
@@ -81,9 +84,21 @@ export default {
         Alert.error(message);
       }
     },
+    *getLandOwner({ payload }, { call, put }) {
+      const { raw, success, message } = yield call(getOwnerById, payload);
+      if (success) {
+        const item = raw?.data
+        yield put({
+          type: "save",
+          payload: { ownersDetail: item, },
+        })
+      } else {
+        Alert.error(message);
+      }
+    },
 
     *postApplication({ payload }, { call, put }) {
-      const { success, raw, message } = yield call(postApplication, payload);
+      const { success, message } = yield call(postApplication, payload);
       if (success) {
         Alert.success("Application has been created successfully.");
         yield put(routerRedux.push({ pathname: "/application" }));
@@ -172,7 +187,7 @@ export default {
         Alert.error(message);
       }
     },
-    *allocateParcel({ payload }, { call, put, select }) {
+    *allocateParcel({ payload }, { call, put }) {
       const { success, raw, message } = yield call(postAllocateParcel, payload);
       if (success) {
         const data = raw?.data?.application;
@@ -202,7 +217,7 @@ export default {
         Alert.error(message);
       }
     },
-    *getRectificationDetail({ payload }, { call, put, select }) {
+    *getRectificationDetail({ payload }, { call, put }) {
       const { raw, success, message } = yield call(
         getRectificationDetail,
         payload.id
@@ -225,7 +240,7 @@ export default {
       }
     },
 
-    *getRectificationFile({ payload }, { call, put, select }) {
+    *getRectificationFile({ payload }, { call, put }) {
       const { raw, success, message } = yield call(
         getRectificationFile,
         payload.fileName
@@ -281,20 +296,11 @@ export default {
             terminateModal: false,
           },
         });
-        const closed_data = {
-          close: true,
-          closedBy: "Jante Adebowale",
-          dateClosed: "2021-12-07",
-          description: "sample close",
-          fileFormat: "pdf",
-          fileName: "04.pdf",
-          id: 4,
-        };
       } else {
         Alert.error(message);
       }
     },
-    *getEncumbranceDetail({ payload }, { call, put }) {
+    *getEncumbranceDetail({ payload }, { call }) {
       const { success, raw, message } = yield call(
         getEncumbranceDetail,
         payload.id
@@ -306,7 +312,7 @@ export default {
       }
     },
 
-    *getEncumbranceFile({ payload }, { call, put, select }) {
+    *getEncumbranceFile({ payload }, { call, put }) {
       const { raw, success, message } = yield call(
         getEncumbranceFile,
         payload.fileName

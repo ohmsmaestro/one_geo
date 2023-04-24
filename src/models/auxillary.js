@@ -4,7 +4,8 @@ import { Alert } from "../components/Alert.components";
 import {
   getStates, getRequirements, getDefectTypes, getDeedTypes,
   getApplicationTypes,
-  getLandTypes
+  getLandTypes,
+  getSubsequentTransTypes
 } from "../services/auxillary";
 
 const sampleTypes = [
@@ -34,6 +35,7 @@ export default {
     applicationFormTypes: [],
     deedTypes: [],
     landTypes: [],
+    subsequentTransTypes: [],
   },
 
   subscriptions: {
@@ -104,6 +106,18 @@ export default {
         yield put({
           type: "save",
           payload: { landTypes: list },
+        });
+      } else {
+        Alert.error(message);
+      }
+    },
+    *getAllSubsequentTransType({ payload }, { call, put }) {
+      const { raw, success, message } = yield call(getSubsequentTransTypes, payload);
+      if (success) {
+        let list = raw?.data?.subTransactionsTypes;
+        yield put({
+          type: "save",
+          payload: { subsequentTransTypes: list },
         });
       } else {
         Alert.error(message);

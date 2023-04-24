@@ -68,7 +68,7 @@ export const EncumbranceModal = (props) => {
             description: value.defect_text.trim(),
             file: file.base64,
             fileFormat: "pdf",
-            parcelNumber: parcelData.ParcelNumber,
+            parcelNumber: parcelData.parcelNumber,
             defectTypeId: value.defect_type.value
           };
           createDefect(data);
@@ -110,26 +110,26 @@ export const EncumbranceModal = (props) => {
           borderRadius={Theme.SecondaryRadius}
         >
           <Text fontSize={Theme.SecondaryFontSize}>
-            Plot Number : <b>{parcelData.ParcelNumber}</b>
+            Plot Number : <b>{parcelData.parcelNumber}</b>
           </Text>
           <Text fontSize={Theme.SecondaryFontSize}>
-            Reg. Number : <b>{parcelData.REG_NUMBER}</b>
+            Reg. Number : <b>{parcelData.registrationNumber}</b>
           </Text>
           <Text fontSize={Theme.SecondaryFontSize}>
             Plot Size :
             <b>
-              {parcelData.Shape__Area &&
+              {parcelData?.landSize &&
                 formatCurrency(
-                  Math.round(parcelData.Shape__Area * 100) / 100
+                  Math.round(parcelData?.landSize * 100) / 100
                 )}{" "}
               square meter
             </b>
           </Text>
           <Text fontSize={Theme.SecondaryFontSize}>
-            Land Type : <b>{parcelData.LAND_TYPE}</b>
+            Land Type : <b>{parcelData.landType}</b>
           </Text>
           <Text fontSize={Theme.SecondaryFontSize}>
-            Land Use : <b>{parcelData.LAND_USE}</b>
+            Land Use : <b>{parcelData.landUse}</b>
           </Text>
         </Boxed>
         <Boxed pad="10px 0">
