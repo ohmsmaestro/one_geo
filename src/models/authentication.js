@@ -1,3 +1,4 @@
+/* eslint-disable import/no-anonymous-default-export */
 import { routerRedux } from "dva/router";
 import axios from "axios";
 import {
@@ -75,7 +76,7 @@ export default {
           type: "save",
           payload: { profile: data, accessList: privilegeList },
         });
-        yield put(routerRedux.push({ pathname: "/parcels" }));
+        yield put(routerRedux.push({ pathname: "/lands" }));
       } else {
         Alert.error(message);
       }

@@ -98,14 +98,21 @@ export default {
     },
 
     *postApplication({ payload }, { call, put }) {
-      const { success, message } = yield call(postApplication, payload);
+      const { success, raw, message } = yield call(postApplication, payload);
       if (success) {
+        console.log({ raw });
         Alert.success("Application has been created successfully.");
-        yield put(routerRedux.push({ pathname: "/application" }));
+        const id = raw?.data?.id
+        if (id) {
+          yield put(routerRedux.push({ pathname: `/application/acknowledgement/${id}` }));
+        } else {
+          yield put(routerRedux.push({ pathname: `/application` }));
+        }
       } else {
         Alert.error(message);
       }
     },
+
     *getAllApplications({ payload }, { call, put }) {
       const { raw, success, message } = yield call(getApplications, payload);
       if (success) {
@@ -142,7 +149,7 @@ export default {
 
       if (detail_response.success) {
         const details = detail_response.raw?.data?.applications[0];
-        console.log(details);
+
         // fetch applciation requirement list uploaded
         const { raw, success, message } = yield call(
           getApplicationDetail,
@@ -155,7 +162,7 @@ export default {
             payload: { applicationDetail: { ...payload, ...data, ...details } },
           });
         } else {
-          Alert.error(message);
+          // Alert.error(message);
           yield put({
             type: "save",
             payload: { applicationDetail: { ...payload, ...details } },

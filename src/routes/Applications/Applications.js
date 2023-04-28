@@ -15,7 +15,7 @@ import {
 
   PaginationComponent,
 } from "../../components/Table.components";
-import { PageTitle, Icon, StyledDrpDown } from "../../components/style";
+import { PageTitle, Icon, DropDownMenu } from "../../components/style";
 
 import { calcViewMode, formatDate } from "../../utils/utils";
 import { pageOptions } from "../../utils/constant";
@@ -185,28 +185,44 @@ export const Applications = (props) => {
     getAllApplications(data);
   }, []);
 
-  const goToReview = (id) => {
-    redirect(`/application/${id}`);
-  };
+  const goToReview = (id) => redirect(`/application/${id}`);
+
 
   let viewMode = calcViewMode();
 
-  const DropDownMenu = (props) => {
-    const { record } = props;
-    return (
-      <StyledDrpDown>
-        <Dropdown>
-          <Dropdown.Toggle variant id="dropdown-basic">
-            <Icon className="icon-more-vertical" />
-          </Dropdown.Toggle>
-          <Dropdown.Menu>
-            <Dropdown.Item onClick={() => goToReview(record.id)}>
-              Review
-            </Dropdown.Item>
-          </Dropdown.Menu>
-        </Dropdown>
-      </StyledDrpDown>
-    );
+  // const DropDownMenu = (props) => {
+  //   const { record } = props;
+  //   return (
+  //     <StyledDrpDown>
+  //       <Dropdown>
+  //         <Dropdown.Toggle variant id="dropdown-basic">
+  //           <Icon className="icon-more-vertical" />
+  //         </Dropdown.Toggle>
+  //         <Dropdown.Menu>
+  //           <Dropdown.Item onClick={() => goToReview(record.id)}>
+  //             Review
+  //           </Dropdown.Item>
+  //         </Dropdown.Menu>
+  //       </Dropdown>
+  //     </StyledDrpDown>
+  //   );
+  // };
+  const dropDownMenu = [
+    { key: 1, label: `Review` },
+    { key: 2, label: `Acknownledgement Letter` },
+  ];
+
+  const handleDropDownMenuAction = (item, record) => {
+    switch (item.key) {
+      case 1: // Review Application
+        goToReview(record.id)
+        break;
+      case 2: // Aknowledgemnet Letter
+        redirect(`/application/acknowledgement/${record.id}`)
+        break;
+      default:
+        break;
+    }
   };
 
   const ApplicationCard = ({ record }) => {
@@ -219,8 +235,6 @@ export const Applications = (props) => {
         pad="10px 0"
         boxShadow={Theme.PrimaryShadow}
         border={`0.5px solid ${Theme.PrimaryBorderColor}`}
-        cursor="pointer"
-        onClick={() => goToReview(id)}
       >
         <Boxed pad="10px" background={Theme.PrimaryDark}>
           <Grid desktop="auto 10px" tablet="auto 10px" mobile="auto 10px">
@@ -234,7 +248,10 @@ export const Applications = (props) => {
               </Text>
             </Boxed>
             <Boxed>
-              <DropDownMenu record={props} />
+              <DropDownMenu
+                list={dropDownMenu}
+                handleAction={(e) => handleDropDownMenuAction(e, record)}
+              />
             </Boxed>
           </Grid>
         </Boxed>

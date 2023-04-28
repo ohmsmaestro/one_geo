@@ -4,15 +4,16 @@ import { AllocateModal } from "./AllocateModal";
 import { routerRedux } from "dva/router";
 
 export const mapStateToProps = (state, ownProps) => {
-  const { loading, parcels, entries } = state;
+  const { loading, lands, entries } = state;
   const isLoading = loading.effects["entries/allocateParcel"];
-  const isSearching = loading.effects["parcels/getAllParcels"];
-  const { parcelsList } = parcels;
+  const isSearching = loading.effects["lands/getAllLands"];
+  const { landsList } = lands;
   const { allocateModal, applicationDetail } = entries;
 
-  const modiParcelList = parcelsList?.map((item) => ({
-    label: item.ParcelNumber,
+  const modiParcelList = landsList?.map((item) => ({
     ...item,
+    label: item.parcelNumber,
+    value: item.id,
   }));
 
   return {
@@ -29,8 +30,8 @@ export const mapDispatchToProps = (dispatch, ownProps) => {
     redirect(pathname) {
       dispatch(routerRedux.push({ pathname: `${pathname}` }));
     },
-    searchParcels(data) {
-      dispatch({ type: "parcels/getAllParcels", payload: data });
+    searchLands(data) {
+      dispatch({ type: "lands/getAllLands", payload: data });
     },
     allocateParcel(data) {
       dispatch({ type: "entries/allocateParcel", payload: data });

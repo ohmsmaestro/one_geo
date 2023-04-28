@@ -31,30 +31,30 @@ export const AllocateModal = (props) => {
   } = props;
 
   // Dispatch props
-  const { closeModal, searchParcels, allocateParcel } = props;
+  const { closeModal, searchLands, allocateParcel } = props;
 
+  const [lastSearch, setLastSearch] = useState("")
   const [search, setSearch] = useState("");
-  const [parcelData, setParcelData] = useState(null);
+  const [landData, setLandData] = useState(null);
 
-  const handleSearch = () => {
+  const onSearch = () => {
     let value = search ? search.trim() : "";
     if (value) {
-      searchParcels({
+      setLastSearch(value);
+      searchLands({
         page: 1,
         size: 10,
         search: value,
-        allocated: 0,
-        appraised: 1,
         assigned: 0,
       });
     }
   };
 
   const onSubmit = () => {
-    if (parcelData) {
+    if (landData) {
       const data = {
-        parcelNumber: parcelData.ParcelNumber,
-        FID: parcelData.FID,
+        parcelNumber: landData.ParcelNumber,
+        FID: landData.FID,
         applicationId: applicationDetail.id,
       };
       allocateParcel(data);
@@ -69,7 +69,7 @@ export const AllocateModal = (props) => {
         size="lg"
         show={allocateModal}
         onHide={closeModal}
-        title={<PageTitle>Allocate Plot</PageTitle>}
+        title={<PageTitle>Allocate Land</PageTitle>}
         footer={
           <>
             <Button clear onClick={closeModal}>
@@ -87,14 +87,18 @@ export const AllocateModal = (props) => {
       >
         <Grid desktop="auto 120px" tablet="auto 120px" mobile="auto 120px">
           <Input
+            label="Search for Available land"
             type="search"
-            placeholder="Search by plot number"
+            placeholder="Search by land number"
             onChange={(e) => setSearch(e.target.value)}
           />
-          <Button color={Theme.PrimaryBlue} onClick={() => handleSearch()}>
+          <Button color={Theme.PrimaryBlue} onClick={() => onSearch()}>
             Search
           </Button>
         </Grid>
+        {lastSearch !== '' && <Text padding="5px 0" align="center">
+          This is the search result for <b><i>"{lastSearch}"</i></b>
+        </Text>}
         <Boxed minHeight="150px">
           {isSearching ? (
             <Boxed display="flex" pad="20px">
@@ -103,15 +107,15 @@ export const AllocateModal = (props) => {
           ) : (
             <Boxed pad="10px 0">
               <AsyncSelect
-                label="Plot list"
-                placeholder="Search by plot number..."
+                label="Land list"
+                placeholder="Search by land number..."
                 loading={isSearching}
-                options={modiParcelList}
-                onChange={(value) => setParcelData(value)}
+                options={lastSearch ? modiParcelList : []}
+                onChange={(value) => setLandData(value)}
               />
             </Boxed>
           )}
-          {parcelData && (
+          {landData && (
             <Boxed pad="5px 0">
               <Grid
                 desktop="repeat(2, 1fr)"
@@ -125,7 +129,7 @@ export const AllocateModal = (props) => {
                   >
                     Registration Number
                   </Text>
-                  <Text>{parcelData.REG_NUMBER}</Text>
+                  <Text>{landData.REG_NUMBER}</Text>
                 </Boxed>
 
                 <Boxed pad="8px 0">
@@ -136,8 +140,8 @@ export const AllocateModal = (props) => {
                     Registration Date
                   </Text>
                   <Text>
-                    {parcelData.REG_DATE &&
-                      moment(parcelData.REG_DATE).format("ll")}
+                    {landData.REG_DATE &&
+                      moment(landData.REG_DATE).format("ll")}
                   </Text>
                 </Boxed>
 
@@ -148,7 +152,7 @@ export const AllocateModal = (props) => {
                   >
                     Category
                   </Text>
-                  <Text>{parcelData.CATEGORY}</Text>
+                  <Text>{landData.CATEGORY}</Text>
                 </Boxed>
 
                 <Boxed pad="8px 0">
@@ -158,7 +162,7 @@ export const AllocateModal = (props) => {
                   >
                     Land Type
                   </Text>
-                  <Text>{parcelData.LAND_TYPE}</Text>
+                  <Text>{landData.LAND_TYPE}</Text>
                 </Boxed>
                 <Boxed pad="8px 0">
                   <Text
@@ -167,7 +171,7 @@ export const AllocateModal = (props) => {
                   >
                     Land Use
                   </Text>
-                  <Text>{parcelData.LAND_USE}</Text>
+                  <Text>{landData.LAND_USE}</Text>
                 </Boxed>
                 <Boxed pad="8px 0">
                   <Text
@@ -177,9 +181,9 @@ export const AllocateModal = (props) => {
                     Area
                   </Text>
                   <Text>
-                    {parcelData.Shape__Area &&
+                    {landData.Shape__Area &&
                       formatCurrency(
-                        Math.round(parcelData.Shape__Area * 100) / 100
+                        Math.round(landData.Shape__Area * 100) / 100
                       )}{" "}
                     sqr meter
                   </Text>
@@ -187,7 +191,7 @@ export const AllocateModal = (props) => {
               </Grid>
               <Boxed pad="5px">
                 <iframe
-                  src={`${MAP_URL}/map.html?parcel=${parcelData.FID}`}
+                  src={`${MAP_URL}/map.html?parcel=${landData.FID}`}
                   width="100%"
                   height="300px"
                 />

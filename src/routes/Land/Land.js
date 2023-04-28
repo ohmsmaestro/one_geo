@@ -1,10 +1,11 @@
 import React, { useEffect } from 'react';
 import moment from 'moment';
 
+import Wrapper from '../Common/FilterWrapper/index';
+
 import { Grid } from '../../components/Grid.components';
 import { Boxed } from '../../components/Boxed.components';
 import { Icon, PageTitle, StyledDrpDown } from '../../components/style';
-import { Wrapper } from '../Common/FilterWrapper/Wrapper';
 import { Input } from '../../components/Input.components';
 import { Loader } from '../../components/Loader.components';
 import { Text } from '../../components/Text.components';
@@ -255,7 +256,7 @@ export const Lands = (props) => {
                     <Boxed pad="5px 0" margin="auto 0 0 0">
                       <Input
                         type="search"
-                        placeholder="Search by plot number,rofo"
+                        placeholder="Search by plot number"
                         onChange={(value) => search(value, fetchActionURL)}
                       />
                     </Boxed>

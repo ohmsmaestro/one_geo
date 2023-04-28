@@ -12,6 +12,7 @@ export const mapStateToProps = (state, ownProps) => {
 export const mapDispatchToProps = (dispatch, ownProps) => {
   return {
     fetchData(action, payload) {
+      console.log({ action, payload })
       dispatch({
         type: action,
         payload,

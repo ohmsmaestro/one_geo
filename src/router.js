@@ -39,6 +39,8 @@ import CreateRole from './routes/RoleManagement/CreateRole/index';
 import Survey from './routes/Survey';
 import ApplicationForms from './routes/ApplicationForms/index';
 import SubsequentTrans from './routes/SubsequentTrans/index';
+import AcknowledgementLetter from './routes/Letter/Acknowledgement/index';
+import AcceptanceLetter from './routes/Letter/Acceptance/index';
 
 const { ConnectedRouter } = routerRedux;
 
@@ -117,6 +119,7 @@ export function RouterConfig({ history, app }) {
               return <LandDetail {...props} />;
             }}
           />
+
           <PrivateRoute path="/subsequent-trans" exact render={(props) => <SubsequentTrans {...props} />} />
           <PrivateRoute
             path="/parcels"
@@ -208,6 +211,20 @@ export function RouterConfig({ history, app }) {
             exact
             render={(props) => {
               return <CreateApplication mode={ASSIGN_MODE} {...props} />;
+            }}
+          />
+          <PrivateRoute
+            path='/application/acknowledgement/:applicationNumber'
+            exact
+            render={(props) => {
+              return <AcknowledgementLetter {...props} />;
+            }}
+          />
+          <PrivateRoute
+            path='/application/acceptance/:applicationNumber'
+            exact
+            render={(props) => {
+              return <AcceptanceLetter {...props} />;
             }}
           />
           <PrivateRoute

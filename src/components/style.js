@@ -1,6 +1,8 @@
 import React from "react";
 import styled, { css } from "styled-components";
 // import registrationBG from '../assets/img/dark_background_web.png';
+import { Dropdown } from 'react-bootstrap';
+
 import PDF_ICON from "../assets/img/file-pdf.png";
 import DOC_ICON from "../assets/img/file-doc.png";
 import JPG_ICON from "../assets/img/file-jpg.png";
@@ -203,8 +205,8 @@ export const LiveView = styled.div`
   .side-view {
     width: 300px;
     ${(props) =>
-      props.collapse &&
-      css`
+    props.collapse &&
+    css`
         display: none;
         width: 0;
       `}
@@ -282,4 +284,25 @@ export const FileIcon = ({ type, size }) => {
   }
 
   return <img src={ICON} alt={`doc-type-icon`} height={size ? size : "110px"} />;
+};
+
+export const DropDownMenu = ({ list, handleAction, }) => {
+  return (
+    <StyledDrpDown>
+      <Dropdown>
+        <Dropdown.Toggle variant id="dropdown-basic">
+          <Icon className="icon-more-vertical" />
+        </Dropdown.Toggle>
+        <Dropdown.Menu>
+          {list.map((item, index) => {
+            return (
+              <Dropdown.Item key={index} onClick={() => handleAction(item)}>
+                {item.label}
+              </Dropdown.Item>
+            );
+          })}
+        </Dropdown.Menu>
+      </Dropdown>
+    </StyledDrpDown>
+  );
 };

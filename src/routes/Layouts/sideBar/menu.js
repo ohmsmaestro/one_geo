@@ -32,12 +32,12 @@ export const adminMenu = [
       //   pathname: "/subsequent-trans",
       //   role: ["VIEW_PLOT"],
       // },
-      // {
-      //   icon: "icon-forward-outline",
-      //   label: "Plot Applications",
-      //   pathname: "/application",
-      //   role: ["VIEW_PLOT_APPLCIATION"],
-      // },
+      {
+        icon: "icon-forward-outline",
+        label: "Plot Applications",
+        pathname: "/application",
+        role: ["VIEW_PLOT_APPLCIATION"],
+      },
       // {
       //   icon: "icon-forward-outline",
       //   label: "Plot Appraisals",

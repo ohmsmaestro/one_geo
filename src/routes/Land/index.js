@@ -28,6 +28,7 @@ export const mapStateToProps = (state, ownProps) => {
     encumbranceModal,
     applicationFormModal,
     subsequentTransModal,
+    fetchActionURL,
   };
 };
 

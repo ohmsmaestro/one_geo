@@ -5,8 +5,8 @@ const requestFetch = (options) => {
   const AuthToken = localStorage.getItem(storageToken);
   if (AuthToken) {
     axios.defaults.headers.common.Authorization = `Bearer ${AuthToken}`;
-    axios.defaults.headers.common['ngrok-skip-browser-warning'] = 'your-value';
-    axios.defaults.headers.common['crossDomain'] = true;
+    // axios.defaults.headers.common['ngrok-skip-browser-warning'] = 'your-value';
+    // axios.defaults.headers.common['crossDomain'] = true;
   }
   let { method = "get", data, url, formatData } = options;
   if (formatData && method.toLowerCase() !== "get") {
@@ -15,31 +15,9 @@ const requestFetch = (options) => {
       data: data,
     };
   }
-  console.log({ options, method })
 
   switch (method.toLowerCase()) {
     case "get":
-      console.log(`axios  get is called`);
-
-      // let myHeaders = new Headers();
-      // myHeaders.append("Authorization", `Bearer ${AuthToken}`);
-
-      // let raw = "";
-
-      // let requestOptions = {
-      //   method: 'GET',
-      //   headers: myHeaders,
-      //   redirect: 'follow'
-      // };
-
-      // return fetch(url, requestOptions)
-      //   .then(response => response.json())
-      // .then(result => console.log({ result }))
-      // .catch(error => console.log('error', error));
-
-
-      // return fetch(url, {})
-
       return axios.get(url, {
         params: data,
       });
