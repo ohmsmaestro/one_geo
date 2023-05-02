@@ -1,20 +1,16 @@
-import { connect } from "dva";
-import { createForm } from "rc-form";
-import { Lands } from "./Land";
-import { routerRedux } from "dva/router";
+import { connect } from 'dva';
+import { createForm } from 'rc-form';
+import { Lands } from './Land';
+import { routerRedux } from 'dva/router';
 
-let fetchActionURL = "lands/getAllLands";
+let fetchActionURL = 'lands/getAllLands';
 
 export const mapStateToProps = (state, ownProps) => {
   const { loading, lands, authentication, parcels } = state;
   const { profile, accessList } = authentication;
   // profile?.isProprietor && (fetchActionURL = "lands/getAllMyParcels");
-  const {
-    landsList,
-    landsTotal,
-    subsequentTransModal,
-  } = lands;
-  const { rectificationModal, appraisalModal, encumbranceModal, applicationFormModal } = parcels
+  const { landsList, landsTotal, subsequentTransModal } = lands;
+  const { rectificationModal, appraisalModal, encumbranceModal, applicationFormModal } = parcels;
   const isLoading = loading.effects[fetchActionURL];
 
   return {
@@ -28,7 +24,7 @@ export const mapStateToProps = (state, ownProps) => {
     encumbranceModal,
     applicationFormModal,
     subsequentTransModal,
-    fetchActionURL,
+    fetchActionURL
   };
 };
 
@@ -42,39 +38,40 @@ export const mapDispatchToProps = (dispatch, ownProps) => {
     },
     openRectificationModal(data) {
       dispatch({
-        type: "parcels/save",
+        type: 'parcels/save',
         payload: {
           rectificationModal: true,
-          parcelData: data,
-        },
+          parcelData: data
+        }
       });
     },
     openAppraisalModal(data) {
       dispatch({
-        type: "parcels/save",
-        payload: { appraisalModal: true, parcelData: data },
+        type: 'parcels/save',
+        payload: { appraisalModal: true, parcelData: data }
       });
     },
     openEncumbranceModal(data) {
       dispatch({
-        type: "parcels/save",
-        payload: { encumbranceModal: true, parcelData: data },
+        type: 'parcels/save',
+        payload: { encumbranceModal: true, parcelData: data }
       });
     },
     openApplicationFormModal(data) {
-      dispatch({ type: 'parcels/save', payload: { applicationFormModal: true, parcelData: data } })
+      dispatch({ type: 'parcels/save', payload: { applicationFormModal: true, parcelData: data } });
     },
     openSubsequentTransModal(data) {
-      dispatch({ type: 'lands/save', payload: { subsequentTransModal: true, landData: data } })
+      dispatch({ type: 'lands/save', payload: { subsequentTransModal: true, landData: data } });
     },
     openLandDetail(data) {
-      dispatch({ type: 'lands/save', payload: { landData: data } })
-      redirect(`lands/detail/${data.id}`)
-    }
+      dispatch({ type: 'lands/save', payload: { landData: data } });
+      redirect(`lands/detail/${data.id}`);
+    },
+    openEditDetail(data) {
+      dispatch({ type: 'lands/save', payload: { landData: data } });
+      redirect(`lands/edit/${data.id}`);
+    },
   };
 };
 
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(createForm()(Lands));
+export default connect(mapStateToProps, mapDispatchToProps)(createForm()(Lands));

@@ -5,7 +5,7 @@ import Wrapper from '../Common/FilterWrapper/index';
 
 import { Grid } from '../../components/Grid.components';
 import { Boxed } from '../../components/Boxed.components';
-import { Icon, PageTitle, StyledDrpDown } from '../../components/style';
+import { PageTitle, DropDownMenu } from '../../components/style';
 import { Input } from '../../components/Input.components';
 import { Loader } from '../../components/Loader.components';
 import { Text } from '../../components/Text.components';
@@ -14,35 +14,13 @@ import { Theme } from '../../utils/theme';
 import { formatCurrency } from '../../utils/utils';
 import { EmptyState } from '../../components/EmptyState.components';
 import { TableComponent, PaginationComponent } from '../../components/Table.components';
-import { Dropdown } from 'react-bootstrap';
 import { Button } from '../../components/Button.components';
 
-import RectificationModal from '../Parcels/RectificationModal/index';
-import AppraisalModal from '../Parcels/Appraisal/index';
+// import RectificationModal from '../Parcels/RectificationModal/index';
+// import AppraisalModal from '../Parcels/Appraisal/index';
 import EncumbranceModal from '../Parcels/EncumbranceModal/index';
-import ApplicationFormModal from '../Parcels/ApplicationForm/index';
+// import ApplicationFormModal from '../Parcels/ApplicationForm/index';
 import SubsequentTransModal from './SubsequentTransModal';
-
-const DropDownMenu = ({ list, handleAction, }) => {
-  return (
-    <StyledDrpDown>
-      <Dropdown>
-        <Dropdown.Toggle variant id="dropdown-basic">
-          <Icon className="icon-more-vertical" />
-        </Dropdown.Toggle>
-        <Dropdown.Menu>
-          {list.map((item, index) => {
-            return (
-              <Dropdown.Item key={index} onClick={() => handleAction(item)}>
-                {item.label}
-              </Dropdown.Item>
-            );
-          })}
-        </Dropdown.Menu>
-      </Dropdown>
-    </StyledDrpDown>
-  );
-};
 
 export const Lands = (props) => {
   // state props
@@ -52,12 +30,8 @@ export const Lands = (props) => {
     fetchActionURL,
     accessList,
     profile,
-    rectificationModal,
-    appraisalModal,
     encumbranceModal,
-    applicationFormModal,
-    subsequentTransModal,
-
+    subsequentTransModal
   } = props;
 
   // dispatch props
@@ -65,12 +39,10 @@ export const Lands = (props) => {
     isLoading,
     getAllLands,
     redirect,
-    openRectificationModal,
-    openAppraisalModal,
     openEncumbranceModal,
-    openApplicationFormModal,
     openSubsequentTransModal,
     openLandDetail,
+    openEditDetail,
   } = props;
 
   useEffect(() => {
@@ -84,7 +56,10 @@ export const Lands = (props) => {
 
   const dropDownMenu = [
     { key: 1, label: `View Details` },
-    // { key: 4, label: `Create Retification` },
+    { key: 2, label: `Edit Details` },
+    { key: 3, label: `View TDP` },
+    { key: 4, label: `Generate ROFO` },
+    { key: 5, label: `Generate COFO` },
     // { key: 5, label: `Appraise Plot` },
     { key: 6, label: `Create Title Defect` },
     { key: 7, label: `Create Subsequent Trans` },
@@ -94,22 +69,25 @@ export const Lands = (props) => {
   const handleDropDownMenuAction = (item, record) => {
     switch (item.key) {
       case 1: // View land Details
-        openLandDetail(record)
+        openLandDetail(record);
         break;
-      case 4: // Open Rectification Modal
-        openRectificationModal(record);
+      case 2: // Edit land Details
+        openEditDetail(record);
         break;
-      case 5: // Open Appraise Modal
-        openAppraisalModal(record);
+      case 3: // View TDP
+        redirect(`parcels/tdp/${record.parcelNumber}`);
+        break;
+      case 4: // View ROFO
+        redirect(`/parcels/rofo/${record.parcelNumber}`)
+        break;
+      case 5: // View COFO
+        redirect(`/parcels/cofo/${record.parcelNumber}`)
         break;
       case 6: // Open Encumbrance Modal
         openEncumbranceModal(record);
         break;
       case 7: // Create Subsequent Transaction
         openSubsequentTransModal(record);
-        break;
-      case 8: // Create other Applications
-        openApplicationFormModal(record);
         break;
       default:
         break;
@@ -218,16 +196,15 @@ export const Lands = (props) => {
       key: 'action',
       align: 'right',
       render: (text, record) => {
-        const newList = dropDownMenu.filter(item => {
+        const newList = dropDownMenu.filter((item) => {
           if (!record.assigned && (item.key === 6 || item.key === 7)) {
             return false;
           }
-          return true
-        })
-        return (<DropDownMenu
-          list={newList}
-          handleAction={(e) => handleDropDownMenuAction(e, record)}
-        />)
+          return true;
+        });
+        return (
+          <DropDownMenu list={newList} handleAction={(e) => handleDropDownMenuAction(e, record)} />
+        );
       }
     }
   ];
@@ -304,10 +281,7 @@ export const Lands = (props) => {
           />
         </Boxed>
       </Boxed>
-      {rectificationModal && <RectificationModal />}
-      {appraisalModal && <AppraisalModal />}
       {encumbranceModal && <EncumbranceModal />}
-      {applicationFormModal && <ApplicationFormModal />}
       {subsequentTransModal && <SubsequentTransModal />}
     </>
   );

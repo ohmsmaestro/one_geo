@@ -32,6 +32,9 @@ export const mapDispatchToProps = (dispatch, ownProps) => {
     getApplicationDetail(data) {
       dispatch({ type: fetchActionURL, payload: data });
     },
+    getSingleLand(data) {
+      dispatch({ type: "lands/getSingleLand", payload: data });
+    },
   };
 };
 

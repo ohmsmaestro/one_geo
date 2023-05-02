@@ -53,3 +53,11 @@ export async function getSubsequentTransById(data) {
     method: 'GET',
   })
 }
+
+export async function getTDP(data) {
+  const url = `${endpoint}/parcels/tdp/${data.parcelNumber}.pdf`;
+  return await request({
+    url,
+    method: 'GET',
+  })
+}

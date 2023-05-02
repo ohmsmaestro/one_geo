@@ -1,4 +1,5 @@
 import React, { useEffect } from 'react';
+import moment from 'moment';
 
 import { Grid } from '../../../components/Grid.components';
 import { Boxed } from '../../../components/Boxed.components';
@@ -7,10 +8,11 @@ import { PageTitle } from '../../../components/style';
 import { FileComponent } from '../../../components/File.components';
 import { Loader } from '../../../components/Loader.components';
 import { Button } from '../../../components/Button.components';
+import { TableComponent } from '../../../components/Table.components';
 
 import { Theme } from '../../../utils/theme';
-import { formatCurrency } from '../../../utils/utils';
-import moment from 'moment';
+import { formatCurrency, formatDate } from '../../../utils/utils';
+import LOGO from '../../../assets/img/logo.png'
 
 const TextLabel = ({ label, description }) => (
     <Boxed pad="8px 0">
@@ -80,6 +82,53 @@ const SubsequentTransCard = ({ data }) => {
     );
 };
 
+const SubsequentTransTable = ({ data }) => {
+    const columns = [
+        {
+            title: "referenceNo",
+            dataIndex: "referenceNo",
+            key: "referenceNo",
+        },
+        {
+            title: "registrationNumber",
+            dataIndex: "registrationNumber",
+            key: "registrationNumber",
+        },
+        {
+            title: "Type",
+            dataIndex: "subTransType",
+            key: "subTransType",
+        },
+        {
+            title: "New Occupant",
+            dataIndex: "newOccupant",
+            key: "newOccupant",
+        },
+        {
+            title: "Reg. Page",
+            dataIndex: "regPage",
+            key: "regPage",
+        },
+        {
+            title: "Volume",
+            dataIndex: "volume",
+            key: "volume",
+        },
+        {
+            title: "Reg. Date",
+            dataIndex: "registrationDate",
+            key: "registrationDate",
+            render: (text) => text && formatDate(text),
+        },
+    ]
+    return <>
+        <TableComponent
+            columns={columns}
+            data={data}
+        />
+    </>
+}
+
 export const LandDetail = (props) => {
     // state props received
     const {
@@ -98,8 +147,8 @@ export const LandDetail = (props) => {
     useEffect(() => {
         if (params.id) {
             getLandDetails(landData);
-            if (landData.assigned) {
-                getLandOwner({ id: landData.ownerId });
+            if (landData?.ownerId) {
+                getLandOwner({ id: landData?.ownerId });
             }
         }
     }, []);
@@ -114,153 +163,168 @@ export const LandDetail = (props) => {
                 </Button>
                 <Button onClick={() => window.print()}>Print</Button>
             </Boxed>
-            {/* <PageTitle>Land Detail</PageTitle> */}
-            <Text
-                padding="10px 0"
-                color={Theme.SecondaryTextColor}
-                fontSize={Theme.SecondaryFontSize}
-                fontWeight="600"
-            >
-                Land Detail
-            </Text>
-            <TextLabel label="Plot Number" description={landData.parcelNumber} />
-            <Grid desktop="repeat(3, 1fr)" tablet="repeat(3,1fr)" mobile="repeat(2, 1fr)">
-                <TextLabel label="Registration Number" description={landData.registrationNumber} />
-                <TextLabel label="ROFO Number" description={landData.rofoNumber} />
-                <TextLabel label="COFO Number" description={landData.cofoNumber} />
+            <PageTitle className="no-print">Land Detail</PageTitle>
 
-                <TextLabel label="Land Use" description={landData.landUse} />
-                <TextLabel label="Land Type" description={landData.landType} />
-                <TextLabel
-                    label="Land Size"
-                    description={`${landData?.landSize ? formatCurrency(landData.landSize) : 0} square meter`}
-                />
+            <Boxed display="flex">
+                <Boxed pad="20px" background="#FFFFFF" maxWidth="800px" width="100%" margin="0 auto">
+                    <Boxed display="flex" pad="10px">
+                        <img src={LOGO} height="120px" style={{ margin: 'auto' }} alt="app logo" />
+                    </Boxed>
+                    <Text
+                        padding="10px 0"
+                        color={Theme.SecondaryTextColor}
+                        fontSize={Theme.SecondaryFontSize}
+                        fontWeight="600"
+                    >
+                        Land Detail
+                    </Text>
+                    <TextLabel label="Plot Number" description={landData.parcelNumber} />
+                    <Grid desktop="repeat(3, 1fr)" tablet="repeat(3,1fr)" mobile="repeat(2, 1fr)">
+                        <TextLabel label="Registration Number" description={landData.registrationNumber} />
+                        <TextLabel label="ROFO Number" description={landData.rofoNumber} />
+                        <TextLabel label="COFO Number" description={landData.cofoNumber} />
 
-                <TextLabel label="Allocation Number" description={landData.allocationNumber} />
-                <TextLabel label="Reg. Page" description={landData.regPage} />
-                <TextLabel label="Volume No." description={landData.volumeNo} />
+                        <TextLabel label="Land Use" description={landData.landUse} />
+                        <TextLabel label="Land Type" description={landData.landType} />
+                        <TextLabel
+                            label="Land Size"
+                            description={`${landData?.landSize ? formatCurrency(landData.landSize) : 0
+                                } square meter`}
+                        />
 
-                {/* <TextLabel label="Allocation Number" description={landData.allocationNumber} />
+                        <TextLabel label="Allocation Number" description={landData.allocationNumber} />
+                        <TextLabel label="Reg. Page" description={landData.regPage} />
+                        <TextLabel label="Volume No." description={landData.volumeNo} />
+
+                        {/* <TextLabel label="Allocation Number" description={landData.allocationNumber} />
                 <TextLabel label="Reg. Page" description={landData.regPage} />
                 <TextLabel label="Volume No." description={landData.volumeNo} /> */}
 
-                <TextLabel label="Reg. Date" description={landData?.regDate ? moment(landData?.regDate).format('ll') : null} />
-                <TextLabel label="Reg. Time" description={landData.regTime} />
-                <div />
+                        <TextLabel
+                            label="Reg. Date"
+                            description={landData?.regDate ? moment(landData?.regDate).format('ll') : null}
+                        />
+                        <TextLabel label="Reg. Time" description={landData.regTime} />
+                        <div />
 
-                <TextLabel label="Rent Rate" description={landData.rentRate} />
-                <TextLabel label="Rent Revision" description={landData.rentRevision} />
-                <div />
+                        <TextLabel label="Rent Rate" description={landData.rentRate} />
+                        <TextLabel label="Rent Revision" description={landData.rentRevision} />
+                        <div />
 
-                <TextLabel
-                    label="Last Payment Amount"
-                    description={landData?.amount && formatCurrency(landData?.amount)}
-                />
-                <TextLabel label="Last Payment Method" description={landData.paymentOfMethod} />
-                <TextLabel
-                    label="Last Payment Date."
-                    description={landData?.lastPaymentDate && moment(landData?.lastPaymentDate).format('ll')}
-                />
-            </Grid>
-            <TextLabel label="Legal Description" description={landData.legalDescription} />
-
-            {landData?.assigned ? (
-                <>
-                    <Text
-                        padding="30px 0 10px 0"
-                        color={Theme.SecondaryTextColor}
-                        fontSize={Theme.SecondaryFontSize}
-                        fontWeight="600"
-                    >
-                        Owner's Detail
-                    </Text>
-                    <TextLabel
-                        label="Owner's Name"
-                        description={
-                            ownersDetail?.ownershipType === 'Private'
-                                ? `${ownersDetail?.firstname} ${ownersDetail?.lastName} `
-                                : ownersDetail?.name
-                        }
-                    />
-                    <Grid desktop="repeat(3, 1fr)" tablet="repeat(3,1fr)" mobile="repeat(2, 1fr)">
-                        <TextLabel label="Email" description={ownersDetail.email} />
-                        <TextLabel label="Phone" description={ownersDetail.phone} />
-                        {/* <TextLabel label="Plot" description={ownersDetail.parcelNumber} />
-                        <TextLabel label="Plot" description={ownersDetail.parcelNumber} /> */}
+                        <TextLabel
+                            label="Last Payment Amount"
+                            description={landData?.amount && formatCurrency(landData?.amount)}
+                        />
+                        <TextLabel label="Last Payment Method" description={landData.paymentOfMethod} />
+                        <TextLabel
+                            label="Last Payment Date."
+                            description={
+                                landData?.lastPaymentDate && moment(landData?.lastPaymentDate).format('ll')
+                            }
+                        />
                     </Grid>
-                    <TextLabel label="Address" description={ownersDetail.residentialAddress} />
-                </>
-            ) : null}
+                    <TextLabel label="Legal Description" description={landData.legalDescription} />
 
-            {isloadingDocuments || archivedList?.length > 0 ? (
-                <>
-                    <Text
-                        padding="30px 0 10px 0"
-                        color={Theme.SecondaryTextColor}
-                        fontSize={Theme.SecondaryFontSize}
-                        fontWeight="600"
-                    >
-                        Archived Documents
-                    </Text>
-                    {isloadingDocuments ? (
-                        <Boxed pad="20px" display="flex">
-                            <Loader margin="auto" />
-                        </Boxed>
-                    ) : (
-                        <Boxed pad="10px 0">
-                            <Grid desktop="repeat(4, 1fr)" tablet="repeat(3,1fr)" mobile="repeat(2, 1fr)">
-                                {archivedList?.map((item, index) => {
-                                    return (
-                                        <Boxed pad="10px" key={index}>
-                                            <Boxed pad="0 0 10px 0" align="center" cursor="pointer">
-                                                <FileComponent
-                                                    size="50px"
-                                                    type="pdf"
-                                                    onClick={() =>
-                                                        openFile({
-                                                            fileName: item,
-                                                            ParcelNumber: landData.parcelNumber
-                                                        })
-                                                    }
-                                                    name={item}
-                                                />
-                                            </Boxed>
-                                        </Boxed>
-                                    );
-                                })}
+                    {landData?.ownerId ? (
+                        <>
+                            <Text
+                                padding="30px 0 10px 0"
+                                color={Theme.SecondaryTextColor}
+                                fontSize={Theme.SecondaryFontSize}
+                                fontWeight="600"
+                            >
+                                Owner's Detail
+                            </Text>
+                            <TextLabel
+                                label="Owner's Name"
+                                description={
+                                    ownersDetail?.ownershipType === 'Private'
+                                        ? `${ownersDetail?.firstname} ${ownersDetail?.lastName} `
+                                        : ownersDetail?.name
+                                }
+                            />
+                            <Grid desktop="repeat(3, 1fr)" tablet="repeat(3,1fr)" mobile="repeat(2, 1fr)">
+                                <TextLabel label="Email" description={ownersDetail.email} />
+                                <TextLabel label="Phone" description={ownersDetail.phone} />
+                                {/* <TextLabel label="Plot" description={ownersDetail.parcelNumber} />
+                        <TextLabel label="Plot" description={ownersDetail.parcelNumber} /> */}
                             </Grid>
-                        </Boxed>
-                    )}
-                </>
-            ) : null}
+                            <TextLabel label="Address" description={ownersDetail.residentialAddress} />
+                        </>
+                    ) : null}
 
-            {((subsequentTransList?.length > 0) || isloadingSubsequentTrans) ? (
-                <>
-                    <Text
-                        padding="30px 0 10px 0"
-                        color={Theme.SecondaryTextColor}
-                        fontSize={Theme.SecondaryFontSize}
-                        fontWeight="600"
-                    >
-                        Subsequent Transaction
-                    </Text>
-                    {isloadingSubsequentTrans ? (
-                        <Boxed pad="20px" display="flex">
-                            <Loader margin="auto" />
-                        </Boxed>
-                    ) : (
-                        <Grid desktop="repeat(3, 1fr)" tablet="repeat(2, 1fr)" mobile="repeat(1, 1fr)">
-                            {subsequentTransList?.map((item, index) => {
-                                return (
-                                    <Boxed pad="10px">
-                                        <SubsequentTransCard data={item} key={index} />
-                                    </Boxed>
-                                );
-                            })}
-                        </Grid>
-                    )}
-                </>
-            ) : null}
+                    {isloadingDocuments || archivedList?.length > 0 ? (
+                        <>
+                            <Text
+                                padding="30px 0 10px 0"
+                                color={Theme.SecondaryTextColor}
+                                fontSize={Theme.SecondaryFontSize}
+                                fontWeight="600"
+                            >
+                                Archived Documents
+                            </Text>
+                            {isloadingDocuments ? (
+                                <Boxed pad="20px" display="flex">
+                                    <Loader margin="auto" />
+                                </Boxed>
+                            ) : (
+                                <Boxed pad="10px 0">
+                                    <Grid desktop="repeat(4, 1fr)" tablet="repeat(3,1fr)" mobile="repeat(2, 1fr)">
+                                        {archivedList?.map((item, index) => {
+                                            return (
+                                                <Boxed pad="10px" key={index}>
+                                                    <Boxed pad="0 0 10px 0" align="center" cursor="pointer">
+                                                        <FileComponent
+                                                            size="50px"
+                                                            type="pdf"
+                                                            onClick={() =>
+                                                                openFile({
+                                                                    fileName: item,
+                                                                    ParcelNumber: landData.parcelNumber
+                                                                })
+                                                            }
+                                                            name={item}
+                                                        />
+                                                    </Boxed>
+                                                </Boxed>
+                                            );
+                                        })}
+                                    </Grid>
+                                </Boxed>
+                            )}
+                        </>
+                    ) : null}
+
+                    {subsequentTransList?.length > 0 || isloadingSubsequentTrans ? (
+                        <>
+                            <Text
+                                padding="30px 0 10px 0"
+                                color={Theme.SecondaryTextColor}
+                                fontSize={Theme.SecondaryFontSize}
+                                fontWeight="600"
+                            >
+                                Subsequent Transaction
+                            </Text>
+                            {isloadingSubsequentTrans ? (
+                                <Boxed pad="20px" display="flex">
+                                    <Loader margin="auto" />
+                                </Boxed>
+                            ) : (
+                                // <Grid desktop="repeat(3, 1fr)" tablet="repeat(2, 1fr)" mobile="repeat(1, 1fr)">
+                                //     {subsequentTransList?.map((item, index) => {
+                                //         return (
+                                //             <Boxed pad="10px">
+                                //                 <SubsequentTransCard data={item} key={index} />
+                                //             </Boxed>
+                                //         );
+                                //     })}
+                                // </Grid>
+                                <SubsequentTransTable data={subsequentTransList} />
+                            )}
+                        </>
+                    ) : null}
+                </Boxed>
+            </Boxed>
         </Boxed>
     );
 };

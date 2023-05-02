@@ -65,6 +65,7 @@ export async function putApplication(data) {
     data,
   });
 }
+
 export async function postAllocateParcel(data) {
   const url = `${endpoint}/allocations`;
   return await request({

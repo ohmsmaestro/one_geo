@@ -76,8 +76,10 @@ export const AcknowledgementLetter = (props) => {
               Acknowledgement Letter
             </Text>
             <Text pad="10px">
-              Your application for a Certificate of Occupancy dated{" "}
-              <b>{applicationDetail?.createdAt && moment(applicationDetail.createdAt).format('ll')}</b>{" "}
+              Your application for a Certificate of Occupancy dated{' '}
+              <b>
+                {applicationDetail?.createdAt && moment(applicationDetail.createdAt).format('ll')}
+              </b>{' '}
               has been received by Yobe Geographic Information Service (YOGIS). This letter is to
               acknowledge that all the plot details below were carefully verified by you: <br />
               <ul>
@@ -102,8 +104,8 @@ export const AcknowledgementLetter = (props) => {
                 <li>Company Registration details (in case of company) & Seal</li>
               </ul>
               Your application is now being processed by Yobe Geographic Information Service
-              Damaturu, Yobe State. For further enquiries, contact the Customer Care on{' '}
-              <b>(Phone Number)</b> or send e-mail to <b>(e-mail address)</b>. Thanks
+              Damaturu, Yobe State. For further enquiries, contact the Customer Care via e-mail to{' '}
+              yogisservices@gmail.com. Thanks
             </Text>
             <Text
               margin="40px 0 10px 0"

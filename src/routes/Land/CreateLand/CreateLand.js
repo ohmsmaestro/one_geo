@@ -8,11 +8,11 @@ import { Input, RadioButton, AsyncSelect } from '../../../components/Input.compo
 import { Button } from '../../../components/Button.components';
 import { Theme } from '../../../utils/theme';
 import { Checkbox } from '../../../components/Input.components';
-import { ownerShipOptions } from '../../../utils/constant';
+import { EDIT_MODE, ownerShipOptions } from '../../../utils/constant';
 
 export const CreateLandForm = (props) => {
   // State props
-  const { modiStateList, isLoading, landTypes } = props;
+  const { modiStateList, isLoading, landTypes, landData, mode } = props;
 
   // Dispatch props
   const { form, createLand, fetchStates, fetchLandType } = props;
@@ -23,7 +23,10 @@ export const CreateLandForm = (props) => {
     fetchLandType();
   }, []);
 
-  const [assigned, setAssigned] = useState(false);
+
+  const isEditMode = mode === EDIT_MODE;
+
+  const [assigned, setAssigned] = useState(isEditMode ? landData?.assigned : false);
   const [lgaOriginList, setLgaOriginList] = useState([]);
 
   const isPrivate = getFieldValue('ownershipType')?.value === 'PRIVATE';
@@ -37,8 +40,6 @@ export const CreateLandForm = (props) => {
     }));
     setLgaOriginList(list ? list : []);
   };
-
-  let errors;
 
   let isRequired = false;
 
@@ -137,15 +138,15 @@ export const CreateLandForm = (props) => {
     });
   };
 
-
   const landUseList = getFieldValue('landUse')?.types ?? [];
   const lgaList = modiStateList[35]?.lgas?.map(item => ({ label: item?.name, value: item?.lgaId })) ?? [];
 
-  console.log({ landTypes, landUseList, modiStateList });
+
+  console.log({ landData, mode });
 
   return (
     <Boxed pad="20px">
-      <PageTitle>Create a new Land</PageTitle>
+      <PageTitle>{isEditMode ? `Edit` : `Create a new`} Land</PageTitle>
 
       <Boxed pad="20px 0">
         <Grid desktop="600px auto" tablet="600px auto" mobile="repeat(1,1fr)">
@@ -165,7 +166,7 @@ export const CreateLandForm = (props) => {
                   placeholder="Enter Plot Number..."
                   error={getFieldError('parcelNumber') ? 'Plot Number is required' : null}
                   {...getFieldProps('parcelNumber', {
-                    initialValue: '',
+                    initialValue: isEditMode ? landData?.parcelNumber : '',
                     rules: [{ required: true }]
                   })}
                 />
@@ -177,7 +178,7 @@ export const CreateLandForm = (props) => {
                   placeholder="Enter Land size..."
                   error={getFieldError('landSize') ? 'Land Size is required' : null}
                   {...getFieldProps('landSize', {
-                    initialValue: '',
+                    initialValue: isEditMode ? landData?.landSize : '',
                     rules: [{ required: isRequired }]
                   })}
                 />
@@ -190,7 +191,7 @@ export const CreateLandForm = (props) => {
                   placeholder="Select Land Type..."
                   error={getFieldError('landUse') ? 'Land Type is required' : null}
                   {...getFieldProps('landUse', {
-                    initialValue: '',
+                    initialValue: isEditMode ? landData?.landUse : '',
                     rules: [{ required: isRequired }],
                     onChange: () => setFieldsValue({ landType: '' })
                   })}
@@ -203,7 +204,7 @@ export const CreateLandForm = (props) => {
                   placeholder="Select Land Use Type..."
                   error={getFieldError('landType') ? 'Land Use Type is required' : null}
                   {...getFieldProps('landType', {
-                    initialValue: '',
+                    initialValue: isEditMode ? landData?.landType : '',
                     rules: [{ required: isRequired }]
                   })}
                 />
@@ -216,7 +217,7 @@ export const CreateLandForm = (props) => {
                   options={lgaList}
                   error={getFieldError('lga') ? 'Local Gov. Area. is required' : null}
                   {...getFieldProps('lga', {
-                    initialValue: '',
+                    initialValue: isEditMode ? landData?.lga : '',
                     rules: [{ required: isRequired }]
                   })}
                 />
@@ -230,7 +231,7 @@ export const CreateLandForm = (props) => {
                   placeholder="Enter Survey Plan Number.."
                   error={getFieldError('surveyPlanNumber') ? 'Survey Plan Numberis required' : null}
                   {...getFieldProps('surveyPlanNumber', {
-                    initialValue: '',
+                    initialValue: isEditMode ? landData?.surveyPlanNumber : '',
                     rules: [{ required: isRequired }]
                   })}
                 />
@@ -243,7 +244,7 @@ export const CreateLandForm = (props) => {
                   placeholder="Select Survey Date..."
                   error={getFieldError('surveyDate') ? 'Survey Date is required' : null}
                   {...getFieldProps('surveyDate', {
-                    initialValue: '',
+                    initialValue: isEditMode ? landData?.surveyDate : '',
                     rules: [{ required: isRequired }]
                   })}
                 />
@@ -257,7 +258,7 @@ export const CreateLandForm = (props) => {
                     getFieldError('surveyDesignation') ? 'Survey Designation is required' : null
                   }
                   {...getFieldProps('surveyDesignation', {
-                    initialValue: '',
+                    initialValue: isEditMode ? landData?.surveyDesignation : '',
                     rules: [{ required: isRequired }]
                   })}
                 />
@@ -269,7 +270,7 @@ export const CreateLandForm = (props) => {
                   placeholder="Enter Surveyor Name..."
                   error={getFieldError('surveyorName') ? 'Surveyor Name is required' : null}
                   {...getFieldProps('surveyorName', {
-                    initialValue: '',
+                    initialValue: isEditMode ? landData?.surveyorName : '',
                     rules: [{ required: isRequired }]
                   })}
                 />
@@ -286,7 +287,7 @@ export const CreateLandForm = (props) => {
                       : null
                   }
                   {...getFieldProps('surveyorGeneralDate', {
-                    initialValue: '',
+                    initialValue: isEditMode ? landData?.surveyorGeneralDate : '',
                     rules: [{ required: isRequired }]
                   })}
                 />
@@ -300,7 +301,7 @@ export const CreateLandForm = (props) => {
                 placeholder="Enter Legal Description..."
                 error={getFieldError('legalDescription') ? 'Legal Description is required' : null}
                 {...getFieldProps('legalDescription', {
-                  initialValue: '',
+                  initialValue: isEditMode ? landData?.legalDescription : '',
                   rules: [{ required: isRequired }]
                 })}
               />
@@ -323,7 +324,7 @@ export const CreateLandForm = (props) => {
                   placeholder="Select last payment date..."
                   error={getFieldError('lastPaymentDate') ? 'Last Payment Date is required' : null}
                   {...getFieldProps('lastPaymentDate', {
-                    initialValue: '',
+                    initialValue: isEditMode ? landData?.lastPaymentDate : '',
                     rules: [{ required: isRequired }]
                   })}
                 />
@@ -336,7 +337,7 @@ export const CreateLandForm = (props) => {
                   placeholder="Enter Payment Method..."
                   error={getFieldError('paymentOfMethod') ? 'Payment Method is required' : null}
                   {...getFieldProps('paymentOfMethod', {
-                    initialValue: '',
+                    initialValue: isEditMode ? landData?.paymentOfMethod : '',
                     rules: [{ required: isRequired }]
                   })}
                 />
@@ -350,7 +351,7 @@ export const CreateLandForm = (props) => {
                   min={0}
                   error={getFieldError('amount') ? 'Amount is required' : null}
                   {...getFieldProps('amount', {
-                    initialValue: '',
+                    initialValue: isEditMode ? landData?.amount : '',
                     rules: [{ required: isRequired }]
                   })}
                 />
@@ -375,7 +376,7 @@ export const CreateLandForm = (props) => {
                     getFieldError('registrationNumber') ? 'Registration Number is required' : null
                   }
                   {...getFieldProps('registrationNumber', {
-                    initialValue: '',
+                    initialValue: isEditMode ? landData?.registrationNumber : '',
                     rules: [{ required: isRequired }]
                   })}
                 />
@@ -388,7 +389,7 @@ export const CreateLandForm = (props) => {
                   placeholder="Enter Allocation Number..."
                   error={getFieldError('allocationNumber') ? 'Allocation Number is required' : null}
                   {...getFieldProps('allocationNumber', {
-                    initialValue: '',
+                    initialValue: isEditMode ? landData?.allocationNumber : '',
                     rules: [{ required: isRequired }]
                   })}
                 />
@@ -401,7 +402,7 @@ export const CreateLandForm = (props) => {
                   placeholder="Enter ROFO Number..."
                   error={getFieldError('rofoNumber') ? 'ROFO Number is required' : null}
                   {...getFieldProps('rofoNumber', {
-                    initialValue: '',
+                    initialValue: isEditMode ? landData?.rofoNumber : '',
                     rules: [{ required: isRequired }]
                   })}
                 />
@@ -414,7 +415,7 @@ export const CreateLandForm = (props) => {
                   placeholder="Enter COFO Number..."
                   error={getFieldError('cofoNumber') ? 'COFO Number is required' : null}
                   {...getFieldProps('cofoNumber', {
-                    initialValue: '',
+                    initialValue: isEditMode ? landData?.cofoNumber : '',
                     rules: [{ required: isRequired }]
                   })}
                 />
@@ -427,7 +428,7 @@ export const CreateLandForm = (props) => {
                   placeholder="Enter Length of Term..."
                   error={getFieldError('lengthOfTerm') ? 'Length of Term is required' : null}
                   {...getFieldProps('lengthOfTerm', {
-                    initialValue: '',
+                    initialValue: isEditMode ? landData?.amount : '',
                     rules: [{ required: isRequired }]
                   })}
                 />
@@ -440,7 +441,7 @@ export const CreateLandForm = (props) => {
                   placeholder="Enter Commencement Date..."
                   error={getFieldError('commencementDate') ? 'Commencement Date is required' : null}
                   {...getFieldProps('commencementDate', {
-                    initialValue: '',
+                    initialValue: isEditMode ? landData?.commencementDate : '',
                     rules: [{ required: isRequired }]
                   })}
                 />
@@ -452,7 +453,7 @@ export const CreateLandForm = (props) => {
                   placeholder="Enter Time of Erection..."
                   error={getFieldError('timeOfErection') ? 'Time of Erection is required' : null}
                   {...getFieldProps('timeOfErection', {
-                    initialValue: '',
+                    initialValue: isEditMode ? landData?.timeOfErection : '',
                     rules: [{ required: isRequired }]
                   })}
                 />
@@ -466,7 +467,7 @@ export const CreateLandForm = (props) => {
                     getFieldError('valueOfImprovement') ? 'Value of Improvement is required' : null
                   }
                   {...getFieldProps('valueOfImprovement', {
-                    initialValue: '',
+                    initialValue: isEditMode ? landData?.valueOfImprovement : '',
                     rules: [{ required: isRequired }]
                   })}
                 />
@@ -479,7 +480,7 @@ export const CreateLandForm = (props) => {
                   placeholder="Enter Execution Date..."
                   error={getFieldError('executionDate') ? 'Execution Date is required' : null}
                   {...getFieldProps('executionDate', {
-                    initialValue: '',
+                    initialValue: isEditMode ? landData?.executionDate : '',
                     rules: [{ required: isRequired }]
                   })}
                 />
@@ -493,7 +494,7 @@ export const CreateLandForm = (props) => {
                   placeholder="Enter Expiration Date..."
                   error={getFieldError('dateOfExpiration') ? 'Expiration Date is required' : null}
                   {...getFieldProps('dateOfExpiration', {
-                    initialValue: '',
+                    initialValue: isEditMode ? landData?.dateOfExpiration : '',
                     rules: [{ required: isRequired }]
                   })}
                 />
@@ -505,7 +506,7 @@ export const CreateLandForm = (props) => {
                   placeholder="Enter Registration Page..."
                   error={getFieldError('regPage') ? 'Registration Page is required' : null}
                   {...getFieldProps('regPage', {
-                    initialValue: '',
+                    initialValue: isEditMode ? landData?.regPage : '',
                     rules: [{ required: isRequired }]
                   })}
                 />
@@ -517,7 +518,7 @@ export const CreateLandForm = (props) => {
                   placeholder="Enter Registration Time..."
                   error={getFieldError('regTime') ? 'Registration Time is required' : null}
                   {...getFieldProps('regTime', {
-                    initialValue: '',
+                    initialValue: isEditMode ? landData?.regTime : '',
                     rules: [{ required: isRequired }]
                   })}
                 />
@@ -530,7 +531,7 @@ export const CreateLandForm = (props) => {
                   placeholder="Enter registration Date..."
                   error={getFieldError('regDate') ? 'Registration Date is required' : null}
                   {...getFieldProps('regDate', {
-                    initialValue: '',
+                    initialValue: isEditMode ? landData?.regDate : '',
                     rules: [{ required: isRequired }]
                   })}
                 />
@@ -543,7 +544,7 @@ export const CreateLandForm = (props) => {
                   placeholder="Enter Volume Number..."
                   error={getFieldError('volumeNo') ? 'Volume Number is required' : null}
                   {...getFieldProps('volumeNo', {
-                    initialValue: '',
+                    initialValue: isEditMode ? landData?.volumeNo : '',
                     rules: [{ required: isRequired }]
                   })}
                 />
@@ -566,7 +567,7 @@ export const CreateLandForm = (props) => {
                   placeholder="Enter Rent rate..."
                   error={getFieldError('rentRate') ? 'Rent rate is required' : null}
                   {...getFieldProps('rentRate', {
-                    initialValue: '',
+                    initialValue: isEditMode ? landData?.rentRate : '',
                     rules: [{ required: isRequired }]
                   })}
                 />
@@ -578,7 +579,7 @@ export const CreateLandForm = (props) => {
                   placeholder="Enter Rent Revision..."
                   error={getFieldError('rentRevision') ? 'Rent Revision is required' : null}
                   {...getFieldProps('rentRevision', {
-                    initialValue: '',
+                    initialValue: isEditMode ? landData?.rentRevision : '',
                     rules: [{ required: isRequired }]
                   })}
                 />
@@ -943,7 +944,7 @@ export const CreateLandForm = (props) => {
 
         <Boxed pad="25px 0 0 0" display="flex">
           <Button disabled={isLoading} progress={isLoading} onClick={onSubmit} margin=" 0 0 0 auto">
-            Create Land
+            {isEditMode ? `Save Changes` : `Create Land`}
           </Button>
         </Boxed>
       </Boxed>

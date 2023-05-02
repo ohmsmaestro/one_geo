@@ -4,11 +4,13 @@ import { CreateLandForm } from "./CreateLand";
 import { routerRedux } from "dva/router";
 
 export const mapStateToProps = (state, ownProps) => {
-  const { loading, authentication, auxillary } = state;
+  const { loading, authentication, auxillary, lands } = state;
   const { profile } = authentication;
   const isLoading = loading.effects['lands/createLand'];
 
   const { stateList, landTypes } = auxillary
+  const { landData } = lands;
+  const { mode } = ownProps;
 
   const modiStateList = stateList.map((item) => ({
     ...item,
@@ -20,6 +22,8 @@ export const mapStateToProps = (state, ownProps) => {
     isLoading,
     modiStateList,
     landTypes,
+    mode,
+    landData,
   };
 };
 

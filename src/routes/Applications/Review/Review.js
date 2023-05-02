@@ -1,79 +1,55 @@
-import React, { useEffect } from "react";
-import moment from "moment";
+import React, { useEffect } from 'react';
+import moment from 'moment';
 
-import Dropdown from "react-bootstrap/Dropdown";
+import { Grid } from '../../../components/Grid.components';
+import { Boxed } from '../../../components/Boxed.components';
+import { Text } from '../../../components/Text.components';
+import { Button } from '../../../components/Button.components';
+import { Loader } from '../../../components/Loader.components';
+import { Avatar } from '../../../components/Avatar.components';
+import { FileComponent } from '../../../components/File.components';
+import { PageTitle, HR } from '../../../components/style';
 
-import { Grid } from "../../../components/Grid.components";
-import { Boxed } from "../../../components/Boxed.components";
-import { Input } from "../../../components/Input.components";
-import { Text } from "../../../components/Text.components";
-import { Button } from "../../../components/Button.components";
-import { Loader } from "../../../components/Loader.components";
-import { Avatar } from "../../../components/Avatar.components";
-import { FileComponent } from "../../../components/File.components";
-import { PageTitle, Icon, StyledDrpDown, HR } from "../../../components/style";
+import { calcViewMode, formatDate, formatCurrency } from '../../../utils/utils';
+import { Theme } from '../../../utils/theme';
 
-import { calcViewMode, formatDate, formatCurrency } from "../../../utils/utils";
-import { pageOptions } from "../../../utils/constant";
-import { Theme } from "../../../utils/theme";
+import MALE_IMG from '../../../assets/img/male.png';
 
-import MALE_IMG from "../../../assets/img/male.png";
-
-import DecisionModal from "./DecisionModal";
-import AllocateModal from "./AllocateModal";
-import { MAP_URL } from "../../../utils/config";
+import DecisionModal from './DecisionModal';
+import AllocateModal from './AllocateModal';
+// import { MAP_URL } from "../../../utils/config";
 
 const PrivateCard = ({ applicationDetail }) => {
   return (
     <Boxed>
-      <Grid
-        desktop="repeat(3,1fr)"
-        tablet="repeat(3,1fr)"
-        mobile="repeat(2, 1fr)"
-      >
-
+      <Grid desktop="repeat(3,1fr)" tablet="repeat(3,1fr)" mobile="repeat(2, 1fr)">
         <Boxed pad="10px 0">
-          <Text
-            fontSize={Theme.SecondaryFontSize}
-            color={Theme.SecondaryTextColor}
-          >
+          <Text fontSize={Theme.SecondaryFontSize} color={Theme.SecondaryTextColor}>
             National Identification Number
           </Text>
           <Text padding="0 5px">{applicationDetail?.nin}</Text>
         </Boxed>
         <Boxed pad="10px 0">
-          <Text
-            fontSize={Theme.SecondaryFontSize}
-            color={Theme.SecondaryTextColor}
-          >
+          <Text fontSize={Theme.SecondaryFontSize} color={Theme.SecondaryTextColor}>
             Passport Number
           </Text>
           <Text padding="0 5px">{applicationDetail?.passportNumber}</Text>
         </Boxed>
         <Boxed pad="10px 0">
-          <Text
-            fontSize={Theme.SecondaryFontSize}
-            color={Theme.SecondaryTextColor}
-          >
+          <Text fontSize={Theme.SecondaryFontSize} color={Theme.SecondaryTextColor}>
             Tax Identification Number
           </Text>
           <Text padding="0 5px">{applicationDetail?.tin}</Text>
         </Boxed>
 
         <Boxed pad="10px 0">
-          <Text
-            fontSize={Theme.SecondaryFontSize}
-            color={Theme.SecondaryTextColor}
-          >
+          <Text fontSize={Theme.SecondaryFontSize} color={Theme.SecondaryTextColor}>
             Gender
           </Text>
-          <Text padding="0 5px">{applicationDetail.gender === "M" ? "Male" : "Female"}</Text>
+          <Text padding="0 5px">{applicationDetail.gender === 'M' ? 'Male' : 'Female'}</Text>
         </Boxed>
         <Boxed pad="10px 0">
-          <Text
-            fontSize={Theme.SecondaryFontSize}
-            color={Theme.SecondaryTextColor}
-          >
+          <Text fontSize={Theme.SecondaryFontSize} color={Theme.SecondaryTextColor}>
             Marital Status
           </Text>
           <Text padding="0 5px">{applicationDetail.maritalStatus}</Text>
@@ -81,19 +57,13 @@ const PrivateCard = ({ applicationDetail }) => {
         <Boxed />
 
         <Boxed pad="10px 0">
-          <Text
-            fontSize={Theme.SecondaryFontSize}
-            color={Theme.SecondaryTextColor}
-          >
+          <Text fontSize={Theme.SecondaryFontSize} color={Theme.SecondaryTextColor}>
             Last Name
           </Text>
           <Text padding="0 5px">{applicationDetail.lastname}</Text>
         </Boxed>
         <Boxed pad="10px 0">
-          <Text
-            fontSize={Theme.SecondaryFontSize}
-            color={Theme.SecondaryTextColor}
-          >
+          <Text fontSize={Theme.SecondaryFontSize} color={Theme.SecondaryTextColor}>
             First Name
           </Text>
           <Text padding="0 5px">{applicationDetail.firstname}</Text>
@@ -101,299 +71,183 @@ const PrivateCard = ({ applicationDetail }) => {
         <Boxed pad="10px 0">
           {applicationDetail.middlename && (
             <>
-              <Text
-                fontSize={Theme.SecondaryFontSize}
-                color={Theme.SecondaryTextColor}
-              >
+              <Text fontSize={Theme.SecondaryFontSize} color={Theme.SecondaryTextColor}>
                 Middle Name
               </Text>
-              <Text padding="0 5px">
-                {applicationDetail.middlename}
-              </Text>{" "}
+              <Text padding="0 5px">{applicationDetail.middlename}</Text>{' '}
             </>
           )}
         </Boxed>
 
-
         <Boxed pad="10px 0">
-          <Text
-            fontSize={Theme.SecondaryFontSize}
-            color={Theme.SecondaryTextColor}
-          >
+          <Text fontSize={Theme.SecondaryFontSize} color={Theme.SecondaryTextColor}>
             Email
           </Text>
           <Text padding="0 5px">{applicationDetail.email}</Text>
         </Boxed>
         <Boxed pad="10px 0">
-          <Text
-            fontSize={Theme.SecondaryFontSize}
-            color={Theme.SecondaryTextColor}
-          >
+          <Text fontSize={Theme.SecondaryFontSize} color={Theme.SecondaryTextColor}>
             Phone
           </Text>
           <Text padding="0 5px">{applicationDetail.phone}</Text>
         </Boxed>
         <Boxed pad="10px 0">
-          <Text
-            fontSize={Theme.SecondaryFontSize}
-            color={Theme.SecondaryTextColor}
-          >
+          <Text fontSize={Theme.SecondaryFontSize} color={Theme.SecondaryTextColor}>
             Date of birth
           </Text>
-          <Text padding="0 5px">
-            {applicationDetail.dob &&
-              formatDate(applicationDetail.dob)}
-          </Text>
+          <Text padding="0 5px">{applicationDetail.dob && formatDate(applicationDetail.dob)}</Text>
         </Boxed>
 
         <Boxed pad="10px 0">
-          <Text
-            fontSize={Theme.SecondaryFontSize}
-            color={Theme.SecondaryTextColor}
-          >
+          <Text fontSize={Theme.SecondaryFontSize} color={Theme.SecondaryTextColor}>
             Country of Origin
           </Text>
           <Text padding="0 5px">Nigeria</Text>
         </Boxed>
         <Boxed pad="10px 0">
-          <Text
-            fontSize={Theme.SecondaryFontSize}
-            color={Theme.SecondaryTextColor}
-          >
+          <Text fontSize={Theme.SecondaryFontSize} color={Theme.SecondaryTextColor}>
             State of Origin
           </Text>
-          <Text padding="0 5px">
-            {applicationDetail?.stateOfOrigin}
-          </Text>
+          <Text padding="0 5px">{applicationDetail?.stateOfOrigin}</Text>
         </Boxed>
         <Boxed pad="10px 0">
-          <Text
-            fontSize={Theme.SecondaryFontSize}
-            color={Theme.SecondaryTextColor}
-          >
+          <Text fontSize={Theme.SecondaryFontSize} color={Theme.SecondaryTextColor}>
             Local Gov. Area of Origin
           </Text>
-          <Text padding="0 5px">
-            {applicationDetail?.lgaOfOrigin}
-          </Text>
+          <Text padding="0 5px">{applicationDetail?.lgaOfOrigin}</Text>
         </Boxed>
 
         <Boxed pad="10px 0">
-          <Text
-            fontSize={Theme.SecondaryFontSize}
-            color={Theme.SecondaryTextColor}
-          >
+          <Text fontSize={Theme.SecondaryFontSize} color={Theme.SecondaryTextColor}>
             Nationality
           </Text>
           <Text padding="0 5px">{applicationDetail?.nationality}</Text>
         </Boxed>
         <Boxed pad="10px 0">
-          <Text
-            fontSize={Theme.SecondaryFontSize}
-            color={Theme.SecondaryTextColor}
-          >
+          <Text fontSize={Theme.SecondaryFontSize} color={Theme.SecondaryTextColor}>
             Home Town
           </Text>
-          <Text padding="0 5px">
-            {applicationDetail?.homeTown}
-          </Text>
+          <Text padding="0 5px">{applicationDetail?.homeTown}</Text>
         </Boxed>
         <Boxed pad="10px 0">
-          <Text
-            fontSize={Theme.SecondaryFontSize}
-            color={Theme.SecondaryTextColor}
-          >
+          <Text fontSize={Theme.SecondaryFontSize} color={Theme.SecondaryTextColor}>
             Mailing Address
           </Text>
-          <Text padding="0 5px">
-            {applicationDetail?.mailAddress}
-          </Text>
+          <Text padding="0 5px">{applicationDetail?.mailAddress}</Text>
         </Boxed>
 
         <Boxed pad="10px 0">
-          <Text
-            fontSize={Theme.SecondaryFontSize}
-            color={Theme.SecondaryTextColor}
-          >
+          <Text fontSize={Theme.SecondaryFontSize} color={Theme.SecondaryTextColor}>
             Country of Residence
           </Text>
           <Text padding="0 5px">Nigeria</Text>
         </Boxed>
         <Boxed pad="10px 0">
-          <Text
-            fontSize={Theme.SecondaryFontSize}
-            color={Theme.SecondaryTextColor}
-          >
+          <Text fontSize={Theme.SecondaryFontSize} color={Theme.SecondaryTextColor}>
             State of Residence
           </Text>
-          <Text padding="0 5px">
-            {applicationDetail?.stateOfResidence}
-          </Text>
+          <Text padding="0 5px">{applicationDetail?.stateOfResidence}</Text>
         </Boxed>
         <Boxed pad="10px 0">
-          <Text
-            fontSize={Theme.SecondaryFontSize}
-            color={Theme.SecondaryTextColor}
-          >
+          <Text fontSize={Theme.SecondaryFontSize} color={Theme.SecondaryTextColor}>
             Local Gov. Area of Residence
           </Text>
-          <Text padding="0 5px">
-            {applicationDetail?.lgaOfResidence}
-          </Text>
+          <Text padding="0 5px">{applicationDetail?.lgaOfResidence}</Text>
         </Boxed>
       </Grid>
       <Boxed pad="10px 0">
-        <Text
-          fontSize={Theme.SecondaryFontSize}
-          color={Theme.SecondaryTextColor}
-        >
+        <Text fontSize={Theme.SecondaryFontSize} color={Theme.SecondaryTextColor}>
           Address of residence
         </Text>
-        <Text padding="0 5px">
-          {applicationDetail?.residentialAddress}
-        </Text>
+        <Text padding="0 5px">{applicationDetail?.residentialAddress}</Text>
       </Boxed>
-      <Grid
-        desktop="repeat(3,1fr)"
-        tablet="repeat(3,1fr)"
-        mobile="repeat(2, 1fr)"
-      >
+      <Grid desktop="repeat(3,1fr)" tablet="repeat(3,1fr)" mobile="repeat(2, 1fr)">
         <Boxed pad="10px 0">
-          <Text
-            fontSize={Theme.SecondaryFontSize}
-            color={Theme.SecondaryTextColor}
-          >
+          <Text fontSize={Theme.SecondaryFontSize} color={Theme.SecondaryTextColor}>
             Occupation
           </Text>
           <Text padding="0 5px">{applicationDetail?.occupation}</Text>
         </Boxed>
         <Boxed pad="10px 0">
-          <Text
-            fontSize={Theme.SecondaryFontSize}
-            color={Theme.SecondaryTextColor}
-          >
+          <Text fontSize={Theme.SecondaryFontSize} color={Theme.SecondaryTextColor}>
             Employer Name
           </Text>
-          <Text padding="0 5px">
-            {applicationDetail?.employerName}
-          </Text>
+          <Text padding="0 5px">{applicationDetail?.employerName}</Text>
         </Boxed>
         <Boxed pad="10px 0">
-          <Text
-            fontSize={Theme.SecondaryFontSize}
-            color={Theme.SecondaryTextColor}
-          >
+          <Text fontSize={Theme.SecondaryFontSize} color={Theme.SecondaryTextColor}>
             Employer Address
           </Text>
-          <Text padding="0 5px">
-            {applicationDetail?.employerAddress}
-          </Text>
+          <Text padding="0 5px">{applicationDetail?.employerAddress}</Text>
         </Boxed>
       </Grid>
     </Boxed>
-  )
-}
+  );
+};
 
 const CompanyCard = ({ applicationDetail }) => {
   return (
     <>
       <Boxed pad="10px 0">
-        <Text
-          fontSize={Theme.SecondaryFontSize}
-          color={Theme.SecondaryTextColor}
-        >
+        <Text fontSize={Theme.SecondaryFontSize} color={Theme.SecondaryTextColor}>
           Company Name
         </Text>
         <Text padding="0 5px">{applicationDetail?.firstname}</Text>
       </Boxed>
 
-      <Grid
-        desktop="repeat(3,1fr)"
-        tablet="repeat(3,1fr)"
-        mobile="repeat(2, 1fr)"
-      >
-
+      <Grid desktop="repeat(3,1fr)" tablet="repeat(3,1fr)" mobile="repeat(2, 1fr)">
         <Boxed pad="10px 0">
-          <Text
-            fontSize={Theme.SecondaryFontSize}
-            color={Theme.SecondaryTextColor}
-          >
+          <Text fontSize={Theme.SecondaryFontSize} color={Theme.SecondaryTextColor}>
             Company Email
           </Text>
           <Text padding="0 5px">{applicationDetail?.nin}</Text>
         </Boxed>
         <Boxed pad="10px 0">
-          <Text
-            fontSize={Theme.SecondaryFontSize}
-            color={Theme.SecondaryTextColor}
-          >
+          <Text fontSize={Theme.SecondaryFontSize} color={Theme.SecondaryTextColor}>
             Company Type
           </Text>
           <Text padding="0 5px">{applicationDetail?.companyType}</Text>
         </Boxed>
         <Boxed pad="10px 0">
-          <Text
-            fontSize={Theme.SecondaryFontSize}
-            color={Theme.SecondaryTextColor}
-          >
+          <Text fontSize={Theme.SecondaryFontSize} color={Theme.SecondaryTextColor}>
             Company Phone
           </Text>
           <Text padding="0 5px">{applicationDetail?.nin}</Text>
         </Boxed>
 
-
         <Boxed pad="10px 0">
-          <Text
-            fontSize={Theme.SecondaryFontSize}
-            color={Theme.SecondaryTextColor}
-          >
+          <Text fontSize={Theme.SecondaryFontSize} color={Theme.SecondaryTextColor}>
             Contact Name
           </Text>
           <Text padding="0 5px">{applicationDetail?.contactName}</Text>
         </Boxed>
         <Boxed pad="10px 0">
-          <Text
-            fontSize={Theme.SecondaryFontSize}
-            color={Theme.SecondaryTextColor}
-          >
+          <Text fontSize={Theme.SecondaryFontSize} color={Theme.SecondaryTextColor}>
             Contact Phone
           </Text>
           <Text padding="0 5px">{applicationDetail?.contactPhone}</Text>
         </Boxed>
         <Boxed pad="10px 0">
-          <Text
-            fontSize={Theme.SecondaryFontSize}
-            color={Theme.SecondaryTextColor}
-          >
+          <Text fontSize={Theme.SecondaryFontSize} color={Theme.SecondaryTextColor}>
             Contact Address
           </Text>
           <Text padding="0 5px">{applicationDetail?.contactAddress}</Text>
         </Boxed>
 
-
         <Boxed pad="10px 0">
-          <Text
-            fontSize={Theme.SecondaryFontSize}
-            color={Theme.SecondaryTextColor}
-          >
+          <Text fontSize={Theme.SecondaryFontSize} color={Theme.SecondaryTextColor}>
             Source of Capital
           </Text>
           <Text padding="0 5px">{applicationDetail?.nin}</Text>
         </Boxed>
         <Boxed pad="10px 0">
-          <Text
-            fontSize={Theme.SecondaryFontSize}
-            color={Theme.SecondaryTextColor}
-          >
+          <Text fontSize={Theme.SecondaryFontSize} color={Theme.SecondaryTextColor}>
             Registration Number
           </Text>
           <Text padding="0 5px">{applicationDetail?.registration_number}</Text>
         </Boxed>
         <Boxed pad="10px 0">
-          <Text
-            fontSize={Theme.SecondaryFontSize}
-            color={Theme.SecondaryTextColor}
-          >
+          <Text fontSize={Theme.SecondaryFontSize} color={Theme.SecondaryTextColor}>
             Registration Date
           </Text>
           <Text padding="0 5px">{applicationDetail?.nin}</Text>
@@ -401,63 +255,42 @@ const CompanyCard = ({ applicationDetail }) => {
       </Grid>
 
       <Boxed pad="10px 0">
-        <Text
-          fontSize={Theme.SecondaryFontSize}
-          color={Theme.SecondaryTextColor}
-        >
+        <Text fontSize={Theme.SecondaryFontSize} color={Theme.SecondaryTextColor}>
           Registration Address
         </Text>
         <Text padding="0 5px">{applicationDetail?.registration_address}</Text>
       </Boxed>
 
-      <Grid
-        desktop="repeat(3,1fr)"
-        tablet="repeat(3,1fr)"
-        mobile="repeat(2, 1fr)"
-      >
-
+      <Grid desktop="repeat(3,1fr)" tablet="repeat(3,1fr)" mobile="repeat(2, 1fr)">
         <Boxed pad="10px 0">
-          <Text
-            fontSize={Theme.SecondaryFontSize}
-            color={Theme.SecondaryTextColor}
-          >
+          <Text fontSize={Theme.SecondaryFontSize} color={Theme.SecondaryTextColor}>
             Manager Name
           </Text>
           <Text padding="0 5px">{applicationDetail?.managerName}</Text>
         </Boxed>
         <Boxed pad="10px 0">
-          <Text
-            fontSize={Theme.SecondaryFontSize}
-            color={Theme.SecondaryTextColor}
-          >
+          <Text fontSize={Theme.SecondaryFontSize} color={Theme.SecondaryTextColor}>
             Manager Phone
           </Text>
           <Text padding="0 5px">{applicationDetail?.managerPhone}</Text>
         </Boxed>
         <Boxed />
         <Boxed pad="10px 0">
-          <Text
-            fontSize={Theme.SecondaryFontSize}
-            color={Theme.SecondaryTextColor}
-          >
+          <Text fontSize={Theme.SecondaryFontSize} color={Theme.SecondaryTextColor}>
             CEO Name
           </Text>
           <Text padding="0 5px">{applicationDetail?.ceo_name}</Text>
         </Boxed>
         <Boxed pad="10px 0">
-          <Text
-            fontSize={Theme.SecondaryFontSize}
-            color={Theme.SecondaryTextColor}
-          >
+          <Text fontSize={Theme.SecondaryFontSize} color={Theme.SecondaryTextColor}>
             CEO Phone
           </Text>
           <Text padding="0 5px">{applicationDetail?.ceo_phone}</Text>
         </Boxed>
       </Grid>
-
     </>
-  )
-}
+  );
+};
 
 export const Review = (props) => {
   // state props
@@ -467,13 +300,11 @@ export const Review = (props) => {
     params,
     decisionModal,
     allocateModal,
-    parcelData,
+    landData,
     profile,
-    accessList,
+    accessList
   } = props;
-  const documents = applicationDetail.documents
-    ? applicationDetail.documents
-    : [];
+  const documents = applicationDetail.documents ? applicationDetail.documents : [];
 
   // dispatch props
   const {
@@ -482,22 +313,22 @@ export const Review = (props) => {
     openDecisionModal,
     openAllocateModal,
     openApplicationFile,
-    searchParcels,
+    getSingleLand
   } = props;
 
   useEffect(() => {
     let data = {
-      id: params.id,
+      id: params.id
     };
     getApplicationDetail(data);
   }, []);
 
   useEffect(() => {
     if (applicationDetail.plotNumber) {
-      searchParcels({
+      getSingleLand({
         search: applicationDetail.plotNumber,
         size: 10,
-        page: 1,
+        page: 1
       });
     }
   }, [applicationDetail.plotNumber]);
@@ -508,13 +339,13 @@ export const Review = (props) => {
     <>
       <Boxed pad="20px">
         <PageTitle>
-          {" "}
+          {' '}
           <span
-            onClick={() => redirect("/application")}
-            style={{ cursor: "pointer", fontWeight: 300 }}
+            onClick={() => redirect('/application')}
+            style={{ cursor: 'pointer', fontWeight: 300 }}
           >
             Applications
-          </span>{" "}
+          </span>{' '}
           / Review
         </PageTitle>
 
@@ -537,91 +368,69 @@ export const Review = (props) => {
               </Boxed>
             ) : null}
             <Boxed pad="10px 0" align="right">
-              {((applicationDetail.stageName === "PENDING REVIEW" &&
-                accessList["REVIEW_PLOT_APPLCIATION"]) ||
-                (applicationDetail.stageName === "PENDING ALLOCATION APPROVAL" &&
-                  accessList["REVIEW_ALLOCATION_PLOT"]) ||
-                (applicationDetail.stageName === "PENDING ACCEPTANCE" &&
-                  profile?.email === applicationDetail?.email)) &&
+              {((applicationDetail.stageName === 'PENDING REVIEW' &&
+                accessList['REVIEW_PLOT_APPLCIATION']) ||
+                (applicationDetail.stageName === 'PENDING ALLOCATION APPROVAL' &&
+                  accessList['REVIEW_ALLOCATION_PLOT']) ||
+                (applicationDetail.stageName === 'PENDING ACCEPTANCE' &&
+                  accessList['REVIEW_PLOT_APPLCIATION'])) &&
                 !applicationDetail?.declined && (
                   <>
-                    <Button
-                      color={Theme.PrimaryRed}
-                      onClick={() => openDecisionModal("REJECTED")}
-                    >
+                    <Button color={Theme.PrimaryRed} onClick={() => openDecisionModal('REJECTED')}>
                       Decline
                     </Button>
-                    <Button onClick={() => openDecisionModal("APPROVED")}>
-                      {applicationDetail.stageName === "PENDING ACCEPTANCE"
-                        ? "Accept"
-                        : "Approve"}
+                    <Button onClick={() => openDecisionModal('APPROVED')}>
+                      {applicationDetail.stageName === 'PENDING ACCEPTANCE' ? 'Accept' : 'Approve'}
                     </Button>
                   </>
                 )}
 
-              {applicationDetail.stageName === "PENDING ALLOCATION" &&
-                accessList["ALLOCATE_PLOT"] && (
-                  <Button
-                    color={Theme.PrimaryBlue}
-                    onClick={() => openAllocateModal()}
-                  >
+              {applicationDetail.stageName === 'PENDING ALLOCATION' &&
+                accessList['ALLOCATE_PLOT'] && (
+                  <Button color={Theme.PrimaryBlue} onClick={() => openAllocateModal()}>
                     Allocate Parcel
                   </Button>
                 )}
             </Boxed>
 
-            <Grid
-              desktop="120px auto"
-              tablet="120px auto"
-              mobile="repeat(1, 1fr)"
-            >
+            <Grid desktop="120px auto" tablet="120px auto" mobile="repeat(1, 1fr)">
               <Boxed>
-                {applicationDetail.photo ? <embed
-                  type={'image/jpeg'}
-                  src={`data:${'image/jpeg'}; base64, ${applicationDetail.photo}`}
-                  style={{
-                    height: "110px",
-                    maxWidth: "110px",
-                    borderRadius: "5px",
-                    boxShadow: Theme.PrimaryShadow,
-                    border: `2px solid ${Theme.PrimaryBorderColor}`,
-                    padding: "5px",
-                  }}
-                  alt="avatar"
-                /> : <Avatar src={MALE_IMG} size="110px" />}
+                {applicationDetail.photo ? (
+                  <embed
+                    type={'image/jpeg'}
+                    src={`data:${'image/jpeg'}; base64, ${applicationDetail.photo}`}
+                    style={{
+                      height: '110px',
+                      maxWidth: '110px',
+                      borderRadius: '5px',
+                      boxShadow: Theme.PrimaryShadow,
+                      border: `2px solid ${Theme.PrimaryBorderColor}`,
+                      padding: '5px'
+                    }}
+                    alt="avatar"
+                  />
+                ) : (
+                  <Avatar src={MALE_IMG} size="110px" />
+                )}
               </Boxed>
               <Boxed>
-                <Grid
-                  desktop="repeat(3,1fr)"
-                  tablet="repeat(3,1fr)"
-                  mobile="repeat(2, 1fr)"
-                >
+                <Grid desktop="repeat(3,1fr)" tablet="repeat(3,1fr)" mobile="repeat(2, 1fr)">
                   <Boxed pad="10px 0">
-                    <Text
-                      fontSize={Theme.SecondaryFontSize}
-                      color={Theme.SecondaryTextColor}
-                    >
+                    <Text fontSize={Theme.SecondaryFontSize} color={Theme.SecondaryTextColor}>
                       Application Number
                     </Text>
                     <Text padding="0 5px">{applicationDetail.id}</Text>
                   </Boxed>
                   <Boxed pad="10px 0">
-                    <Text
-                      fontSize={Theme.SecondaryFontSize}
-                      color={Theme.SecondaryTextColor}
-                    >
+                    <Text fontSize={Theme.SecondaryFontSize} color={Theme.SecondaryTextColor}>
                       Submitted Date
                     </Text>
                     <Text padding="0 5px">
-                      {applicationDetail.createdAt &&
-                        formatDate(applicationDetail.createdAt)}
+                      {applicationDetail.createdAt && formatDate(applicationDetail.createdAt)}
                     </Text>
                   </Boxed>
                   <Boxed pad="10px 0">
-                    <Text
-                      fontSize={Theme.SecondaryFontSize}
-                      color={Theme.SecondaryTextColor}
-                    >
+                    <Text fontSize={Theme.SecondaryFontSize} color={Theme.SecondaryTextColor}>
                       Status
                     </Text>
                     <Text padding="0 5px">
@@ -632,94 +441,61 @@ export const Review = (props) => {
                   </Boxed>
 
                   <Boxed pad="10px 0">
-                    <Text
-                      fontSize={Theme.SecondaryFontSize}
-                      color={Theme.SecondaryTextColor}
-                    >
+                    <Text fontSize={Theme.SecondaryFontSize} color={Theme.SecondaryTextColor}>
                       Application Type
                     </Text>
                     <Text padding="0 5px">{applicationDetail.applicationType}</Text>
                   </Boxed>
                   <Boxed pad="10px 0">
-                    <Text
-                      fontSize={Theme.SecondaryFontSize}
-                      color={Theme.SecondaryTextColor}
-                    >
+                    <Text fontSize={Theme.SecondaryFontSize} color={Theme.SecondaryTextColor}>
                       Owenership Type
                     </Text>
-                    <Text padding="0 5px">
-                      {applicationDetail?.ownershipType}
-                    </Text>
+                    <Text padding="0 5px">{applicationDetail?.ownershipType}</Text>
                   </Boxed>
                 </Grid>
 
-                {applicationDetail.ownershipType === "PRIVATE" && <PrivateCard applicationDetail={applicationDetail} />}
+                {applicationDetail.ownershipType === 'PRIVATE' && (
+                  <PrivateCard applicationDetail={applicationDetail} />
+                )}
 
-                {applicationDetail.ownershipType === "COOPERATE" && <CompanyCard applicationDetail={applicationDetail} />}
+                {applicationDetail.ownershipType === 'COOPERATE' && (
+                  <CompanyCard applicationDetail={applicationDetail} />
+                )}
 
-                <Grid
-                  desktop="repeat(3,1fr)"
-                  tablet="repeat(3,1fr)"
-                  mobile="repeat(2, 1fr)"
-                >
+                <Grid desktop="repeat(3,1fr)" tablet="repeat(3,1fr)" mobile="repeat(2, 1fr)">
                   <Boxed pad="10px 0">
-                    <Text
-                      fontSize={Theme.SecondaryFontSize}
-                      color={Theme.SecondaryTextColor}
-                    >
+                    <Text fontSize={Theme.SecondaryFontSize} color={Theme.SecondaryTextColor}>
                       Representative Name
                     </Text>
                     <Text padding="0 5px">{applicationDetail?.repName}</Text>
                   </Boxed>
                   <Boxed pad="10px 0">
-                    <Text
-                      fontSize={Theme.SecondaryFontSize}
-                      color={Theme.SecondaryTextColor}
-                    >
+                    <Text fontSize={Theme.SecondaryFontSize} color={Theme.SecondaryTextColor}>
                       Representative Email
                     </Text>
-                    <Text padding="0 5px">
-                      {applicationDetail?.repEmail}
-                    </Text>
+                    <Text padding="0 5px">{applicationDetail?.repEmail}</Text>
                   </Boxed>
                   <Boxed pad="10px 0">
-                    <Text
-                      fontSize={Theme.SecondaryFontSize}
-                      color={Theme.SecondaryTextColor}
-                    >
+                    <Text fontSize={Theme.SecondaryFontSize} color={Theme.SecondaryTextColor}>
                       Representative Phone
                     </Text>
-                    <Text padding="0 5px">
-                      {applicationDetail?.repPhone}
-                    </Text>
+                    <Text padding="0 5px">{applicationDetail?.repPhone}</Text>
                   </Boxed>
                 </Grid>
                 <Boxed pad="10px 0">
-                  <Text
-                    fontSize={Theme.SecondaryFontSize}
-                    color={Theme.SecondaryTextColor}
-                  >
+                  <Text fontSize={Theme.SecondaryFontSize} color={Theme.SecondaryTextColor}>
                     Representative Address
                   </Text>
-                  <Text padding="0 5px">
-                    {applicationDetail?.repAddress}
-                  </Text>
+                  <Text padding="0 5px">{applicationDetail?.repAddress}</Text>
                 </Boxed>
               </Boxed>
             </Grid>
             <HR />
-            <Text
-              fontSize={Theme.SecondaryFontSize}
-              color={Theme.SecondaryTextColor}
-            >
+            <Text fontSize={Theme.SecondaryFontSize} color={Theme.SecondaryTextColor}>
               Scanned File(s)
             </Text>
             <Boxed>
-              <Grid
-                desktop="repeat(5, 1fr)"
-                tablet="repeat(4, 1fr)"
-                mobile="repeat(2, 1fr)"
-              >
+              <Grid desktop="repeat(5, 1fr)" tablet="repeat(4, 1fr)" mobile="repeat(2, 1fr)">
                 {documents.length &&
                   documents.map((item, index) => {
                     return (
@@ -728,7 +504,7 @@ export const Review = (props) => {
                           onClick={() =>
                             openApplicationFile({
                               id: applicationDetail.id,
-                              fileName: item.fileName,
+                              fileName: item.fileName
                             })
                           }
                           name={item.description}
@@ -741,110 +517,74 @@ export const Review = (props) => {
               </Grid>
             </Boxed>
 
-            {applicationDetail.stageName === "PENDING ALLOCATION APPROVAL" ||
-              (applicationDetail.stageName === "PENDING ACCEPTANCE" &&
+            {applicationDetail.stageName === 'PENDING ALLOCATION APPROVAL' ||
+              (applicationDetail.stageName === 'PENDING ACCEPTANCE' &&
                 profile?.email === applicationDetail?.email) ||
-              applicationDetail.stageName === "ALLOCATED" ? (
+              applicationDetail.stageName === 'ALLOCATED' ? (
               <>
                 <HR />
-                <Text
-                  fontSize={Theme.SecondaryFontSize}
-                  color={Theme.SecondaryTextColor}
-                >
+                <Text fontSize={Theme.SecondaryFontSize} color={Theme.SecondaryTextColor}>
                   Assigned Plot
                 </Text>
                 <Boxed pad="10px 0">
-                  <Grid
-                    desktop="repeat(3,1fr)"
-                    tablet="repeat(3,1fr)"
-                    mobile="repeat(2, 1fr)"
-                  >
+                  <Grid desktop="repeat(3,1fr)" tablet="repeat(3,1fr)" mobile="repeat(2, 1fr)">
                     <Boxed pad="10px 0">
-                      <Text
-                        fontSize={Theme.SecondaryFontSize}
-                        color={Theme.SecondaryTextColor}
-                      >
+                      <Text fontSize={Theme.SecondaryFontSize} color={Theme.SecondaryTextColor}>
                         Plot Number
                       </Text>
-                      <Text padding="0 5px">{parcelData.ParcelNumber}</Text>
+                      <Text padding="0 5px">{landData.parcelNumber}</Text>
                     </Boxed>
                     <Boxed />
                     <Boxed />
 
                     <Boxed pad="8px 0">
-                      <Text
-                        fontSize={Theme.SecondaryFontSize}
-                        color={Theme.SecondaryTextColor}
-                      >
+                      <Text fontSize={Theme.SecondaryFontSize} color={Theme.SecondaryTextColor}>
                         Registration Number
                       </Text>
-                      <Text>{parcelData.REG_NUMBER}</Text>
+                      <Text padding="0 5px">{landData.registrationNumber}</Text>
                     </Boxed>
 
                     <Boxed pad="8px 0">
-                      <Text
-                        fontSize={Theme.SecondaryFontSize}
-                        color={Theme.SecondaryTextColor}
-                      >
+                      <Text fontSize={Theme.SecondaryFontSize} color={Theme.SecondaryTextColor}>
                         Registration Date
                       </Text>
-                      <Text>
-                        {parcelData.REG_DATE &&
-                          moment(parcelData.REG_DATE).format("ll")}
+                      <Text padding="0 5px">
+                        {landData.regDate && moment(landData.regDate).format('ll')}
                       </Text>
                     </Boxed>
 
                     <Boxed pad="8px 0">
-                      <Text
-                        fontSize={Theme.SecondaryFontSize}
-                        color={Theme.SecondaryTextColor}
-                      >
-                        Category
-                      </Text>
-                      <Text>{parcelData.CATEGORY}</Text>
-                    </Boxed>
-
-                    <Boxed pad="8px 0">
-                      <Text
-                        fontSize={Theme.SecondaryFontSize}
-                        color={Theme.SecondaryTextColor}
-                      >
-                        Land Type
-                      </Text>
-                      <Text>{parcelData.LAND_TYPE}</Text>
-                    </Boxed>
-                    <Boxed pad="8px 0">
-                      <Text
-                        fontSize={Theme.SecondaryFontSize}
-                        color={Theme.SecondaryTextColor}
-                      >
+                      <Text fontSize={Theme.SecondaryFontSize} color={Theme.SecondaryTextColor}>
                         Land Use
                       </Text>
-                      <Text>{parcelData.LAND_USE}</Text>
+                      <Text padding="0 5px">{landData.landUse}</Text>
                     </Boxed>
+
                     <Boxed pad="8px 0">
-                      <Text
-                        fontSize={Theme.SecondaryFontSize}
-                        color={Theme.SecondaryTextColor}
-                      >
+                      <Text fontSize={Theme.SecondaryFontSize} color={Theme.SecondaryTextColor}>
+                        Land Type
+                      </Text>
+                      <Text padding="0 5px">{landData.landType}</Text>
+                    </Boxed>
+
+                    <Boxed pad="8px 0">
+                      <Text fontSize={Theme.SecondaryFontSize} color={Theme.SecondaryTextColor}>
                         Area
                       </Text>
-                      <Text>
-                        {parcelData.Shape__Area &&
-                          formatCurrency(
-                            Math.round(parcelData.Shape__Area * 100) / 100
-                          )}{" "}
+                      <Text padding="0 5px">
+                        {landData.landSize &&
+                          formatCurrency(Math.round(landData.landSize * 100) / 100)}{' '}
                         sqr meter
                       </Text>
                     </Boxed>
                   </Grid>
-                  <Boxed>
+                  {/* <Boxed>
                     <iframe
-                      src={`${MAP_URL}/map.html?parcel=${parcelData.FID}`}
+                      src={`${MAP_URL}/map.html?parcel=${landData.FID}`}
                       width="100%"
                       height="300px"
                     />
-                  </Boxed>
+                  </Boxed> */}
                 </Boxed>
               </>
             ) : null}

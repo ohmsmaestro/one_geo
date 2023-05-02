@@ -18,11 +18,21 @@ export const AcceptanceLetter = (props) => {
   const { isLoading, applicationDetail, params, landData } = props;
 
   // dispatch props received
-  const { redirect, getApplicationDetail } = props;
+  const { redirect, getApplicationDetail, getSingleLand } = props;
 
   useEffect(() => {
     params?.applicationNumber && getApplicationDetail({ id: params.applicationNumber });
   }, []);
+
+  useEffect(() => {
+    if (applicationDetail.plotNumber) {
+      getSingleLand({
+        search: applicationDetail.plotNumber,
+        size: 10,
+        page: 1,
+      });
+    }
+  }, [applicationDetail.plotNumber]);
 
   const fullName =
     applicationDetail.ownershipType === 'PRIVATE'
@@ -59,8 +69,8 @@ export const AcceptanceLetter = (props) => {
               <div />
               <Text>Date: {moment().format('ll')}</Text>
               <Text>
-                Name: {fullName} <br />
-                Address: {applicationDetail.residentialAddress} <br />
+                Name: <b>{fullName} </b><br />
+                Address: <b>{applicationDetail.residentialAddress}</b> <br />
                 File Number: Unknown <br />
                 Dear Sir/Ma,
               </Text>
@@ -75,11 +85,12 @@ export const AcceptanceLetter = (props) => {
               Upon payment of all fees indicated in the Bill, Certificate of Occupancy will be
               prepared for you immediately with below details: <br />
               <ul>
-                <li>Name of the Owner: {fullName}</li>
-                <li>Owner’s Address: {applicationDetail?.residentialAddress}</li>
-                <li>Land description: {landData?.legalDescription}</li>
-                <li>Land size: {landData?.landSize ? formatCurrency(landData?.landSize) : 0} square meter </li>
-                <li>Land Use: {landData?.landUse}</li>
+                <li>Name of the Owner: <b>{fullName}</b></li>
+                <li>Owner’s Address: <b>{applicationDetail?.residentialAddress}</b></li>
+                <li>Plot Number: <b>{landData?.parcelNumber}</b></li>
+                <li>Land description: <b>{landData?.legalDescription}</b></li>
+                <li>Land size: <b>{landData?.landSize ? formatCurrency(landData?.landSize) : 0} square meter </b></li>
+                <li>Land Use: <b>{landData?.landUse}</b></li>
               </ul>
               Please ensure that all fees are paid within 7 days of receiving this letter to enable us prepare your Certificate of Occupancy or else, your application will be closed.
               <br />

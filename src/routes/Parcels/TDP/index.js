@@ -4,20 +4,19 @@ import { routerRedux } from "dva/router";
 // import qs from "query-string";
 
 export const mapStateToProps = (state, ownProps) => {
-  const { parcels, loading } = state;
-  const { parcelData, parcelOwner } = parcels;
+  const { lands, loading, entries } = state;
+  const { tdpData, landData } = lands;
   const params = ownProps?.match?.params;
   const showPrint = ownProps.showPrint;
-
-  const isLoadingParcel = loading.effects["parcels/getSingleParcel"];
-  const isLoadingOwner = loading.effects["parcels/getParcelOwner"];
+  const isLoading = loading.effects['lands/fetchTDP'];
+  const { ownersDetail } = entries
   return {
-    parcelData,
-    parcelOwner,
+    tdpData,
     params,
-    isLoadingParcel,
-    isLoadingOwner,
     showPrint,
+    isLoading,
+    landData,
+    ownersDetail,
   };
 };
 
@@ -26,9 +25,14 @@ export const mapDispatchToProps = (dispatch, ownProps) => {
     redirect(pathname) {
       dispatch(routerRedux.push({ pathname: `${pathname}` }));
     },
-    getParcelDetails(data) {
-      dispatch({ type: "parcels/getSingleParcel", payload: data });
-      dispatch({ type: "parcels/getParcelOwner", payload: data });
+    fetchTDP(data) {
+      dispatch({ type: 'lands/fetchTDP', payload: data })
+    },
+    getSingleLand(data) {
+      dispatch({ type: "lands/getSingleLand", payload: data });
+    },
+    getLandOwner(data) {
+      dispatch({ type: 'entries/getLandOwner', payload: data })
     },
   };
 };

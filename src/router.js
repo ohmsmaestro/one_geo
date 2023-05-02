@@ -1,7 +1,7 @@
 import React from 'react';
 import { BrowserRouter as Router, Route, Switch, routerRedux, Redirect } from 'dva/router';
 import App from './routes/app';
-import { ASSIGN_MODE, storageToken } from './utils/constant';
+import { ASSIGN_MODE, EDIT_MODE, storageToken } from './utils/constant';
 
 // Pages Route Imports
 import Login from './routes/Login/index';
@@ -109,6 +109,13 @@ export function RouterConfig({ history, app }) {
             exact
             render={(props) => {
               return <CreateLand {...props} />;
+            }}
+          />
+          <PrivateRoute
+            path="/lands/edit/:id"
+            exact
+            render={(props) => {
+              return <CreateLand mode={EDIT_MODE} {...props} />;
             }}
           />
           <PrivateRoute path="/lands" exact render={(props) => <Lands {...props} />} />

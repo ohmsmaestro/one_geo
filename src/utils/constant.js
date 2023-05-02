@@ -9,6 +9,7 @@ export const storageLandsModel = `${storagePrefix}lands_model`;
 export const storageUsersModel = `${storagePrefix}parcels_model`;
 
 export const ASSIGN_MODE = 'ASSIGN_OWNER'
+export const EDIT_MODE = 'EDIT'
 
 export const countryList = [
   {

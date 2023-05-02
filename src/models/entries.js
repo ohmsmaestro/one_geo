@@ -100,9 +100,8 @@ export default {
     *postApplication({ payload }, { call, put }) {
       const { success, raw, message } = yield call(postApplication, payload);
       if (success) {
-        console.log({ raw });
         Alert.success("Application has been created successfully.");
-        const id = raw?.data?.id
+        const id = raw?.data?.applicationId
         if (id) {
           yield put(routerRedux.push({ pathname: `/application/acknowledgement/${id}` }));
         } else {
@@ -194,16 +193,19 @@ export default {
         Alert.error(message);
       }
     },
-    *allocateParcel({ payload }, { call, put }) {
+    *allocateParcel({ payload }, { call, put, select }) {
       const { success, raw, message } = yield call(postAllocateParcel, payload);
       if (success) {
         const data = raw?.data?.application;
         Alert.success("Application is successfully allocated.");
+        let applicationDetail = yield select(
+          ({ entries }) => entries.applicationDetail
+        );
         yield put({
           type: "save",
           payload: {
             allocateModal: false,
-            applicationDetail: { ...data },
+            applicationDetail: { ...applicationDetail, ...data },
           },
         });
       } else {

@@ -8,12 +8,11 @@ const fetchActionURL = "entries/getApplicationDetail";
 export const mapStateToProps = (state, ownProps) => {
   const { match } = ownProps;
   const { params } = match;
-  const { loading, entries, parcels, authentication } = state;
+  const { loading, entries, lands, authentication } = state;
   const { applicationDetail, decisionModal, allocateModal } = entries;
   const isLoading = loading.effects[fetchActionURL];
 
-  const { parcelsList } = parcels;
-  const parcelData = parcelsList[0] ? parcelsList[0] : {};
+  const { landData } = lands;
   const { profile, accessList } = authentication;
 
   return {
@@ -22,7 +21,7 @@ export const mapStateToProps = (state, ownProps) => {
     params,
     decisionModal,
     allocateModal,
-    parcelData,
+    landData,
     profile,
     accessList,
   };
@@ -45,8 +44,8 @@ export const mapDispatchToProps = (dispatch, ownProps) => {
     openApplicationFile(data) {
       dispatch({ type: "archived/getApplicationFile", payload: data });
     },
-    searchParcels(data) {
-      dispatch({ type: "parcels/getAllParcels", payload: data });
+    getSingleLand(data) {
+      dispatch({ type: "lands/getSingleLand", payload: data });
     },
   };
 };

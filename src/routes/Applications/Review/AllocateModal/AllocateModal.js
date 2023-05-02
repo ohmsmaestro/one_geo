@@ -53,8 +53,7 @@ export const AllocateModal = (props) => {
   const onSubmit = () => {
     if (landData) {
       const data = {
-        parcelNumber: landData.ParcelNumber,
-        FID: landData.FID,
+        parcelNumber: landData.parcelNumber,
         applicationId: applicationDetail.id,
       };
       allocateParcel(data);
@@ -129,7 +128,7 @@ export const AllocateModal = (props) => {
                   >
                     Registration Number
                   </Text>
-                  <Text>{landData.REG_NUMBER}</Text>
+                  <Text>{landData.registrationNumber}</Text>
                 </Boxed>
 
                 <Boxed pad="8px 0">
@@ -140,30 +139,11 @@ export const AllocateModal = (props) => {
                     Registration Date
                   </Text>
                   <Text>
-                    {landData.REG_DATE &&
-                      moment(landData.REG_DATE).format("ll")}
+                    {landData.regDate &&
+                      moment(landData.regDate).format("ll")}
                   </Text>
                 </Boxed>
 
-                <Boxed pad="8px 0">
-                  <Text
-                    fontSize={Theme.SecondaryFontSize}
-                    color={Theme.SecondaryTextColor}
-                  >
-                    Category
-                  </Text>
-                  <Text>{landData.CATEGORY}</Text>
-                </Boxed>
-
-                <Boxed pad="8px 0">
-                  <Text
-                    fontSize={Theme.SecondaryFontSize}
-                    color={Theme.SecondaryTextColor}
-                  >
-                    Land Type
-                  </Text>
-                  <Text>{landData.LAND_TYPE}</Text>
-                </Boxed>
                 <Boxed pad="8px 0">
                   <Text
                     fontSize={Theme.SecondaryFontSize}
@@ -171,8 +151,18 @@ export const AllocateModal = (props) => {
                   >
                     Land Use
                   </Text>
-                  <Text>{landData.LAND_USE}</Text>
+                  <Text>{landData.landUse}</Text>
                 </Boxed>
+                <Boxed pad="8px 0">
+                  <Text
+                    fontSize={Theme.SecondaryFontSize}
+                    color={Theme.SecondaryTextColor}
+                  >
+                    Land Type
+                  </Text>
+                  <Text>{landData.landType}</Text>
+                </Boxed>
+
                 <Boxed pad="8px 0">
                   <Text
                     fontSize={Theme.SecondaryFontSize}
@@ -181,21 +171,21 @@ export const AllocateModal = (props) => {
                     Area
                   </Text>
                   <Text>
-                    {landData.Shape__Area &&
+                    {landData.landSize &&
                       formatCurrency(
-                        Math.round(landData.Shape__Area * 100) / 100
+                        Math.round(landData.landSize * 100) / 100
                       )}{" "}
                     sqr meter
                   </Text>
                 </Boxed>
               </Grid>
-              <Boxed pad="5px">
+              {/* <Boxed pad="5px">
                 <iframe
                   src={`${MAP_URL}/map.html?parcel=${landData.FID}`}
                   width="100%"
                   height="300px"
                 />
-              </Boxed>
+              </Boxed> */}
             </Boxed>
           )}
         </Boxed>

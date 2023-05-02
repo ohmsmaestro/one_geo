@@ -2,7 +2,7 @@
 import { routerRedux } from 'dva/router';
 import { Alert } from '../components/Alert.components';
 
-import { getLands, postLand, postSubSequentTrans, getSubsequentTrans, getSubsequentTransById } from '../services/lands';
+import { getLands, postLand, postSubSequentTrans, getSubsequentTrans, getSubsequentTransById, getTDP } from '../services/lands';
 
 import { storageLandsModel } from '../utils/constant';
 
@@ -14,6 +14,7 @@ const initialState = {
   subsequentTransModal: false,
   subsequentTransList: [],
   subsequentTransTotal: 0,
+  tdpData: {},
 };
 
 export default {
@@ -65,13 +66,12 @@ export default {
     *getSingleLand({ payload }, { call, put }) {
       const { raw, success, message } = yield call(getLands, payload);
       if (success) {
-        const item = raw?.data?.lands[0];
+        const item = raw?.data?.plots[0];
         if (item) {
-          // yield put({
-          //   type: 'save',
-          //   payload: { landData: item ?? {} }
-          // });
-          // yield put({ type: "archived/getParcelArchieved", payload: { ParcelNumber: } });
+          yield put({
+            type: 'save',
+            payload: { landData: item }
+          });
         }
       } else {
         Alert.error(message);
@@ -101,6 +101,16 @@ export default {
       if (success) {
         const list = raw?.data?.subtransation;
         yield put({ type: 'save', payload: { subsequentTransList: list } });
+      } else {
+        Alert.error(message);
+      }
+    },
+    *fetchTDP({ payload }, { call, put }) {
+      const { raw, success, message } = yield call(getTDP, payload);
+      if (success) {
+        console.log({ raw });
+        const item = raw?.data;
+        yield put({ type: 'save', payload: { tdpData: item } });
       } else {
         Alert.error(message);
       }

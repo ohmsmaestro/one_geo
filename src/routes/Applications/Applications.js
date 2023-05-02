@@ -210,6 +210,7 @@ export const Applications = (props) => {
   const dropDownMenu = [
     { key: 1, label: `Review` },
     { key: 2, label: `Acknownledgement Letter` },
+    { key: 3, label: `Acceptance Letter` },
   ];
 
   const handleDropDownMenuAction = (item, record) => {
@@ -220,6 +221,9 @@ export const Applications = (props) => {
       case 2: // Aknowledgemnet Letter
         redirect(`/application/acknowledgement/${record.id}`)
         break;
+      case 3: // Acceptance Letter
+        redirect(`/application/acceptance/${record.id}`)
+        break;
       default:
         break;
     }
@@ -228,6 +232,14 @@ export const Applications = (props) => {
   const ApplicationCard = ({ record }) => {
     const { id, stageName, createdAt, firstname, middlename, lastname, declined } =
       record;
+
+    const modiDropdownMenu = dropDownMenu.filter(item => {
+      if (record.stageId !== 4 && item.key === 3) {
+        return false;
+      }
+      return true;
+    })
+
     return (
       <Boxed
         background={Theme.TertiaryDark}
@@ -249,7 +261,7 @@ export const Applications = (props) => {
             </Boxed>
             <Boxed>
               <DropDownMenu
-                list={dropDownMenu}
+                list={modiDropdownMenu}
                 handleAction={(e) => handleDropDownMenuAction(e, record)}
               />
             </Boxed>
@@ -320,7 +332,16 @@ export const Applications = (props) => {
       dataIndex: "action",
       key: "action",
       align: "right",
-      render: (text, record) => <DropDownMenu record={record} />,
+      render: (text, record) => {
+        const modiList = record.filter(item => {
+          if (record.stageId !== 4 && item.key === 3) {
+            return false;
+          }
+          return true;
+        })
+
+        return <DropDownMenu record={modiList} />
+      },
     },
   ];
 
