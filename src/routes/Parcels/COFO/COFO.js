@@ -1,47 +1,46 @@
-import React, { useEffect } from "react";
-import moment from "moment";
+import React, { useEffect } from 'react';
+import moment from 'moment';
 
-import { Grid } from "../../../components/Grid.components";
-import { Boxed } from "../../../components/Boxed.components";
-import { Text } from "../../../components/Text.components";
-import { Button } from "../../../components/Button.components";
+import { Grid } from '../../../components/Grid.components';
+import { Boxed } from '../../../components/Boxed.components';
+import { Text } from '../../../components/Text.components';
+import { Button } from '../../../components/Button.components';
 
-import ARROW_ICON from "../../../assets/img/north-arrow.png";
+import ARROW_ICON from '../../../assets/img/north-arrow.png';
 
-import { MAP_URL } from "../../../utils/config";
-import { Theme } from "../../../utils/theme";
+import { MAP_URL } from '../../../utils/config';
+import { Theme } from '../../../utils/theme';
 
-import TDP from "../TDP/index";
+import TDP from '../TDP/index';
+import { formatCurrency } from '../../../utils/utils';
 
 export const COFO = (props) => {
   // state props received
-  const { params, parcelData, parcelOwner } = props;
+  const { params, landData, ownersDetail } = props;
 
   // dispatch props received
-  const { redirect, getParcelDetails } = props;
+  const { redirect, getSingleLand, getLandOwner } = props;
 
   useEffect(() => {
-    getParcelDetails({ search: params.ParcelNumber });
+    getSingleLand({ search: params.ParcelNumber });
   }, []);
 
-  const mapURL = `${MAP_URL}/map.html${
-    parcelData ? `?tdp=${parcelData.FID}` : ""
-  }`;
+  useEffect(() => {
+    if (landData?.ownerId) {
+      getLandOwner({ id: landData?.ownerId });
+    }
+  }, [landData?.ownerId]);
 
-  console.log({ parcelData, parcelOwner });
+  let fullName = ownersDetail?.firstname ? `${ownersDetail?.firstname} ${ownersDetail?.middlename ?? ''} ${ownersDetail?.lastname}` : ownersDetail?.name;
 
-  let fullName = `${parcelOwner.firstname} ${parcelOwner.middlename} ${parcelOwner.lastname}`;
+  console.log({ landData, ownersDetail });
 
   return (
     <Boxed pad="10px 20px">
       <Boxed align="right" pad="15px 0" className="no-print">
-        <Button
-          clear
-          color={Theme.SecondaryTextColor}
-          onClick={() => redirect("/parcels")}
-        >
+        <Button clear color={Theme.SecondaryTextColor} onClick={() => redirect('/parcels')}>
           Back
-        </Button>{" "}
+        </Button>{' '}
         <Button onClick={() => window.print()}>Print</Button>
       </Boxed>
 
@@ -57,128 +56,108 @@ export const COFO = (props) => {
             YOBE STATE GOVERNMENT OF NIGERIA
           </Text>
 
-          <Text
-            align="center"
-            fontSize={Theme.SecondaryFontSize}
-            fontWeight="600"
-          >
+          <Text align="center" fontSize={Theme.SecondaryFontSize} fontWeight="600">
             The Land Use Act No 6 of 1978 <br />
             CERTIFICATE OF OCCUPANCY <br />
-            NO: YB/{parcelData.ParcelNumber}
+            NO: {landData.cofoNumber}
             <br />
             <br />
           </Text>
 
           <Text fontSize="10.5px">
-            This Is To Certify That <b>{fullName}</b> Whose address is{" "}
-            <b>{parcelOwner.residentialAddress}</b>.
+            This Is To Certify That <b>{fullName}</b> Whose address is{' '}
+            <b>{ownersDetail.residentialAddress}</b>.
             <br />
             <br />
-            (Herein after called the holder/holders, which term shall include
-            any person/persons in tittle), is hereby granted a right of
-            occupancy in and over the land described in the schedule, and more
-            particularly in in the plan printed hereto for a term of <b>
-              99
-            </b>{" "}
+            (Herein after called the holder/holders, which term shall include any person/persons in
+            tittle), is hereby granted a right of occupancy in and over the land described in the
+            schedule, and more particularly in in the plan printed hereto for a term of <b>
+              {landData?.lengthOfTerm ?? `****`}
+            </b>{' '}
             years commencing from the
-            <b>06/09/2014</b> according to the true intent and meaning of the
-            land Act No.6 of 1978 and subject to the provisions thereof and the
-            following special terms and conditions.
+            {" "}<b>{landData?.regDate ? moment(landData?.regDate).format('ll') : '****'}</b> according to the true intent and meaning of the land Act No.6 of 1978
+            and subject to the provisions thereof and the following special terms and conditions.
             <ol>
               <li>
-                To pay in advance without demand to Director-General of Yobe
-                Geographic Information Service. (Herein after referred to as the
-                Director-General) or any other officer appointed by the
-                Director-General of Yobe Geographic Information Service.
+                To pay in advance without demand to Director-General of Yobe Geographic Information
+                Service. (Herein after referred to as the Director-General) or any other officer
+                appointed by the Director-General of Yobe Geographic Information Service.
                 <ul>
                   <li>
-                    The revised annual ground rent of <b>₦XXXX.00</b> from the
-                    first day of January of each year, or{" "}
+                    The revised annual ground rent of <b>₦ {landData?.rentRate ? formatCurrency(landData?.rentRate) : '****'}</b> from the first day of January
+                    of each year, or{' '}
                   </li>
                   <li>
-                    Such revised ground rent as the Yobe Geographic Information
-                    Service may from time to time prescribed,
+                    Such revised ground rent as the Yobe Geographic Information Service may from
+                    time to time prescribed,
                   </li>
                   <li>
-                    Such penal rent as the Yobe Geographic Information Service
-                    may from time to time impose.
+                    Such penal rent as the Yobe Geographic Information Service may from time to time
+                    impose.
                   </li>
                 </ul>
               </li>
               <li>
-                To pay and discharge all rates (including utilities) assessments
-                and impositions what so ever which shall at any time be charged
-                or imposed on the said Land or any part of thereof or any
-                building thereon, or upon the occupier thereof.
+                To pay and discharge all rates (including utilities) assessments and impositions
+                what so ever which shall at any time be charged or imposed on the said Land or any
+                part of thereof or any building thereon, or upon the occupier thereof.
               </li>
               <li>
-                To pay forthwith without demand to the Yobe Geographic
-                Information Service or such other body or person appointed by
-                the Director-General (If not sooner paid) all survey fees, and
-                other charges due in respect of the preparation, registration
-                and issuance of this certificate.
+                To pay forthwith without demand to the Yobe Geographic Information Service or such
+                other body or person appointed by the Director-General (If not sooner paid) all
+                survey fees, and other charges due in respect of the preparation, registration and
+                issuance of this certificate.
               </li>
               <li>
-                Within two (2) years from the date of the commencement of this
-                right of occupancy to erect and complete on the said land
-                building(s) or other works specified in related plans to the
-                value of not less than <b>₦ X,XXX,XXX.00</b> and approved or to
-                be approved by Yobe Geographic Information Service.
+                Within two (2) years from the date of the commencement of this right of occupancy to
+                erect and complete on the said land building(s) or other works specified in related
+                plans to the value of not less than <b>₦ {landData?.valueOfImprovement ? formatCurrency(landData?.valueOfImprovement) : `****`}</b> and approved or to be
+                approved by Yobe Geographic Information Service.
               </li>
               <li>
-                To maintain in good and substantial repair to the satisfaction
-                of the Yobe Geographic Information Service, all buildings on the
-                said land and appurtenances thereto, and to do other works,
-                properly maintained in clean and sanitation conditions all of
-                the lands and surroundings of the buildings.
+                To maintain in good and substantial repair to the satisfaction of the Yobe
+                Geographic Information Service, all buildings on the said land and appurtenances
+                thereto, and to do other works, properly maintained in clean and sanitation
+                conditions all of the lands and surroundings of the buildings.
+              </li>
+              <li>Upon the expiration Board the said land and Building(s) thereon.</li>
+              <li>
+                Not to erect or build or permit to be erected or build on the land, buildings other
+                than those permitted to be erected by virtue of this certificate of occupancy nor to
+                make or permit to be made any additional or alteration to the said buildings already
+                erected on the land except in accordance with the plans and specifications approved
+                by the Yobe Geographic Information Service.
               </li>
               <li>
-                Upon the expiration Board the said land and Building(s) thereon.
+                The Yobe Geographic Information Service shall have the power to enter upon and
+                inspect the land comprised in any statutory right of occupancy or any improvement
+                effected thereon, at any reasonable hour during the day and the occupier shall
+                permit and give free access to appointed officer so inspect.
               </li>
               <li>
-                Not to erect or build or permit to be erected or build on the
-                land, buildings other than those permitted to be erected by
-                virtue of this certificate of occupancy nor to make or permit to
-                be made any additional or alteration to the said buildings
-                already erected on the land except in accordance with the plans
-                and specifications approved by the Yobe Geographic Information
-                Service.
-              </li>
-              <li>
-                The Yobe Geographic Information Service shall have the power to
-                enter upon and inspect the land comprised in any statutory right
-                of occupancy or any improvement effected thereon, at any
-                reasonable hour during the day and the occupier shall permit and
-                give free access to appointed officer so inspect.
-              </li>
-              <li>
-                Not to alienate the right of occupancy hereby granted or any
-                part thereof by sale, assignment, mortgage, transfer of
-                possession, sub-lease or bequest, or otherwise however without
-                the prior consent of the Director-General of Yobe Geographic
+                Not to alienate the right of occupancy hereby granted or any part thereof by sale,
+                assignment, mortgage, transfer of possession, sub-lease or bequest, or otherwise
+                however without the prior consent of the Director-General of Yobe Geographic
                 Information Service.
               </li>
               <li>
-                To use the said land only for <b>RESIDENTIAL</b>.
+                To use the said land only for <b>{landData?.landUse ?? '****'}</b>.
               </li>
               <li>
-                Not contravene any of the provisions of the Land Use Act No: 6
-                of the 1978 and to conform and comply with all rules and
-                regulations laid down from time to time by the Yobe Geographic
-                Information Service.
+                Not contravene any of the provisions of the Land Use Act No: 6 of the 1978 and to
+                conform and comply with all rules and regulations laid down from time to time by the
+                Yobe Geographic Information Service.
               </li>
               <li>
-                For the purpose of rent to be paid under this certificate of
-                occupancy;
+                For the purpose of rent to be paid under this certificate of occupancy;
                 <ul>
                   <li>
-                    The annual rent shall be revised at the end of every{" "}
-                    <b>five (5)</b> years of the term of this certificate.
+                    The annual rent shall be revised at the end of every <b>{landData.rentRevision ?? "****"}</b>  of
+                    the term of this certificate.
                     <br />
-                    If the commissioner shall so revise the rent, he shall cause
-                    a notice to be sent to the holder/holders and the rent fixed
-                    of revise shall be payable one calendar month from the date
-                    of the receipt of such notice.
+                    If the commissioner shall so revise the rent, he shall cause a notice to be sent
+                    to the holder/holders and the rent fixed of revise shall be payable one calendar
+                    month from the date of the receipt of such notice.
                   </li>
                 </ul>
               </li>
@@ -215,9 +194,9 @@ export const COFO = (props) => {
           <Grid desktop="300px auto" tablet="300px auto" mobile="300px auto">
             <Boxed>
               <Text align="center" fontSize={Theme.SecondaryFontSize}>
-                This instrument is registered as No <b>75</b> at page <b>75</b>.{" "}
-                In Volume <b>II</b> of the Certificate of Occupancy Registered
-                in the Lands Registry in the Office, Damaturu.
+                This instrument is registered as No <b>{landData?.registrationNumber ?? `****`}</b> at page <b>{landData?.regPage ?? `****`}</b>. In Volume <b>{landData?.volumeNo ?? `****`}</b>{' '}
+                of the Certificate of Occupancy Registered in the Lands Registry in the Office,
+                Damaturu.
               </Text>
               <Text
                 margin="40px 0 10px 0"

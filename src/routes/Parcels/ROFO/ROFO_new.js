@@ -1,4 +1,5 @@
 import React, { useEffect } from 'react';
+import moment from 'moment'
 
 import { Grid } from '../../../components/Grid.components';
 import { Boxed } from '../../../components/Boxed.components';
@@ -8,28 +9,43 @@ import { Button } from '../../../components/Button.components';
 import LOGO from '../../../assets/img/logo.png';
 
 import { Theme } from '../../../utils/theme';
+import { formatCurrency } from '../../../utils/utils';
 
 export const ROFO = (props) => {
   // state props received
-  const { params, parcelData, parcelOwner } = props;
+  const { params, landData, ownersDetail, getLandOwner } = props;
 
   // dispatch props received
-  const { redirect, getParcelDetails } = props;
+  const { redirect, getSingleLand } = props;
 
   useEffect(() => {
-    getParcelDetails({ search: params.ParcelNumber });
+    if (params?.ParcelNumber) {
+      getSingleLand({ search: params.ParcelNumber });
+    }
   }, []);
 
+  useEffect(() => {
+    if (landData?.ownerId) {
+      getLandOwner({ id: landData?.ownerId });
+    }
+  }, [landData?.ownerId]);
+
+  let fullName =
+    ownersDetail?.firstname ? `${ownersDetail?.firstname} ${ownersDetail?.middlename ?? ''} ${ownersDetail?.lastname}`
+      : ownersDetail?.name;
+
+  console.log({ ownersDetail });
+
   return (
-    <Boxed pad="10px 20px">
+    <Boxed pad="0 20px">
       <Boxed align="right" pad="15px 0" className="no-print">
-        <Button clear color={Theme.SecondaryTextColor} onClick={() => redirect('/parcels')}>
+        <Button clear color={Theme.SecondaryTextColor} onClick={() => redirect('/lands')}>
           Back
         </Button>{' '}
         <Button onClick={() => window.print()}>Print</Button>
       </Boxed>
 
-      <Boxed display="flex" className="page-break-after">
+      <Boxed display="flex">
         <Boxed
           className="page-break-print"
           pad="20px"
@@ -39,37 +55,37 @@ export const ROFO = (props) => {
         >
           <Grid default="1.5fr 1fr 1.5fr" tablet="1.5fr 1fr 1.5fr" mobile="1.5fr 1fr 1.5fr">
             <Boxed display="flex">
-              
+
             </Boxed>
             <Boxed display="flex">
               <img src={LOGO} height="100px" style={{ margin: 'auto' }} />
             </Boxed>
             <Boxed display="flex">
-              
+
             </Boxed>
           </Grid>
 
           <Grid default="1.5fr 1fr 1.5fr" tablet="1.5fr 1fr 1.5fr" mobile="1.5fr 1fr 1.5fr">
             <Boxed display="flex">
               <Text margin="auto 0" >
-                <b> R of O No: YBGIS - _________ </b> <br/>
-                To: ______________________<br/>
-                Address: _________________________<br/>
-                Application Number: YOGIS/___________________<br/>
+                R of O No: <b>{landData?.rofoNumber ?? `****`} </b> <br />
+                To: <b>{fullName}</b><br />
+                Address: <b>{ownersDetail?.residentialAddress ?? `****`}</b><br />
+                Application Number: <b>****</b> <br />
               </Text>
             </Boxed>
             <Boxed display="flex">
-             
+
             </Boxed>
             <Boxed display="flex">
               <Text margin="auto 0" >
-                Ref.No: _________________ <br />
+                Ref.No: <b>{landData?.referenceNumber ?? `****`}</b> <br />
                 Yobe <br />
-                Yobe Geographic Information Service (YOGIS)<br/>
-                P.M.B 1070 <br/>
+                Yobe Geographic Information Service (YOGIS)<br />
+                P.M.B 1070 <br />
                 Ibrahim Babanginda Secretariat, <br />
-                Damaturu, Yobe State <br/>
-                Date: _________________
+                Damaturu, Yobe State <br />
+                Date: {landData?.regDate ? moment(landData?.regDate).format('ll') : `****`}
               </Text>
             </Boxed>
           </Grid>
@@ -81,46 +97,45 @@ export const ROFO = (props) => {
           <Text fontSize={Theme.SecondaryFontSize}>
             <ol>
               <li>
-                With reference to your application dated <b>__________</b>2022 which was forwarded to Yobe
-                Geographic Information Service under the *Zonal Officer’s/letter
-                <b>No______</b>of<b>___________</b>20<b>____</b>. I am directed to inform you the approval of a
-                *grant/regrant of a Right of Occupancy to you in respect of <b>___________________</b>.
+                With reference to your application dated <b>{`****`}</b> which was forwarded to Yobe
+                Geographic Information Service under the Zonal Officer’s/letter
+                <b> No______</b> of <b>___________</b>20<b>____</b>. I am directed to inform you the approval of a
+                *grant/regrant of a Right of Occupancy to you in respect of <b>{landData?.parcelNumber}</b>.
                 <br />
                 On the following terms:
                 <ol>
                   <li>
-                    Premium <b>₦ 00,000.00K</b>
+                    Premium <b>₦ {`****`}</b>
                   </li>
                   <li>
-                    Rent <b>₦ X Per Sq. meter</b>
+                    Rent <b>₦ {landData?.rentRate ? formatCurrency(landData?.rentRate) : `****`} Per Sq. meter</b>
                   </li>
                   <li>
-                    Improvement <b>₦ XXXXXXXXX</b>
+                    Improvement <b>₦ {landData?.valueOfImprovement ? formatCurrency(landData?.valueOfImprovement) : `****`}</b>
                   </li>
                   <li>
-                    Term <b>XXX </b> Years.
+                    Term <b>{landData?.lengthOfTerm ? formatCurrency(landData?.lengthOfTerm) : `****`} </b> Years.
                   </li>
                   <li>
-                    Rent revision <b>XXXX</b> Years
+                    Rent revision <b>{landData?.rentRevision ?? `****`}</b>
                   </li>
                   <li>
-                    Purpose(s) <b>_______________________</b>
+                    Purpose(s): <b>{landData?.landUse ?? `****`}</b>
                   </li>
                 </ol>
               </li>
               <li>
-                This grant/regrant is right of occupancy No<b>_____________</b>YBGIS-
-                <b>_____________</b>.
+                This grant/regrant is right of occupancy No: <b>{landData?.rofoNumber}</b>.
               </li>
               <li>
                 I am to add that the following conditions will also be inserted in the certificate
                 of occupancy evidencing *grant/regrant of this occupancy.
                 <br />
-                Within…X.years from the date of commencement of this Right of Occupancy to erect and
+                Within <b> **** years</b> from the date of commencement of this Right of Occupancy to erect and
                 complete on the said land buildings or other works specified in details plans
                 approved or to be approved by the *Director Public Building Yobe State or other
                 officer so appointed, such building or other to be of not less than
-                <b>₦…………XXXXXXXXXXXXX………………</b>and to erect and completed in accordance with such plans and
+                <b> ₦ **** </b>and to erect and completed in accordance with such plans and
                 to the satisfaction of the Director Public Building Yobe State or other officer so
                 appointed.
                 <br />

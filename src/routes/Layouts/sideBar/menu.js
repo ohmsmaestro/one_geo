@@ -68,12 +68,12 @@ export const adminMenu = [
       //   pathname: "/timeshare",
       //   role: ["VIEW_TIMESHARE"],
       // },
-      // {
-      //   icon: "icon-home",
-      //   label: "Survey/GIS",
-      //   pathname: "/survey",
-      //   role: ["VIEW_GIS_PLOT"],
-      // },
+      {
+        icon: "icon-home",
+        label: "Survey/GIS",
+        pathname: "/survey",
+        role: ["VIEW_GIS_PLOT"],
+      },
       {
         icon: "icon-calculator",
         label: "Accounts",

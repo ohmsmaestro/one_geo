@@ -56,6 +56,7 @@ export const Lands = (props) => {
 
   const dropDownMenu = [
     { key: 1, label: `View Details` },
+    { key: 1.5, label: `View GIS` },
     { key: 2, label: `Edit Details` },
     { key: 3, label: `View TDP` },
     { key: 4, label: `Generate ROFO` },
@@ -70,6 +71,9 @@ export const Lands = (props) => {
     switch (item.key) {
       case 1: // View land Details
         openLandDetail(record);
+        break;
+      case 1.5: // View land GIS
+        redirect(`/parcels/view`, `?parcel=${record.parcelNumber}`);
         break;
       case 2: // Edit land Details
         openEditDetail(record);

@@ -238,8 +238,8 @@ export const LandDetail = (props) => {
                             <TextLabel
                                 label="Owner's Name"
                                 description={
-                                    ownersDetail?.ownershipType === 'Private'
-                                        ? `${ownersDetail?.firstname} ${ownersDetail?.lastName} `
+                                    ownersDetail?.firstname
+                                        ? `${ownersDetail?.firstname} ${ownersDetail?.lastname}`
                                         : ownersDetail?.name
                                 }
                             />

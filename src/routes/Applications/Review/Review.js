@@ -518,8 +518,7 @@ export const Review = (props) => {
             </Boxed>
 
             {applicationDetail.stageName === 'PENDING ALLOCATION APPROVAL' ||
-              (applicationDetail.stageName === 'PENDING ACCEPTANCE' &&
-                profile?.email === applicationDetail?.email) ||
+              (applicationDetail.stageName === 'PENDING ACCEPTANCE') ||
               applicationDetail.stageName === 'ALLOCATED' ? (
               <>
                 <HR />

@@ -67,6 +67,7 @@ export default {
       const { raw, success, message } = yield call(getLands, payload);
       if (success) {
         const item = raw?.data?.plots[0];
+        console.log({ item })
         if (item) {
           yield put({
             type: 'save',

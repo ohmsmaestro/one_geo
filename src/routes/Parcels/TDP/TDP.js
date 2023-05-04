@@ -32,18 +32,18 @@ export const TDP = (props) => {
   }, []);
 
   useEffect(() => {
-    console.log(`land_Owner_1`, { landData })
     if (landData?.ownerId) {
-      console.log(`land_Owner_2`, { landData })
       getLandOwner({ id: landData?.ownerId });
     }
   }, [landData?.ownerId]);
 
-  const mapURL = `${MAP_URL}/map.html${landData ? `?tdp=${landData.parcelNumber}` : ''}`;
+  const mapURL = `${MAP_URL}/map.html?tdp=${landData.parcelNumber}`;
 
-  let fullName = `${ownersDetail.firstname} ${ownersDetail.middlename} ${ownersDetail.lastname}`;
+  let fullName =
+    ownersDetail?.firstname ? `${ownersDetail?.firstname} ${ownersDetail?.middlename ?? ''} ${ownersDetail?.lastname}`
+      : ownersDetail?.name;
 
-  console.log({ landData, ownersDetail })
+  console.log({ ownersDetail });
 
   const RenderOldTDP = () => {
     return (
@@ -218,8 +218,8 @@ export const TDP = (props) => {
 
             <Text fontSize={Theme.SecondaryFontSize}>
               All that piece of land, surveyed under Right of Occupancy no.{' '}
-              <b>{landData.rofoNumber}</b> at <b>{landData.legalDescription}</b> Local Government Area of
-              Yobe State, consisting of an area of{' '}
+              <b>{landData.rofoNumber}</b> at <b>{landData.legalDescription}</b> Local Government
+              Area of Yobe State, consisting of an area of{' '}
               <b>
                 {landData.landSize &&
                   `${formatCurrency(Math.round(landData.landSize * 100) / 100)} square meter`}
@@ -262,7 +262,6 @@ export const TDP = (props) => {
           </Boxed>
         )}
       </Boxed>
-
     </Boxed>
   );
 };

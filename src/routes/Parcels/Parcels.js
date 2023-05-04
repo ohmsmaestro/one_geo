@@ -8,7 +8,6 @@ import Wrapper from "../Common/FilterWrapper/index";
 import { Grid } from "../../components/Grid.components";
 import { Boxed } from "../../components/Boxed.components";
 import { Input, AsyncSelect } from "../../components/Input.components";
-import { Button } from "../../components/Button.components";
 import { Text } from "../../components/Text.components";
 import { Loader } from "../../components/Loader.components";
 import { EmptyState } from "../../components/EmptyState.components";
@@ -20,7 +19,7 @@ import {
 import { PageTitle, Icon, StyledDrpDown } from "../../components/style";
 
 import { calcViewMode, formatCurrency } from "../../utils/utils";
-import { pageOptions, ASSIGN_MODE } from "../../utils/constant";
+import { pageOptions } from "../../utils/constant";
 import { Theme } from "../../utils/theme";
 
 import RentModal from "./Rent/index";
@@ -99,7 +98,7 @@ export const Parcels = (props) => {
               </Dropdown.Item>
               <Dropdown.Item
                 onClick={() =>
-                  redirect(`/parcels/view`, `?parcel=${record.FID}`)
+                  redirect(`/parcels/view`, `?parcel=${record.ParcelNumber}`)
                 }
               >
                 View Plot
