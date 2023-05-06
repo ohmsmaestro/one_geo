@@ -255,7 +255,6 @@ export default {
         payload.fileName
       );
       if (success) {
-        console.log({ raw });
         const data = raw?.data ? raw?.data : {};
         yield put({
           type: "save",
@@ -295,7 +294,6 @@ export default {
             return item;
           }
         });
-        console.log({ newList });
 
         yield put({
           type: "save",
@@ -315,7 +313,6 @@ export default {
         payload.id
       );
       if (success) {
-        console.log(raw);
       } else {
         Alert.error(message);
       }

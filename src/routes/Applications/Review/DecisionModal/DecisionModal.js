@@ -6,6 +6,7 @@ import { ModalComponent } from '../../../../components/Modal.components';
 import { Input } from '../../../../components/Input.components';
 import { Text } from '../../../../components/Text.components';
 import { Uploader } from '../../../../components/Uploader.components';
+import { Alert } from '../../../../components/Alert.components';
 import { PageTitle, FileIcon } from '../../../../components/style';
 
 import { calcViewMode } from '../../../../utils/utils';
@@ -26,6 +27,7 @@ export const DecisionModal = (props) => {
   const onSubmit = (status) => {
     validateFields((error, value) => {
       if (!error) {
+        // if(applicationDetail?.stageId === 4 ){}
         const data = {
           status: status,
           applicationId: applicationDetail.id,
@@ -34,23 +36,19 @@ export const DecisionModal = (props) => {
         };
 
         if (applicationDetail?.stageId === 4) {
-          data['file'] = file.base64;
-          data['fileFormat'] = 'pdf';
-          console.log({ file, data });
+          if (file.base64) {
+            data['file'] = file.base64;
+            data['fileFormat'] = 'pdf';
+            return approveApplicationReview(data);
+          } else {
+            return Alert.info("Acceptance letter is required")
+          }
+        } else {
+          approveApplicationReview(data);
         }
-
-        approveApplicationReview(data);
       }
     });
   };
-
-  let decisionMessage =
-    decisionModal === 'REJECTED'
-      ? 'Decline'
-      : applicationDetail.status === 'PENDING ACCEPTANCE'
-        ? 'Accept'
-        : 'Approve';
-  console.log({ applicationDetail, file });
 
   return (
     <>

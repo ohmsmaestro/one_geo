@@ -20,7 +20,7 @@ export async function postLand(data) {
 }
 
 export async function putLand(data) {
-  const url = `${endpoint}/old-plots`;
+  const url = `${endpoint}/old-plots/plot`;
   return await request({
     url,
     method: "PUT",

@@ -33,12 +33,10 @@ export const COFO = (props) => {
 
   let fullName = ownersDetail?.firstname ? `${ownersDetail?.firstname} ${ownersDetail?.middlename ?? ''} ${ownersDetail?.lastname}` : ownersDetail?.name;
 
-  console.log({ landData, ownersDetail });
-
   return (
     <Boxed pad="10px 20px">
       <Boxed align="right" pad="15px 0" className="no-print">
-        <Button clear color={Theme.SecondaryTextColor} onClick={() => redirect('/parcels')}>
+        <Button clear color={Theme.SecondaryTextColor} onClick={() => redirect('/lands')}>
           Back
         </Button>{' '}
         <Button onClick={() => window.print()}>Print</Button>

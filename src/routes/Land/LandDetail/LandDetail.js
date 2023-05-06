@@ -153,8 +153,6 @@ export const LandDetail = (props) => {
         }
     }, []);
 
-    console.log({ landData, ownersDetail, subsequentTransList });
-
     return (
         <Boxed pad="20px">
             <Boxed align="right" pad="15px 0" className="no-print">
@@ -180,8 +178,8 @@ export const LandDetail = (props) => {
                     </Text>
                     <TextLabel label="Plot Number" description={landData.parcelNumber} />
                     <Grid desktop="repeat(3, 1fr)" tablet="repeat(3,1fr)" mobile="repeat(2, 1fr)">
-                        <TextLabel label="Registration Number" description={landData.registrationNumber} />
                         <TextLabel label="ROFO Number" description={landData.rofoNumber} />
+                        <TextLabel label="ROFO Reference Number" description={landData.rofoReferenceNumber} />
                         <TextLabel label="COFO Number" description={landData.cofoNumber} />
 
                         <TextLabel label="Land Use" description={landData.landUse} />
@@ -193,23 +191,41 @@ export const LandDetail = (props) => {
                         />
 
                         <TextLabel label="Allocation Number" description={landData.allocationNumber} />
-                        <TextLabel label="Reg. Page" description={landData.regPage} />
+                        <TextLabel label="Registration Number" description={landData.registrationNumber} />
                         <TextLabel label="Volume No." description={landData.volumeNo} />
 
-                        {/* <TextLabel label="Allocation Number" description={landData.allocationNumber} />
-                <TextLabel label="Reg. Page" description={landData.regPage} />
-                <TextLabel label="Volume No." description={landData.volumeNo} /> */}
-
+                        <TextLabel label="Reg. Page" description={landData.regPage} />
                         <TextLabel
                             label="Reg. Date"
                             description={landData?.regDate ? moment(landData?.regDate).format('ll') : null}
                         />
                         <TextLabel label="Reg. Time" description={landData.regTime} />
+
+                        <TextLabel label="Premium" description={landData.premium} />
+                        <TextLabel label="Value Of Improvement" description={landData.valueOfImprovement} />
+                        <TextLabel label="Time of Erection" description={landData.timeOfErection} />
+
+
+                        <TextLabel label="Length Of Term" description={landData?.lengthOfTerm && `${formatCurrency(landData?.lengthOfTerm)} years`} />
+                        <div />
                         <div />
 
-                        <TextLabel label="Rent Rate" description={landData.rentRate} />
+                        <TextLabel label="Rent Rate" description={landData.rentRate && formatCurrency(landData.rentRate)} />
                         <TextLabel label="Rent Revision" description={landData.rentRevision} />
                         <div />
+
+                        <TextLabel
+                            label="Application Date"
+                            description={landData?.applicationDate && moment(landData?.applicationDate).format('ll')}
+                        />
+                        <TextLabel label="Application Number" description={landData?.applicationNumber} />
+                        <TextLabel
+                            label="Application Forwarding Date"
+                            description={
+                                landData?.applicationForwardingDate && moment(landData?.applicationForwardingDate).format('ll')
+                            }
+                        />
+
 
                         <TextLabel
                             label="Last Payment Amount"

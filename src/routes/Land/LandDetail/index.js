@@ -7,7 +7,7 @@ export const mapStateToProps = (state, ownProps) => {
   const { lands, archived, loading, entries } = state;
   const { landData, subsequentTransList } = lands;
   const { archivedList } = archived;
-  const { ownersDetail } = entries
+  const { ownersDetail } = entries;
   const params = ownProps?.match?.params;
 
   const isLoading = loading.effects["lands/getSingleLand"];

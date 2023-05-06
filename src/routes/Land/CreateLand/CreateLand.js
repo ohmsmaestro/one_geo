@@ -12,10 +12,10 @@ import { EDIT_MODE, ownerShipOptions } from '../../../utils/constant';
 
 export const CreateLandForm = (props) => {
   // State props
-  const { modiStateList, isLoading, landTypes, landData, mode } = props;
+  const { modiStateList, isLoading, landTypes, landData, mode, ownersDetail } = props;
 
   // Dispatch props
-  const { form, createLand, fetchStates, fetchLandType } = props;
+  const { form, createLand, fetchStates, fetchLandType, editLand, getLandOwner } = props;
   const { getFieldProps, getFieldError, validateFields, setFieldsValue, getFieldValue } = form;
 
   useEffect(() => {
@@ -23,8 +23,13 @@ export const CreateLandForm = (props) => {
     fetchLandType();
   }, []);
 
-
   const isEditMode = mode === EDIT_MODE;
+
+  useEffect(() => {
+    if (landData?.ownerId) {
+      getLandOwner({ id: landData?.ownerId });
+    }
+  }, [landData?.ownerId]);
 
   const [assigned, setAssigned] = useState(isEditMode ? landData?.assigned : false);
   const [lgaOriginList, setLgaOriginList] = useState([]);
@@ -45,7 +50,6 @@ export const CreateLandForm = (props) => {
 
   const onSubmit = () => {
     validateFields((error, values) => {
-
       if (!error) {
         let payload = {
           parcelNumber: values.parcelNumber,
@@ -77,7 +81,12 @@ export const CreateLandForm = (props) => {
           regPage: values?.regPage ? Number(values?.regPage) : 0,
           volumeNo: values.volumeNo,
           regDate: values.regDate,
-          regTime: values.regTime
+          regTime: values.regTime,
+          applicationNumber: values?.applicationNumber,
+          applicationDate: values?.applicationDate,
+          rofoReferenceNumber: values?.rofoReferenceNumber,
+          premium: values?.premium,
+          applicationForwardingDate: values?.applicationForwardingDate
         };
         if (isPrivate && assigned) {
           payload['assignedTo'] = {
@@ -103,7 +112,7 @@ export const CreateLandForm = (props) => {
 
             contactName: values?.contactName ?? '',
             contactAddress: values?.contactAddress ?? '',
-            contactPhone: values?.contactPhone ?? '',
+            contactPhone: values?.contactPhone ?? ''
           };
         }
 
@@ -129,20 +138,27 @@ export const CreateLandForm = (props) => {
 
             registrationNumber: values?.rcNumber ?? '',
             registrationAddress: values?.registeredAddress ?? '',
-            registrationDate: (values?.registrationDate && moment(values?.registrationDate).format("YYYY-MM-DD")) ?? '',
+            registrationDate:
+              (values?.registrationDate && moment(values?.registrationDate).format('YYYY-MM-DD')) ??
+              ''
           };
         }
 
-        createLand(payload);
+        if (isEditMode) {
+          if (assigned) {
+            payload.assignedTo['id'] = ownersDetail.id;
+          }
+          editLand({ id: landData?.id, ...payload })
+        } else {
+          createLand(payload);
+        }
       }
     });
   };
 
   const landUseList = getFieldValue('landUse')?.types ?? [];
-  const lgaList = modiStateList[35]?.lgas?.map(item => ({ label: item?.name, value: item?.lgaId })) ?? [];
-
-
-  console.log({ landData, mode });
+  const lgaList =
+    modiStateList[35]?.lgas?.map((item) => ({ label: item?.name, value: item?.lgaId })) ?? [];
 
   return (
     <Boxed pad="20px">
@@ -164,6 +180,7 @@ export const CreateLandForm = (props) => {
                   label="Plot Number"
                   type="text"
                   placeholder="Enter Plot Number..."
+                  disabled={isEditMode}
                   error={getFieldError('parcelNumber') ? 'Plot Number is required' : null}
                   {...getFieldProps('parcelNumber', {
                     initialValue: isEditMode ? landData?.parcelNumber : '',
@@ -191,7 +208,9 @@ export const CreateLandForm = (props) => {
                   placeholder="Select Land Type..."
                   error={getFieldError('landUse') ? 'Land Type is required' : null}
                   {...getFieldProps('landUse', {
-                    initialValue: isEditMode ? landData?.landUse : '',
+                    initialValue: isEditMode
+                      ? { value: landData?.landUse, label: landData?.landUse }
+                      : '',
                     rules: [{ required: isRequired }],
                     onChange: () => setFieldsValue({ landType: '' })
                   })}
@@ -204,7 +223,9 @@ export const CreateLandForm = (props) => {
                   placeholder="Select Land Use Type..."
                   error={getFieldError('landType') ? 'Land Use Type is required' : null}
                   {...getFieldProps('landType', {
-                    initialValue: isEditMode ? landData?.landType : '',
+                    initialValue: isEditMode
+                      ? { value: landData?.landType, label: landData?.landType }
+                      : '',
                     rules: [{ required: isRequired }]
                   })}
                 />
@@ -217,7 +238,7 @@ export const CreateLandForm = (props) => {
                   options={lgaList}
                   error={getFieldError('lga') ? 'Local Gov. Area. is required' : null}
                   {...getFieldProps('lga', {
-                    initialValue: isEditMode ? landData?.lga : '',
+                    initialValue: isEditMode ? lgaList?.find(item => item.value === landData?.lga) : '',
                     rules: [{ required: isRequired }]
                   })}
                 />
@@ -313,6 +334,62 @@ export const CreateLandForm = (props) => {
               fontSize={Theme.SecondaryFontSize}
               color={Theme.SecondaryTextColor}
             >
+              Application Detail
+            </Text>
+            <Grid desktop="repeat(2, 1fr)" tablet="repeat(2, 1fr)" mobile="repeat(1,1fr)">
+              <Boxed pad="10px 0">
+                <Input
+                  label="Application Date"
+                  type="date"
+                  max={moment().format('YYYY-MM-DD')}
+                  placeholder="Select last payment date..."
+                  error={getFieldError('applicationDate') ? 'Last Payment Date is required' : null}
+                  {...getFieldProps('applicationDate', {
+                    initialValue: isEditMode ? landData?.applicationDate : '',
+                    rules: [{ required: isRequired }]
+                  })}
+                />
+              </Boxed>
+
+              <Boxed pad="10px 0">
+                <Input
+                  label="Application Number"
+                  type="text"
+                  placeholder="Enter Application Number..."
+                  error={
+                    getFieldError('applicationNumber') ? 'Application Number is required' : null
+                  }
+                  {...getFieldProps('applicationNumber', {
+                    initialValue: isEditMode ? landData?.applicationNumber : '',
+                    rules: [{ required: isRequired }]
+                  })}
+                />
+              </Boxed>
+
+              <Boxed pad="10px 0">
+                <Input
+                  label="Application Forwarding Date"
+                  type="date"
+                  placeholder="Enter Application Forwarding Date..."
+                  error={
+                    getFieldError('applicationForwardingDate')
+                      ? 'Application Forwarding Date is required'
+                      : null
+                  }
+                  {...getFieldProps('applicationForwardingDate', {
+                    initialValue: isEditMode ? landData?.applicationForwardingDate : '',
+                    rules: [{ required: isRequired }]
+                  })}
+                />
+              </Boxed>
+            </Grid>
+
+            <Text
+              padding="40px 0 0 0"
+              fontWeight="600"
+              fontSize={Theme.SecondaryFontSize}
+              color={Theme.SecondaryTextColor}
+            >
               Last Payment Info
             </Text>
             <Grid desktop="repeat(2, 1fr)" tablet="repeat(2, 1fr)" mobile="repeat(1,1fr)">
@@ -321,8 +398,8 @@ export const CreateLandForm = (props) => {
                   label="Last PaymentDate"
                   type="date"
                   max={moment().format('YYYY-MM-DD')}
-                  placeholder="Select last payment date..."
-                  error={getFieldError('lastPaymentDate') ? 'Last Payment Date is required' : null}
+                  placeholder="Select Application date..."
+                  error={getFieldError('lastPaymentDate') ? 'Application date is required' : null}
                   {...getFieldProps('lastPaymentDate', {
                     initialValue: isEditMode ? landData?.lastPaymentDate : '',
                     rules: [{ required: isRequired }]
@@ -407,6 +484,22 @@ export const CreateLandForm = (props) => {
                   })}
                 />
               </Boxed>
+              <Boxed pad="10px 0">
+                <Input
+                  label="ROFO Reference Number"
+                  type="text"
+                  placeholder="ROFO Reference Number..."
+                  error={
+                    getFieldError('rofoReferenceNumber')
+                      ? 'ROFO Reference Number is required'
+                      : null
+                  }
+                  {...getFieldProps('rofoReferenceNumber', {
+                    initialValue: isEditMode ? landData?.rofoReferenceNumber : '',
+                    rules: [{ required: isRequired }]
+                  })}
+                />
+              </Boxed>
 
               <Boxed pad="10px 0">
                 <Input
@@ -433,6 +526,20 @@ export const CreateLandForm = (props) => {
                   })}
                 />
               </Boxed>
+              <Boxed pad="10px 0">
+                <Input
+                  label="Premium"
+                  type="number"
+                  min={0}
+                  placeholder="Enter Premium..."
+                  error={getFieldError('premium') ? 'Premium is required' : null}
+                  {...getFieldProps('premium', {
+                    initialValue: isEditMode ? landData?.premium : '',
+                    rules: [{ required: isRequired }]
+                  })}
+                />
+              </Boxed>
+
               <Boxed pad="10px 0">
                 <Input
                   type="date"
@@ -584,7 +691,6 @@ export const CreateLandForm = (props) => {
                   })}
                 />
               </Boxed>
-
             </Grid>
 
             <Boxed pad="10px 0">
@@ -604,13 +710,12 @@ export const CreateLandForm = (props) => {
                       label="Ownership Type"
                       placeholder="Select type..."
                       options={ownerShipOptions}
-                      error={
-                        (getFieldError('ownershipType'))
-                          ? 'Ownership type is required'
-                          : null
-                      }
+                      error={getFieldError('ownershipType') ? 'Ownership type is required' : null}
                       {...getFieldProps('ownershipType', {
-                        rules: [{ required: isRequired }]
+                        initialValue: isEditMode
+                          ? { value: ownersDetail?.ownershipType, label: ownersDetail?.ownershipType }
+                          : '',
+                        rules: [{ required: true }]
                       })}
                     />
                   </Boxed>
@@ -625,14 +730,14 @@ export const CreateLandForm = (props) => {
             {isPrivate && (
               <>
                 <Grid desktop="repeat(3,1fr)" tablet="repeat(3,1fr)" mobile="repeat(1,1fr)">
-
                   <Boxed margin="10px 0">
                     <Input
                       label="National Identification Number"
                       type="text"
                       placeholder="Enter National Identification Number..."
-                      error={(getFieldError('nin')) ? 'NIN is required' : null}
+                      error={getFieldError('nin') ? 'NIN is required' : null}
                       {...getFieldProps('nin', {
+                        initialValue: isEditMode ? ownersDetail?.nin : '',
                         rules: [{ required: isRequired }]
                       })}
                     />
@@ -641,9 +746,15 @@ export const CreateLandForm = (props) => {
                     <AsyncSelect
                       label="Gender"
                       placeholder="Select gender..."
-                      options={[{ label: 'MALE', value: 'M' }, { label: 'FEMALE', value: 'F' },]}
+                      options={[
+                        { label: 'MALE', value: 'M' },
+                        { label: 'FEMALE', value: 'F' }
+                      ]}
                       {...getFieldProps('gender', {
-                        rules: [{ required: isRequired }],
+                        initialValue: isEditMode
+                          ? { value: ownersDetail?.gender, label: ownersDetail?.gender }
+                          : '',
+                        rules: [{ required: isRequired }]
                       })}
                     />
                   </Boxed>
@@ -654,8 +765,9 @@ export const CreateLandForm = (props) => {
                       label="Surname"
                       type="text"
                       placeholder="Your Surname..."
-                      error={(getFieldError('lastname')) ? 'Last Name is required' : null}
+                      error={getFieldError('lastname') ? 'Last Name is required' : null}
                       {...getFieldProps('lastname', {
+                        initialValue: isEditMode ? ownersDetail?.lastname : '',
                         rules: [{ required: true }]
                       })}
                     />
@@ -665,10 +777,9 @@ export const CreateLandForm = (props) => {
                       label="First Name"
                       type="text"
                       placeholder="Your first name..."
-                      error={
-                        (getFieldError('firstname')) ? 'First Name is required' : null
-                      }
+                      error={getFieldError('firstname') ? 'First Name is required' : null}
                       {...getFieldProps('firstname', {
+                        initialValue: isEditMode ? ownersDetail?.firstname : '',
                         rules: [{ required: true }]
                       })}
                     />
@@ -680,8 +791,9 @@ export const CreateLandForm = (props) => {
                       label="Email "
                       type="email"
                       placeholder="Your Email..."
-                      error={(getFieldError('email')) ? 'Email  is required' : null}
+                      error={getFieldError('email') ? 'Email  is required' : null}
                       {...getFieldProps('email', {
+                        initialValue: isEditMode ? ownersDetail?.email : '',
                         rules: [{ required: isRequired, type: 'email' }]
                       })}
                     />
@@ -691,8 +803,10 @@ export const CreateLandForm = (props) => {
                       label="Phone Number"
                       type="number"
                       placeholder="Your phone number..."
-                      error={(getFieldError('phone')) ? 'Phone number is required' : null}
+                      error={getFieldError('phone') ? 'Phone number is required' : null}
                       {...getFieldProps('phone', {
+
+                        initialValue: isEditMode ? ownersDetail?.phone : '',
                         rules: [{ required: isRequired }]
                       })}
                     />
@@ -703,8 +817,9 @@ export const CreateLandForm = (props) => {
                       type="date"
                       placeholder="Your Date of birth..."
                       max={moment().subtract(18, 'years').format('YYYY-MM-DD')}
-                      error={(getFieldError('dob')) ? 'Date of birth is required' : null}
+                      error={getFieldError('dob') ? 'Date of birth is required' : null}
                       {...getFieldProps('dob', {
+                        initialValue: isEditMode ? ownersDetail?.dob : '',
                         rules: [{ required: isRequired }]
                       })}
                     />
@@ -718,11 +833,7 @@ export const CreateLandForm = (props) => {
                       label="State of Origin"
                       placeholder="Select your state of origin..."
                       options={modiStateList ? modiStateList : []}
-                      error={
-                        (getFieldError('stateOfOrigin'))
-                          ? 'State of origin is required'
-                          : null
-                      }
+                      error={getFieldError('stateOfOrigin') ? 'State of origin is required' : null}
                       {...getFieldProps('stateOfOrigin', {
                         rules: [{ required: isRequired }],
                         onChange: (value) => handleStateOriginSelect(value)
@@ -734,7 +845,7 @@ export const CreateLandForm = (props) => {
                       label="Local Gov. Area of Origin"
                       placeholder="Select your LGA of Origin..."
                       options={lgaOriginList ? lgaOriginList : []}
-                      error={(getFieldError('lgaOfOrigin')) ? 'LGA is required' : null}
+                      error={getFieldError('lgaOfOrigin') ? 'LGA is required' : null}
                       {...getFieldProps('lgaOfOrigin', {
                         rules: [{ required: isRequired }]
                       })}
@@ -747,6 +858,8 @@ export const CreateLandForm = (props) => {
                       placeholder="Enter Nationality..."
                       error={getFieldError('nationality') ? 'Nationality is required' : null}
                       {...getFieldProps('nationality', {
+
+                        initialValue: isEditMode ? ownersDetail?.nationality : '',
                         rules: [{ required: isRequired }]
                       })}
                     />
@@ -762,6 +875,7 @@ export const CreateLandForm = (props) => {
                       getFieldError('residentialAddress') ? 'Residential Address is required' : null
                     }
                     {...getFieldProps('residentialAddress', {
+                      initialValue: isEditMode ? ownersDetail?.residentialAddress : '',
                       rules: [{ required: isRequired }]
                     })}
                   />
@@ -777,8 +891,9 @@ export const CreateLandForm = (props) => {
                       label="Company Name"
                       type="text"
                       placeholder="Enter company name..."
-                      error={(getFieldError('name')) ? 'Company name is required' : null}
+                      error={getFieldError('name') ? 'Company name is required' : null}
                       {...getFieldProps('name', {
+                        initialValue: isEditMode ? ownersDetail?.name : '',
                         rules: [{ required: isRequired }]
                       })}
                     />
@@ -790,12 +905,9 @@ export const CreateLandForm = (props) => {
                       label="Company Email"
                       type="text"
                       placeholder="Enter company email..."
-                      error={
-                        (getFieldError('companyEmail'))
-                          ? 'Company Email is required'
-                          : null
-                      }
+                      error={getFieldError('companyEmail') ? 'Company Email is required' : null}
                       {...getFieldProps('companyEmail', {
+                        initialValue: isEditMode ? ownersDetail?.email : '',
                         rules: [{ required: isRequired }]
                       })}
                     />
@@ -805,10 +917,9 @@ export const CreateLandForm = (props) => {
                       label="Company Type"
                       type="text"
                       placeholder="Enter company type..."
-                      error={
-                        (getFieldError('companyType')) ? 'Company type is required' : null
-                      }
+                      error={getFieldError('companyType') ? 'Company type is required' : null}
                       {...getFieldProps('companyType', {
+                        initialValue: isEditMode ? ownersDetail?.typeOfBusiness : '',
                         rules: [{ required: isRequired }]
                       })}
                     />
@@ -818,8 +929,9 @@ export const CreateLandForm = (props) => {
                       label="Company Phone"
                       type="number"
                       placeholder="Enter company phone..."
-                      error={(getFieldError('phone')) ? 'Company phone is required' : null}
+                      error={getFieldError('phone') ? 'Company phone is required' : null}
                       {...getFieldProps('phone', {
+                        initialValue: isEditMode ? ownersDetail?.phone : '',
                         rules: [{ required: isRequired }]
                       })}
                     />
@@ -829,12 +941,9 @@ export const CreateLandForm = (props) => {
                       label="RC Number"
                       type="text"
                       placeholder="Enter RC number..."
-                      error={
-                        (getFieldError('rcNumber'))
-                          ? 'RC number is required'
-                          : null
-                      }
+                      error={getFieldError('rcNumber') ? 'RC number is required' : null}
                       {...getFieldProps('rcNumber', {
+                        initialValue: isEditMode ? ownersDetail?.registrationNumber : '',
                         rules: [{ required: isRequired }]
                       })}
                     />
@@ -844,12 +953,9 @@ export const CreateLandForm = (props) => {
                       label="Tax Identification Number"
                       type="text"
                       placeholder="Enter Tax Identification Number..."
-                      error={
-                        (getFieldError('tin'))
-                          ? 'Tax Identification Number is required'
-                          : null
-                      }
+                      error={getFieldError('tin') ? 'Tax Identification Number is required' : null}
                       {...getFieldProps('tin', {
+                        initialValue: isEditMode ? ownersDetail?.tin : '',
                         rules: [{ required: isRequired }]
                       })}
                     />
@@ -860,13 +966,12 @@ export const CreateLandForm = (props) => {
                       label="Registration Date"
                       type="date"
                       placeholder="Your Registration Date..."
-                      max={moment().format("YYYY-MM-DD")}
+                      max={moment().format('YYYY-MM-DD')}
                       error={
-                        (getFieldError('registrationDate'))
-                          ? 'Registration Date is required'
-                          : null
+                        getFieldError('registrationDate') ? 'Registration Date is required' : null
                       }
                       {...getFieldProps('registrationDate', {
+                        initialValue: isEditMode ? ownersDetail?.registrationDate : '',
                         rules: [{ required: isRequired }]
                       })}
                     />
@@ -879,11 +984,10 @@ export const CreateLandForm = (props) => {
                     type="text"
                     placeholder="Enter Registered address..."
                     error={
-                      (getFieldError('registeredAddress'))
-                        ? 'registered address is required'
-                        : null
+                      getFieldError('registeredAddress') ? 'registered address is required' : null
                     }
                     {...getFieldProps('registeredAddress', {
+                      initialValue: isEditMode ? ownersDetail?.registrationAddress : '',
                       rules: [{ required: isRequired }]
                     })}
                   />
@@ -891,21 +995,16 @@ export const CreateLandForm = (props) => {
               </>
             )}
 
-            <Grid
-              desktop="repeat(3,1fr)"
-              tablet="repeat(3,1fr)"
-              mobile="repeat(1,1fr)"
-            >
+            <Grid desktop="repeat(3,1fr)" tablet="repeat(3,1fr)" mobile="repeat(1,1fr)">
               <Boxed margin="10px 0">
                 <Input
                   label="Contact Name"
                   type="text"
                   placeholder="Your Contact name..."
-                  error={
-                    (getFieldError("contactName")) ? "Contact name  is required" : null
-                  }
-                  {...getFieldProps("contactName", {
-                    rules: [{ required: isRequired }],
+                  error={getFieldError('contactName') ? 'Contact name  is required' : null}
+                  {...getFieldProps('contactName', {
+                    initialValue: isEditMode ? ownersDetail?.contactName : '',
+                    rules: [{ required: isRequired }]
                   })}
                 />
               </Boxed>
@@ -914,13 +1013,10 @@ export const CreateLandForm = (props) => {
                   label="Contact Phone"
                   type="number"
                   placeholder="Your Contact phone..."
-                  error={
-                    (getFieldError("contactPhone"))
-                      ? "Contact phone is required"
-                      : null
-                  }
-                  {...getFieldProps("contactPhone", {
-                    rules: [{ required: isRequired }],
+                  error={getFieldError('contactPhone') ? 'Contact phone is required' : null}
+                  {...getFieldProps('contactPhone', {
+                    initialValue: isEditMode ? ownersDetail?.contactPhone : '',
+                    rules: [{ required: isRequired }]
                   })}
                 />
               </Boxed>
@@ -931,11 +1027,10 @@ export const CreateLandForm = (props) => {
                 label="Contact Address"
                 type="text"
                 placeholder="Your Contact address..."
-                error={
-                  (getFieldError("contactAddress")) ? "Contact address  is required" : null
-                }
-                {...getFieldProps("contactAddress", {
-                  rules: [{ required: isRequired }],
+                error={getFieldError('contactAddress') ? 'Contact address  is required' : null}
+                {...getFieldProps('contactAddress', {
+                  initialValue: isEditMode ? ownersDetail?.contactAddress : '',
+                  rules: [{ required: isRequired }]
                 })}
               />
             </Boxed>

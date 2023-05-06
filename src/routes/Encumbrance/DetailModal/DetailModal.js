@@ -24,8 +24,6 @@ export const DetailModal = (props) => {
 
   let viewMode = calcViewMode();
 
-  console.log({ entryData });
-
   return (
     <>
       <ModalComponent

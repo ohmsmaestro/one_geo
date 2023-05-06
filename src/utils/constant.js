@@ -522,7 +522,7 @@ export const deedStatusOption = [
 
 export const ownerShipOptions = [
   { value: "PRIVATE", label: 'Private' },
-  { value: "CORPORATE", label: 'Co-Operate' },
+  { value: "CORPORATE", label: 'Corporate' },
 ]
 
 export const applicationTypeOptions = [

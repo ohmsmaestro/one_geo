@@ -32,8 +32,6 @@ export const SubsequentTransForm = (props) => {
                     plotNumber: landData.parcelNumber,
                     subTransType: values?.subTransType?.value,
                 }
-
-                console.log({ data })
                 createSubsequentTrans(data)
             }
         });

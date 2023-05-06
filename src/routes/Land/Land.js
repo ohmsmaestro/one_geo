@@ -57,7 +57,7 @@ export const Lands = (props) => {
   const dropDownMenu = [
     { key: 1, label: `View Details` },
     { key: 1.5, label: `View GIS` },
-    { key: 2, label: `Edit Details` },
+    // { key: 2, label: `Edit Details` },
     { key: 3, label: `View TDP` },
     { key: 4, label: `Generate ROFO` },
     { key: 5, label: `Generate COFO` },
@@ -201,7 +201,7 @@ export const Lands = (props) => {
       align: 'right',
       render: (text, record) => {
         const newList = dropDownMenu.filter((item) => {
-          if (!record.assigned && (item.key === 6 || item.key === 7)) {
+          if (!record.assigned && (item.key === 3 || item.key === 4 || item.key === 5 || item.key === 6 || item.key === 7)) {
             return false;
           }
           return true;

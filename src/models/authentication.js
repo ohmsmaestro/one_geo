@@ -84,7 +84,6 @@ export default {
     *signup({ payload }, { call, put }) {
       const { raw, success, message } = yield call(postSignup, payload);
       if (success) {
-        console.log(raw);
         Alert.success("Sign up successfully, please log in");
         yield put(routerRedux.push({ pathname: "/" }));
       } else {

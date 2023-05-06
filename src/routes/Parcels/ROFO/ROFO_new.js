@@ -33,8 +33,7 @@ export const ROFO = (props) => {
   let fullName =
     ownersDetail?.firstname ? `${ownersDetail?.firstname} ${ownersDetail?.middlename ?? ''} ${ownersDetail?.lastname}`
       : ownersDetail?.name;
-
-  console.log({ ownersDetail });
+  let address = ownersDetail?.ownershipType?.toLowerCase() === 'private' ? ownersDetail?.residentialAddress : ownersDetail?.registrationAddress;
 
   return (
     <Boxed pad="0 20px">
@@ -70,8 +69,8 @@ export const ROFO = (props) => {
               <Text margin="auto 0" >
                 R of O No: <b>{landData?.rofoNumber ?? `****`} </b> <br />
                 To: <b>{fullName}</b><br />
-                Address: <b>{ownersDetail?.residentialAddress ?? `****`}</b><br />
-                Application Number: <b>****</b> <br />
+                Address: <b>{address ?? `****`}</b><br />
+                Application Number: <b>{landData?.applicationNumber ?? `****`}</b> <br />
               </Text>
             </Boxed>
             <Boxed display="flex">
@@ -79,7 +78,7 @@ export const ROFO = (props) => {
             </Boxed>
             <Boxed display="flex">
               <Text margin="auto 0" >
-                Ref.No: <b>{landData?.referenceNumber ?? `****`}</b> <br />
+                Ref.No: <b>{landData?.rofoReferenceNumber ?? `****`}</b> <br />
                 Yobe <br />
                 Yobe Geographic Information Service (YOGIS)<br />
                 P.M.B 1070 <br />
@@ -97,15 +96,15 @@ export const ROFO = (props) => {
           <Text fontSize={Theme.SecondaryFontSize}>
             <ol>
               <li>
-                With reference to your application dated <b>{`****`}</b> which was forwarded to Yobe
+                With reference to your application dated <b>{landData?.applicationDate ? moment(landData?.applicationDate).format('ll') : `****`}</b> which was forwarded to Yobe
                 Geographic Information Service under the Zonal Officer’s/letter
-                <b> No______</b> of <b>___________</b>20<b>____</b>. I am directed to inform you the approval of a
+                No: <b>{landData?.rofoReferenceNumber ?? `****`}</b> of <b>{landData?.applicationDate ? moment(landData?.applicationDate).format('ll') : `****`}</b>. I am directed to inform you the approval of a
                 *grant/regrant of a Right of Occupancy to you in respect of <b>{landData?.parcelNumber}</b>.
                 <br />
                 On the following terms:
                 <ol>
                   <li>
-                    Premium <b>₦ {`****`}</b>
+                    Premium <b>₦ {landData?.premium ? formatCurrency(landData?.premium) : `****`}</b>
                   </li>
                   <li>
                     Rent <b>₦ {landData?.rentRate ? formatCurrency(landData?.rentRate) : `****`} Per Sq. meter</b>
@@ -131,11 +130,11 @@ export const ROFO = (props) => {
                 I am to add that the following conditions will also be inserted in the certificate
                 of occupancy evidencing *grant/regrant of this occupancy.
                 <br />
-                Within <b> **** years</b> from the date of commencement of this Right of Occupancy to erect and
+                Within <b> {landData?.lengthOfTerm ? formatCurrency(landData?.lengthOfTerm) : `****`} years</b> from the date of commencement of this Right of Occupancy to erect and
                 complete on the said land buildings or other works specified in details plans
                 approved or to be approved by the *Director Public Building Yobe State or other
                 officer so appointed, such building or other to be of not less than
-                <b> ₦ **** </b>and to erect and completed in accordance with such plans and
+                <b> ₦ {landData?.valueOfImprovement ? formatCurrency(landData?.valueOfImprovement) : '****'} </b>and to erect and completed in accordance with such plans and
                 to the satisfaction of the Director Public Building Yobe State or other officer so
                 appointed.
                 <br />

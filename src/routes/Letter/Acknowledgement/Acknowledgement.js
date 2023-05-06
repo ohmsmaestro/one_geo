@@ -80,16 +80,9 @@ export const AcknowledgementLetter = (props) => {
               <b>
                 {applicationDetail?.createdAt && moment(applicationDetail.createdAt).format('ll')}
               </b>{' '}
-              has been received by Yobe Geographic Information Service (YOGIS). This letter is to
-              acknowledge that all the plot details below were carefully verified by you: <br />
-              <ul>
-                <li>Land Location</li>
-                <li>Land Use</li>
-                <li>Date of Allocation</li>
-                <li>Allocation (Town/Layout)</li>
-                <li>Approximate size of land</li>
-              </ul>
-              You can now logon and track your application at the Yobe Geographic Information
+              has been received by Yobe Geographic Information Service (YOGIS). <br />
+
+              You can track your application at the Yobe Geographic Information
               Service(YOGIS) centre in Damaturu, Yobe State with your Application Number. Also, the
               under listed documents were received and verified by YOGIS: (The requirements as
               attached to this specific Application)

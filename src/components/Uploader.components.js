@@ -15,7 +15,7 @@ export const Uploader = ({ maxSize, types, multiple, callBack, message }) => {
     // handle logic for uploading an image
     const beforeUpload = (file) => {
         const isType = types.includes(file.type);
-        console.log({ file: file.type, types, isType })
+
         if (!isType) {
             Alert.error(`You can only upload${types.map(item => ` ${item},`)} file format.`);
         }

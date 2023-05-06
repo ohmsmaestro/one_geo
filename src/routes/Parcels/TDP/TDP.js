@@ -18,13 +18,12 @@ import { formatCurrency } from '../../../utils/utils';
 
 export const TDP = (props) => {
   // state props received
-  const { tdpData, params, showPrint, isLoading, landData, ownersDetail } = props;
+  const { tdpData, params, showPrint, isLoading, landData, ownersDetail, parcelData } = props;
 
   // dispatch props received
   const { redirect, fetchTDP, getSingleLand, getLandOwner } = props;
 
   useEffect(() => {
-    console.log({ params });
     if (params?.ParcelNumber) {
       fetchTDP({ parcelNumber: params.ParcelNumber });
       getSingleLand({ search: params.ParcelNumber });
@@ -43,7 +42,12 @@ export const TDP = (props) => {
     ownersDetail?.firstname ? `${ownersDetail?.firstname} ${ownersDetail?.middlename ?? ''} ${ownersDetail?.lastname}`
       : ownersDetail?.name;
 
-  console.log({ ownersDetail });
+  // const { pBeacon } = parcelData;
+  let pBeacon = parcelData?.pBeacon ? JSON.parse(parcelData?.pBeacon) : {};
+
+  let address = ownersDetail?.ownershipType?.toLowerCase() === 'private' ? ownersDetail?.residentialAddress : ownersDetail?.registrationAddress
+
+  console.log({ ownersDetail, landData, parcelData });
 
   const RenderOldTDP = () => {
     return (
@@ -60,7 +64,7 @@ export const TDP = (props) => {
           <br />
           <b>{fullName}</b>
           <br />
-          {ownersDetail.residentialAddress}
+          {address}
           <br />
           <b>{ownersDetail.stateOfResidence}</b>
         </Text>
@@ -75,14 +79,14 @@ export const TDP = (props) => {
           >
             <b>SURVEYOR GENERAL</b>
             <br />
-            {moment('24-08-2020').format('ll')}
+            {landData?.registrationDate ? moment(landData?.registrationDate).format('ll') : `****`}
           </Text>
         </Boxed>
         <Grid pad="20px" desktop="auto 40px" tablet="auto 40px" mobile="auto 40px">
           <iframe
             src={mapURL}
             width="100%"
-            height="400px"
+            height="550px"
             style={{ width: '550px', margin: 'auto' }}
           ></iframe>
           <Boxed pad="10px 0">
@@ -106,7 +110,7 @@ export const TDP = (props) => {
               padding="2px 5px"
               fontSize={Theme.SecondaryFontSize}
             >
-              {' '}
+              {pBeacon?.origin}
             </Text>
 
             <Text
@@ -123,7 +127,7 @@ export const TDP = (props) => {
               padding="2px 5px"
               fontSize={Theme.SecondaryFontSize}
             >
-              {' '}
+              {pBeacon?.coordinates}
             </Text>
 
             <Text
@@ -140,7 +144,7 @@ export const TDP = (props) => {
               padding="2px 5px"
               fontSize={Theme.SecondaryFontSize}
             >
-              {landData.surveyedBy}
+              {parcelData.surveyedBy}
             </Text>
 
             <Text
@@ -174,7 +178,7 @@ export const TDP = (props) => {
               padding="2px 5px"
               fontSize={Theme.SecondaryFontSize}
             >
-              {landData.checkedBy}
+              {parcelData.checkedBy}
             </Text>
 
             <Text
@@ -191,7 +195,7 @@ export const TDP = (props) => {
               padding="2px 5px"
               fontSize={Theme.SecondaryFontSize}
             >
-              {landData.drawnBy}
+              {parcelData.drawnBy}
             </Text>
 
             <Text
@@ -218,17 +222,17 @@ export const TDP = (props) => {
 
             <Text fontSize={Theme.SecondaryFontSize}>
               All that piece of land, surveyed under Right of Occupancy no.{' '}
-              <b>{landData.rofoNumber}</b> at <b>{landData.legalDescription}</b> Local Government
+              <b>{landData.rofoNumber}</b> at <b>{landData?.lgaName}</b> Local Government
               Area of Yobe State, consisting of an area of{' '}
               <b>
                 {landData.landSize &&
                   `${formatCurrency(Math.round(landData.landSize * 100) / 100)} square meter`}
               </b>
               . The boundaries of which are delineated on the plan over leaf{' '}
-              <b>{landData.parcelNumber}</b>.
+              <b>{landData?.parcelNumber}</b>.
               <br />
-              <b>"PLOT 27, YAKUBUN BAUCHI ROAD."</b> The boundary runs, starting from{' '}
-              <b>"YB27166....."</b> thus, enclosing the area stated above. All corners are marked by
+              <b>{landData?.legalDescription ?? '****'}</b> The boundary runs, starting from{' '}
+              <b>{pBeacon?.name ?? '****'}</b> thus, enclosing the area stated above. All corners are marked by
               concrete beacons and all bearings are referred to National Grid North.
             </Text>
           </Boxed>

@@ -2,7 +2,7 @@
 import { routerRedux } from 'dva/router';
 import { Alert } from '../components/Alert.components';
 
-import { getLands, postLand, postSubSequentTrans, getSubsequentTrans, getSubsequentTransById, getTDP } from '../services/lands';
+import { getLands, postLand, putLand, postSubSequentTrans, getSubsequentTrans, getSubsequentTransById, getTDP } from '../services/lands';
 
 import { storageLandsModel } from '../utils/constant';
 
@@ -50,6 +50,15 @@ export default {
         Alert.error(message);
       }
     },
+    *editLand({ payload }, { call, put }) {
+      const { raw, success, message } = yield call(putLand, payload);
+      if (success) {
+        yield put(routerRedux.push('/lands'));
+        Alert.success(`You have successfully edited a plot.`);
+      } else {
+        Alert.error(message);
+      }
+    },
     *getAllLands({ payload }, { call, put }) {
       const { raw, success, message } = yield call(getLands, payload);
       if (success) {
@@ -67,7 +76,6 @@ export default {
       const { raw, success, message } = yield call(getLands, payload);
       if (success) {
         const item = raw?.data?.plots[0];
-        console.log({ item })
         if (item) {
           yield put({
             type: 'save',
@@ -109,7 +117,6 @@ export default {
     *fetchTDP({ payload }, { call, put }) {
       const { raw, success, message } = yield call(getTDP, payload);
       if (success) {
-        console.log({ raw });
         const item = raw?.data;
         yield put({ type: 'save', payload: { tdpData: item } });
       } else {

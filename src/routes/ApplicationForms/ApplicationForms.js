@@ -152,26 +152,8 @@ export const ApplicationForms = (props) => {
 
     let viewMode = calcViewMode();
 
-    const DropDownMenu = (props) => {
-        const { record } = props;
-        return (
-            <StyledDrpDown>
-                <Dropdown>
-                    <Dropdown.Toggle variant id="dropdown-basic">
-                        <Icon className="icon-more-vertical" />
-                    </Dropdown.Toggle>
-                    <Dropdown.Menu>
-                        <Dropdown.Item onClick={() => console.log({ id: record.id })}>
-                            Review
-                        </Dropdown.Item>
-                    </Dropdown.Menu>
-                </Dropdown>
-            </StyledDrpDown>
-        );
-    };
-
     const ApplicationCard = ({ record }) => {
-        const { id, name, plotNumber, remark,  } = record;
+        const { id, name, plotNumber, remark, } = record;
         return (
             <Boxed
                 background={Theme.TertiaryDark}

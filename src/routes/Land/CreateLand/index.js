@@ -4,9 +4,9 @@ import { CreateLandForm } from "./CreateLand";
 import { routerRedux } from "dva/router";
 
 export const mapStateToProps = (state, ownProps) => {
-  const { loading, authentication, auxillary, lands } = state;
+  const { loading, authentication, auxillary, lands, entries } = state;
   const { profile } = authentication;
-  const isLoading = loading.effects['lands/createLand'];
+  const isLoading = loading.effects['lands/createLand'] || loading.effects['lands/editLand'];
 
   const { stateList, landTypes } = auxillary
   const { landData } = lands;
@@ -18,12 +18,15 @@ export const mapStateToProps = (state, ownProps) => {
     value: item.id,
   }));
 
+  const { ownersDetail } = entries;
+
   return {
     isLoading,
     modiStateList,
     landTypes,
     mode,
     landData,
+    ownersDetail,
   };
 };
 
@@ -36,12 +39,18 @@ export const mapDispatchToProps = (dispatch, ownProps) => {
     createLand(data) {
       dispatch({ type: 'lands/createLand', payload: data })
     },
+    editLand(data) {
+      dispatch({ type: 'lands/editLand', payload: data })
+    },
     fetchStates() {
       dispatch({ type: "auxillary/getAllStates" });
     },
     fetchLandType(data) {
       dispatch({ type: 'auxillary/getAllLandTypes', payload: data })
-    }
+    },
+    getLandOwner(data) {
+      dispatch({ type: 'entries/getLandOwner', payload: data })
+    },
   };
 };
 

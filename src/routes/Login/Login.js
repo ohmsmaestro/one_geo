@@ -88,28 +88,6 @@ export const Login = (props) => {
               desktop="repeat(2, 1fr)"
               tablet="repeat(2, 1fr)"
               mobile="repeat(2, 1fr)"
-              pad="5px 0"
-            >
-              {/* <Boxed pad="10px 0">
-                <Checkbox
-                  label="Remember Me"
-                  onClick={(value) => console.log(value)}
-                />
-              </Boxed> */}
-              <Boxed pad="10px 0">
-                {/* <Text
-                  cursor="pointer"
-                  color={Theme.PrimaryRed}
-                  onClick={() => redirect("/forgotpassword")}
-                >
-                  Forgot password?
-                </Text> */}
-              </Boxed>
-            </Grid>
-            <Grid
-              desktop="repeat(2, 1fr)"
-              tablet="repeat(2, 1fr)"
-              mobile="repeat(2, 1fr)"
               pad="25px 0 0 0"
             >
               <Boxed pad="5px 0 0 0">
@@ -122,16 +100,6 @@ export const Login = (props) => {
                   SIGN IN
                 </Button>
               </Boxed>
-              {/* <Boxed pad="5px 0 0 0">
-                <Button
-                  clear
-                  block
-                  color={Theme.PrimaryBlue}
-                  onClick={() => redirect("/signup")}
-                >
-                  <i className="icon-chevron-left" /> Sign Up
-                </Button>
-              </Boxed> */}
             </Grid>
           </Boxed>
         </Boxed>

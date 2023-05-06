@@ -39,7 +39,6 @@ export const AssignOwnerForm = props => {
 
     const onSubmit = () => {
         validateFields((error, values) => {
-            console.log({ values });
             if (!error) { }
         })
     }

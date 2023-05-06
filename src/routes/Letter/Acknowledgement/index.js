@@ -13,8 +13,6 @@ export const mapStateToProps = (state, ownProps) => {
   const isLoading = loading.effects[fetchActionURL];
   const { profile, accessList } = authentication;
 
-  console.log({ params })
-
   return {
     isLoading,
     applicationDetail,

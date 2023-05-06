@@ -126,6 +126,7 @@ export default {
       if (success) {
         const list = raw?.data?.parcels;
         const item = list[0] ? list[0] : {};
+
         if (item) {
           yield put({
             type: "save",
@@ -385,12 +386,11 @@ export default {
       }
     },
 
-    *createAssignOwner({payload}, { call, put}){
+    *createAssignOwner({ payload }, { call, put }) {
       const { raw, message, success } = yield call(postAssignOwner, payload);
-      if(success){ 
-        console.log({ raw });
+      if (success) {
 
-      } else { 
+      } else {
         Alert.error(message)
       }
     }
